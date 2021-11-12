@@ -1,0 +1,143 @@
+class DinahBackgroundStuff : Inventory 
+{
+	const SKILL_VERY_EASY = 0;
+	const SKILL_EASY = 1;
+	const SKILL_NORMAL = 2;
+	const SKILL_HARD = 3;
+	const SKILL_VERY_HARD = 4;
+
+	int TrueGameSkill;
+	int PlayerLevel;
+
+	int HPRegenBonPenTimer;
+	int HPRegenTimer;
+	int HPRegenTimerMax;
+	
+	int CurrentHealth;
+	int MaxHealthTrue;
+	int MaxHealthLimit;
+	
+	int ClassCheck;
+	
+	int buttons;
+
+	default 
+	{
+		+Inventory.PERSISTENTPOWER;
+		+Inventory.UNDROPPABLE;
+		+Inventory.UNTOSSABLE;
+	}
+
+	override void DoEffect()
+	{
+		TrueGameSkill = skill;
+		if (ClassCheck == 0)
+		{
+			HPRegenTimerMax = 7000 - (owner.player.mo.stamina * 35);
+		}
+		buttons = owner.GetPlayerInput(INPUT_BUTTONS);
+
+		if (owner.health > 0)
+		{
+			CurrentHealth = owner.health;
+			MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
+			//Console.Printf("Health: %d / %d", CurrentHealth, MaxHealthTrue);
+
+			if (CurrentHealth < MaxHealthTrue)
+			{
+				int inc = 20;
+
+				if (owner.CountInv("PowerStrength")) inc = floor(inc * 2);
+
+				if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = floor(inc * 0.7);
+				if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = floor(inc * 0.75);
+				if (buttons & BT_MOVEUP || buttons & BT_MOVEDOWN) inc = floor(inc * 0.8);
+				if (buttons & BT_JUMP) inc = floor(inc * 0.7);
+				if (buttons & BT_CROUCH) inc = floor(inc * 1.4);
+
+				if (CurrentHealth <= (MaxHealthTrue * 0.10)) inc = floor(inc * 5);
+				else if (CurrentHealth <= (MaxHealthTrue * 0.25)) inc = floor(inc * 1.25);
+				
+				HPRegenTimer += inc;
+				//Console.Printf("RegenTimer: %d / %d  (inc: %d)", HPRegenTimer, HPRegenTimerMax, inc);
+			}
+			else
+			{
+				HPRegenTimer = 0;
+			}
+
+			if (HPRegenTimer > HPRegenTimerMax)
+			{
+				HPRegenTimer -= HPRegenTimerMax;
+				if (HPRegenTimer < 0) HPRegenTimer = 0;
+				HPRegenTimerMax = 7000 - (owner.player.mo.stamina * 35);
+				
+				if (CurrentHealth < MaxHealthTrue)
+				{
+					CurrentHealth += randompick(1,1,1,1,1,1,1,1,1,2);
+					if (CurrentHealth >= MaxHealthTrue) CurrentHealth = MaxHealthTrue;
+					owner.health = CurrentHealth;
+				}
+			}
+		}
+		
+		owner.health = CurrentHealth;
+		ClassCheck++;
+		super.DoEffect();
+	}
+	
+	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive)
+	{
+		let weapon = owner.player.ReadyWeapon;
+		
+		if (Owner.CountInv("PowerInvisibility"))
+		{
+		}
+
+
+		// ******************
+		// ******************
+		// **Offensive Code**
+		// ******************
+		// ******************
+		if (!passive && damage > 0) // If the owner [usually the player] of the item is the ATTACKER
+		{
+		}
+		
+		// ******************
+		// ******************
+		// **Defensive Code**
+		// ******************
+		// ******************
+		if (passive && damage > 0) // If the owner [usually the player] of the item is the DEFENDER
+		{
+		}
+	}
+	
+	override double GetSpeedFactor() 
+	{
+		let weapon = owner.player.ReadyWeapon;
+		CurrentHealth = owner.health;
+		MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
+
+		Speed = 1.00;
+		
+		Speed += (PlayerLevel * 0.0125);
+
+		if (CurrentHealth >= (MaxHealthTrue * 3)) Speed *= 1.25;
+		else if (CurrentHealth >= (MaxHealthTrue * 2.75)) Speed *= 1.21875;
+		else if (CurrentHealth >= (MaxHealthTrue * 2.5)) Speed *= 1.1875;
+		else if (CurrentHealth >= (MaxHealthTrue * 2.25)) Speed *= 1.15625;
+		else if (CurrentHealth >= (MaxHealthTrue * 2.0)) Speed *= 1.125;
+		else if (CurrentHealth >= (MaxHealthTrue * 1.75)) Speed *= 1.09375;
+		else if (CurrentHealth >= (MaxHealthTrue * 1.5)) Speed *= 1.0625;
+		else if (CurrentHealth >= (MaxHealthTrue * 1.25)) Speed *= 1.03125;
+		else if (CurrentHealth >= (MaxHealthTrue * 0.75)) Speed *= 1.00;
+		else if (CurrentHealth >= (MaxHealthTrue * 0.5)) Speed *= 0.9375;
+		else if (CurrentHealth >= (MaxHealthTrue * 0.25)) Speed *= 0.875;
+		else Speed *= 0.8125;
+
+		//Console.Printf("SpeedX: %.8f", Speed);
+		return Speed; 
+	}
+}
