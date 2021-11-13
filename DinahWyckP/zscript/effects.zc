@@ -1,0 +1,110 @@
+class CustomInventoryExt : CustomInventory
+{
+	action void A_UseAppleWine()
+	{
+		int currenthealth = player.mo.health;
+		int maxhealth = (player.mo.SpawnHealth() + player.mo.stamina);
+		bool willheal;
+		bool useitem;
+		
+		if (player.mo.CountInv("AppleWine"))
+		{
+			if (!player.mo.CountInv("PowerWineBuffStrongest"))
+			{
+				if (!player.mo.CountInv("PowerWineBuffStrong"))
+				{
+					if (!player.mo.CountInv("PowerWineBuffWeak"))
+					{
+						player.mo.A_SetInventory("PowerWineBuffWeak",1);
+						player.mo.A_SetInventory("PowerWineBuffStrong",0);
+						player.mo.A_SetInventory("PowerWineBuffStrongest",0);
+						player.mo.A_Log("\c[purple]Defense Weakly Buffed (-187.5% damage taken for 5 seconds)!");
+						if (random(1,4) == 1) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
+						willheal = true;
+						useitem = true;
+					}
+					else
+					{
+						player.mo.A_SetInventory("PowerWineBuffStrong",1);
+						player.mo.A_SetInventory("PowerWineBuffWeak",0);
+						player.mo.A_SetInventory("PowerWineBuffStrongest",0);
+						player.mo.A_Log("\c[purple]Defense Moderately Buffed (-37.5% damage taken for 7 seconds)!");
+						if (random(1,2) == 1) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
+						willheal = true;
+						useitem = true;
+					}
+				}
+				else
+				{
+					player.mo.A_SetInventory("PowerWineBuffStrongest",1);
+					player.mo.A_SetInventory("PowerWineBuffStrong",0);
+					player.mo.A_SetInventory("PowerWineBuffWeak",0);
+					player.mo.A_Log("\c[purple]Defense Greatly Buffed (-56.25% damage taken for 9 seconds)!");
+					A_StartSound("Dinah/giggle",CHAN_VOICE);
+					willheal = true;
+					useitem = true;
+				}
+			}
+			
+			if (useitem)
+			{
+				if (willheal)
+				{
+					if (currenthealth < maxhealth)
+					{
+						currenthealth += (maxhealth * frandom(0.18,0.22));
+						if (currenthealth > maxhealth) currenthealth = maxhealth;
+						player.health = player.mo.health = currenthealth;
+					}
+					else
+					{
+						currenthealth += (maxhealth * frandom(0.045,0.055));
+						if (currenthealth > (maxhealth*2)) currenthealth = (maxhealth*2);
+						player.health = player.mo.health = currenthealth;
+					}
+				}
+				
+				player.mo.A_StartSound("Dinah/drink",CHAN_BODY);
+				player.mo.A_TakeInventory("AppleWine",1);
+			}
+			else
+			{
+				player.mo.A_Log("\c[red]You can't drink any more Apple Wine for now!");
+				player.mo.A_StartSound("Dinah/what",CHAN_VOICE);
+			}
+		}
+	}
+}
+
+class PowerWineBuffWeak : PowerProtection
+{
+	default
+	{
+		DamageFactor 0.8125;
+		Inventory.Icon "GOBLA0";
+		Powerup.Duration -5;
+		Powerup.Color "4b 1d 35", 0.222;
+	}
+}
+
+class PowerWineBuffStrong : PowerProtection
+{
+	default
+	{
+		DamageFactor 0.625;
+		Inventory.Icon "GOBLB0";
+		Powerup.Duration -7;
+		Powerup.Color "4b 1d 35", 0.333;
+	}
+}
+
+class PowerWineBuffStrongest : PowerProtection
+{
+	default
+	{
+		DamageFactor 0.4375;
+		Inventory.Icon "GOBLC0";
+		Powerup.Duration -9;
+		Powerup.Color "4b 1d 35", 0.444;
+	}
+}

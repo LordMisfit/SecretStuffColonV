@@ -1,0 +1,39 @@
+
+class LostSoulNew : LostSoul replaces LostSoul
+{
+	default
+	{
+		DamageFactor "Fire", 0.334;
+		Painchance "Fire", 85;
+		DamageFactor "Suck", 15;
+		Painchance "Suck", 256;
+		DamageFactor "Bonk", 2.5;
+		Painchance "Bonk", 256;
+		DamageFactor "Cricket", 5;
+		Painchance "Cricket", 256;
+		DamageFactor "Chop", 7.5;
+		Painchance "Chop", 256;
+		DamageFactor "Lead", 0.5;
+		Painchance "Lead", 128;
+		//-RETARGEAFTERNSLAM
+	}
+}
+
+class ArchvileNew : Archvile replaces Archvile
+{
+	default
+	{
+		DamageFactor "Fire", 0.334;
+		Painchance "Fire", 3;
+		DamageFactor "Suck", 15;
+		Painchance "Suck", 150;
+		DamageFactor "Bonk", 2.5;
+		Painchance "Bonk", 25;
+		DamageFactor "Cricket", 5;
+		Painchance "Cricket", 5;
+		DamageFactor "Chop", 7.5;
+		Painchance "Chop", 75;
+		DamageFactor "Lead", 0.5;
+		Painchance "Lead", 5;
+	}
+}

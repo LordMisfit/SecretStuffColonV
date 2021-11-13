@@ -158,6 +158,10 @@ class DinahBackgroundStuff : Inventory
 		else Speed *= 0.8125;
 
 		if (Owner.CountInv("PowerStrength")) Speed *= 1.125;
+		
+		if (Owner.CountInv("PowerWineBuffWeak")) Speed *= frandom(0.95,0.97);
+		if (Owner.CountInv("PowerWineBuffStrong")) Speed *= frandom(0.88,0.92);
+		if (Owner.CountInv("PowerWineBuffStrongest")) Speed *= frandom(0.78,0.86);
 
 		//Console.Printf("SpeedX: %.8f", Speed);
 		return Speed; 

@@ -14,6 +14,8 @@ Dinah/eat		keat1
 Dinah/eatapple	keat2
 Dinah/drink		kdrank
 misc/secret 	kaha
+Dinah/what  kwut
+
 
 
 $playersound           DinahPlayer	male	*pain100	K_PAIN1
@@ -195,9 +197,6 @@ handmother/vacon vac1
 handmother/vacoff vac2
 handmother/zap ez15
 sphinx/pounce  catatk
-
-//AFD Additional Sounds
-Dinah/what  kwut
 
 //teacher sounds
 krag/sight kragsit

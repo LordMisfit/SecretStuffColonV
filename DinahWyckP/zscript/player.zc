@@ -1,0 +1,79 @@
+class DinahPlayer : HereticPlayer
+{
+	default
+	{
+		Player.DisplayName "Dinah Wyck";
+		Player.SoundClass "DinahPlayer";
+		Player.StartItem "DinahBackgroundStuff";
+		Player.StartItem "ClassID", 1;
+		Player.StartItem "CricketBat";
+		Player.StartItem "MalletAmmo", 10;
+		Player.Weaponslot 1, "CricketBat";
+		Player.Weaponslot 2, "Blundaxe";
+		Player.Weaponslot 3, "AppleJack";
+		Player.Weaponslot 4, "Scrambler";
+		Player.Weaponslot 5, "WizardPike";
+		Player.Weaponslot 6, "SuperVac";
+		Player.Weaponslot 7, "Grimophone";
+		Player.ForwardMove 0.90, 0.90; // 0.75
+		Player.SideMove 0.825, 0.825; // 0.65
+		Player.ViewBob 0.5;
+		DamageFactor "Normal", 1.125;
+		RadiusDamageFactor 0.222223;
+		Player.ViewHeight 39;
+		Scale 0.875;
+		Mass 75;
+		Height 52;
+		Radius 13;
+		+NOBLOOD
+	}
+
+	States
+	{
+		Spawn:
+			DINA A -1;
+			Loop;
+		See:
+			DINA BCDE 4;
+			Loop;
+		Pain:
+			DINA H 6 A_Pain;
+			Goto Spawn;
+		Missile:
+			DINA FG 6;
+			Goto Spawn;
+		Melee:
+			DINA FG 6;
+			Goto Spawn;
+		Death:
+			DINA H 9 A_PlayerScream;
+			DINA I 9 A_NoBlocking;
+			DINA JK 9;
+			DINA K -1;
+			Stop;
+		XDeath:
+			DINA H 9 A_PlayerScream;
+			DINA I 9 A_NoBlocking;
+			DINA JK 9;
+			DINA K -1;
+			Stop;
+		Burn:
+			DINA H 9 A_PlayerScream;
+			DINA I 9 A_NoBlocking;
+			DINA JK 9;
+			DINA K -1;
+			Stop;
+		AltSkinDeath:
+			DINA H 9 A_PlayerScream;
+			DINA I 9 A_NoBlocking;
+			DINA JK 9;
+			DINA K -1;
+			Stop;
+		AltSkinXDeath:
+			DINA H 9 A_PlayerScream;
+			DINA I 9 A_NoBlocking;
+			DINA JK 9;
+			DINA K -1;
+			Stop;
+  }
+}
