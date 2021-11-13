@@ -37,9 +37,9 @@ class DinahBackgroundStuff : Inventory
 		}
 		buttons = owner.GetPlayerInput(INPUT_BUTTONS);
 
-		if (owner.health > 0)
+		if (owner.player.health > 0)
 		{
-			CurrentHealth = owner.health;
+			CurrentHealth = owner.player.health;
 			MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
 			//Console.Printf("Health: %d / %d", CurrentHealth, MaxHealthTrue);
 
@@ -49,11 +49,11 @@ class DinahBackgroundStuff : Inventory
 
 				if (owner.CountInv("PowerStrength")) inc = floor(inc * 2);
 
-				if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = floor(inc * 0.7);
-				if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = floor(inc * 0.75);
-				if (buttons & BT_MOVEUP || buttons & BT_MOVEDOWN) inc = floor(inc * 0.8);
-				if (buttons & BT_JUMP) inc = floor(inc * 0.7);
-				if (buttons & BT_CROUCH) inc = floor(inc * 1.4);
+				if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = floor(inc * 0.4);
+				if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = floor(inc * 0.5);
+				if (buttons & BT_MOVEUP || buttons & BT_MOVEDOWN) inc = floor(inc * 0.6);
+				if (buttons & BT_JUMP) inc = floor(inc * 0.4);
+				if (buttons & BT_CROUCH) inc = floor(inc * 1.8);
 
 				if (CurrentHealth <= (MaxHealthTrue * 0.10)) inc = floor(inc * 5);
 				else if (CurrentHealth <= (MaxHealthTrue * 0.25)) inc = floor(inc * 1.25);
@@ -76,12 +76,13 @@ class DinahBackgroundStuff : Inventory
 				{
 					CurrentHealth += randompick(1,1,1,1,1,1,1,1,1,2);
 					if (CurrentHealth >= MaxHealthTrue) CurrentHealth = MaxHealthTrue;
-					owner.health = CurrentHealth;
+					owner.player.health = owner.player.mo.health = CurrentHealth;
 				}
 			}
 		}
 		
-		owner.health = CurrentHealth;
+		owner.player.health = owner.player.mo.health = CurrentHealth;
+
 		ClassCheck++;
 		super.DoEffect();
 	}
@@ -89,12 +90,8 @@ class DinahBackgroundStuff : Inventory
 	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive)
 	{
 		let weapon = owner.player.ReadyWeapon;
+		TrueGameSkill = skill;
 		
-		if (Owner.CountInv("PowerInvisibility"))
-		{
-		}
-
-
 		// ******************
 		// ******************
 		// **Offensive Code**
@@ -102,6 +99,17 @@ class DinahBackgroundStuff : Inventory
 		// ******************
 		if (!passive && damage > 0) // If the owner [usually the player] of the item is the ATTACKER
 		{
+			//Console.Printf("Damage (!passive): %d", newdamage);
+
+			if (Skill == SKILL_VERY_HARD) newdamage *= 0.75;
+			if (Skill == SKILL_HARD) newdamage *= 0.875;
+			if (Skill == SKILL_NORMAL) newdamage *= 1.00;
+			if (Skill == SKILL_EASY) newdamage *= 1.125;
+			if (Skill == SKILL_VERY_EASY) newdamage *= 1.25;
+
+			if (Owner.CountInv("PowerInvisibility")) newdamage *= frandompick(1.00,1.00,1.125,1.125,1.25);
+
+			//Console.Printf("FDamage (!passive): %d", newdamage);
 		}
 		
 		// ******************
@@ -111,6 +119,18 @@ class DinahBackgroundStuff : Inventory
 		// ******************
 		if (passive && damage > 0) // If the owner [usually the player] of the item is the DEFENDER
 		{
+			//Console.Printf("Damage (passive): %d", newdamage);
+
+			if (Skill == SKILL_VERY_EASY) newdamage *= 0.75;
+			if (Skill == SKILL_EASY) newdamage *= 0.875;
+			if (Skill == SKILL_NORMAL) newdamage *= 1.00;
+			if (Skill == SKILL_HARD) newdamage *= 1.125;
+			if (Skill == SKILL_VERY_HARD) newdamage *= 1.25;
+			
+			if (Owner.CountInv("PowerStrength")) newdamage *= frandompick(0.8,0.9,0.9,0.9,1.0);
+			if (Owner.CountInv("PowerInvisibility")) newdamage *= frandompick(1.00,1.00,0.875,0.875,0.75);
+
+			//Console.Printf("FDamage (passive): %d", newdamage);
 		}
 	}
 	
@@ -136,6 +156,8 @@ class DinahBackgroundStuff : Inventory
 		else if (CurrentHealth >= (MaxHealthTrue * 0.5)) Speed *= 0.9375;
 		else if (CurrentHealth >= (MaxHealthTrue * 0.25)) Speed *= 0.875;
 		else Speed *= 0.8125;
+
+		if (Owner.CountInv("PowerStrength")) Speed *= 1.125;
 
 		//Console.Printf("SpeedX: %.8f", Speed);
 		return Speed; 

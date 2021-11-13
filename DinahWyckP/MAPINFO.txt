@@ -2,3 +2,15 @@ Gameinfo
 {
   PlayerClasses = "DinahPlayer"
 }
+
+skill nightmare
+{
+	AmmoFactor = 2
+	//FastMonsters
+	//DisableCheats
+	//RespawnTime = 12
+	SpawnFilter = Nightmare
+	PicName = "M_NMARE"
+	//MustConfirm
+	Key = "n"
+}
