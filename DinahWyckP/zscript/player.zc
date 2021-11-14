@@ -100,7 +100,7 @@ class DinahPlayer : HereticPlayer
 
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
-		bool debugdisplays = false;
+		bool debugdisplays = true;
 		
 		Actor AttackingActor;
 		Actor UniqueProjectile;
@@ -243,21 +243,24 @@ class DinahPlayer : HereticPlayer
 		{
 			if (AttackingActor)
 			{
-				if (AttackingActor.bFRIENDLY)
+				if (AttackingActor != self)
 				{
-					damage = 0;
-					if (debugdisplays) Console.Printf("END DAMAGE ATTEMPT (FRIENDLY)");
-					return 0;
-				}
-				else
-				{
-					if (AttackingActor.bFRIGHTENED) // Attacker is frightened, AND the Player is the one that is doing the frightening
+					if (AttackingActor.bFRIENDLY)
 					{
-						if (player.cheats & CF_FRIGHTENING || bFRIGHTENING) damage = ceil(damage * frandompick(0.625,0.6875,0.75)); else damage = ceil(damage * frandompick(0.9375,0.95,0.9625));
+						damage = 0;
+						if (debugdisplays) Console.Printf("END DAMAGE ATTEMPT (FRIENDLY)");
+						return 0;
 					}
+					else
+					{
+						if (AttackingActor.bFRIGHTENED) // Attacker is frightened, AND the Player is the one that is doing the frightening
+						{
+							if (player.cheats & CF_FRIGHTENING || bFRIGHTENING) damage = ceil(damage * frandompick(0.625,0.6875,0.75)); else damage = ceil(damage * frandompick(0.9375,0.95,0.9625));
+						}
+					}
+					if (debugdisplays) Console.Printf("PDamage [Friendly/Frighten Check]: %d (%d)", damage, olddmg);
 				}
 			}
-			if (debugdisplays) Console.Printf("PDamage [Friendly/Frighten Check]: %d (%d)", damage, olddmg);
 		}
 		
 		// Armor Checks

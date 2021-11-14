@@ -42,96 +42,116 @@ class DinahBackgroundStuff : Inventory
 		HPDegenTimerMax = 1750 + (owner.player.mo.stamina * 17.5);
 		CurrentHealth = owner.player.mo.health;
 		MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
-
+		
+		// HP Regen/Degen
+		bool hpregendebug = false;
+		bool hpwillregen = true;
+		bool hpwilldegen = true;
 		if (CurrentHealth > 0)
 		{
-			//Console.Printf("Health: %d / %d", CurrentHealth, MaxHealthTrue);
+			if (hpregendebug) Console.Printf("Health: %d / %d", CurrentHealth, MaxHealthTrue);
 
 			if (CurrentHealth < MaxHealthTrue)
 			{
-				int inc = 20;
-
-				if (owner.CountInv("PowerStrength")) inc = floor(inc * 2);
-
-				if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = floor(inc * 0.4);
-				if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = floor(inc * 0.5);
-				if (buttons & BT_MOVEUP || buttons & BT_MOVEDOWN) inc = floor(inc * 0.6);
-				if (buttons & BT_JUMP) inc = floor(inc * 0.4);
-				if (buttons & BT_CROUCH) inc = floor(inc * 1.8);
-
-				if (Owner.CountInv("PowerWineBuffWeak")) inc = floor(inc * 1.5);
-				if (Owner.CountInv("PowerWineBuffStrong")) inc = floor(inc * 2.25);
-				if (Owner.CountInv("PowerWineBuffStrongest")) inc = floor(inc * 3.25);
-
-				if (CurrentHealth <= (MaxHealthTrue * 0.02)) inc = floor(inc * 20);
-				else if (CurrentHealth <= (MaxHealthTrue * 0.10)) inc = floor(inc * 5);
-				else if (CurrentHealth <= (MaxHealthTrue * 0.25)) inc = floor(inc * 1.25);
-				else if (CurrentHealth <= (MaxHealthTrue * 0.50)) inc = floor(inc * 1.0625);
-				
-				HPRegenTimer += inc;
-				
-				if (HPRegenTimer > HPRegenTimerMax)
+				if (hpwillregen)
 				{
-					HPRegenTimer -= HPRegenTimerMax;
-					if (HPRegenTimer < 0) HPRegenTimer = 0;
+					int inc = 20;
+
+					if (owner.CountInv("PowerStrength")) inc = floor(inc * 4);
+
+					if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = floor(inc * 0.4);
+					if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = floor(inc * 0.5);
+					if (buttons & BT_MOVEUP || buttons & BT_MOVEDOWN) inc = floor(inc * 0.6);
+					if (buttons & BT_JUMP) inc = floor(inc * 0.4);
+					if (buttons & BT_CROUCH) inc = floor(inc * 1.8);
+
+					if (Owner.CountInv("PowerWineBuffWeak")) inc = floor(inc * 1.5);
+					if (Owner.CountInv("PowerWineBuffStrong")) inc = floor(inc * 2.25);
+					if (Owner.CountInv("PowerWineBuffStrongest")) inc = floor(inc * 3.25);
+
+					if (CurrentHealth <= (MaxHealthTrue * 0.02)) inc = floor(inc * 20);
+					else if (CurrentHealth <= (MaxHealthTrue * 0.10)) inc = floor(inc * 5);
+					else if (CurrentHealth <= (MaxHealthTrue * 0.25)) inc = floor(inc * 1.25);
+					else if (CurrentHealth <= (MaxHealthTrue * 0.50)) inc = floor(inc * 1.0625);
 					
-					if (CurrentHealth < MaxHealthTrue)
+					HPRegenTimer += inc;
+					
+					if (HPRegenTimer > HPRegenTimerMax)
 					{
-						CurrentHealth += randompick(1,1,1,1,1,1,1,1,1,2);
-						if (CurrentHealth >= MaxHealthTrue) CurrentHealth = MaxHealthTrue;
-						owner.player.health = owner.player.mo.health = CurrentHealth;
+						HPRegenTimer -= HPRegenTimerMax;
+						if (HPRegenTimer < 0) HPRegenTimer = 0;
+						
+						if (CurrentHealth < MaxHealthTrue)
+						{
+							if (owner.CountInv("PowerStrength")) CurrentHealth += randompick(1,1,1,1,1,1,1,1,1,2);
+							else CurrentHealth += randompick(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2);
+							if (CurrentHealth >= MaxHealthTrue) CurrentHealth = MaxHealthTrue;
+							owner.player.health = owner.player.mo.health = CurrentHealth;
+						}
 					}
+					if (hpregendebug) Console.Printf("RegenTimer: %d / %d  (inc: %d)", HPRegenTimer, HPRegenTimerMax, inc);
 				}
-				Console.Printf("RegenTimer: %d / %d  (inc: %d)", HPRegenTimer, HPRegenTimerMax, inc);
+				else
+				{
+					HPRegenTimer = 0;
+				}
 			}
 			else
 			if (CurrentHealth > MaxHealthTrue)
 			{
-				int inc = 20;
-				
-				if (owner.CountInv("PowerStrength")) inc = floor(inc * 0.5);
-				
-				if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = floor(inc * 2.5);
-				if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = floor(inc * 2.0);
-				if (buttons & BT_MOVEUP || buttons & BT_MOVEDOWN) inc = floor(inc * 1.666666666666667);
-				if (buttons & BT_JUMP) inc = floor(inc * 2.5);
-				if (buttons & BT_CROUCH) inc = floor(inc * 0.5555555555555556);
-
-				if (Owner.CountInv("PowerWineBuffWeak")) inc = floor(inc * 0.6666666666666667);
-				if (Owner.CountInv("PowerWineBuffStrong")) inc = floor(inc * 0.4444444444444444);
-				if (Owner.CountInv("PowerWineBuffStrongest")) inc = floor(inc * 0.3076923076923077);
-				
-				if (CurrentHealth >= (MaxHealthTrue * 3.0)) inc = floor(inc * 3.0);
-				else if (CurrentHealth >= (MaxHealthTrue * 2.75)) inc = floor(inc * 2.75);
-				else if (CurrentHealth >= (MaxHealthTrue * 2.50)) inc = floor(inc * 2.5);
-				else if (CurrentHealth >= (MaxHealthTrue * 2.25)) inc = floor(inc * 2.25);
-				else if (CurrentHealth >= (MaxHealthTrue * 2.00)) inc = floor(inc * 2.0);
-				else if (CurrentHealth >= (MaxHealthTrue * 1.75)) inc = floor(inc * 1.75);
-				else if (CurrentHealth >= (MaxHealthTrue * 1.50)) inc = floor(inc * 1.5);
-				else if (CurrentHealth >= (MaxHealthTrue * 1.25)) inc = floor(inc * 1.25);
-				else if (CurrentHealth >= (MaxHealthTrue * 1.00)) inc = floor(inc * 1.0);
-				
-				HPDegenTimer += inc;
-				
-				if (HPDegenTimer > HPDegenTimerMax)
+				if (hpwilldegen)
 				{
-					HPDegenTimer -= HPDegenTimerMax;
-					if (HPDegenTimer < 0) HPDegenTimer = 0;
+					int inc = 20;
 					
-					if (CurrentHealth > MaxHealthTrue)
+					if (owner.CountInv("PowerStrength")) inc = floor(inc * 0.25);
+					
+					if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = floor(inc * 2.5);
+					if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = floor(inc * 2.0);
+					if (buttons & BT_MOVEUP || buttons & BT_MOVEDOWN) inc = floor(inc * 1.666666666666667);
+					if (buttons & BT_JUMP) inc = floor(inc * 2.5);
+					if (buttons & BT_CROUCH) inc = floor(inc * 0.5555555555555556);
+
+					if (Owner.CountInv("PowerWineBuffWeak")) inc = floor(inc * 0.6666666666666667);
+					if (Owner.CountInv("PowerWineBuffStrong")) inc = floor(inc * 0.4444444444444444);
+					if (Owner.CountInv("PowerWineBuffStrongest")) inc = floor(inc * 0.3076923076923077);
+					
+					if (CurrentHealth >= (MaxHealthTrue * 3.0)) inc = floor(inc * 3.0);
+					else if (CurrentHealth >= (MaxHealthTrue * 2.75)) inc = floor(inc * 2.75);
+					else if (CurrentHealth >= (MaxHealthTrue * 2.50)) inc = floor(inc * 2.5);
+					else if (CurrentHealth >= (MaxHealthTrue * 2.25)) inc = floor(inc * 2.25);
+					else if (CurrentHealth >= (MaxHealthTrue * 2.00)) inc = floor(inc * 2.0);
+					else if (CurrentHealth >= (MaxHealthTrue * 1.75)) inc = floor(inc * 1.75);
+					else if (CurrentHealth >= (MaxHealthTrue * 1.50)) inc = floor(inc * 1.5);
+					else if (CurrentHealth >= (MaxHealthTrue * 1.25)) inc = floor(inc * 1.25);
+					else if (CurrentHealth >= (MaxHealthTrue * 1.00)) inc = floor(inc * 1.0);
+					
+					HPDegenTimer += inc;
+					
+					if (HPDegenTimer > HPDegenTimerMax)
 					{
-						CurrentHealth -= randompick(1,1,1,1,1,1,1,1,1,2);
-						if (CurrentHealth <= MaxHealthTrue) CurrentHealth = MaxHealthTrue;
-						owner.player.health = owner.player.mo.health = CurrentHealth;
+						HPDegenTimer -= HPDegenTimerMax;
+						if (HPDegenTimer < 0) HPDegenTimer = 0;
+						
+						if (CurrentHealth > MaxHealthTrue)
+						{
+							if (owner.CountInv("PowerStrength")) CurrentHealth -= randompick(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2);
+							else CurrentHealth -= randompick(1,1,1,1,1,1,1,1,1,2);
+							if (CurrentHealth <= MaxHealthTrue) CurrentHealth = MaxHealthTrue;
+							owner.player.health = owner.player.mo.health = CurrentHealth;
+						}
 					}
+					if (hpregendebug) Console.Printf("DegenTimer: %d / %d  (inc: %d)", HPDegenTimer, HPDegenTimerMax, inc);
 				}
-				Console.Printf("DegenTimer: %d / %d  (inc: %d)", HPDegenTimer, HPDegenTimerMax, inc);
+				else
+				{
+					HPDegenTimer = 0;
+				}
 			}
 			else
 			{
 				HPRegenTimer = 0;
 				HPDegenTimer = 0;
-				//Console.Printf("Regen/Degen Neutral");
+				if (hpregendebug) Console.Printf("Regen/Degen Neutral");
 			}
 		}
 		
@@ -154,9 +174,12 @@ class DinahBackgroundStuff : Inventory
 			if (SurviveRNGVal <= SurvivalRate) Console.Printf("    \cdSurvival Rate % Roll / Rate: %d / %d, \cx[cheatbits: %d]", SurviveRNGVal, SurvivalRate, owner.player.cheats);
 																		else Console.Printf("    \cgSurvival Rate % Roll / Rate: %d / %d, \cx[cheatbits: %d]", SurviveRNGVal, SurvivalRate, owner.player.cheats);
 		}
-
+		
+		if (owner.CountInv("PowerStrength")) PlayerPawn(Owner).JumpZ = 12;
+		else PlayerPawn(Owner).JumpZ = 9;
+		
 		owner.player.health = owner.player.mo.health = CurrentHealth;
-
+		
 		ClassCheck++;
 		super.DoEffect();
 	}

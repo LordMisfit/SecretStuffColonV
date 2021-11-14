@@ -1709,7 +1709,17 @@ ACTOR CherryBombPickup : CustomInventory replaces RocketAmmo 12011
 			CBOP A -1
 			Stop
 		Use:
-			TNT1 A 0 A_ThrowGrenade("CherryBombShot",4,16,3,0)
+			TNT1 A 0 
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				{
+					A_ThrowGrenade("CherryBombShotBerserk",-2,(random(14,18) * 2.5),(frandom(2.75,3.25) * 1.75),0);
+				}
+				else
+				{
+					A_ThrowGrenade("CherryBombShot",-2,random(14,18),frandom(2.75,3.25),0);
+				}
+			}
 			Stop
 	} 
 }
@@ -1720,6 +1730,44 @@ ACTOR CherryBombShot
 	Height 3
 	Speed 40
 	Damage 10
+	DamageType "CherryBomb"
+	PROJECTILE
+	-NOGRAVITY
+	//+NOEXTREMEDEATH
+	RENDERSTYLE Normal
+	SeeSound "weapons/cherrywick"
+	States
+	{
+		Spawn:
+			CBOM ABCD 2 Bright A_SpawnItemEx("firetrail",random(-4,4),random(-3,3),random(-3,3))
+			loop
+		Death:
+			BMX2 A 6 Bright A_PlaySound("weapons/cherryboom")
+			BMX2 B 0 A_AlertMonsters
+			BMX2 B 6 Bright A_Explode
+			BMX2 CDEFG 5 Bright
+			stop
+		Crash:
+			BMX2 A 6 Bright A_PlaySound("weapons/cherryboom")
+			BMX2 B 0 A_AlertMonsters
+			BMX2 B 6 Bright A_Explode
+			BMX2 CDEFG 5 Bright
+			stop
+		XDeath:
+			BMX2 A 6 Bright A_PlaySound("weapons/cherryboom")
+			BMX2 B 0 A_AlertMonsters
+			BMX2 B 6 Bright A_Explode
+			BMX2 CDEFG 5 Bright
+			stop
+	}
+}
+
+ACTOR CherryBombShotBerserk : CherryBombShot
+{
+	Radius 3
+	Height 3
+	Speed 80
+	Damage 50
 	DamageType "CherryBomb"
 	PROJECTILE
 	-NOGRAVITY
@@ -2283,9 +2331,10 @@ Actor AppleWine : CustomInventoryExt replaces Medikit 15016
 	Inventory.Amount 1
 	Inventory.MaxAmount 12 // 8
 	Inventory.InterHubAmount 12 // 8
-	Inventory.PickupMessage "Sweet apple wine! (Drink for Health and Brief inebriation buff)"
+	Inventory.PickupMessage "Sweet apple wine! (Drink for Health and Brief buff)"
 	Inventory.Icon "GOBLI0"
-	Tag "Apple Wine Goblet: Heals 18-22% Health and Gives inebriation Defense Buff up to 3 layers. Cannot be drank when inebriation is at max."
+	Tag "Apple Wine Goblet: Heals 18-22% Health and Gives Defense Buff up to 3 tiers. Cannot be drank when buff is at max."
+	
 	States
 	{
 		Spawn:

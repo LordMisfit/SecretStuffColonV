@@ -2,19 +2,40 @@ Scrap/Find BANDAID1
 
 //Dinah Sounds
 Dinah/marvelous kmarv
+$pitchshift Dinah/marvelous 0
 Dinah/there 	kther
+$pitchshift Dinah/there 0
 Dinah/allowme 	kallow
+$pitchshift Dinah/allowme 0
+
+Dinah/jump 		K_JUMP1
+$pitchshift Dinah/jump 0
+
+$random JumpSND { null null Dinah/jump Dinah/jump Dinah/jump }
+$pitchshift JumpSND 0
+
 KGIGL KGIGL
+$pitchshift KGIGL 0
 KGIGL2 KGIGL2
+$pitchshift KGIGL2 0
 KGIGL3 KGIGL3
+$pitchshift KGIGL3 0
 KGIGL4 KGIGL4
+$pitchshift KGIGL4 0
 $random Dinah/giggle 	{ kgigl kgigl2 kgigl3 kgigl4 }
+$pitchshift Dinah/giggle 0
 Dinah/aha 		kaha
+$pitchshift Dinah/aha 0
 Dinah/eat		keat1
+$pitchshift Dinah/eat 0
 Dinah/eatapple	keat2
+$pitchshift Dinah/eatapple 0
 Dinah/drink		kdrank
+$pitchshift Dinah/drink 0
 misc/secret 	kaha
+$pitchshift misc/secret 0
 Dinah/what  kwut
+$pitchshift Dinah/what 0
 
 
 
@@ -32,6 +53,7 @@ $playersound           DinahPlayer	male	*crazydeath	gsqueel
 $playersound           DinahPlayer	male	*puzzfail	KWUT
 $playersound           DinahPlayer	male	*falling	K_DEATH
 $playersound           DinahPlayer	male	*fallingsplat	SPLAT
+$playeralias           DinahPlayer	male	*jump		Dinah/JumpSND
 $playersound           DinahPlayer	male	*gibbed		gsqueel
 
 
@@ -49,6 +71,7 @@ $playersound           DinahPlayer	female	*crazydeath	gsqueel
 $playersound           DinahPlayer	female	*puzzfail	KWUT
 $playersound           DinahPlayer	female	*falling	K_DEATH
 $playersound           DinahPlayer	female	*fallingsplat	SPLAT
+$playeralias           DinahPlayer	female	*jump		JumpSND
 $playersound           DinahPlayer	female	*gibbed		gsqueel
 
 
