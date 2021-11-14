@@ -28,7 +28,7 @@ class CustomInventoryExt : CustomInventory
 						player.mo.A_SetInventory("PowerWineBuffWeak",1);
 						player.mo.A_SetInventory("PowerWineBuffStrong",0);
 						player.mo.A_SetInventory("PowerWineBuffStrongest",0);
-						Console.Printf("\c[purple]Defense Weakly Buffed (-187.5% damage taken for 5 seconds)!");
+						A_Log("\c[purple]Defense Weakly Buffed (-18.75% damage taken for 5 seconds)!");
 						if (random(1,4) == 1) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
 						willheal = true;
 						useitem = true;
@@ -38,7 +38,7 @@ class CustomInventoryExt : CustomInventory
 						player.mo.A_SetInventory("PowerWineBuffStrong",1);
 						player.mo.A_SetInventory("PowerWineBuffWeak",0);
 						player.mo.A_SetInventory("PowerWineBuffStrongest",0);
-						Console.Printf("\c[purple]Defense Moderately Buffed (-37.5% damage taken for 7 seconds)!");
+						A_Log("\c[purple]Defense Moderately Buffed (-37.5% damage taken for 7 seconds)!");
 						if (random(1,2) == 1) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
 						willheal = true;
 						useitem = true;
@@ -49,7 +49,7 @@ class CustomInventoryExt : CustomInventory
 					player.mo.A_SetInventory("PowerWineBuffStrongest",1);
 					player.mo.A_SetInventory("PowerWineBuffStrong",0);
 					player.mo.A_SetInventory("PowerWineBuffWeak",0);
-					Console.Printf("\c[purple]Defense Greatly Buffed (-56.25% damage taken for 9 seconds)!");
+					A_Log("\c[purple]Defense Greatly Buffed (-56.25% damage taken for 9 seconds)!");
 					A_StartSound("Dinah/giggle",CHAN_VOICE);
 					willheal = true;
 					useitem = true;
@@ -79,7 +79,7 @@ class CustomInventoryExt : CustomInventory
 			}
 			else
 			{
-				Console.Printf("\c[red]You can't drink any more Apple Wine for now!");
+				A_Log("\c[red]You can't drink any more Apple Wine for now!");
 				player.mo.A_StartSound("Dinah/what",CHAN_VOICE);
 			}
 		}

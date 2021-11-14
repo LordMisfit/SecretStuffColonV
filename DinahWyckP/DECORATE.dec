@@ -1675,7 +1675,7 @@ ACTOR VacAmmo : Ammo replaces Cell
 	Inventory.MaxAmount 16 // 12
 	Ammo.BackpackAmount 1
 	Ammo.BackpackMaxAmount 24
-	Inventory.Icon VACMQ0
+	Inventory.Icon VACMJ0
 	Inventory.PickupMessage "The bag is full. Put 'er in reverse!"
 	States
 	{
@@ -2165,7 +2165,7 @@ ACTOR SnakePickup : CustomInventory 12091
 Actor GalaApple : CrystalVial replaces Stimpack 15015
 {
 	//$Category RPArtifacts
-	Inventory.PickupMessage "A tasty gala apple!"
+	Inventory.PickupMessage "A tasty gala apple! +10 Health"
 	Inventory.PickupSound "Dinah/eatapple"
 	Inventory.Icon "APPLA0"
 	Tag "Gala Apple"
@@ -3733,10 +3733,10 @@ actor Spidercenser 5229
 	+NOINFIGHTING
 	+NOBLOOD
 	MissileType CroquetBall
-    SeeSound "spider/sight"
+    SeeSound "spidercen/sight"
     PainSound "birdy/sight"
-    DeathSound "spider/death"
-    ActiveSound "spider/sight"
+    DeathSound "spidercen/death"
+    ActiveSound "spidercen/sight"
     Obituary "%o was smothered by a spider-censer."
 	Tag "Spider-Censer"
 	SpawnID 5229

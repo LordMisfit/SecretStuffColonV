@@ -167,8 +167,8 @@ slots/boing   boing
 slots/burp	belchatk
 
 //spider sounds
-spider/sight bug3sit
-spider/death bug3dth
+spidercen/sight bug3sit
+spidercen/death bug3dth
 
 //galgoyle sounds
 galgoyle/swoop  spsit
