@@ -1675,13 +1675,13 @@ ACTOR VacAmmo : Ammo replaces Cell
 	Inventory.MaxAmount 16 // 12
 	Ammo.BackpackAmount 1
 	Ammo.BackpackMaxAmount 24
-	Inventory.Icon VACMI0
+	Inventory.Icon VACMQ0
 	Inventory.PickupMessage "The bag is full. Put 'er in reverse!"
 	States
 	{
-	Spawn:
-		VACM P -1
-		Loop
+		Spawn:
+			VACM Q -1
+			Loop
 	}
 }
 
@@ -1988,7 +1988,7 @@ actor Spinnershot
 }
 
 //Party Popper
-ACTOR PopperPickup : CustomInventory 13019
+ACTOR PopperPickup : CustomInventoryExt 13019
 {
 	//$Category RPFireworks
 	Inventory.Amount 1
@@ -2011,8 +2011,10 @@ ACTOR PopperPickup : CustomInventory 13019
 			Stop
 		Use:
 			TNT1 A 0 A_PlaySound("popper/toot",CHAN_WEAPON)
-			TNT1 A 0 Bright A_FireBullets(15,2,8,10,"PopperPuff1")
-			TNT1 A 0 Bright A_FireBullets(8,2,4,15,"PopperPuff2")
+			TNT1 A 0 Bright 
+			{
+				A_UsePartyPopper();
+			}
 			TNT1 A 0 A_ThrowGrenade("StreamerShot",4,random(8,16),random(1,5),0)
 			TNT1 A 0 A_ThrowGrenade("StreamerShot",4,random(8,16),random(1,5),0)
 			TNT1 A 0 A_ThrowGrenade("StreamerShot",4,random(8,16),random(1,5),0)
@@ -2124,7 +2126,7 @@ ACTOR PopperPuff2 : StaffPuff
 	{
 		Spawn:
 			SPNR C 0 A_AlertMonsters
-			SPNR C 4 Bright A_Explode
+			SPNR C 4 Bright A_Explode(128,128)
 			SPNR DEFG 4 Bright
 			Stop
 	}
@@ -2374,8 +2376,17 @@ ACTOR ArmorScrap3 : ArmorScrap2
 	}
 }
 
+ACTOR KnightGownSpawner : RandomSpawner2 replaces GreenArmor 15017
+{
+	DropItem "KnightGown", 256, 56
+	DropItem "KnightGown2", 256, 7
+	DropItem "KnightGown3", 256, 1
+}
+
+ 
+
 //Armor
-ACTOR KnightGown : SilverShield replaces GreenArmor 15017
+ACTOR KnightGown : SilverShield
 {
 	//$Category RPArtifacts
 	Inventory.Icon "AGWNI0"
@@ -2383,7 +2394,6 @@ ACTOR KnightGown : SilverShield replaces GreenArmor 15017
 	Inventory.PickupSound "Dinah/marvelous"
   Armor.SavePercent 50
   Armor.SaveAmount 125
-  Armor.MaxFullAbsorb 1
 	Scale 0.5
 	Tag "Knight-Gown"
 	States
@@ -2394,7 +2404,13 @@ ACTOR KnightGown : SilverShield replaces GreenArmor 15017
 	}
 }
 
-ACTOR KnightGown2 : EnchantedShield replaces BlueArmor
+ACTOR KnightGown2Spawner : RandomSpawner2 replaces BlueArmor
+{
+	DropItem "KnightGown2", 256, 7
+	DropItem "KnightGown3", 256, 1
+}
+
+ACTOR KnightGown2 : EnchantedShield
 {
 	//$Category RPArtifacts
 	Inventory.Icon "AGWNJ0"
@@ -2402,7 +2418,6 @@ ACTOR KnightGown2 : EnchantedShield replaces BlueArmor
 	Inventory.PickupSound "Dinah/marvelous"
   Armor.SavePercent 75
   Armor.SaveAmount 250
-  Armor.MaxFullAbsorb 2
 	Scale 0.5
 	Tag "Expert's Knight-Gown"
 	States
@@ -2420,7 +2435,6 @@ ACTOR KnightGown3 : EnchantedShield
 	Inventory.Pickupmessage "Master's Knight-Gown (92.5% Protection)"
 	Inventory.PickupSound "Dinah/giggle"
   Armor.SavePercent 93.75
-  Armor.MaxFullAbsorb 3
   Armor.SaveAmount 500
 	Scale 0.5
 	Tag "Master's Knight-Gown"

@@ -1,7 +1,7 @@
 version "4.7"
 
-#include "zscript/misc.zc"
-#include "zscript/events.zc"
-#include "zscript/monsters.zc"
-#include "zscript/effects.zc"
 #include "zscript/player.zc"
+#include "zscript/monsters.zc"
+#include "zscript/events.zc"
+#include "zscript/effects.zc"
+#include "zscript/misc.zc"

@@ -18,14 +18,221 @@ class DinahPlayer : HereticPlayer
 		Player.ForwardMove 0.90, 0.90; // 0.75
 		Player.SideMove 0.825, 0.825; // 0.65
 		Player.ViewBob 0.5;
-		DamageFactor "Normal", 1.125;
-		RadiusDamageFactor 0.222223;
-		Player.ViewHeight 39;
+		Player.AttackZOffset 8;
+		Player.AirCapacity 1;
+		Player.JumpZ 9;
+		Player.GruntSpeed 12;
+		Player.ViewHeight 37;
+		Player.InvulnerabilityMode "Reflective";
+		species "Players";
 		Scale 0.875;
-		Mass 75;
-		Height 52;
-		Radius 13;
+		Mass 64;
+		Height 50;
+		Radius 12;
 		+NOBLOOD
+		+PLAYERPAWN.NOTHRUSTWHENINVUL
+	}
+	
+
+	
+	override void Tick()
+	{
+		bool debugdisplays = false;
+		
+		if (debugdisplays)
+		{
+			Console.Printf("Player Age [tics]: %d, levelnum: \cx%d\c-, cluster: \cx%d\c-, clusterflags: \cx%d\c-, NextMap: \cy%s\c-, NextSecretMap: \cy%s\c-,\ntime: \cx%d\c-, maptime: \cx%d\c-, totaltime: \cx%d\c-, starttime: \cx%d\c-, partime: \cx%d\c-, sucktime: \cx%d\c-,\nlevelname: \cy%s\c-, mapname: \cy%s\c-, \ngravity: \cx%.8f\c-, aircontrol: \cx%.8f\c-, airfriction: \cx%.8f\c-, \cxTranslation #: %d", 
+											GetAge(),
+											level.levelnum, level.cluster, level.clusterflags, level.NextMap, level.NextSecretMap,
+											level.time, level.maptime, level.totaltime, level.starttime, level.partime, level.sucktime,
+											level.levelname, level.mapname,
+											level.gravity, level.aircontrol, level.airfriction,
+											translation);
+		}
+
+		int armortier = 0;
+		double savepercent = 0.000000;
+
+		let armoritem = BasicArmor(player.mo.FindInventory("BasicArmor"));
+		if (armoritem != null && CountInv("BasicArmor") > 0)
+		{
+			savepercent = armoritem.savepercent;
+			if (savepercent >= 0.00000 && savepercent <= 0.49999) armortier = 0;
+			if (savepercent >= 0.50000 && savepercent <= 0.74999) armortier = 1;
+			if (savepercent >= 0.75000 && savepercent <= 0.87499) armortier = 2;
+			if (savepercent >= 0.87500 && savepercent <= 0.99999) armortier = 3;
+			if (savepercent >= 1.00000) armortier = 4;
+			
+			if (debugdisplays) Console.Printf("Armor SavePercent: %.8f, Tier: %d", savepercent, armortier);
+		}
+		
+		if (armortier == 1) A_SetInventory("KnightGownItem",1); else A_SetInventory("KnightGownItem",0);
+		if (armortier == 2) A_SetInventory("KnightGownItem2",1); else A_SetInventory("KnightGownItem2",0);
+		if (armortier == 3) A_SetInventory("KnightGownItem3",1); else A_SetInventory("KnightGownItem3",0);
+		if (armortier == 4) A_SetInventory("KnightGownItem4",1); else A_SetInventory("KnightGownItem4",0);
+		
+		super.Tick(); // KEEP THIS HERE ELSE OTHER FUNCTIONS RELATED TO THIS BREAK :V
+	}
+
+	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
+	{
+		bool debugdisplays = true;
+		
+		if (debugdisplays)
+		{
+			if (flags & DMG_NO_ARMOR) Console.Printf("    (\cyIgnoresArmor?: yes)");
+			if (flags & DMG_INFLICTOR_IS_PUFF) Console.Printf("    (\cyInflictorIsPuff?: yes)");
+			if (flags & DMG_THRUSTLESS) Console.Printf("    (\cyThrustless?: yes)");
+			if (flags & DMG_FORCED) Console.Printf("    (\cyForcedDamage?: yes)");
+			if (flags & DMG_NO_FACTOR) Console.Printf("    (\cyNoDmgFactor?: yes)");
+			if (flags & DMG_PLAYERATTACK) Console.Printf("    (\cyPlayerAttack?: yes)");
+			if (flags & DMG_FOILINVUL) Console.Printf("    (\cyFoilInvuln?: yes)");
+			if (flags & DMG_FOILBUDDHA) Console.Printf("    (\cyFoilBuddha?: yes)");
+			if (flags & DMG_NO_PROTECT) Console.Printf("    (\cyBypassPowerProtection?: yes)");
+			if (flags & DMG_NO_ENHANCE) Console.Printf("    (\cyBypassPowerDamage?: yes)");
+			if (flags & DMG_USEANGLE) Console.Printf("    (\cyUsesAngle?: yes)");
+			if (flags & DMG_EXPLOSION) Console.Printf("    (\cyIsAoEBurst?: yes)");
+			if (flags & DMG_NO_PAIN) Console.Printf("    (\cyPainless?: yes)");
+		}
+		if (debugdisplays) Console.Printf("DamageType: %s", mod);
+
+		int olddmg;
+		int armortier = 0;
+		double savepercent = 0.000000;
+
+		let armoritem = BasicArmor(player.mo.FindInventory("BasicArmor"));
+		if (armoritem != null && CountInv("BasicArmor") > 0)
+		{
+			savepercent = armoritem.savepercent;
+			if (savepercent >= 0.00000 && savepercent <= 0.49999) armortier = 0;
+			if (savepercent >= 0.50000 && savepercent <= 0.74999) armortier = 1;
+			if (savepercent >= 0.75000 && savepercent <= 0.87499) armortier = 2;
+			if (savepercent >= 0.87500 && savepercent <= 0.99999) armortier = 3;
+			if (savepercent >= 1.00000) armortier = 4;
+			
+			if (debugdisplays) Console.Printf("Armor SavePercent: %.8f, Tier: %d", savepercent, armortier);
+		}
+
+		if (debugdisplays) Console.Printf("PDamage [Step 1] - Base: %d", damage);
+		damage = ceil(damage * 1.125);
+		if (debugdisplays) Console.Printf("PDamage [Step 1b]: %d", damage);
+
+		if (armortier)
+		{
+			if (!(mod == 'Slime' || mod == 'Lava' || mod == 'Drowning' || mod == 'Falling'))
+			{
+				olddmg = damage;
+				if (mod == 'Crush')
+				{
+					if (armortier == 1) damage -= randompick(0,0,0,0,1);
+					if (armortier == 2) damage -= randompick(0,0,0,1,1);
+					if (armortier == 3) damage -= randompick(0,0,1,1,2);
+					if (armortier >= 4) damage -= randompick(1,1,2,2,3);
+					if (damage <= 0)
+					{
+						if (armortier == 1) damage = 1;
+						if (armortier == 2 && random(1,32) > 1) damage = 1;
+						if (armortier == 3 && random(1,32) > 2) damage = 1;
+						if (armortier >= 4 && random(1,32) > 4) damage = 1;
+					}
+				}
+				else
+				{
+					if (armortier == 1) damage -= random(0,1);
+					if (armortier == 2) damage -= random(1,2);
+					if (armortier == 3) damage -= random(2,3);
+					if (armortier >= 4) damage -= random(4,5);
+					if (damage <= 0)
+					{
+						if (armortier == 1) damage = 1;
+						if (armortier == 2 && random(1,8) > 1) damage = 1;
+						if (armortier == 3 && random(1,8) > 2) damage = 1;
+						if (armortier >= 4 && random(1,8) > 4) damage = 1;
+					}
+				}
+				if (debugdisplays) Console.Printf("PDamage [Step 2, Raw Armor Def]: %d", damage, olddmg);
+			}
+		}
+		
+		if (flags & DMG_INFLICTOR_IS_PUFF)
+		{
+			if (source != self)
+			{
+				if (inflictor.GetClassName() == "BulletPuff")
+				{
+					olddmg = damage;
+					if (debugdisplays) Console.Printf("Hit by Doom Bullet");
+					if (armortier == 0) damage = ceil(damage * 0.9375);
+					if (armortier == 1) damage = ceil(damage * 0.875);
+					if (armortier == 2) damage = ceil(damage * 0.75);
+					if (armortier == 3) damage = ceil(damage * 0.625);
+					if (armortier == 4) damage = ceil(damage * 0.5);
+					if (debugdisplays) Console.Printf("PDamage [Bullet Buff]: %d (%d)", damage, olddmg);
+				}
+			}
+		}
+		
+		olddmg = damage;
+		if (flags & DMG_EXPLOSION)
+		{
+			if (source == self)
+			{
+				if (debugdisplays) Console.Printf("Damage Is Own AOE");
+
+				damage *= 0.25;
+				if (armortier == 1) damage = ceil(damage * 0.9875);
+				if (armortier == 2) damage = ceil(damage * 0.975);
+				if (armortier == 3) damage = ceil(damage * 0.9625);
+				if (armortier == 4) damage = ceil(damage * 0.95);
+			}
+			else
+			{
+				if (debugdisplays) Console.Printf("Damage Is Not Own AOE");
+
+				if (source != null)
+				{
+					if (source.GetClassName() == "Cyberdemon") damage = ceil(damage * frandompick(0.875,0.9375,0.9375,0.9375,0.9375,0.9375,1.00));
+					else if (source.GetClassName() == "Archvile" || source.GetClassName() == "ArchvileNew") damage = ceil(damage * frandompick(0.5,0.625,0.625,0.625,0.625,0.625,0.75));
+					else damage = ceil(damage * frandompick(0.75,0.875,0.875,0.875,0.875,0.875,1.00));
+				}
+				else
+				{
+					damage = ceil(damage * frandompick(0.75,0.875,0.875,0.875,0.875,0.875,1.00));
+				}
+			}
+			if (debugdisplays) Console.Printf("PDamage [AOE]: %d (%d)", damage, olddmg);
+		}
+		
+		olddmg = damage;
+		if (inflictor != null)
+		{
+			if (inflictor.GetClassName() == "RevenantTracer")
+			{
+				damage *= (frandompick(0.5,0.625,0.625,0.75,0.75,0.75,0.875,0.875,1.00) - 0.125);
+				if (armortier == 1) damage *= 0.975;
+				if (armortier == 2) damage *= 0.95;
+				if (armortier == 3) damage *= 0.90;
+				if (armortier == 4) damage *= 0.80;
+				if (debugdisplays) Console.Printf("PDamage [RevMissile]: %d (%d)", damage, olddmg);
+			}
+		}
+
+		if (debugdisplays) Console.Printf("PDamage [Final] - Final Damage: %d", damage);
+
+		int armoramt = CountInv("BasicArmor");
+		if (debugdisplays && armoramt) Console.Printf("Armor Amount: %d", armoramt);
+		let ret = super.DamageMobj(inflictor, source, damage, mod, flags, angle);
+		int armdmg = (armoramt - CountInv("BasicArmor"));
+		if (armdmg <= 0) armdmg = 0;
+		if (debugdisplays && armdmg) Console.Printf("Armor Damage: %d", armdmg);
+		if (ret || armdmg)
+		{
+			if (armdmg && !ret) Console.Printf("\c[darkgreen]%d AP\c- of damage taken! [%s]", armdmg, mod);
+			else if (armdmg && ret) Console.Printf("\c[darkred]%d HP\c- & \c[darkgreen]%d AP\c- of damage taken! [%s]", ret, armdmg, mod);
+			else Console.Printf("\c[darkred]%d HP\c- of damage taken! [%s]", ret, mod);
+		}
+
+		return ret;
 	}
 
 	States

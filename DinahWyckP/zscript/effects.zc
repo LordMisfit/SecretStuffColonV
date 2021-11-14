@@ -1,3 +1,13 @@
+class RandomSpawner2 : RandomSpawner
+{
+	default
+	{
+		+DONTGIB
+		+NOTIMEFREEZE
+		-BLOCKEDBYSOLIDACTORS
+	}
+}
+
 class CustomInventoryExt : CustomInventory
 {
 	action void A_UseAppleWine()
@@ -18,7 +28,7 @@ class CustomInventoryExt : CustomInventory
 						player.mo.A_SetInventory("PowerWineBuffWeak",1);
 						player.mo.A_SetInventory("PowerWineBuffStrong",0);
 						player.mo.A_SetInventory("PowerWineBuffStrongest",0);
-						player.mo.A_Log("\c[purple]Defense Weakly Buffed (-187.5% damage taken for 5 seconds)!");
+						Console.Printf("\c[purple]Defense Weakly Buffed (-187.5% damage taken for 5 seconds)!");
 						if (random(1,4) == 1) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
 						willheal = true;
 						useitem = true;
@@ -28,7 +38,7 @@ class CustomInventoryExt : CustomInventory
 						player.mo.A_SetInventory("PowerWineBuffStrong",1);
 						player.mo.A_SetInventory("PowerWineBuffWeak",0);
 						player.mo.A_SetInventory("PowerWineBuffStrongest",0);
-						player.mo.A_Log("\c[purple]Defense Moderately Buffed (-37.5% damage taken for 7 seconds)!");
+						Console.Printf("\c[purple]Defense Moderately Buffed (-37.5% damage taken for 7 seconds)!");
 						if (random(1,2) == 1) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
 						willheal = true;
 						useitem = true;
@@ -39,7 +49,7 @@ class CustomInventoryExt : CustomInventory
 					player.mo.A_SetInventory("PowerWineBuffStrongest",1);
 					player.mo.A_SetInventory("PowerWineBuffStrong",0);
 					player.mo.A_SetInventory("PowerWineBuffWeak",0);
-					player.mo.A_Log("\c[purple]Defense Greatly Buffed (-56.25% damage taken for 9 seconds)!");
+					Console.Printf("\c[purple]Defense Greatly Buffed (-56.25% damage taken for 9 seconds)!");
 					A_StartSound("Dinah/giggle",CHAN_VOICE);
 					willheal = true;
 					useitem = true;
@@ -59,7 +69,7 @@ class CustomInventoryExt : CustomInventory
 					else
 					{
 						currenthealth += (maxhealth * frandom(0.045,0.055));
-						if (currenthealth > (maxhealth*2)) currenthealth = (maxhealth*2);
+						if (currenthealth > (maxhealth*3)) currenthealth = (maxhealth*3);
 						player.health = player.mo.health = currenthealth;
 					}
 				}
@@ -69,10 +79,70 @@ class CustomInventoryExt : CustomInventory
 			}
 			else
 			{
-				player.mo.A_Log("\c[red]You can't drink any more Apple Wine for now!");
+				Console.Printf("\c[red]You can't drink any more Apple Wine for now!");
 				player.mo.A_StartSound("Dinah/what",CHAN_VOICE);
 			}
 		}
+	}
+	
+	action void A_UsePartyPopper()
+	{
+		invoker.A_FireBullets(15,2,8,10,"PopperPuff1");
+		invoker.A_FireBullets(8,2,4,15,"PopperPuff2");
+	}
+}
+
+// Used for a base item for all the items that don't do anything themselves but are used for/as detecting flags.
+class PlaceholderItem : CustomInventoryExt
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 1;
+		+INVENTORY.KEEPDEPLETED 
+	}
+
+	States
+	{
+		Use:
+			TNT1 A 0;
+			Stop;
+	}
+}
+
+// Placeholder for Armor Class :V
+class KnightGownItem : PlaceholderItem
+{
+	default
+	{
+		Inventory.MaxAmount 1;
+	}
+}
+
+// Placeholder for Armor Class :V
+class KnightGownItem2 : PlaceholderItem
+{
+	default
+	{
+		Inventory.MaxAmount 1;
+	}
+}
+
+// Placeholder for Armor Class :V
+class KnightGownItem3 : PlaceholderItem
+{
+	default
+	{
+		Inventory.MaxAmount 1;
+	}
+}
+
+// Placeholder for Armor Class :V
+class KnightGownItem4 : PlaceholderItem
+{
+	default
+	{
+		Inventory.MaxAmount 1;
 	}
 }
 
