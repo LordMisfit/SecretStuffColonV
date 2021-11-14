@@ -100,7 +100,7 @@ class DinahPlayer : HereticPlayer
 
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
-		bool debugdisplays = true;
+		bool debugdisplays = false;
 		
 		Actor AttackingActor;
 		Actor UniqueProjectile;

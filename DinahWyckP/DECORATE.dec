@@ -2333,7 +2333,7 @@ Actor AppleWine : CustomInventoryExt replaces Medikit 15016
 	Inventory.InterHubAmount 12 // 8
 	Inventory.PickupMessage "Sweet apple wine! (Drink for Health and Brief buff)"
 	Inventory.Icon "GOBLI0"
-	Tag "Apple Wine Goblet: Heals 18-22% Health and Gives Defense Buff up to 3 tiers. Cannot be drank when buff is at max."
+	Tag "Apple Wine Goblet: Heals 18-22% Health and Gives Defense Buff up to 4 tiers. Cannot be drank when buff is at max."
 	
 	States
 	{

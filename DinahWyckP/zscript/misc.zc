@@ -68,6 +68,7 @@ class DinahBackgroundStuff : Inventory
 					if (Owner.CountInv("PowerWineBuffWeak")) inc = floor(inc * 1.5);
 					if (Owner.CountInv("PowerWineBuffStrong")) inc = floor(inc * 2.25);
 					if (Owner.CountInv("PowerWineBuffStrongest")) inc = floor(inc * 3.25);
+					if (Owner.CountInv("PowerWineBuffStrongestEven")) inc = floor(inc * 4.5);
 
 					if (CurrentHealth <= (MaxHealthTrue * 0.02)) inc = floor(inc * 20);
 					else if (CurrentHealth <= (MaxHealthTrue * 0.10)) inc = floor(inc * 5);
@@ -114,6 +115,7 @@ class DinahBackgroundStuff : Inventory
 					if (Owner.CountInv("PowerWineBuffWeak")) inc = floor(inc * 0.6666666666666667);
 					if (Owner.CountInv("PowerWineBuffStrong")) inc = floor(inc * 0.4444444444444444);
 					if (Owner.CountInv("PowerWineBuffStrongest")) inc = floor(inc * 0.3076923076923077);
+					if (Owner.CountInv("PowerWineBuffStrongestEven")) inc = floor(inc * 0.2222222222222222);
 					
 					if (CurrentHealth >= (MaxHealthTrue * 3.0)) inc = floor(inc * 3.0);
 					else if (CurrentHealth >= (MaxHealthTrue * 2.75)) inc = floor(inc * 2.75);
@@ -257,9 +259,10 @@ class DinahBackgroundStuff : Inventory
 
 		if (Owner.CountInv("PowerStrength")) Speed *= 1.125;
 		
-		if (Owner.CountInv("PowerWineBuffWeak")) Speed *= frandom(0.95,0.97);
-		if (Owner.CountInv("PowerWineBuffStrong")) Speed *= frandom(0.88,0.92);
-		if (Owner.CountInv("PowerWineBuffStrongest")) Speed *= frandom(0.78,0.86);
+		if (Owner.CountInv("PowerWineBuffWeak")) Speed *= frandom(0.965,0.975);
+		if (Owner.CountInv("PowerWineBuffStrong")) Speed *= frandom(0.89,0.91);
+		if (Owner.CountInv("PowerWineBuffStrongest")) Speed *= frandom(0.80,0.84);
+		if (Owner.CountInv("PowerWineBuffStrongestEven")) Speed *= frandom(0.69,0.75);
 
 		if (owner.CountInv("KnightGownItem")) Speed *= 0.99;
 		if (owner.CountInv("KnightGownItem2")) Speed *= 0.97;

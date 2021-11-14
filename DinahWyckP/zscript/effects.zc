@@ -19,37 +19,54 @@ class CustomInventoryExt : CustomInventory
 		
 		if (player.mo.CountInv("AppleWine"))
 		{
-			if (!player.mo.CountInv("PowerWineBuffStrongest"))
+			if (!player.mo.CountInv("PowerWineBuffStrongestEven"))
 			{
-				if (!player.mo.CountInv("PowerWineBuffStrong"))
+				if (!player.mo.CountInv("PowerWineBuffStrongest"))
 				{
-					if (!player.mo.CountInv("PowerWineBuffWeak"))
+					if (!player.mo.CountInv("PowerWineBuffStrong"))
 					{
-						player.mo.A_SetInventory("PowerWineBuffWeak",1);
-						player.mo.A_SetInventory("PowerWineBuffStrong",0);
-						player.mo.A_SetInventory("PowerWineBuffStrongest",0);
-						A_Log("\c[purple]Defense Weakly Buffed (-18.75% damage taken for 5 seconds)!");
-						if (random(1,4) == 1) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
-						willheal = true;
-						useitem = true;
+						if (!player.mo.CountInv("PowerWineBuffWeak"))
+						{
+							player.mo.A_SetInventory("PowerWineBuffStrongestEven",0);
+							player.mo.A_SetInventory("PowerWineBuffWeak",1);
+							player.mo.A_SetInventory("PowerWineBuffStrong",0);
+							player.mo.A_SetInventory("PowerWineBuffStrongest",0);
+							A_Log("\c[purple]Defense Weakly Buffed (-18.75% damage taken for 4 seconds)!");
+							if (random(1,4) <= 1) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
+							willheal = true;
+							useitem = true;
+						}
+						else
+						{
+							player.mo.A_SetInventory("PowerWineBuffStrongestEven",0);
+							player.mo.A_SetInventory("PowerWineBuffStrong",1);
+							player.mo.A_SetInventory("PowerWineBuffWeak",0);
+							player.mo.A_SetInventory("PowerWineBuffStrongest",0);
+							A_Log("\c[purple]Defense Moderately Buffed (-37.5% damage taken for 6 seconds)!");
+							if (random(1,4) <= 2) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
+							willheal = true;
+							useitem = true;
+						}
 					}
 					else
 					{
-						player.mo.A_SetInventory("PowerWineBuffStrong",1);
+						player.mo.A_SetInventory("PowerWineBuffStrongestEven",0);
+						player.mo.A_SetInventory("PowerWineBuffStrongest",1);
+						player.mo.A_SetInventory("PowerWineBuffStrong",0);
 						player.mo.A_SetInventory("PowerWineBuffWeak",0);
-						player.mo.A_SetInventory("PowerWineBuffStrongest",0);
-						A_Log("\c[purple]Defense Moderately Buffed (-37.5% damage taken for 7 seconds)!");
-						if (random(1,2) == 1) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
+						A_Log("\c[purple]Defense Greatly Buffed (-56.25% damage taken for 8 seconds)!");
+						if (random(1,4) <= 3) { A_StartSound("Dinah/giggle",CHAN_VOICE);
 						willheal = true;
 						useitem = true;
 					}
 				}
 				else
 				{
-					player.mo.A_SetInventory("PowerWineBuffStrongest",1);
+					player.mo.A_SetInventory("PowerWineBuffStrongestEven",1);
+					player.mo.A_SetInventory("PowerWineBuffStrongest",0);
 					player.mo.A_SetInventory("PowerWineBuffStrong",0);
 					player.mo.A_SetInventory("PowerWineBuffWeak",0);
-					A_Log("\c[purple]Defense Greatly Buffed (-56.25% damage taken for 9 seconds)!");
+					A_Log("\c[purple]Defense Immensely Buffed (-75% damage taken for 10 seconds)!");
 					A_StartSound("Dinah/giggle",CHAN_VOICE);
 					willheal = true;
 					useitem = true;
@@ -111,40 +128,10 @@ class PlaceholderItem : CustomInventoryExt
 }
 
 // Placeholder for Armor Class :V
-class KnightGownItem : PlaceholderItem
-{
-	default
-	{
-		Inventory.MaxAmount 1;
-	}
-}
-
-// Placeholder for Armor Class :V
-class KnightGownItem2 : PlaceholderItem
-{
-	default
-	{
-		Inventory.MaxAmount 1;
-	}
-}
-
-// Placeholder for Armor Class :V
-class KnightGownItem3 : PlaceholderItem
-{
-	default
-	{
-		Inventory.MaxAmount 1;
-	}
-}
-
-// Placeholder for Armor Class :V
-class KnightGownItem4 : PlaceholderItem
-{
-	default
-	{
-		Inventory.MaxAmount 1;
-	}
-}
+class KnightGownItem : PlaceholderItem { default { Inventory.MaxAmount 1; } }
+class KnightGownItem2 : PlaceholderItem { default { Inventory.MaxAmount 1; } }
+class KnightGownItem3 : PlaceholderItem { default { Inventory.MaxAmount 1; } }
+class KnightGownItem4 : PlaceholderItem { default { Inventory.MaxAmount 1; } }
 
 class PowerWineBuffWeak : PowerProtection
 {
@@ -152,8 +139,8 @@ class PowerWineBuffWeak : PowerProtection
 	{
 		DamageFactor 0.8125;
 		Inventory.Icon "GOBLA0";
-		Powerup.Duration -5;
-		Powerup.Color "4b 1d 35", 0.222;
+		Powerup.Duration -4;
+		Powerup.Color "4b 1d 35", 0.250;
 	}
 }
 
@@ -163,8 +150,8 @@ class PowerWineBuffStrong : PowerProtection
 	{
 		DamageFactor 0.625;
 		Inventory.Icon "GOBLB0";
-		Powerup.Duration -7;
-		Powerup.Color "4b 1d 35", 0.333;
+		Powerup.Duration -6;
+		Powerup.Color "4b 1d 35", 0.325;
 	}
 }
 
@@ -174,7 +161,18 @@ class PowerWineBuffStrongest : PowerProtection
 	{
 		DamageFactor 0.4375;
 		Inventory.Icon "GOBLC0";
-		Powerup.Duration -9;
-		Powerup.Color "4b 1d 35", 0.444;
+		Powerup.Duration -8;
+		Powerup.Color "4b 1d 35", 0.400;
+	}
+}
+
+class PowerWineBuffStrongestEven : PowerProtection
+{
+	default
+	{
+		DamageFactor 0.25;
+		Inventory.Icon "GOBLC0";
+		Powerup.Duration -10;
+		Powerup.Color "4b 1d 35", 0.450;
 	}
 }
