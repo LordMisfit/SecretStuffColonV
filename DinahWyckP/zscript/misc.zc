@@ -161,10 +161,15 @@ class DinahBackgroundStuff : Inventory
 		SurvivalRate = 100; // out of 10000 [1%]
 		SurvivalRate += (PlayerLevel * 5); // +0.05% per level
 		
-		if (owner.CountInv("KnightGownItem")) SurvivalRate += random(312,312);
+		if (owner.CountInv("KnightGownItem")) SurvivalRate += random(312,313);
 		if (owner.CountInv("KnightGownItem2")) SurvivalRate += 625;
 		if (owner.CountInv("KnightGownItem3")) SurvivalRate += 1250;
 		if (owner.CountInv("KnightGownItem4")) SurvivalRate += 2500;
+
+		if (Owner.CountInv("PowerWineBuffWeak")) SurvivalRate += random(312,313);
+		if (Owner.CountInv("PowerWineBuffStrong")) SurvivalRate += 625;
+		if (Owner.CountInv("PowerWineBuffStrongest")) SurvivalRate += random(937,938);
+		if (Owner.CountInv("PowerWineBuffStrongestEven")) SurvivalRate += 1250;
 		
 		if (SurvivalRate > 7500) SurvivalRate = 7500;
 		int SurviveRNGVal = random[statitem](1,10000); // Based on 0.01% to 100.00%

@@ -1,0 +1,86 @@
+class DWP_EventHandler : EventHandler
+{
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		if (e.thing)
+		{
+			//e.thing.Thrust(e.damage * 0.5 * (100 / e.thing.mass), e.damageangle);
+		}
+		
+		Super.WorldThingDamaged(e);
+	}
+	
+	override void WorldThingDied(WorldEvent e)
+	{
+		if (e.thing)
+		{
+			if (!(e.thing.GetClassName() == "DinahPlayer" || 
+			    e.thing.GetClassName() == "ExplosiveBarrel" || 
+					e.thing.GetClassName() == "Pod"))
+			{
+				int user_type;
+
+				// Heal Items
+				if (random(1,256) == 1) e.thing.A_SpawnItemEx("GalaApple",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				if (random(1,256) == 1) e.thing.A_SpawnItemEx("FoodPlateFruit",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				if (random(1,512) == 1) e.thing.A_SpawnItemEx("AppleWine",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				if (random(1,1024) == 1) e.thing.A_SpawnItemEx("PigRoastDishExtra",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				if (random(1,1024) == 1) e.thing.A_SpawnItemEx("Berserk",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				
+				// Armor Items
+				if (random(1,512) == 1) 
+				{
+					//Full Armor Drops
+					user_type = random(1,100);
+					if (user_type >= 1 || user_type <= 67) { e.thing.A_SpawnItemEx("KnightGown",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION); }
+					if (user_type >= 68 || user_type <= 89) { e.thing.A_SpawnItemEx("KnightGown2",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION); }
+					if (user_type >= 90) { e.thing.A_SpawnItemEx("KnightGown3",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION); }
+				}
+				else
+				{
+					//Scrap Drops
+					if (random(1,3) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+					if (random(1,9) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+					if (random(1,27) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+					if (random(1,81) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+					if (random(1,243) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				}
+				
+				// Random Inventory Item Drops
+				if (random(1,32) == 1)
+				{
+					user_type = random(1,20);
+					if (user_type == 1) { e.thing.A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 2) { e.thing.A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 3) { e.thing.A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 4) { e.thing.A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 5) { e.thing.A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 6) { e.thing.A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 7) { e.thing.A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 8) { e.thing.A_SpawnItemEx("SpinnerPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 9) { e.thing.A_SpawnItemEx("SpinnerPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 10) { e.thing.A_SpawnItemEx("SpinnerPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 11) { e.thing.A_SpawnItemEx("SpinnerPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 12) { e.thing.A_SpawnItemEx("SpinnerPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 13) { e.thing.A_SpawnItemEx("SpinnerPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 14) { e.thing.A_SpawnItemEx("BRocketPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 15) { e.thing.A_SpawnItemEx("BRocketPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 16) { e.thing.A_SpawnItemEx("BRocketPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 17) { e.thing.A_SpawnItemEx("BRocketPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 18) { e.thing.A_SpawnItemEx("PopperPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 19) { e.thing.A_SpawnItemEx("PopperPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 20) { e.thing.A_SpawnItemEx("SnakePickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+				}
+			}
+		}
+		
+		Super.WorldThingDied(e);
+	}
+	
+	override void PlayerDied(PlayerEvent e) 
+	{
+		
+		Super.PlayerDied(e);
+	}
+}
+

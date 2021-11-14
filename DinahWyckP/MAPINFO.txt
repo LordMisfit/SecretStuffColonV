@@ -1,16 +1,13 @@
 Gameinfo
 {
-  PlayerClasses = "DinahPlayer"
+	PlayerClasses = "DinahPlayer"
+	AddEventHandlers = "DWP_EventHandler"
 }
 
 skill nightmare
 {
-	AmmoFactor = 2
-	//FastMonsters
-	//DisableCheats
-	//RespawnTime = 12
+	//AmmoFactor = 2
 	SpawnFilter = Nightmare
-	PicName = "M_NMARE"
-	//MustConfirm
+	Name = "NIGHTMARE?!?!"
 	Key = "n"
 }

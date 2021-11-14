@@ -27,22 +27,22 @@ class CustomInventoryExt : CustomInventory
 					{
 						if (!player.mo.CountInv("PowerWineBuffWeak"))
 						{
-							player.mo.A_SetInventory("PowerWineBuffStrongestEven",0);
 							player.mo.A_SetInventory("PowerWineBuffWeak",1);
 							player.mo.A_SetInventory("PowerWineBuffStrong",0);
 							player.mo.A_SetInventory("PowerWineBuffStrongest",0);
-							A_Log("\c[purple]Defense Weakly Buffed (-18.75% damage taken for 4 seconds)!");
+							player.mo.A_SetInventory("PowerWineBuffStrongestEven",0);
+							A_Log("\c[purple]Defense Weakly Buffed (-18.75% damage taken for 5 seconds)!");
 							if (random(1,4) <= 1) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
 							willheal = true;
 							useitem = true;
 						}
 						else
 						{
-							player.mo.A_SetInventory("PowerWineBuffStrongestEven",0);
 							player.mo.A_SetInventory("PowerWineBuffStrong",1);
 							player.mo.A_SetInventory("PowerWineBuffWeak",0);
 							player.mo.A_SetInventory("PowerWineBuffStrongest",0);
-							A_Log("\c[purple]Defense Moderately Buffed (-37.5% damage taken for 6 seconds)!");
+							player.mo.A_SetInventory("PowerWineBuffStrongestEven",0);
+							A_Log("\c[purple]Defense Moderately Buffed (-37.5% damage taken for 7 seconds)!");
 							if (random(1,4) <= 2) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
 							willheal = true;
 							useitem = true;
@@ -50,12 +50,12 @@ class CustomInventoryExt : CustomInventory
 					}
 					else
 					{
-						player.mo.A_SetInventory("PowerWineBuffStrongestEven",0);
 						player.mo.A_SetInventory("PowerWineBuffStrongest",1);
+						player.mo.A_SetInventory("PowerWineBuffStrongestEven",0);
 						player.mo.A_SetInventory("PowerWineBuffStrong",0);
 						player.mo.A_SetInventory("PowerWineBuffWeak",0);
-						A_Log("\c[purple]Defense Greatly Buffed (-56.25% damage taken for 8 seconds)!");
-						if (random(1,4) <= 3) { A_StartSound("Dinah/giggle",CHAN_VOICE);
+						A_Log("\c[purple]Defense Greatly Buffed (-56.25% damage taken for 9 seconds)!");
+						if (random(1,4) <= 3) { A_StartSound("Dinah/giggle",CHAN_VOICE); }
 						willheal = true;
 						useitem = true;
 					}
@@ -66,7 +66,7 @@ class CustomInventoryExt : CustomInventory
 					player.mo.A_SetInventory("PowerWineBuffStrongest",0);
 					player.mo.A_SetInventory("PowerWineBuffStrong",0);
 					player.mo.A_SetInventory("PowerWineBuffWeak",0);
-					A_Log("\c[purple]Defense Immensely Buffed (-75% damage taken for 10 seconds)!");
+					A_Log("\c[purple]Defense Immensely Buffed (-75% damage taken for 12 seconds)!");
 					A_StartSound("Dinah/giggle",CHAN_VOICE);
 					willheal = true;
 					useitem = true;
@@ -138,9 +138,9 @@ class PowerWineBuffWeak : PowerProtection
 	default
 	{
 		DamageFactor 0.8125;
-		Inventory.Icon "GOBLA0";
-		Powerup.Duration -4;
-		Powerup.Color "4b 1d 35", 0.250;
+		Inventory.Icon "GBL1A0";
+		Powerup.Duration -5;
+		Powerup.Color "70 2c 52", 0.250;
 	}
 }
 
@@ -149,9 +149,9 @@ class PowerWineBuffStrong : PowerProtection
 	default
 	{
 		DamageFactor 0.625;
-		Inventory.Icon "GOBLB0";
-		Powerup.Duration -6;
-		Powerup.Color "4b 1d 35", 0.325;
+		Inventory.Icon "GBL2A0";
+		Powerup.Duration -7;
+		Powerup.Color "70 2c 52", 0.325;
 	}
 }
 
@@ -160,9 +160,9 @@ class PowerWineBuffStrongest : PowerProtection
 	default
 	{
 		DamageFactor 0.4375;
-		Inventory.Icon "GOBLC0";
-		Powerup.Duration -8;
-		Powerup.Color "4b 1d 35", 0.400;
+		Inventory.Icon "GBL3A0";
+		Powerup.Duration -9;
+		Powerup.Color "70 2c 52", 0.400;
 	}
 }
 
@@ -171,8 +171,8 @@ class PowerWineBuffStrongestEven : PowerProtection
 	default
 	{
 		DamageFactor 0.25;
-		Inventory.Icon "GOBLC0";
-		Powerup.Duration -10;
-		Powerup.Color "4b 1d 35", 0.450;
+		Inventory.Icon "GBL4A0";
+		Powerup.Duration -12;
+		Powerup.Color "70 2c 52", 0.450;
 	}
 }
