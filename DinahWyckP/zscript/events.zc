@@ -2,9 +2,36 @@ class DWP_EventHandler : EventHandler
 {
 	override void WorldThingDamaged(WorldEvent e)
 	{
+		bool worlddamageddebug = true;
 		if (e.thing)
 		{
 			//e.thing.Thrust(e.damage * 0.5 * (100 / e.thing.mass), e.damageangle);
+			if (!(e.thing.GetClassName() == "DinahPlayer" || 
+			    e.thing.GetClassName() == "ExplosiveBarrel" || 
+					e.thing.GetClassName() == "Pod"))
+			{
+				int user_type;
+				string AttackName = "NONE";
+				string AttackerName = "NONE";
+				if (e.inflictor) AttackName = e.inflictor.GetClassName();
+				if (e.inflictor && e.inflictor.target) AttackerName = e.inflictor.target.GetClassName();
+				if (worlddamageddebug) Console.Printf("\c[purple]Attack: %s, \c[brick]Attacker: %s", AttackName, AttackerName);
+				
+				if (e.thing.health > 0)
+				{
+					if (AttackName == "BlunderPuff")
+					{
+						int baseval = randompick(5,6,6,6,6,7,7,7,7,7,7,7,7,8,8,8,8,9);
+						if (worlddamageddebug) Console.Printf("%d", baseval);
+						if (random(1,(baseval)) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+						if (random(1,(baseval*baseval)) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+						if (random(1,(baseval*baseval*baseval)) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+						if (random(1,(baseval*baseval*baseval*baseval)) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+						if (random(1,(baseval*baseval*baseval*baseval*baseval)) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+						if (random(1,(baseval*baseval*baseval*baseval*baseval*baseval)) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+					}
+				}
+			}
 		}
 		
 		Super.WorldThingDamaged(e);
@@ -25,7 +52,7 @@ class DWP_EventHandler : EventHandler
 				if (e.inflictor) AttackName = e.inflictor.GetClassName();
 				if (e.inflictor && e.inflictor.target) AttackerName = e.inflictor.target.GetClassName();
 				if (worlddieddebug) Console.Printf("\c[purple]Attack: %s, \c[brick]Attacker: %s", AttackName, AttackerName);
-				if (e.inflictor && e.inflictor.target && AttackerName == "DinahPlayer") 
+				if (e.inflictor && e.inflictor.target && AttackerName == "DinahPlayer" && !e.thing.bFRIENDLY) 
 				{
 					int ExpGain = ((e.thing.spawnhealth()*frandom(0.05,0.125)));
 					if (ExpGain < 1) ExpGain = 1;

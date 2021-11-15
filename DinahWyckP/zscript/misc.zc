@@ -6,8 +6,6 @@ class DinahBackgroundStuff : Inventory
 	const SKILL_HARD = 3;
 	const SKILL_VERY_HARD = 4;
 
-	int TrueGameSkill;
-	int PlayerLevel;
 
 
 	int PrevTimeFreezeTimer;
@@ -25,6 +23,17 @@ class DinahBackgroundStuff : Inventory
 	int CurrentHealth;
 	int MaxHealthTrue;
 	int MaxHealthLimit;
+
+	int TrueGameSkill;
+	int CurrentArmorClass;
+	int CurrentMaxArmor;
+	int ArmorResistance;
+	int ClassicDoomType;
+	int ModType;
+	int TotalMass;
+
+	int PlayerLevel;
+	int PlayerJUMP;
 	
 	int SurvivalRate;
 	
@@ -33,6 +42,11 @@ class DinahBackgroundStuff : Inventory
 	int ClassCheck;
 	
 	int buttons;
+	int FreezePlayer;
+	int Player1TID;
+	
+	int StrifeStamLvl;
+	int StrifeAccuLvl;
 
 	default 
 	{

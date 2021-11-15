@@ -1,4 +1,3 @@
-
 class LostSoulNew : LostSoul replaces LostSoul
 {
 	default
