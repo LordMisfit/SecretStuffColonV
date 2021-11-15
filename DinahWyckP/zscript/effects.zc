@@ -127,6 +127,25 @@ class PlaceholderItem : CustomInventoryExt
 	}
 }
 
+class PlaceholderItemMax : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 0x7FFFFFFD;
+		+INVENTORY.KEEPDEPLETED 
+	}
+
+	States
+	{
+		Use:
+			TNT1 A 0;
+			Stop;
+	}
+}
+
+
+
 // Placeholder for Armor Class :V
 class KnightGownItem : PlaceholderItem { default { Inventory.MaxAmount 1; } }
 class KnightGownItem2 : PlaceholderItem { default { Inventory.MaxAmount 1; } }
@@ -174,5 +193,36 @@ class PowerWineBuffStrongestEven : PowerProtection
 		Inventory.Icon "GBL4A0";
 		Powerup.Duration -12;
 		Powerup.Color "70 2c 52", 0.450;
+	}
+}
+
+class VacAmmoCounter : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 0x7FFFFFFD;
+		+INVENTORY.KEEPDEPLETED 
+	}
+}
+
+
+class KillsCount : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 0x7FFFFFFD;
+		+INVENTORY.KEEPDEPLETED 
+	}
+}
+
+class ExpPts : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 0x7FFFFFFD;
+		+INVENTORY.KEEPDEPLETED 
 	}
 }

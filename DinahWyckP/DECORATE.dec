@@ -22,8 +22,12 @@ actor BerserkNew : Berserk replaces Berserk
 	}
 }
 
-actor BerserkNewExtra : BerserkNew replaces Chainsaw
+actor ChainsawSpawner : RandomSpawner2 replaces Chainsaw
 {
+	DropItem "BerserkNew", 256, 240
+	DropItem "Scrambler", 256, 10
+	DropItem "SuperVac", 256, 5
+	DropItem "Grimophone", 256, 1
 }
 
 actor BackpackNew : Backpack replaces Backpack
@@ -182,12 +186,18 @@ actor CricketBat : Weapon 31977
 	}
 }
 
-ACTOR BatPuff : StaffPuff
+ACTOR DynPuffBase : StaffPuff
+{
+	+PUFFGETSOWNER // Needed for the EventHandler for killing enemies [so puffs give proper credit to the player].
+}
+
+ACTOR BatPuff : DynPuffBase
 {
 	+NOBLOCKMAP
 	+NOGRAVITY
 	//+NOEXTREMEDEATH
 	+PUFFONACTORS
+	+FORCERADIUSDMG
 	RenderStyle Translucent
 	Alpha 0.6
 	SeeSound "MalletHit"
@@ -233,6 +243,7 @@ ACTOR MalletShot
 	PROJECTILE
 	-NOGRAVITY
 	//+NOEXTREMEDEATH
+	+FORCERADIUSDMG
 	RENDERSTYLE Normal
 	DeathSound "croquet/ballhit"
 	States
@@ -263,6 +274,7 @@ ACTOR MalletShotBerserk : MalletShot
 	DamageType "Cricket"
 	PROJECTILE
 	-NOGRAVITY
+	+FORCERADIUSDMG
 	//+NOEXTREMEDEATH
 	RENDERSTYLE Normal
 	DeathSound "croquet/ballhit"
@@ -435,17 +447,38 @@ actor Blunderaxe : Weapon replaces Shotgun 31967
 			}
 			BLAX C 3 Bright
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Recoil(frandom(0.96,1.44)); } else { A_Recoil(frandom(4.8,7.2)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1)) 
+				{
+					A_Recoil(frandom(0.96,1.44));
+					A_SetTics(random(1,2));
+				} 
+				else 
+				{
+					A_Recoil(frandom(4.8,7.2)); 
+				}
 			}
 			BLAX DE 2 
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(randompick(0,1,1,2)); }
+			}
 			BLAX FF 7
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(3,4)); }
+			}
 			BLAX D 8
-			BLAX A 9 A_Refire
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(3,5)); }
+			}
+			BLAX A 9 
+			{
+				A_Refire;
+				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(4,5)); }
+			}
 			goto Ready
 	}
 }
 
-ACTOR BlunderPuff : StaffPuff
+ACTOR BlunderPuff : DynPuffBase
 {
 	+NOBLOCKMAP
 	+NOGRAVITY
@@ -495,6 +528,7 @@ ACTOR BlunderShot
 	RENDERSTYLE Normal
 	SeeSound "blundershot"
 	//+NOEXTREMEDEATH
+	+FORCERADIUSDMG
 	States
 	{
 		Spawn:
@@ -518,6 +552,7 @@ ACTOR BadBlundershot : Blundershot
 {
 	Speed 35
 	Damage 5
+	+FORCERADIUSDMG
 }
 
 ACTOR BlunderAmmo : Ammo replaces Shell 12457
@@ -661,12 +696,13 @@ actor Scrambler : Weapon replaces SuperShotgun 31957
 	}
 }
 
-ACTOR PanPuff : StaffPuff
+ACTOR PanPuff : DynPuffBase
 {
 	+NOBLOCKMAP
 	+NOGRAVITY
 	//+NOEXTREMEDEATH
 	+PUFFONACTORS
+	+FORCERADIUSDMG
 	RenderStyle Translucent
 	Alpha 0.6
 	SeeSound "PanClang"
@@ -817,6 +853,7 @@ ACTOR EggGrenade
 	PROJECTILE
 	-NOGRAVITY
 	//+NOEXTREMEDEATH
+	+FORCERADIUSDMG
 	RENDERSTYLE Normal
 	DeathSound "blunderfire"
 	ExplosionDamage 64
@@ -846,6 +883,7 @@ ACTOR EggGrenadeBerserk : EggGrenade
 	PROJECTILE
 	-NOGRAVITY
 	//+NOEXTREMEDEATH
+	+FORCERADIUSDMG
 	RENDERSTYLE Normal
 	DeathSound "blunderfire"
 	ExplosionDamage 160
@@ -874,6 +912,7 @@ ACTOR EggMini
 	PROJECTILE
 	-NOGRAVITY
 	//+NOEXTREMEDEATH
+	+FORCERADIUSDMG
 	RENDERSTYLE Normal
 	DeathSound "blunderfire"
 	ExplosionDamage 32
@@ -900,6 +939,7 @@ ACTOR EggMiniBerserk : EggMini
 	PROJECTILE
 	-NOGRAVITY
 	//+NOEXTREMEDEATH
+	+FORCERADIUSDMG
 	RENDERSTYLE Normal
 	DeathSound "blunderfire"
 	ExplosionDamage 48
@@ -1054,6 +1094,7 @@ ACTOR PikePuff : BatPuff
 	+NOGRAVITY
 	//+NOEXTREMEDEATH
 	+PUFFONACTORS
+	+FORCERADIUSDMG
 	RenderStyle Translucent
 	Alpha 0.6
 	SeeSound "MalletHit"
@@ -1089,7 +1130,7 @@ ACTOR PikePuff : BatPuff
 	}
 }  
 
-ACTOR PikeTracer : StaffPuff
+ACTOR PikeTracer : DynPuffBase
 {
 	+NOBLOCKMAP
 	+NOGRAVITY
@@ -1118,6 +1159,7 @@ ACTOR ZapShot : FastProjectile
 	PROJECTILE
 	RENDERSTYLE Normal
 	deathsound "croquet/ballhit"
+	+FORCERADIUSDMG
 	//+NOEXTREMEDEATH
 	States
 	{
@@ -1142,6 +1184,7 @@ ACTOR MiniZapShot : FastProjectile
 	PROJECTILE
 	RENDERSTYLE Normal
 	deathsound "croquet/ballhit"
+	+FORCERADIUSDMG
 	//+NOEXTREMEDEATH
 	States
 	{
@@ -1160,6 +1203,7 @@ ACTOR BadZapshot : Zapshot
 	Speed 20
 	Scale 0.75
 	Damage 5
+	+FORCERADIUSDMG
 	States
 	{
 		Spawn:
@@ -1325,6 +1369,7 @@ ACTOR ApplePuff : BatPuff
 	+NOGRAVITY
 	//+NOEXTREMEDEATH
 	+PUFFONACTORS
+	+FORCERADIUSDMG
 	RenderStyle Translucent
 	Alpha 0.6
 	SeeSound "MalletHit"
@@ -1369,6 +1414,7 @@ ACTOR JackShot
 	DamageType "Bonk"
 	PROJECTILE
 	+DONTREFLECT
+	+FORCERADIUSDMG
 	//+NOEXTREMEDEATH
 	RENDERSTYLE Normal
 	SeeSound "axe/throw"
@@ -1502,6 +1548,7 @@ ACTOR RecordShot
 	PROJECTILE
 	+SEEKERMISSILE
 	+DONTREFLECT
+	+FORCERADIUSDMG
 	//+NOEXTREMEDEATH
 	RENDERSTYLE Normal
 	SeeSound "axe/throw"
@@ -1581,37 +1628,54 @@ actor SuperVac : Weapon replaces PlasmaRifle 31980
 			VACM AB 2
 			Goto Ready
 		Fire:
-			VACM A 0 A_JumpIfInventory("VacAmmo",12,"Full")
+			VACM A 0
+			{
+				if (CountInv("BackPack",AAPTR_PLAYER1) || CountInv("BackPackNew",AAPTR_PLAYER1))
+				{
+					if (CountInv("VacAmmo",AAPTR_PLAYER1) >= 24) { return state("Full"); }
+					return state("");
+				}
+				else
+				{
+					if (CountInv("VacAmmo",AAPTR_PLAYER1) >= 16) { return state("Full"); }
+					return state("");
+				}
+				return state("");
+			}
 			VACM B 0 A_PlaySound("VacSuck")
 			VACM BA 2
 			{
 				if (CountInv("PowerStrength",AAPTR_PLAYER1))
 				{
-					A_CustomPunch ((Random(3, 6)*1.5), FALSE, 0, "VacPuff", 80);
+					A_CustomPunch((Random(3,6)*1.25), FALSE, 0, "VacPuff", 80);
 				}
 				else
 				{
-					A_CustomPunch (Random(3, 6), FALSE, 0, "VacPuff", 80);
+					A_CustomPunch(Random(3,6), FALSE, 0, "VacPuff", 80);
 				}
 			}
 			goto Ready
 		AltFire:
 			VACM B 4 A_Playsound("VacDed",CHAN_WEAPON)
-			VACM C 0 A_FireCustomMissile("VacShot",15,0,0,0)
-			VACM C 0 A_FireCustomMissile("VacShot",-15,0,0,0)
-			VACM C 4 A_FireCustomMissile("VacShot",0,12,0,0)
+			VACM C 4
+			{
+				A_FireCustomMissile("VacShot",15,0,0,0);
+				A_FireCustomMissile("VacShot",0,12,0,0);
+				A_FireCustomMissile("VacShot",-15,0,0,0);
+			}
 			VACM B 3 
 			VACM A 3 
 			goto Ready
 	}
 }
 
-ACTOR VacPuff : StaffPuff
+ACTOR VacPuff : DynPuffBase
 {
 	+NOBLOCKMAP
 	+NOGRAVITY
 	+NOEXTREMEDEATH
 	+PUFFONACTORS
+	+PUFFGETSOWNER
 	RenderStyle Translucent
 	Alpha 0.6
 	VSpeed 1
@@ -1651,19 +1715,19 @@ ACTOR VacShot
 	Scale 1
 	PROJECTILE
 	DONTHURTSHOOTER
-	RENDERSTYLE Normal
+	RENDERSTYLE "Normal"
 	seesound "Weapons/RocketFire"
 	deathsound "croquet/ballhit"
 	+RIPPER
+	+FORCERADIUSDMG
 	//+NOEXTREMEDEATH
 	States
 	{
 		Spawn:
-			VSHT ABC 3 Bright
-			VSHT A 0 A_Explode
+			VSHT ABC 3 Bright A_Explode(41,64,0,0,16)
 			loop
 		Death:
-			TNT1 A 4 A_Explode
+			TNT1 A 4 A_Explode(82,128,0,0,32)
 			stop
 	}
 }
@@ -2119,7 +2183,7 @@ ACTOR Streamertrail
 	}
 }
 
-ACTOR PopperPuff1 : StaffPuff
+ACTOR PopperPuff1 : DynPuffBase
 {
 	+NOBLOCKMAP
 	+NOGRAVITY
@@ -2138,7 +2202,7 @@ ACTOR PopperPuff1 : StaffPuff
 	}
 } 
 
-ACTOR PopperPuff2 : StaffPuff
+ACTOR PopperPuff2 : DynPuffBase
 {
 	+NOBLOCKMAP
 	+NOGRAVITY
@@ -2334,8 +2398,7 @@ ACTOR ArmorScrap : ArmorBonus replaces ArmorBonus
 	Inventory.PickupSound "Scrap/Find"
 	Armor.SavePercent 50
 	Armor.SaveAmount 1
-	Armor.MaxSaveAmount 500
-  Armor.MaxFullAbsorb 1
+	Armor.MaxSaveAmount 1000 //500
 	+FLOATBOB
 	States
 	{
@@ -2383,8 +2446,7 @@ ACTOR ArmorScrap2 : ArmorScrap
 	Inventory.PickupSound "Scrap/Find"
 	Armor.SavePercent 75
 	Armor.SaveAmount 1
-	Armor.MaxSaveAmount 500
-  Armor.MaxFullAbsorb 2
+	Armor.MaxSaveAmount 1000 //500
 	+FLOATBOB
 	States
 	{
@@ -2401,8 +2463,7 @@ ACTOR ArmorScrap3 : ArmorScrap2
 	Inventory.PickupSound "Scrap/Find"
   Armor.SavePercent 93.75
 	Armor.SaveAmount 1
-	Armor.MaxSaveAmount 500
-  Armor.MaxFullAbsorb 3
+	Armor.MaxSaveAmount 1000 //500
 	+FLOATBOB
 	States
 	{
@@ -2687,7 +2748,10 @@ actor Hammerduck 3118
 			HDUK E 3 //ACS_Execute(102,0,0,0,0)
 			Goto See
 		Death.Suck:
-			HDUK E 5 A_PlaySound("VacDed",CHAN_BODY)
+			HDUK E 5 
+			{
+				A_StartSound("VacDed",CHAN_BODY,CHANF_DEFAULT,frandom(0.8,1.2),ATTN_NORM,frandom(0.8,1.2));
+			}
 			HDUK E 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,3)
 			Stop
 		Death:

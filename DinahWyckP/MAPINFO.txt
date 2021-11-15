@@ -1,7 +1,7 @@
 Gameinfo
 {
 	PlayerClasses = "DinahPlayer"
-	AddEventHandlers = "DWP_EventHandler"
+	AddEventHandlers = "DWP_EventHandler", "DWP_StaticEventHandler"
 }
 
 skill nightmare

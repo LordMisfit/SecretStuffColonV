@@ -19,6 +19,20 @@ class DWP_EventHandler : EventHandler
 					e.thing.GetClassName() == "Pod"))
 			{
 				int user_type;
+				string AttackName = e.inflictor.GetClassName();
+				string AttackerName = e.inflictor.target.GetClassName();
+				if (e.inflictor && e.inflictor.target && AttackerName == "DinahPlayer") 
+				{
+					Console.Printf("\c[purple]Attack: %s, \c[brick]Attacker: %s", AttackName, AttackerName);
+
+					int ExpGain = ((e.thing.spawnhealth()*frandom(0.05,0.125)));
+					if (ExpGain < 1) ExpGain = 1;
+
+					e.inflictor.target.A_GiveInventory("KillsCount",1);
+					e.inflictor.target.A_GiveInventory("ExpPts",ExpGain);
+					int ExpNew = e.inflictor.target.CountInv("ExpPts");
+					Console.Printf("\c[green]+%d EXP! \c[darkgreen][Have: %d]", ExpGain, ExpNew);
+				}
 
 				// Heal Items
 				if (random(1,256) == 1) e.thing.A_SpawnItemEx("GalaApple",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
@@ -33,8 +47,8 @@ class DWP_EventHandler : EventHandler
 					//Full Armor Drops
 					user_type = random(1,100);
 					if (user_type >= 1 || user_type <= 67) { e.thing.A_SpawnItemEx("KnightGown",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION); }
-					if (user_type >= 68 || user_type <= 89) { e.thing.A_SpawnItemEx("KnightGown2",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION); }
-					if (user_type >= 90) { e.thing.A_SpawnItemEx("KnightGown3",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION); }
+					else if (user_type >= 68 || user_type <= 89) { e.thing.A_SpawnItemEx("KnightGown2",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION); }
+					else if (user_type >= 90) { e.thing.A_SpawnItemEx("KnightGown3",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION); }
 				}
 				else
 				{
@@ -71,6 +85,16 @@ class DWP_EventHandler : EventHandler
 					if (user_type == 19) { e.thing.A_SpawnItemEx("PopperPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
 					if (user_type == 20) { e.thing.A_SpawnItemEx("SnakePickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
 				}
+				
+				// Killed With SuperVac
+				if (e.inflictor)
+				{
+					if (AttackName == "VacPuff")
+					{
+						int vacgive = e.inflictor.target.A_GiveInventory("VacAmmoCounter",(e.thing.spawnhealth()));
+						Console.Printf("%d / 400 units [+%d] in current SuperVac bag!", e.inflictor.target.CountInv("VacAmmoCounter"), vacgive);
+					}
+				}
 			}
 		}
 		
@@ -79,8 +103,17 @@ class DWP_EventHandler : EventHandler
 	
 	override void PlayerDied(PlayerEvent e) 
 	{
-		
+		S_ChangeMusic("GAMOVR", 0, false, true);
 		Super.PlayerDied(e);
+	}
+	
+	override void PlayerRespawned(PlayerEvent e) 
+	{
+		S_ChangeMusic("*", 0, false, true);
+		Super.PlayerRespawned(e);
 	}
 }
 
+class DWP_StaticEventHandler : StaticEventHandler
+{
+}

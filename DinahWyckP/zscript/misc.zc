@@ -182,9 +182,27 @@ class DinahBackgroundStuff : Inventory
 																		else Console.Printf("    \cgSurvival Rate % Roll / Rate: %d / %d, \cx[cheatbits: %d]", SurviveRNGVal, SurvivalRate, owner.player.cheats);
 		}
 		
+		// JumpZ
 		if (owner.CountInv("PowerStrength")) PlayerPawn(Owner).JumpZ = 12;
 		else PlayerPawn(Owner).JumpZ = 9;
 		
+		// SuperVac Ammo
+		int vacgiveammo;
+		while (owner.CountInv("VacAmmoCounter") >= 400)
+		{
+			owner.A_TakeInventory("VacAmmoCounter",400);
+			vacgiveammo += 1;
+			owner.A_StartSound("VacDed",random(11,20),CHANF_DEFAULT,frandom(0.8,1.2),ATTN_NORM,frandom(0.8,1.2));
+		}
+		if (vacgiveammo)
+		{
+			owner.A_GiveInventory("VacAmmo",vacgiveammo);
+			Console.Printf("Filled %d bag[s] in the SuperVac!", vacgiveammo);
+			vacgiveammo = 0;
+		}
+
+		
+		//
 		owner.player.health = owner.player.mo.health = CurrentHealth;
 		
 		ClassCheck++;
