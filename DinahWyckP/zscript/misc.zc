@@ -257,6 +257,11 @@ class DinahBackgroundStuff : Inventory
 
 			if (Owner.CountInv("PowerInvisibility")) newdamage *= frandompick(1.00,1.00,1.125,1.125,1.25);
 
+			if (Owner.CountInv("PowerWineBuffWeak")) newdamage = floor(newdamage * frandompick(0.985,1.015));
+			if (Owner.CountInv("PowerWineBuffStrong")) newdamage = floor(newdamage * frandompick(0.955,1.045));
+			if (Owner.CountInv("PowerWineBuffStrongest")) newdamage = floor(newdamage * frandompick(0.91,1.09));
+			if (Owner.CountInv("PowerWineBuffStrongestEven")) newdamage = floor(newdamage * frandompick(0.85,1.15));
+
 			//Console.Printf("FDamage (!passive): %d", newdamage);
 		}
 		
@@ -278,6 +283,11 @@ class DinahBackgroundStuff : Inventory
 			
 			if (Owner.CountInv("PowerStrength")) newdamage *= frandompick(0.8,0.9,0.9,0.9,1.0);
 			if (Owner.CountInv("PowerInvisibility")) newdamage *= frandompick(1.00,1.00,0.875,0.875,0.75);
+			
+			if (Owner.CountInv("PowerWineBuffWeak")) newdamage = floor(newdamage * frandompick(0.995,1.005));
+			if (Owner.CountInv("PowerWineBuffStrong")) newdamage = floor(newdamage * frandompick(0.985,1.015));
+			if (Owner.CountInv("PowerWineBuffStrongest")) newdamage = floor(newdamage * frandompick(0.97,1.03));
+			if (Owner.CountInv("PowerWineBuffStrongestEven")) newdamage = floor(newdamage * frandompick(0.95,1.05));
 
 			//Console.Printf("FDamage (passive): %d", newdamage);
 		}
