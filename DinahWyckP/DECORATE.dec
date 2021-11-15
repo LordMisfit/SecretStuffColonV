@@ -1645,13 +1645,27 @@ actor SuperVac : Weapon replaces PlasmaRifle 31980
 			VACM B 0 A_PlaySound("VacSuck")
 			VACM BA 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (random(1,8) == 1)
 				{
-					A_CustomPunch((Random(3,6)*1.25), FALSE, 0, "VacPuff", 80);
+					if (CountInv("PowerStrength",AAPTR_PLAYER1))
+					{
+						A_CustomPunch((Random(3,6)*1.25), FALSE, 0, "VacPuff", 80, 0.01);
+					}
+					else
+					{
+						A_CustomPunch(Random(3,6), FALSE, 0, "VacPuff", 80, 0.01);
+					}
 				}
 				else
 				{
-					A_CustomPunch(Random(3,6), FALSE, 0, "VacPuff", 80);
+					if (CountInv("PowerStrength",AAPTR_PLAYER1))
+					{
+						A_CustomPunch((Random(3,6)*1.25), FALSE, 0, "VacPuff", 80);
+					}
+					else
+					{
+						A_CustomPunch(Random(3,6), FALSE, 0, "VacPuff", 80);
+					}
 				}
 			}
 			goto Ready
@@ -2750,7 +2764,8 @@ actor Hammerduck 3118
 		Death.Suck:
 			HDUK E 5 
 			{
-				A_StartSound("VacDed",CHAN_BODY,CHANF_DEFAULT,frandom(0.8,1.2),ATTN_NORM,frandom(0.8,1.2));
+				A_StartSound("VacDed",CHAN_BODY,random(11,20),frandom(0.8,1.2),ATTN_NORM,frandom(0.8,1.2));
+				A_StartSound("VacDed",CHAN_BODY,random(21,30),frandom(0.8,1.2),ATTN_NORM,frandom(0.8,1.2));
 			}
 			HDUK E 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,3)
 			Stop

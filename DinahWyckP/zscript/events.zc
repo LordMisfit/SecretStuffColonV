@@ -12,6 +12,7 @@ class DWP_EventHandler : EventHandler
 	
 	override void WorldThingDied(WorldEvent e)
 	{
+		bool worlddieddebug = true;
 		if (e.thing)
 		{
 			if (!(e.thing.GetClassName() == "DinahPlayer" || 
@@ -19,30 +20,41 @@ class DWP_EventHandler : EventHandler
 					e.thing.GetClassName() == "Pod"))
 			{
 				int user_type;
-				string AttackName = e.inflictor.GetClassName();
-				string AttackerName = e.inflictor.target.GetClassName();
+				string AttackName = "NONE";
+				string AttackerName = "NONE";
+				if (e.inflictor) AttackName = e.inflictor.GetClassName();
+				if (e.inflictor && e.inflictor.target) AttackerName = e.inflictor.target.GetClassName();
+				if (worlddieddebug) Console.Printf("\c[purple]Attack: %s, \c[brick]Attacker: %s", AttackName, AttackerName);
 				if (e.inflictor && e.inflictor.target && AttackerName == "DinahPlayer") 
 				{
-					Console.Printf("\c[purple]Attack: %s, \c[brick]Attacker: %s", AttackName, AttackerName);
-
 					int ExpGain = ((e.thing.spawnhealth()*frandom(0.05,0.125)));
 					if (ExpGain < 1) ExpGain = 1;
 
 					e.inflictor.target.A_GiveInventory("KillsCount",1);
 					e.inflictor.target.A_GiveInventory("ExpPts",ExpGain);
+					int Kills = e.inflictor.target.CountInv("KillsCount"); 
 					int ExpNew = e.inflictor.target.CountInv("ExpPts");
-					Console.Printf("\c[green]+%d EXP! \c[darkgreen][Have: %d]", ExpGain, ExpNew);
+					Console.Printf("\c[green]+%d EXP! \c[darkgreen][Have: %d] (Kills: %d)", ExpGain, ExpNew, Kills);
 				}
 
 				// Heal Items
-				if (random(1,256) == 1) e.thing.A_SpawnItemEx("GalaApple",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
-				if (random(1,256) == 1) e.thing.A_SpawnItemEx("FoodPlateFruit",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
-				if (random(1,512) == 1) e.thing.A_SpawnItemEx("AppleWine",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
-				if (random(1,1024) == 1) e.thing.A_SpawnItemEx("PigRoastDishExtra",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
-				if (random(1,1024) == 1) e.thing.A_SpawnItemEx("Berserk",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				int maxchance = 256;
+				if (AttackName == "BatPuff") maxchance = 128;
+				if (AttackName == "BlunderPuff") maxchance = randompick(192,224,256,288,320);
+				if (AttackName == "ApplePuff") maxchance = 192;
+				if (AttackName == "VacPuff") maxchance = 4096;
+				if (random(1,(maxchance)) == 1) e.thing.A_SpawnItemEx("GalaApple",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				if (random(1,(maxchance)) == 1) e.thing.A_SpawnItemEx("FoodPlateFruit",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				if (random(1,(maxchance*2)) == 1) e.thing.A_SpawnItemEx("AppleWine",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				if (random(1,(maxchance*4)) == 1) e.thing.A_SpawnItemEx("PigRoastDishExtra",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				if (random(1,(maxchance*4)) == 1) e.thing.A_SpawnItemEx("Berserk",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
 				
 				// Armor Items
-				if (random(1,512) == 1) 
+				maxchance = 512;
+				if (AttackName == "BlunderPuff") maxchance = 8192;
+				if (AttackName == "RecordShot") maxchance = 2048;
+				if (AttackName == "VacPuff") maxchance = 64;
+				if (random(1,maxchance) == 1)
 				{
 					//Full Armor Drops
 					user_type = random(1,100);
@@ -52,16 +64,33 @@ class DWP_EventHandler : EventHandler
 				}
 				else
 				{
+					int scraprolls = 1;
+					if (AttackName == "BlunderPuff") scraprolls += randompick(0,0,0,0,1,1,1,1,1,1,2,2,3);
+					if (AttackName == "RecordShot") scraprolls += randompick(0,0,0,0,0,0,1,1,1,1,1,2,2);
+					if (AttackName == "VacPuff") scraprolls += (randompick(0,0,0,0,0,0,1,1,1,1,1,2,2) - 1);
 					//Scrap Drops
-					if (random(1,3) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
-					if (random(1,9) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
-					if (random(1,27) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
-					if (random(1,81) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
-					if (random(1,243) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+					if (scraprolls)
+					{
+						for (int i = 0; i < scraprolls; i++)
+						{
+							if (random(1,3) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+							if (random(1,9) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+							if (random(1,27) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+							if (random(1,81) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+							if (random(1,243) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+							if (random(1,729) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+							if (worlddieddebug) Console.Printf("%d / %d", i, scraprolls);
+						}
+					}
 				}
 				
 				// Random Inventory Item Drops
-				if (random(1,32) == 1)
+				maxchance = 32;
+				if (AttackName == "BatPuff") maxchance = 16;
+				if (AttackName == "BlunderPuff") maxchance = randompick(24,28,32,36,40);
+				if (AttackName == "RecordShot") maxchance = (randompick(24,28,32,36,40) * 2);
+				if (AttackName == "VacPuff") maxchance = 512;
+				if (random(1,maxchance) == 1)
 				{
 					user_type = random(1,20);
 					if (user_type == 1) { e.thing.A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
@@ -86,13 +115,16 @@ class DWP_EventHandler : EventHandler
 					if (user_type == 20) { e.thing.A_SpawnItemEx("SnakePickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
 				}
 				
-				// Killed With SuperVac
+				// Killed With Certain Weapons
 				if (e.inflictor)
 				{
 					if (AttackName == "VacPuff")
 					{
-						int vacgive = e.inflictor.target.A_GiveInventory("VacAmmoCounter",(e.thing.spawnhealth()));
-						Console.Printf("%d / 400 units [+%d] in current SuperVac bag!", e.inflictor.target.CountInv("VacAmmoCounter"), vacgive);
+						int vacgive = e.thing.spawnhealth();
+						vacgive *= frandompick(0.6667,0.8334,1.000,1.1667,1.3334);
+						vacgive *= 0.5;
+						e.inflictor.target.A_GiveInventory("VacAmmoCounter",vacgive);
+						Console.Printf("+%d Vaccum Bag Units", vacgive);
 					}
 				}
 			}

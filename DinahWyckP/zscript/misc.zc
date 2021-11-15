@@ -20,6 +20,8 @@ class DinahBackgroundStuff : Inventory
 	int MaxHealthLimit;
 	int SurvivalRate;
 	
+	int SuperVacBagSize;
+	
 	int ClassCheck;
 	
 	int buttons;
@@ -35,8 +37,14 @@ class DinahBackgroundStuff : Inventory
 	{
 		buttons = owner.GetPlayerInput(INPUT_BUTTONS);
 		TrueGameSkill = skill;
-
-		if (ClassCheck == 0) { }
+		if (ClassCheck == 0 || SuperVacBagSize <= 0) 
+		{ 
+			if (TrueGameSkill == SKILL_VERY_EASY) SuperVacBagSize = 240;
+			if (TrueGameSkill == SKILL_EASY) SuperVacBagSize = 320;
+			if (TrueGameSkill == SKILL_NORMAL) SuperVacBagSize = 400;
+			if (TrueGameSkill == SKILL_HARD) SuperVacBagSize = 480;
+			if (TrueGameSkill == SKILL_VERY_HARD) SuperVacBagSize = 560;
+		}
 
 		HPRegenTimerMax = 7000 - (owner.player.mo.stamina * 35);
 		HPDegenTimerMax = 1750 + (owner.player.mo.stamina * 17.5);
@@ -187,18 +195,35 @@ class DinahBackgroundStuff : Inventory
 		else PlayerPawn(Owner).JumpZ = 9;
 		
 		// SuperVac Ammo
+		bool supervacdebug = false;
+		int vacammoprev = owner.CountInv("VacAmmo");
 		int vacgiveammo;
-		while (owner.CountInv("VacAmmoCounter") >= 400)
+		int vacammocounter = owner.CountInv("VacAmmoCounter");
+		if (supervacdebug) Console.Printf("Vaccum Bag Size: %d / %d", vacammocounter, SuperVacBagSize);
+		while (vacammocounter >= SuperVacBagSize)
 		{
-			owner.A_TakeInventory("VacAmmoCounter",400);
+			vacammocounter -= SuperVacBagSize;
+			owner.A_SetInventory("VacAmmoCounter",vacammocounter);
 			vacgiveammo += 1;
 			owner.A_StartSound("VacDed",random(11,20),CHANF_DEFAULT,frandom(0.8,1.2),ATTN_NORM,frandom(0.8,1.2));
+			owner.A_StartSound("VacDed",random(21,30),CHANF_DEFAULT,frandom(0.8,1.2),ATTN_NORM,frandom(0.8,1.2));
 		}
 		if (vacgiveammo)
 		{
 			owner.A_GiveInventory("VacAmmo",vacgiveammo);
 			Console.Printf("Filled %d bag[s] in the SuperVac!", vacgiveammo);
 			vacgiveammo = 0;
+		}
+		int vacammonow = owner.CountInv("VacAmmo");
+		if (vacammoprev < 12 && vacammonow >= 12)
+		{
+			owner.A_StartSound("Dinah/Gotcha",CHAN_VOICE,CHANF_DEFAULT);
+			owner.A_Log("The SuperVac's Alt-Fire is Ready!", vacgiveammo);
+		}
+		if (vacammoprev < 24 && vacammonow >= 24)
+		{
+			owner.A_StartSound("Dinah/Gotcha",CHAN_VOICE,CHANF_DEFAULT);
+			owner.A_Log("The SuperVac's Alt-Fire Has TWO Charges now!", vacgiveammo);
 		}
 
 		

@@ -1,6 +1,8 @@
-Scrap/Find BANDAID1
+Scrap/Find BANDAID2
 
 //Dinah Sounds
+Dinah/Gotcha KGOTCH
+$pitchshift Dinah/Gotcha 0
 Dinah/marvelous kmarv
 $pitchshift Dinah/marvelous 0
 Dinah/there 	kther
