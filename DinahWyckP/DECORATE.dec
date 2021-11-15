@@ -10899,29 +10899,35 @@ Actor RavenWeapon : Beak
 }
 
 
-Actor TimePotion : PowerupGiver 13162
+Actor TimePotion : CustomInventory 13162
 {
-  //$Category RPArtifacts
-  Inventory.PickupSound "Misc/p_pkup"
-  Inventory.PickupMessage "'Essence of Time?' Hmm..."
-  Tag "Essence of Time"
-  Inventory.DefMaxAmount
-  Inventory.Icon "TIMPI0"
-  Powerup.Type TimeFreezer
-  Powerup.Color GoldMap
-  Powerup.Duration 250
-  +Inventory.InvBar
-  +FloatBob
-  +Inventory.PickupFlash
-  Inventory.Amount 1
-  Inventory.MaxAmount 1
-  SpawnID 13162
-  States
-  {
-  Spawn:
-    TIMP AB 6
-    Loop
-  }
+	//$Category RPArtifacts
+	Inventory.PickupSound "Dinah/Gotcha"
+	Inventory.PickupMessage "\c[gold]'Essence of Time?' Hmm..."
+	Tag "Essence of Time"
+	Inventory.Icon "TIMPI0"
+	+FloatBob
+	+INVENTORY.INVBAR
+	+INVENTORY.HUBPOWER
+	+INVENTORY.PERSISTENTPOWER
+	+INVENTORY.KEEPDEPLETED
+	+Inventory.PICKUPFLASH
+	Inventory.Amount 1
+	Inventory.MaxAmount 3
+	States
+	{
+		Spawn:
+			TIMP AB 6
+			Loop
+		Use:
+			TNT1 A 0
+			{
+				A_SetInventory("TimePotionTimeFreezer",1,AAPTR_PLAYER1);
+				A_GiveInventory("TimeFreezeTimer",randompick(280,315,350),AAPTR_PLAYER1);
+				A_TakeInventory("TimePotion",1,AAPTR_PLAYER1);
+			}
+			Fail
+	}
 }
 
 Actor Lightningbolt 

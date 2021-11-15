@@ -300,7 +300,17 @@ class DinahPlayer : HereticPlayer
 				if (debugdisplays) Console.Printf("PDamage [Raw Armor Def]: %d", damage, olddmg);
 			}
 		}
-
+		
+		// Berserk Effects
+		if (CountInv("PowerStrength"))
+		{
+			olddmg = damage;
+			if (mod == 'Falling') damage = ceil(damage * frandom(0.625,0.75));
+			if (mod == 'Crush') damage = ceil(damage * frandom(0.75,0.875));
+			if (mod == 'Drowning') damage = ceil(damage * frandom(0.875,1.000));
+			if (debugdisplays) Console.Printf("PDamage [Berserk Effects]: %d", damage, olddmg);
+		}
+		
 		int armoramt = CountInv("BasicArmor");
 		if (debugdisplays) Console.Printf("PDamage [Final] - Final Damage: %d", damage);
 		
