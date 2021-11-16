@@ -196,6 +196,16 @@ class PowerWineBuffStrongestEven : PowerProtection
 	}
 }
 
+class PowerRoastBuff : PowerDamage
+{
+	default
+	{
+		DamageFactor "Normal", 2;
+		Inventory.Icon "FOODA0";
+		Powerup.Duration -12;
+	}
+}
+
 class VacAmmoCounter : PlaceholderItem
 {
 	default
@@ -238,6 +248,16 @@ class ExpPtsNeeded : PlaceholderItem
 }
 
 class PlayerLevel : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 0x7FFFFFFD;
+		+INVENTORY.KEEPDEPLETED 
+	}
+}
+
+class PlayerMaxHP : PlaceholderItem
 {
 	default
 	{

@@ -1,0 +1,187 @@
+//Apple
+class GalaApple : CustomInventoryExt replaces Stimpack
+{
+	default
+	{
+		//$Category RPArtifacts
+		Inventory.Icon "APPLA0";
+		Inventory.PickupMessage "";
+		Inventory.PickupSound "";
+		Tag "Gala Apple";
+	}
+	States
+	{
+		Spawn:
+			APPL A -1;
+			Stop;
+		Pickup:
+			TNT1 A 0
+			{
+				int temp1 = player.mo.health;
+				int temp2 = player.mo.CountInv("PlayerMaxHP");
+				if (temp1 < temp2)
+				{
+					int temp3 = player.mo.CountInv("PlayerMaxHP");
+					temp3 *= 0.10;
+					
+					temp1 += temp3;
+					if (temp1 > temp2) temp1 = temp2;
+					player.mo.health = player.health = temp1;
+					A_StartSound("Dinah/eatapple",CHAN_VOICE);
+					A_SetBlend("f1 ff f1",0.1,4);
+					Console.Printf("\c[red]A tasty gala apple! \c[green]+%d Health", temp3);
+					invoker.A_FadeOut(1.0,FTF_REMOVE);
+				}
+			}
+			Fail;
+	}
+}
+
+Class GalaAppleWeak : GalaApple
+{
+	States
+	{
+		Pickup:
+			TNT1 A 0
+			{
+				int temp1 = player.mo.health;
+				int temp2 = player.mo.CountInv("PlayerMaxHP");
+				if (temp1 < temp2)
+				{
+					int temp3 = temp2;
+					temp3 *= 0.05;
+					
+					temp1 += temp3;
+					if (temp1 > temp2) temp1 = temp2;
+					player.mo.health = player.health = temp1;
+					A_StartSound("Dinah/eatapple",CHAN_VOICE);
+					A_SetBlend("f1 ff f1",0.1,random(4,6));
+					Console.Printf("\c[red]A tasty gala apple! \c[green]+%d Health", temp3);
+					invoker.A_FadeOut(1.0,FTF_REMOVE);
+				}
+			}
+			Fail;
+	}
+}
+
+class FoodPlateFruit : CustomInventoryExt replaces HealthBonus
+{
+	int user_type;
+	
+	default
+	{
+		+COUNTITEM
+		+INVENTORY.AUTOACTIVATE
+		+INVENTORY.ALWAYSPICKUP
+		//+INVENTORY.FANCYPICKUPSOUND
+		Inventory.PickupMessage "";
+		Inventory.PickupSound "";
+		Inventory.Icon "FOODB0";
+		Tag "Food Plate (Fruit)";
+	}
+	States
+	{
+		Spawn:
+			FOOD B 0 NoDelay
+			{
+				if (random(1,10) <= 9) 
+				{
+					if (random(1,20) == 1)
+					{
+						invoker.user_type = random(1,10);
+						if (invoker.user_type == 1) { A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+						if (invoker.user_type == 2) { A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+						if (invoker.user_type == 3) { A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+						if (invoker.user_type == 4) { A_SpawnItemEx("CherryBombPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+						if (invoker.user_type == 5) { A_SpawnItemEx("SpinnerPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+						if (invoker.user_type == 6) { A_SpawnItemEx("SpinnerPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+						if (invoker.user_type == 7) { A_SpawnItemEx("SpinnerPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+						if (invoker.user_type == 8) { A_SpawnItemEx("BRocketPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+						if (invoker.user_type == 9) { A_SpawnItemEx("BRocketPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+						if (invoker.user_type == 10) { A_SpawnItemEx("PopperPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					}
+					invoker.bCOUNTITEM = false;
+					invoker.A_FadeOut(1.0,FTF_REMOVE);
+				}
+			}
+		Idle:
+			FOOD B -1;
+			Stop;
+		Pickup:
+			TNT1 A 0
+			{
+				int temp1 = player.mo.health;
+				int temp4 = player.mo.CountInv("PlayerMaxHP");
+				int temp2 = (temp4 * 3.0);
+
+				int temp3 = temp4;
+				temp3 *= 0.10;
+					
+				temp1 += temp3;
+				if (temp1 > temp2) temp1 = temp2;
+				player.mo.health = player.health = temp1;
+				A_StartSound("Dinah/eat",CHAN_VOICE);
+				A_SetBlend("f1 ff f1",0.1,random(4,6));
+				Console.Printf("\c[red]Food Plate (Fruit)! \c[green]+%d (Over)Health", temp3);
+				//invoker.A_FadeOut(1.0,FTF_REMOVE);
+			}
+			stop;
+	}
+}
+
+class PigRoastDish : CustomInventoryExt replaces Soulsphere
+{
+	default
+	{
+		+COUNTITEM
+		+INVENTORY.AUTOACTIVATE
+		+INVENTORY.ALWAYSPICKUP
+		//+INVENTORY.FANCYPICKUPSOUND
+		Inventory.PickupMessage "";
+		Inventory.PickupSound "";
+		Inventory.Icon "FOODA0";
+		Tag "Food Plate (Roasted Pig)";
+	}
+	States
+	{
+		Spawn:
+			FOOD A 0 NoDelay
+			{
+				if (random(1,16) == 1) { invoker.A_SpawnItemEx("PigRoastDishExtra",0.0,0.0,0.0,frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),SXF_NOCHECKPOSITION); }
+				invoker.A_SpawnItemEx("PigRoastDishExtra",0.0,0.0,0.0,frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),SXF_NOCHECKPOSITION);
+			}
+		Idle:
+			FOOD A -1 Bright;
+			Loop;
+		Pickup:
+			TNT1 A 0
+			{
+				int temp1 = player.mo.health;
+				int temp4 = player.mo.CountInv("PlayerMaxHP");
+				int temp2 = (temp4 * 3.0);
+
+				int temp3 = temp4;
+				temp3 *= 0.50;
+					
+				temp1 += temp3;
+				if (temp1 > temp2) temp1 = temp2;
+				player.mo.health = player.health = temp1;
+				A_StartSound("Dinah/eat",CHAN_VOICE);
+				A_SetBlend("f1 ff f1",0.1,random(4,6));
+				player.mo.A_GiveInventory("PowerRoastBuff");
+				Console.Printf("\c[red]Ate a dish of Roasted Pig! \c[green]+%d (Over)Health", temp3);
+				//invoker.A_FadeOut(1.0,FTF_REMOVE);
+			}
+			stop;
+	}
+}
+
+class PigRoastDishExtra : PigRoastDish
+{
+	States
+	{
+		Spawn:
+			FOOD A -1 Bright;
+			Loop;
+	}
+}

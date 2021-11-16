@@ -86,7 +86,7 @@ class PlayerStatItem : Inventory
 				{
 					PlayerLevel = 0;
 					owner.A_SetInventory("PlayerLevel",PlayerLevel);
-					LevelCap = 10;
+					LevelCap = 200;
 					LevelExpRequirement.Resize((LevelCap+1));
 					
 					// EXP Tables
@@ -94,7 +94,7 @@ class PlayerStatItem : Inventory
 					{
 						double ExpValue;
 						int BaseEXPRequirement = 25; // clamp(dydu_baseexprequirement, 250, 11200);
-						BaseEXPRequirement *= (0.75 + (TrueGameSkill * 0.125));
+						BaseEXPRequirement *= (0.875 + (TrueGameSkill * 0.0625));
 
 						double BaseExtra = 1; // clamp(dydu_baseexpextra, 0, 100);
 						double BaseAccel1 = 6; // clamp(dydu_baseexpaccel1, 0, 100);
@@ -167,6 +167,7 @@ class PlayerStatItem : Inventory
 			int levelmodulo, levelbonustype;
 			int leveluptimes = 0;
 			int leveluptimesmax = LevelCap - PlayerLevel;
+			int StatIncrease;
 			PlayerLevel = owner.CountInv("PlayerLevel");
 			for (leveluptimes = 0; leveluptimes < leveluptimesmax; leveluptimes++)
 			{
@@ -175,10 +176,15 @@ class PlayerStatItem : Inventory
 				{
 					if (PlayerLevel < LevelCap)
 					{
+						StatIncrease = randompick(1,1,1,1,2,2,3);
+						owner.player.mo.stamina += StatIncrease;
+						owner.player.mo.health += StatIncrease;
+						MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
+
 						PlayerLevel += 1;
 						owner.A_StartSound("misc/bellring",101,CHANF_DEFAULT,frandom(0.6,0.75),ATTN_NORM,frandom(1.25,1.5));
 						owner.A_SetInventory("PlayerLevel",PlayerLevel);
-						owner.A_Print(String.Format("\c[Green]Congradulations, you've reached Level %d", PlayerLevel));
+						owner.A_Print(String.Format("\c[Green]Congradulations, you've reached Level %d \c[brick][+%d HP]", PlayerLevel, StatIncrease));
 						owner.A_SetBlend("00 00 FF",0.3,3,"00 00 FF",0.0);
 					}
 				}
@@ -539,6 +545,7 @@ class PlayerStatItem : Inventory
 			
 			//
 			owner.player.health = owner.player.mo.health = CurrentHealth;
+			owner.A_SetInventory("PlayerMaxHP",MaxHealthTrue);
 			
 			ClassCheck++;
 			super.DoEffect();
@@ -627,7 +634,7 @@ class PlayerStatItem : Inventory
 		}
 	}
 	
-	override double GetSpeedFactor() 
+	override double GetSpeedFactor()
 	{
 		let weapon = owner.player.ReadyWeapon;
 		CurrentHealth = owner.health;
