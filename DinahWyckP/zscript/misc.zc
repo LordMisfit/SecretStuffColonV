@@ -1,4 +1,4 @@
-class DinahBackgroundStuff : Inventory
+class PlayerStatItem : Inventory
 {
 	const SKILL_VERY_EASY = 0;
 	const SKILL_EASY = 1;
@@ -6,11 +6,14 @@ class DinahBackgroundStuff : Inventory
 	const SKILL_HARD = 3;
 	const SKILL_VERY_HARD = 4;
 
+	int LevelCap;
+	Array<int> LevelExpRequirement;
 
-
+	int InitEXPTables;
 	int PrevTimeFreezeTimer;
 	int TimeFreeze;
 	int TimeFreezeTimer;
+	int CharacterClass;
 
 	int HPRegenBonPenTimer;
 	int HPRegenTimer;
@@ -60,21 +63,131 @@ class DinahBackgroundStuff : Inventory
 		let playeractor = PlayerPawn(owner);
 		if (!playeractor) // Removes itself if given to a Player Class
 		{
-			owner.A_SetInventory("DinahBackgroundStuff",0); super.DoEffect(); 
+			owner.A_SetInventory("PlayerStatItem",0); super.DoEffect(); 
 		} 
 		else
 		if (playeractor) // Otherwise, Keep
 		{
+			if (playeractor.GetClassName() == "DinahPlayer") CharacterClass == 0;
+
 			ClassicDoomType = gameinfo.gametype; // 0 = Unknown, 1 = Doom [any], 2 = Heretic, 4 = Hexen, 8 = Strife
 			//Console.Printf("%d", ClassicDoomType);					if (ClassicDoomType == 0) { owner.A_SetInventory("PlayingDoom2",1); } // Doom 2
 			if (ClassicDoomType & 1) { owner.A_SetInventory("PlayingDoom",1); } // Doom 1
 			if (ClassicDoomType & 2) { owner.A_SetInventory("PlayingHeretic",1); } // Heretic
 			if (ClassicDoomType & 4) { owner.A_SetInventory("PlayingHexen",1); } // HeXen
 			if (ClassicDoomType & 8) { owner.A_SetInventory("PlayingStrife",1); } // Strife
-
 			buttons = owner.GetPlayerInput(INPUT_BUTTONS);
 			TrueGameSkill = skill;
-			if (ClassCheck == 0 || SuperVacBagSize <= 0) 
+			
+			bool debugexptables = false;
+			if (ClassCheck <= 6)
+			{
+				if (ClassCheck <= 1) 
+				{
+					PlayerLevel = 0;
+					owner.A_SetInventory("PlayerLevel",PlayerLevel);
+					LevelCap = 10;
+					LevelExpRequirement.Resize((LevelCap+1));
+					
+					// EXP Tables
+					if (InitEXPTables == 0)
+					{
+						double ExpValue;
+						int BaseEXPRequirement = 25; // clamp(dydu_baseexprequirement, 250, 11200);
+						BaseEXPRequirement *= (0.75 + (TrueGameSkill * 0.125));
+
+						double BaseExtra = 1; // clamp(dydu_baseexpextra, 0, 100);
+						double BaseAccel1 = 6; // clamp(dydu_baseexpaccel1, 0, 100);
+						double BaseAccel2 = 0.0384; // clamp(dydu_baseexpaccel2, 0.0, 5.0);
+						double BaseMulti1 = 48; // clamp(dydu_expmulti1, 1, 1024);
+						double BaseMulti2 = 50; // clamp(dydu_expmulti2, 1, 10000);
+						
+						double BaseMulti3 = 1.0;
+						int baseval;
+						int addval;
+						double mulval;
+						int preval = 0;
+						
+						double BaseMulti3b = 2.0;
+						double BaseMulti4 = 1.0;
+						double BaseMulti5 = 0.01;
+
+						// Sets up the actual EXP requirement tables based from BaseEXPRequirement above.
+						for (int CuLv = 0; CuLv < (LevelCap+1); CuLv++)
+						{
+							if (CuLv >= 0 && CuLv <= 31) BaseMulti4 = 1.0;
+							if (CuLv >= 32 && CuLv <= 56) BaseMulti4 = 1.334;
+							if (CuLv >= 57 && CuLv <= 80) BaseMulti4 = 1.667;
+							if (CuLv >= 81 && CuLv <= 100) BaseMulti4 = 2;
+							if (CuLv >= 101 && CuLv <= 109) BaseMulti4 = 4;
+							if (CuLv >= 110 && CuLv <= 118) BaseMulti4 = 6;
+							if (CuLv >= 119 && CuLv <= 127) BaseMulti4 = 8;
+							if (CuLv >= 128 && CuLv <= 136) BaseMulti4 = 10;
+							if (CuLv >= 137 && CuLv <= 145) BaseMulti4 = 12;
+							if (CuLv >= 146 && CuLv <= 154) BaseMulti4 = 14;
+							if (CuLv >= 155 && CuLv <= 163) BaseMulti4 = 16;
+							if (CuLv >= 164 && CuLv <= 172) BaseMulti4 = 18;
+							if (CuLv >= 173 && CuLv <= 181) BaseMulti4 = 20;
+							if (CuLv >= 182 && CuLv <= 190) BaseMulti4 = 22;
+							if (CuLv >= 191 && CuLv <= 199) BaseMulti4 = 24;
+							if (CuLv >= 200) BaseMulti4 = 30.0;
+							
+							BaseMulti3 = (BaseMulti4 + (CuLv * ((BaseMulti4 * BaseMulti5) * BaseMulti3b)));
+							
+							baseval = BaseEXPRequirement * (((CuLv * BaseExtra) + 1));
+							baseval *= (1.00 + ((CuLv + 1) * 0.000625));
+							
+							mulval = (((CuLv * (BaseAccel1 * ((BaseMulti1 + CuLv) / BaseMulti1))) + BaseMulti2) / BaseMulti2);
+							addval = (((BaseEXPRequirement * (CuLv * BaseAccel2)) * BaseMulti3) * ((BaseMulti4) * 1.5));
+							ExpValue = baseval;
+							if (debugexptables) Console.Printf("ExpValue: %d (%d)", ExpValue, baseval);
+							ExpValue *= mulval;
+							if (debugexptables) Console.Printf("(*) ExpValue: %d (%.8f)", ExpValue, mulval);
+							ExpValue += addval;
+							if (debugexptables) Console.Printf("(+) ExpValue: %d (%d)", ExpValue, addval);
+							
+							if (CuLv > 0) preval = LevelExpRequirement[(CuLv-1)];
+			
+							if (debugexptables) Console.Printf("\czLevel \cy%d\c- \czEXP Requirement: \cy%d \cz(prev: \cy%d)\cz, Multi: %.8f, baseval: %d, mulval: %.8f, addval: %d, diff: %d\c-", CuLv, ExpValue, preval, BaseMulti3, baseval, mulval, addval, (ExpValue-preval));
+							LevelExpRequirement[CuLv] = ExpValue;
+						}
+						if (debugexptables) Console.Printf("BaseEXPRequirement: %4f, BaseExtra: %4f / 100, BaseAccel1: %4f / 100, BaseAccel2: %3f / 25000, BaseMulti1: %3f / 1024, BaseMulti2: %3f / 10000", BaseEXPRequirement, BaseExtra, BaseAccel1, BaseAccel2, BaseMulti1, BaseMulti2);
+
+						InitEXPTables++;
+					}
+				}
+			}
+
+			//
+			// Leveling Up
+			//
+			owner.A_SetInventory("ExpPtsNeeded",LevelExpRequirement[(PlayerLevel)]);
+			bool debuglevelup = false;
+			int Experience = owner.CountInv("ExpPts");
+			int levelmodulo, levelbonustype;
+			int leveluptimes = 0;
+			int leveluptimesmax = LevelCap - PlayerLevel;
+			PlayerLevel = owner.CountInv("PlayerLevel");
+			for (leveluptimes = 0; leveluptimes < leveluptimesmax; leveluptimes++)
+			{
+				if (debuglevelup) Console.Printf("%d / %d", leveluptimes, leveluptimesmax);
+				if (Experience >= LevelExpRequirement[PlayerLevel])
+				{
+					if (PlayerLevel < LevelCap)
+					{
+						PlayerLevel += 1;
+						owner.A_StartSound("misc/bellring",101,CHANF_DEFAULT,frandom(0.6,0.75),ATTN_NORM,frandom(1.25,1.5));
+						owner.A_SetInventory("PlayerLevel",PlayerLevel);
+						owner.A_Print(String.Format("\c[Green]Congradulations, you've reached Level %d", PlayerLevel));
+						owner.A_SetBlend("00 00 FF",0.3,3,"00 00 FF",0.0);
+					}
+				}
+			}
+
+			//
+			// Super Vac Bagging
+			//
+			if (SuperVacBagSize <= 0) 
 			{ 
 				if (TrueGameSkill == SKILL_VERY_EASY) SuperVacBagSize = 240;
 				if (TrueGameSkill == SKILL_EASY) SuperVacBagSize = 320;
@@ -88,7 +201,9 @@ class DinahBackgroundStuff : Inventory
 			CurrentHealth = owner.player.mo.health;
 			MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
 			
+			//
 			// HP Regen/Degen
+			//
 			bool debughpregen = false;
 			bool hpwillregen = true;
 			bool hpwilldegen = true;
@@ -257,7 +372,9 @@ class DinahBackgroundStuff : Inventory
 				}
 			}
 			
+			//
 			// Survival Rate [Buddha]
+			//
 			SurvivalRate = 100; // out of 10000 [1%]
 			SurvivalRate += (PlayerLevel * 5); // +0.05% per level
 			
@@ -312,7 +429,7 @@ class DinahBackgroundStuff : Inventory
 												* BuffJumpZ
 												* ArmorJumpZ;
 
-			if (debugjumpz) Console.Printf("%.8f (%.8f)", TotalJumpZ, CharacterJumpZ);
+			if (debugjumpz) Console.Printf("%.8f (%.8f, %.8f, %.8f, %.8f)", TotalJumpZ, CharacterJumpZ, LevelJumpZ, BuffJumpZ, ArmorJumpZ);
 			PlayerPawn(Owner).JumpZ = TotalJumpZ;
 			
 			
@@ -337,15 +454,20 @@ class DinahBackgroundStuff : Inventory
 				vacgiveammo = 0;
 			}
 			int vacammonow = owner.CountInv("VacAmmo");
-			if (vacammoprev < 12 && vacammonow >= 12)
+			if (vacammoprev < 8 && vacammonow >= 8)
 			{
 				owner.A_StartSound("Dinah/Gotcha",CHAN_VOICE,CHANF_DEFAULT);
 				owner.A_Log("The SuperVac's Alt-Fire is Ready!", vacgiveammo);
 			}
-			if (vacammoprev < 24 && vacammonow >= 24)
+			if (vacammoprev < 16 && vacammonow >= 16)
 			{
 				owner.A_StartSound("Dinah/Gotcha",CHAN_VOICE,CHANF_DEFAULT);
 				owner.A_Log("The SuperVac's Alt-Fire Has TWO Charges now!", vacgiveammo);
+			}
+			if (vacammoprev < 24 && vacammonow >= 24)
+			{
+				owner.A_StartSound("Dinah/Gotcha",CHAN_VOICE,CHANF_DEFAULT);
+				owner.A_Log("The SuperVac's Alt-Fire Has THREE Charges now!", vacgiveammo);
 			}
 			
 			// TimeFreeze Handler
@@ -380,10 +502,10 @@ class DinahBackgroundStuff : Inventory
 					if (TimeFreezeTimer > 66 && PrevTimeFreezeTimer != 0)
 					{
 						BeatVol = 0.5;
-						if (Owner.CountInv("NormalHealth")) { BeatTimer = TimeFreezeTimer % 40; BeatVol = 0.25; }
-						else if (Owner.CountInv("DecentHealth")) { BeatTimer = TimeFreezeTimer % 33; BeatVol = 0.3125; }
-						else if (Owner.CountInv("LowHealth")) { BeatTimer = TimeFreezeTimer % 27; BeatVol = 0.3875; }
-						else if (Owner.CountInv("CriticalHealth")) { BeatTimer = TimeFreezeTimer % 20; BeatVol = 0.5; }
+						if (Owner.CountInv("NormalHealth")) { BeatTimer = TimeFreezeTimer % 42; BeatVol = 0.25; }
+						else if (Owner.CountInv("DecentHealth")) { BeatTimer = TimeFreezeTimer % 34; BeatVol = 0.3125; }
+						else if (Owner.CountInv("LowHealth")) { BeatTimer = TimeFreezeTimer % 26; BeatVol = 0.3875; }
+						else if (Owner.CountInv("CriticalHealth")) { BeatTimer = TimeFreezeTimer % 18; BeatVol = 0.5; }
 					}
 					if (debugtimefreeze) Console.Printf("BeatTimer: %d", BeatTimer);
 					if (BeatTimer == 0)
@@ -427,6 +549,7 @@ class DinahBackgroundStuff : Inventory
 	{
 		let weapon = owner.player.ReadyWeapon;
 		TrueGameSkill = skill;
+		bool debugdmg = false;
 		
 		// ******************
 		// ******************
@@ -435,8 +558,9 @@ class DinahBackgroundStuff : Inventory
 		// ******************
 		if (!passive && damage > 0) // If the owner [usually the player] of the item is the ATTACKER
 		{
-			Console.Printf("Damage (!passive): %d", damage);
+			if (debugdmg) Console.Printf("Damage (!passive): %d", damage);
 			double LVLFactor = (1.00 + (PlayerLevel * 0.0125));
+			if (debugdmg) Console.Printf("Damage (!passive - Level): %d", damage);
 
 			double SkillFactor = 1.00;
 			if (Skill == SKILL_VERY_HARD) SkillFactor *= 0.75;
@@ -444,14 +568,16 @@ class DinahBackgroundStuff : Inventory
 			if (Skill == SKILL_NORMAL) SkillFactor *= 1.00;
 			if (Skill == SKILL_EASY) SkillFactor *= 1.125;
 			if (Skill == SKILL_VERY_EASY) SkillFactor *= 1.25;
+			if (debugdmg) Console.Printf("Damage (!passive - Skill): %d", damage);
 
 			double BuffFactor = 1.00;
 			if (Owner.CountInv("PowerInvisibility")) BuffFactor *= frandompick(1.00,1.00,1.125,1.125,1.25);
 
-			if (Owner.CountInv("PowerWineBuffWeak")) BuffFactor = floor(BuffFactor * frandompick(0.985,1.015));
-			if (Owner.CountInv("PowerWineBuffStrong")) BuffFactor = floor(BuffFactor * frandompick(0.955,1.045));
-			if (Owner.CountInv("PowerWineBuffStrongest")) BuffFactor = floor(BuffFactor * frandompick(0.91,1.09));
-			if (Owner.CountInv("PowerWineBuffStrongestEven")) BuffFactor = floor(BuffFactor * frandompick(0.85,1.15));
+			if (Owner.CountInv("PowerWineBuffWeak")) BuffFactor *= frandompick(0.985,1.015);
+			if (Owner.CountInv("PowerWineBuffStrong")) BuffFactor *= frandompick(0.955,1.045);
+			if (Owner.CountInv("PowerWineBuffStrongest")) BuffFactor *= frandompick(0.91,1.09);
+			if (Owner.CountInv("PowerWineBuffStrongestEven")) BuffFactor *= frandompick(0.85,1.15);
+			if (debugdmg) Console.Printf("Damage (!passive - Buff): %d", damage);
 			
 			double TOTALFactor = 1.0
 													 * LVLFactor
@@ -459,7 +585,7 @@ class DinahBackgroundStuff : Inventory
 													 * BuffFactor;
 
 			newdamage = max(1, ApplyDamageFactors(GetClass(), damageType, damage, damage * TOTALFactor));
-			Console.Printf("FDamage (!passive): %d", newdamage);
+			if (debugdmg) Console.Printf("FDamage (!passive): %d", newdamage);
 		}
 		
 		// ******************
@@ -471,6 +597,7 @@ class DinahBackgroundStuff : Inventory
 		{
 			Console.Printf("FDamage (passive[pre]): %d", damage);
 			double LVLFactor = (1.00 - (PlayerLevel * 0.0125));
+			if (debugdmg) Console.Printf("Damage (passive - Level): %d", damage);
 
 			double SkillFactor = 1.00;
 			if (Skill == SKILL_VERY_EASY) SkillFactor *= 0.75;
@@ -478,24 +605,25 @@ class DinahBackgroundStuff : Inventory
 			if (Skill == SKILL_NORMAL) SkillFactor *= 1.00;
 			if (Skill == SKILL_HARD) SkillFactor *= 1.125;
 			if (Skill == SKILL_VERY_HARD) SkillFactor *= 1.25;
+			if (debugdmg) Console.Printf("Damage (passive - Skill): %d", damage);
 			
 			double BuffFactor = 1.00;
-			/*
 			if (Owner.CountInv("PowerStrength")) BuffFactor *= frandompick(0.8,0.9,0.9,0.9,1.0);
 			if (Owner.CountInv("PowerInvisibility")) BuffFactor *= frandompick(1.00,1.00,0.875,0.875,0.75);
 
-			if (Owner.CountInv("PowerWineBuffWeak")) BuffFactor = floor(BuffFactor * frandompick(0.995,1.005));
-			if (Owner.CountInv("PowerWineBuffStrong")) BuffFactor = floor(BuffFactor * frandompick(0.985,1.015));
-			if (Owner.CountInv("PowerWineBuffStrongest")) BuffFactor = floor(BuffFactor * frandompick(0.97,1.03));
-			if (Owner.CountInv("PowerWineBuffStrongestEven")) BuffFactor = floor(BuffFactor * frandompick(0.95,1.05));
-			*/
+			if (Owner.CountInv("PowerWineBuffWeak")) BuffFactor *= frandompick(0.995,1.005);
+			if (Owner.CountInv("PowerWineBuffStrong")) BuffFactor *= frandompick(0.985,1.015);
+			if (Owner.CountInv("PowerWineBuffStrongest")) BuffFactor *= frandompick(0.97,1.03);
+			if (Owner.CountInv("PowerWineBuffStrongestEven")) BuffFactor *= frandompick(0.95,1.05);
+			if (debugdmg) Console.Printf("Damage (passive - Buff): %d", damage);
+
 			double TOTALFactor = 1.0
 													 * LVLFactor
 													 * SkillFactor
 													 * BuffFactor;
 
 			newdamage = max(0, ApplyDamageFactors(GetClass(), damageType, damage, damage * TOTALFactor));
-			Console.Printf("FDamage (passive): %d", newdamage);
+			if (debugdmg) Console.Printf("FDamage (passive - Final): %d", newdamage);
 		}
 	}
 	

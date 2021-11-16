@@ -4,7 +4,7 @@ class DinahPlayer : HereticPlayer
 	{
 		Player.DisplayName "Dinah Wyck";
 		Player.SoundClass "DinahPlayer";
-		Player.StartItem "DinahBackgroundStuff";
+		Player.StartItem "PlayerStatItem";
 		Player.StartItem "CricketBat";
 		Player.StartItem "MalletAmmo", 10;
 		Player.Weaponslot 1, "CricketBat";

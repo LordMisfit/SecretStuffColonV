@@ -60,7 +60,9 @@ class DWP_EventHandler : EventHandler
 					e.inflictor.target.A_GiveInventory("ExpPts",ExpGain);
 					int Kills = e.inflictor.target.CountInv("KillsCount"); 
 					int ExpNew = e.inflictor.target.CountInv("ExpPts");
-					Console.Printf("\c[green]+%d EXP! \c[darkgreen][Have: %d] \c[red](Kills: %d)", ExpGain, ExpNew, Kills);
+					int ExpNeeded = e.inflictor.target.CountInv("ExpPtsNeeded");
+					int PlayerLevel = e.inflictor.target.CountInv("PlayerLevel");
+					Console.Printf("\c[green]+%d EXP! \c[darkgreen][Have: %d / %d (Lvl: %d)] \c[red](Kills: %d)", ExpGain, ExpNew, ExpNeeded, PlayerLevel, Kills);
 				}
 
 				// Heal Items

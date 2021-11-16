@@ -227,6 +227,26 @@ class ExpPts : PlaceholderItem
 	}
 }
 
+class ExpPtsNeeded : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 0x7FFFFFFD;
+		+INVENTORY.KEEPDEPLETED 
+	}
+}
+
+class PlayerLevel : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 0x7FFFFFFD;
+		+INVENTORY.KEEPDEPLETED 
+	}
+}
+
 
 class TimeFreezeTimer : PlaceholderItem
 {

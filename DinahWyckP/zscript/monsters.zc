@@ -1,3 +1,25 @@
+class BaronOfHellNew : BaronOfHell replaces BaronOfHell
+{
+	default
+	{
+		DamageFactor "Fire", 0.5;
+		Painchance "Fire", 25;
+		DamageFactor "CherryBomb", 3.75;
+		Painchance "CherryBomb", 187;
+	}
+}
+
+class HellKnightNew : HellKnight replaces HellKnight
+{
+	default
+	{
+		DamageFactor "Fire", 0.5;
+		Painchance "Fire", 25;
+		DamageFactor "CherryBomb", 3.75;
+		Painchance "CherryBomb", 187;
+	}
+}
+
 class LostSoulNew : LostSoul replaces LostSoul
 {
 	default

@@ -1592,7 +1592,7 @@ actor SuperVac : Weapon replaces PlasmaRifle 31980
 	Weapon.Kickback 0
 	Weapon.AmmoType2 "VacAmmo"
 	Weapon.AmmoGive2 0
-	Weapon.AmmoUse2 12
+	Weapon.AmmoUse2 8
 	+WEAPON.MELEEWEAPON
 	+PUFFONACTORS
 	Inventory.Icon "VACMP0"
