@@ -65,6 +65,13 @@ class DinahBackgroundStuff : Inventory
 		else
 		if (playeractor) // Otherwise, Keep
 		{
+			ClassicDoomType = gameinfo.gametype; // 0 = Unknown, 1 = Doom [any], 2 = Heretic, 4 = Hexen, 8 = Strife
+			//Console.Printf("%d", ClassicDoomType);					if (ClassicDoomType == 0) { owner.A_SetInventory("PlayingDoom2",1); } // Doom 2
+			if (ClassicDoomType & 1) { owner.A_SetInventory("PlayingDoom",1); } // Doom 1
+			if (ClassicDoomType & 2) { owner.A_SetInventory("PlayingHeretic",1); } // Heretic
+			if (ClassicDoomType & 4) { owner.A_SetInventory("PlayingHexen",1); } // HeXen
+			if (ClassicDoomType & 8) { owner.A_SetInventory("PlayingStrife",1); } // Strife
+
 			buttons = owner.GetPlayerInput(INPUT_BUTTONS);
 			TrueGameSkill = skill;
 			if (ClassCheck == 0 || SuperVacBagSize <= 0) 
@@ -82,12 +89,12 @@ class DinahBackgroundStuff : Inventory
 			MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
 			
 			// HP Regen/Degen
-			bool hpregendebug = false;
+			bool debughpregen = false;
 			bool hpwillregen = true;
 			bool hpwilldegen = true;
 			if (CurrentHealth > 0)
 			{
-				if (hpregendebug) Console.Printf("Health: %d / %d", CurrentHealth, MaxHealthTrue);
+				if (debughpregen) Console.Printf("Health: %d / %d", CurrentHealth, MaxHealthTrue);
 				
 				//****************************************
 				//*Get Health Ratio & Health Level Checks*
@@ -183,7 +190,7 @@ class DinahBackgroundStuff : Inventory
 								owner.player.health = owner.player.mo.health = CurrentHealth;
 							}
 						}
-						if (hpregendebug) Console.Printf("RegenTimer: %d / %d  (inc: %d)", HPRegenTimer, HPRegenTimerMax, inc);
+						if (debughpregen) Console.Printf("RegenTimer: %d / %d  (inc: %d)", HPRegenTimer, HPRegenTimerMax, inc);
 					}
 					else
 					{
@@ -235,7 +242,7 @@ class DinahBackgroundStuff : Inventory
 								owner.player.health = owner.player.mo.health = CurrentHealth;
 							}
 						}
-						if (hpregendebug) Console.Printf("DegenTimer: %d / %d  (inc: %d)", HPDegenTimer, HPDegenTimerMax, inc);
+						if (debughpregen) Console.Printf("DegenTimer: %d / %d  (inc: %d)", HPDegenTimer, HPDegenTimerMax, inc);
 					}
 					else
 					{
@@ -246,7 +253,7 @@ class DinahBackgroundStuff : Inventory
 				{
 					HPRegenTimer = 0;
 					HPDegenTimer = 0;
-					if (hpregendebug) Console.Printf("Regen/Degen Neutral");
+					if (debughpregen) Console.Printf("Regen/Degen Neutral");
 				}
 			}
 			
@@ -275,16 +282,46 @@ class DinahBackgroundStuff : Inventory
 																			else Console.Printf("    \cgSurvival Rate % Roll / Rate: %d / %d, \cx[cheatbits: %d]", SurviveRNGVal, SurvivalRate, owner.player.cheats);
 			}
 			
+			//
 			// JumpZ
-			if (owner.CountInv("PowerStrength")) PlayerPawn(Owner).JumpZ = 12;
-			else PlayerPawn(Owner).JumpZ = 9;
+			//
+			bool debugjumpz = false;
+			double CharacterJumpZ = 8.25;
+			
+			// Buffs
+			double BuffJumpZ = 1.00;
+			if (owner.CountInv("PowerStrength")) BuffJumpZ *= 1.34;
+			if (owner.CountInv("PowerWineBuffWeak")) BuffJumpZ *= frandom(0.98,1.00);
+			if (owner.CountInv("PowerWineBuffStrong")) BuffJumpZ *= frandom(0.96,1.00);
+			if (owner.CountInv("PowerWineBuffStrongest")) BuffJumpZ *= frandom(0.93,1.00);
+			if (owner.CountInv("PowerWineBuffStrongestEven")) BuffJumpZ *= frandom(0.88,1.00);
+
+			// Level
+			double LevelJumpZ = 1.00;
+			LevelJumpZ += (PlayerLevel * 0.0025);
+
+			// Armor
+			double ArmorJumpZ = 1.00;
+			if (Owner.CountInv("KnightGownItem"))					ArmorJumpZ -= 0.0125;
+			if (Owner.CountInv("KnightGownItem2"))				ArmorJumpZ -= 0.025;
+			if (Owner.CountInv("KnightGownItem3"))				ArmorJumpZ -= 0.0475;
+			if (Owner.CountInv("KnightGownItem4"))				ArmorJumpZ -= 0.0875;
+
+			double TotalJumpZ = CharacterJumpZ
+												* LevelJumpZ
+												* BuffJumpZ
+												* ArmorJumpZ;
+
+			if (debugjumpz) Console.Printf("%.8f (%.8f)", TotalJumpZ, CharacterJumpZ);
+			PlayerPawn(Owner).JumpZ = TotalJumpZ;
+			
 			
 			// SuperVac Ammo
-			bool supervacdebug = false;
+			bool debugsupervacbag = false;
 			int vacammoprev = owner.CountInv("VacAmmo");
 			int vacgiveammo;
 			int vacammocounter = owner.CountInv("VacAmmoCounter");
-			if (supervacdebug) Console.Printf("Vaccum Bag Size: %d / %d", vacammocounter, SuperVacBagSize);
+			if (debugsupervacbag) Console.Printf("Vacuum Bag Size: %d / %d", vacammocounter, SuperVacBagSize);
 			while (vacammocounter >= SuperVacBagSize)
 			{
 				vacammocounter -= SuperVacBagSize;
@@ -333,7 +370,7 @@ class DinahBackgroundStuff : Inventory
 					
 					// Ticks
 					TickTimer = TimeFreezeTimer % 35;
-					if (TickTimer == 0)
+					if (TickTimer == 0 && PrevTimeFreezeTimer != 0)
 					{
 						owner.A_StopSound(CHAN_6); 
 						owner.A_StartSound("TimeStopTick",CHAN_6,CHANF_DEFAULT,frandom[statitem2](0.80,1.20),ATTN_NONE); 
@@ -398,23 +435,31 @@ class DinahBackgroundStuff : Inventory
 		// ******************
 		if (!passive && damage > 0) // If the owner [usually the player] of the item is the ATTACKER
 		{
-			//Console.Printf("Damage (!passive): %d", newdamage);
-			newdamage *= (1.00 + (PlayerLevel * 0.0125));
+			Console.Printf("Damage (!passive): %d", damage);
+			double LVLFactor = (1.00 + (PlayerLevel * 0.0125));
 
-			if (Skill == SKILL_VERY_HARD) newdamage *= 0.75;
-			if (Skill == SKILL_HARD) newdamage *= 0.875;
-			if (Skill == SKILL_NORMAL) newdamage *= 1.00;
-			if (Skill == SKILL_EASY) newdamage *= 1.125;
-			if (Skill == SKILL_VERY_EASY) newdamage *= 1.25;
+			double SkillFactor = 1.00;
+			if (Skill == SKILL_VERY_HARD) SkillFactor *= 0.75;
+			if (Skill == SKILL_HARD) SkillFactor *= 0.875;
+			if (Skill == SKILL_NORMAL) SkillFactor *= 1.00;
+			if (Skill == SKILL_EASY) SkillFactor *= 1.125;
+			if (Skill == SKILL_VERY_EASY) SkillFactor *= 1.25;
 
-			if (Owner.CountInv("PowerInvisibility")) newdamage *= frandompick(1.00,1.00,1.125,1.125,1.25);
+			double BuffFactor = 1.00;
+			if (Owner.CountInv("PowerInvisibility")) BuffFactor *= frandompick(1.00,1.00,1.125,1.125,1.25);
 
-			if (Owner.CountInv("PowerWineBuffWeak")) newdamage = floor(newdamage * frandompick(0.985,1.015));
-			if (Owner.CountInv("PowerWineBuffStrong")) newdamage = floor(newdamage * frandompick(0.955,1.045));
-			if (Owner.CountInv("PowerWineBuffStrongest")) newdamage = floor(newdamage * frandompick(0.91,1.09));
-			if (Owner.CountInv("PowerWineBuffStrongestEven")) newdamage = floor(newdamage * frandompick(0.85,1.15));
+			if (Owner.CountInv("PowerWineBuffWeak")) BuffFactor = floor(BuffFactor * frandompick(0.985,1.015));
+			if (Owner.CountInv("PowerWineBuffStrong")) BuffFactor = floor(BuffFactor * frandompick(0.955,1.045));
+			if (Owner.CountInv("PowerWineBuffStrongest")) BuffFactor = floor(BuffFactor * frandompick(0.91,1.09));
+			if (Owner.CountInv("PowerWineBuffStrongestEven")) BuffFactor = floor(BuffFactor * frandompick(0.85,1.15));
+			
+			double TOTALFactor = 1.0
+													 * LVLFactor
+													 * SkillFactor
+													 * BuffFactor;
 
-			//Console.Printf("FDamage (!passive): %d", newdamage);
+			newdamage = max(1, ApplyDamageFactors(GetClass(), damageType, damage, damage * TOTALFactor));
+			Console.Printf("FDamage (!passive): %d", newdamage);
 		}
 		
 		// ******************
@@ -424,24 +469,33 @@ class DinahBackgroundStuff : Inventory
 		// ******************
 		if (passive && damage > 0) // If the owner [usually the player] of the item is the DEFENDER
 		{
-			//Console.Printf("Damage (passive): %d", newdamage);
-			newdamage *= (1.00 - (PlayerLevel * 0.0125));
+			Console.Printf("FDamage (passive[pre]): %d", damage);
+			double LVLFactor = (1.00 - (PlayerLevel * 0.0125));
 
-			if (Skill == SKILL_VERY_EASY) newdamage *= 0.75;
-			if (Skill == SKILL_EASY) newdamage *= 0.875;
-			if (Skill == SKILL_NORMAL) newdamage *= 1.00;
-			if (Skill == SKILL_HARD) newdamage *= 1.125;
-			if (Skill == SKILL_VERY_HARD) newdamage *= 1.25;
+			double SkillFactor = 1.00;
+			if (Skill == SKILL_VERY_EASY) SkillFactor *= 0.75;
+			if (Skill == SKILL_EASY) SkillFactor *= 0.875;
+			if (Skill == SKILL_NORMAL) SkillFactor *= 1.00;
+			if (Skill == SKILL_HARD) SkillFactor *= 1.125;
+			if (Skill == SKILL_VERY_HARD) SkillFactor *= 1.25;
 			
-			if (Owner.CountInv("PowerStrength")) newdamage *= frandompick(0.8,0.9,0.9,0.9,1.0);
-			if (Owner.CountInv("PowerInvisibility")) newdamage *= frandompick(1.00,1.00,0.875,0.875,0.75);
-			
-			if (Owner.CountInv("PowerWineBuffWeak")) newdamage = floor(newdamage * frandompick(0.995,1.005));
-			if (Owner.CountInv("PowerWineBuffStrong")) newdamage = floor(newdamage * frandompick(0.985,1.015));
-			if (Owner.CountInv("PowerWineBuffStrongest")) newdamage = floor(newdamage * frandompick(0.97,1.03));
-			if (Owner.CountInv("PowerWineBuffStrongestEven")) newdamage = floor(newdamage * frandompick(0.95,1.05));
+			double BuffFactor = 1.00;
+			/*
+			if (Owner.CountInv("PowerStrength")) BuffFactor *= frandompick(0.8,0.9,0.9,0.9,1.0);
+			if (Owner.CountInv("PowerInvisibility")) BuffFactor *= frandompick(1.00,1.00,0.875,0.875,0.75);
 
-			//Console.Printf("FDamage (passive): %d", newdamage);
+			if (Owner.CountInv("PowerWineBuffWeak")) BuffFactor = floor(BuffFactor * frandompick(0.995,1.005));
+			if (Owner.CountInv("PowerWineBuffStrong")) BuffFactor = floor(BuffFactor * frandompick(0.985,1.015));
+			if (Owner.CountInv("PowerWineBuffStrongest")) BuffFactor = floor(BuffFactor * frandompick(0.97,1.03));
+			if (Owner.CountInv("PowerWineBuffStrongestEven")) BuffFactor = floor(BuffFactor * frandompick(0.95,1.05));
+			*/
+			double TOTALFactor = 1.0
+													 * LVLFactor
+													 * SkillFactor
+													 * BuffFactor;
+
+			newdamage = max(0, ApplyDamageFactors(GetClass(), damageType, damage, damage * TOTALFactor));
+			Console.Printf("FDamage (passive): %d", newdamage);
 		}
 	}
 	

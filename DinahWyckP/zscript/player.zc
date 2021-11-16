@@ -5,7 +5,6 @@ class DinahPlayer : HereticPlayer
 		Player.DisplayName "Dinah Wyck";
 		Player.SoundClass "DinahPlayer";
 		Player.StartItem "DinahBackgroundStuff";
-		Player.StartItem "ClassID", 1;
 		Player.StartItem "CricketBat";
 		Player.StartItem "MalletAmmo", 10;
 		Player.Weaponslot 1, "CricketBat";
@@ -100,7 +99,7 @@ class DinahPlayer : HereticPlayer
 
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
-		bool debugdisplays = false;
+		bool debugdisplays = true;
 		
 		Actor AttackingActor;
 		Actor UniqueProjectile;

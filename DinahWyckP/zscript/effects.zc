@@ -156,7 +156,7 @@ class PowerWineBuffWeak : PowerProtection
 {
 	default
 	{
-		DamageFactor 0.8125;
+		DamageFactor "Normal", 0.8125;
 		Inventory.Icon "GBL1A0";
 		Powerup.Duration -5;
 		Powerup.Color "70 2c 52", 0.250;
@@ -167,7 +167,7 @@ class PowerWineBuffStrong : PowerProtection
 {
 	default
 	{
-		DamageFactor 0.625;
+		DamageFactor "Normal", 0.625;
 		Inventory.Icon "GBL2A0";
 		Powerup.Duration -7;
 		Powerup.Color "70 2c 52", 0.325;
@@ -178,7 +178,7 @@ class PowerWineBuffStrongest : PowerProtection
 {
 	default
 	{
-		DamageFactor 0.4375;
+		DamageFactor "Normal", 0.4375;
 		Inventory.Icon "GBL3A0";
 		Powerup.Duration -9;
 		Powerup.Color "70 2c 52", 0.400;
@@ -189,7 +189,7 @@ class PowerWineBuffStrongestEven : PowerProtection
 {
 	default
 	{
-		DamageFactor 0.25;
+		DamageFactor "Normal", 0.25;
 		Inventory.Icon "GBL4A0";
 		Powerup.Duration -12;
 		Powerup.Color "70 2c 52", 0.450;
@@ -334,3 +334,9 @@ class LowHealth : PlaceholderItem { }
 class CriticalHealth : PlaceholderItem { }
 class PlayerIsDead : PlaceholderItem { }
 class PlayerDeathFadeOut : PlaceholderItem { }
+
+class PlayingDoom : PlaceholderItem { } // This works as an inventory flag to indicate the game mode
+class PlayingHeretic : PlaceholderItem { } // This works as an inventory flag to indicate the game mode
+class PlayingHexen : PlaceholderItem { } // This works as an inventory flag to indicate the game mode
+class PlayingStrife : PlaceholderItem { } // This works as an inventory flag to indicate the game mode
+
