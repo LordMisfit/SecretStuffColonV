@@ -66,10 +66,11 @@ class DWP_EventHandler : EventHandler
 				}
 
 				// Heal Items
-				int maxchance = 256;
-				if (AttackName == "BatPuff") maxchance = 128;
+				int basechance = 256;
+				int maxchance = basechance;
+				if (AttackName == "BatPuff") maxchance = (basechance * 0.5);
 				if (AttackName == "BlunderPuff") maxchance = randompick(192,224,256,288,320);
-				if (AttackName == "ApplePuff") maxchance = 192;
+				if (AttackName == "ApplePuff") maxchance = (basechance * 0.75);
 				if (AttackName == "VacPuff") maxchance = 4096;
 				if (random(1,(maxchance)) == 1) e.thing.A_SpawnItemEx("GalaApple",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
 				if (random(1,(maxchance)) == 1) e.thing.A_SpawnItemEx("FoodPlateFruit",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
@@ -78,10 +79,11 @@ class DWP_EventHandler : EventHandler
 				if (random(1,(maxchance*4)) == 1) e.thing.A_SpawnItemEx("Berserk",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
 				
 				// Armor Items
-				maxchance = 512;
-				if (AttackName == "BlunderPuff") maxchance = 8192;
-				if (AttackName == "RecordShot") maxchance = 2048;
-				if (AttackName == "VacPuff") maxchance = 64;
+				basechance = 512;
+				maxchance = basechance;
+				if (AttackName == "BlunderPuff") maxchance = (basechance * 16);
+				if (AttackName == "RecordShot") maxchance = (basechance * 4);
+				if (AttackName == "VacPuff") maxchance = (basechance * 0.125);
 				if (random(1,maxchance) == 1)
 				{
 					//Full Armor Drops
@@ -115,8 +117,10 @@ class DWP_EventHandler : EventHandler
 				}
 				
 				// Random Inventory Item Drops
-				maxchance = 32;
-				if (AttackName == "BatPuff") maxchance = 16;
+				
+				basechance = 32;
+				maxchance = basechance;
+				if (AttackName == "BatPuff") maxchance = (basechance * 0.5);
 				if (AttackName == "ApplePuff") maxchance = randompick(12,14,16,18,20);
 				if (AttackName == "BlunderPuff") maxchance = randompick(24,28,32,36,40);
 				if (AttackName == "RecordShot") maxchance = (randompick(24,28,32,36,40) * 2);
@@ -154,9 +158,9 @@ class DWP_EventHandler : EventHandler
 				if (AttackName == "VacPuff") maxchance = 2048;
 				if (random(1,maxchance) == 1)
 				{
-					user_type = random(1,2);
-					if (user_type == 1) { e.thing.A_SpawnItemEx("TimePotion",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
-					if (user_type == 2) { e.thing.A_SpawnItemEx("TimePotion",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					user_type = random(1,20);
+					if (user_type >= 1 || user_type <= 19) { e.thing.A_SpawnItemEx("TimePotion",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+					if (user_type == 20) { e.thing.A_SpawnItemEx("DoorBell",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
 				}
 				
 				// Killed With Certain Weapons

@@ -68,6 +68,7 @@ class PlayerStatItem : Inventory
 		else
 		if (playeractor) // Otherwise, Keep
 		{
+			let weapon = owner.player.ReadyWeapon;
 			if (playeractor.GetClassName() == "DinahPlayer") CharacterClass == 0;
 
 			ClassicDoomType = gameinfo.gametype; // 0 = Unknown, 1 = Doom [any], 2 = Heretic, 4 = Hexen, 8 = Strife
@@ -93,7 +94,7 @@ class PlayerStatItem : Inventory
 					if (InitEXPTables == 0)
 					{
 						double ExpValue;
-						int BaseEXPRequirement = 25; // clamp(dydu_baseexprequirement, 250, 11200);
+						int BaseEXPRequirement = 100; // clamp(dydu_baseexprequirement, 250, 11200);
 						BaseEXPRequirement *= (0.875 + (TrueGameSkill * 0.0625));
 
 						double BaseExtra = 1; // clamp(dydu_baseexpextra, 0, 100);
@@ -303,7 +304,7 @@ class PlayerStatItem : Inventory
 					{
 						int inc = 20 + (PlayerLevel * 0.05);
 
-						if (owner.CountInv("PowerStrength")) inc = floor(inc * 4);
+						if (owner.CountInv("PowerStrength")) inc = floor(inc * frandom(1.5,2.0));
 
 						if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = floor(inc * 0.4);
 						if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = floor(inc * 0.5);
@@ -348,9 +349,9 @@ class PlayerStatItem : Inventory
 				{
 					if (hpwilldegen)
 					{
-						int inc = 20 - (PlayerLevel * 0.05);
+						int inc = 20 - (PlayerLevel * 0.025);
 						
-						if (owner.CountInv("PowerStrength")) inc = floor(inc * 0.25);
+						if (owner.CountInv("PowerStrength")) inc = floor(inc * frandom(0.5,0.667));
 						
 						if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = floor(inc * 2.5);
 						if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = floor(inc * 2.0);
@@ -435,6 +436,11 @@ class PlayerStatItem : Inventory
 			//
 			bool debugjumpz = false;
 			double CharacterJumpZ = 8.25;
+
+			// Level
+			double LevelJumpZ = 1.00;
+			LevelJumpZ += (PlayerLevel * 0.0025);
+			if (debugjumpz) Console.Printf("JumpZ [Level]: %.8f", LevelJumpZ);
 			
 			// Buffs
 			double BuffJumpZ = 1.00;
@@ -443,10 +449,7 @@ class PlayerStatItem : Inventory
 			if (owner.CountInv("PowerWineBuffStrong")) BuffJumpZ *= frandom(0.96,1.00);
 			if (owner.CountInv("PowerWineBuffStrongest")) BuffJumpZ *= frandom(0.93,1.00);
 			if (owner.CountInv("PowerWineBuffStrongestEven")) BuffJumpZ *= frandom(0.88,1.00);
-
-			// Level
-			double LevelJumpZ = 1.00;
-			LevelJumpZ += (PlayerLevel * 0.0025);
+			if (debugjumpz) Console.Printf("JumpZ [Buffs]: %.8f", BuffJumpZ);
 
 			// Armor
 			double ArmorJumpZ = 1.00;
@@ -454,11 +457,24 @@ class PlayerStatItem : Inventory
 			if (Owner.CountInv("KnightGownItem2"))				ArmorJumpZ -= 0.025;
 			if (Owner.CountInv("KnightGownItem3"))				ArmorJumpZ -= 0.0475;
 			if (Owner.CountInv("KnightGownItem4"))				ArmorJumpZ -= 0.0875;
+			if (debugjumpz) Console.Printf("JumpZ [Armor]: %.8f", ArmorJumpZ);
+
+			// Weapon Checks
+			double WeaponJumpZ = 1.00;
+			If (weapon is "CricketBat") WeaponJumpZ *= 1.00;
+			If (weapon is "BlunderAxe") WeaponJumpZ *= 0.96875;
+			If (weapon is "AppleJack") WeaponJumpZ *= 1.03125;
+			If (weapon is "Scrambler") WeaponJumpZ *= 1.125;
+			If (weapon is "WizardPike") WeaponJumpZ *= 1.0625;
+			If (weapon is "SuperVac") WeaponJumpZ *= 0.9375;
+			If (weapon is "Grimophone") WeaponJumpZ *= 0.875;
+			if (debugjumpz) Console.Printf("JumpZ [WeaponEquipped]: %.8f", WeaponJumpZ);
 
 			double TotalJumpZ = CharacterJumpZ
 												* LevelJumpZ
 												* BuffJumpZ
-												* ArmorJumpZ;
+												* ArmorJumpZ
+												* WeaponJumpZ;
 
 			if (debugjumpz) Console.Printf("%.8f (%.8f, %.8f, %.8f, %.8f)", TotalJumpZ, CharacterJumpZ, LevelJumpZ, BuffJumpZ, ArmorJumpZ);
 			PlayerPawn(Owner).JumpZ = TotalJumpZ;
@@ -536,17 +552,19 @@ class PlayerStatItem : Inventory
 						int BeatInt1 = 42;
 						int BeatInt2 = 34;
 						int BeatInt3 = 26;
-						int BeatInt4 = random(13,15);
+						int BeatInt4 = randompick(13,14,14,14,15);
 						double BeatVol1 = 0.25;
 						double BeatVol2 = 0.3125;
 						double BeatVol3 = 0.3875;
 						double BeatVol4 = 0.5;
+						double BeatBersMulti = 0.875;
+						double BeatBersMulti2 = 1.167;
 						if (owner.CountInv("PowerStrength"))
 						{
-							if (Owner.CountInv("NormalHealth"))					{ BeatTimer = TimeFreezeTimer % (BeatInt1 * 0.75); BeatVol = (BeatVol1 * 1.33); }
-							else if (Owner.CountInv("DecentHealth"))		{ BeatTimer = TimeFreezeTimer % (BeatInt2 * 0.75); BeatVol = (BeatVol2 * 1.33); }
-							else if (Owner.CountInv("LowHealth"))				{ BeatTimer = TimeFreezeTimer % (BeatInt3 * 0.75); BeatVol = (BeatVol3 * 1.33); }
-							else if (Owner.CountInv("CriticalHealth"))	{ BeatTimer = TimeFreezeTimer % (BeatInt4 * 0.75); BeatVol = (BeatVol4 * 1.33); }
+							if (Owner.CountInv("NormalHealth"))					{ BeatTimer = TimeFreezeTimer % (BeatInt1 * BeatBersMulti); BeatVol = (BeatVol1 * BeatBersMulti2); }
+							else if (Owner.CountInv("DecentHealth"))		{ BeatTimer = TimeFreezeTimer % (BeatInt2 * BeatBersMulti); BeatVol = (BeatVol2 * BeatBersMulti2); }
+							else if (Owner.CountInv("LowHealth"))				{ BeatTimer = TimeFreezeTimer % (BeatInt3 * BeatBersMulti); BeatVol = (BeatVol3 * BeatBersMulti2); }
+							else if (Owner.CountInv("CriticalHealth"))	{ BeatTimer = TimeFreezeTimer % (BeatInt4 * BeatBersMulti); BeatVol = (BeatVol4 * BeatBersMulti2); }
 						}
 						else
 						{
@@ -649,6 +667,7 @@ class PlayerStatItem : Inventory
 			double LVLFactor = (1.00 - (PlayerLevel * 0.0125));
 			if (debugdmg) Console.Printf("Damage (passive - Level): %d", damage);
 
+			// Difficulty Level
 			double SkillFactor = 1.00;
 			if (Skill == SKILL_VERY_EASY) SkillFactor *= 0.75;
 			if (Skill == SKILL_EASY) SkillFactor *= 0.875;
@@ -657,6 +676,7 @@ class PlayerStatItem : Inventory
 			if (Skill == SKILL_VERY_HARD) SkillFactor *= 1.25;
 			if (debugdmg) Console.Printf("Damage (passive - Skill): %d", damage);
 			
+			// Buffs
 			double BuffFactor = 1.00;
 			if (Owner.CountInv("PowerStrength")) BuffFactor *= frandompick(0.8,0.9,0.9,0.9,1.0);
 			if (Owner.CountInv("PowerInvisibility")) BuffFactor *= frandompick(1.00,1.00,0.875,0.875,0.75);
@@ -666,6 +686,17 @@ class PlayerStatItem : Inventory
 			if (Owner.CountInv("PowerWineBuffStrongest")) BuffFactor *= frandompick(0.97,1.03);
 			if (Owner.CountInv("PowerWineBuffStrongestEven")) BuffFactor *= frandompick(0.95,1.05);
 			if (debugdmg) Console.Printf("Damage (passive - Buff): %d", damage);
+			
+			// Weapons
+			double WeaponFactor = 1.00;
+			If (weapon is "CricketBat") WeaponFactor = 1.00;
+			If (weapon is "BlunderAxe") WeaponFactor = 1.0625;
+			If (weapon is "AppleJack") WeaponFactor = 0.9375;
+			If (weapon is "Scrambler") WeaponFactor = 0.75;
+			If (weapon is "WizardPike") WeaponFactor = 0.875;
+			If (weapon is "SuperVac") WeaponFactor = 1.125;
+			If (weapon is "Grimophone") WeaponFactor = 1.25;
+			if (debugdmg) Console.Printf("Damage (passive - WeaponEquipped): %d", damage);
 
 			double TOTALFactor = 1.0
 													 * LVLFactor
@@ -679,12 +710,16 @@ class PlayerStatItem : Inventory
 	
 	override double GetSpeedFactor()
 	{
+		bool debugspeed = false;
 		let weapon = owner.player.ReadyWeapon;
 		CurrentHealth = owner.health;
 		MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
 
 		Speed = 1.00;
+		if (debugspeed) Console.Printf("SpeedX [base]: %.8f", Speed);
+
 		Speed *= (1.00 + (PlayerLevel * 0.0125));
+		if (debugspeed) Console.Printf("SpeedX [level]: %.8f", Speed);
 
 		if (CurrentHealth >= (MaxHealthTrue * 3)) Speed *= 1.25;
 		else if (CurrentHealth >= (MaxHealthTrue * 2.75)) Speed *= 1.21875;
@@ -698,6 +733,7 @@ class PlayerStatItem : Inventory
 		else if (CurrentHealth >= (MaxHealthTrue * 0.5)) Speed *= 0.9375;
 		else if (CurrentHealth >= (MaxHealthTrue * 0.25)) Speed *= 0.875;
 		else Speed *= 0.8125;
+		if (debugspeed) Console.Printf("SpeedX [health]: %.8f", Speed);
 
 		if (Owner.CountInv("PowerStrength")) Speed *= 1.125;
 		
@@ -705,13 +741,25 @@ class PlayerStatItem : Inventory
 		if (Owner.CountInv("PowerWineBuffStrong")) Speed *= frandom(0.89,0.91);
 		if (Owner.CountInv("PowerWineBuffStrongest")) Speed *= frandom(0.80,0.84);
 		if (Owner.CountInv("PowerWineBuffStrongestEven")) Speed *= frandom(0.69,0.75);
+		if (debugspeed) Console.Printf("SpeedX [Buffs]: %.8f", Speed);
 
 		if (owner.CountInv("KnightGownItem")) Speed *= 0.99;
 		if (owner.CountInv("KnightGownItem2")) Speed *= 0.97;
 		if (owner.CountInv("KnightGownItem3")) Speed *= 0.94;
 		if (owner.CountInv("KnightGownItem4")) Speed *= 0.90;
+		if (debugspeed) Console.Printf("SpeedX [Armor]: %.8f", Speed);
+		
+		// Weapon Checks
+		If (weapon is "CricketBat") Speed *= 1.00;
+		If (weapon is "BlunderAxe") Speed *= 0.96875;
+		If (weapon is "AppleJack") Speed *= 1.03125;
+		If (weapon is "Scrambler") Speed *= 1.125;
+		If (weapon is "WizardPike") Speed *= 1.0625;
+		If (weapon is "SuperVac") Speed *= 0.9375;
+		If (weapon is "Grimophone") Speed *= 0.875;
+		if (debugspeed) Console.Printf("SpeedX [WeaponEquipped]: %.8f", Speed);
 
-		//Console.Printf("SpeedX: %.8f", Speed);
+		if (debugspeed) Console.Printf("SpeedX [Final]: %.8f", Speed);
 		return Speed; 
 	}
 }

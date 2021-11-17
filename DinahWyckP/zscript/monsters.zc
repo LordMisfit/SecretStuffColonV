@@ -1,72 +1,106 @@
-class CyberdemonNew : Cyberdemon replaces Cyberdemon
+//*****************
+//* Doom specific *
+//*****************
+class ZombiemanNew : Zombieman replaces Zombieman
 {
 	default
 	{
-		Tag "Cyberdemon";
-		DamageFactor "BRocket", 10;
-		Painchance "BRocket", 200;
-		DamageFactor "CherryBomb", 0.5;
-		Painchance "CherryBomb", 10;
-		DamageFactor "Spinner", 1.25;
-		Painchance "Spinner", 25;
-		DamageFactor "Popper", 2.5;
-		Painchance "Popper", 50;
-		DamageFactor "Suck", 0.25;
-		Painchance "Suck", 5;
+		Tag "Zombieman";
+		DamageFactor "Fire", 2.0;
+		Painchance "Fire", 256;
+		DamageFactor "CherryBomb", 1.5;
+		Painchance "CherryBomb", 256;
+		DamageFactor "Chop", 1.25;
+		Painchance "Chop", 250;
 	}
 }
 
-class SpiderMasterMindNew : SpiderMasterMind replaces SpiderMasterMind
+class ShotgunGuyNew : ShotgunGuy replaces ShotgunGuy
 {
 	default
 	{
-		Tag "Spider Mastermind";
-		DamageFactor "BRocket", 10;
-		Painchance "BRocket", 256;
-		DamageFactor "CherryBomb", 0.5;
-		Painchance "CherryBomb", 20;
-		DamageFactor "Spinner", 1.25;
-		Painchance "Spinner", 50;
-		DamageFactor "Popper", 2.5;
-		Painchance "Popper", 100;
-		DamageFactor "Suck", 0.25;
-		Painchance "Suck", 10;
+		Tag "Shotgun Guy";
+		DamageFactor "Fire", 2.0;
+		Painchance "Fire", 256;
+		DamageFactor "CherryBomb", 1.5;
+		Painchance "CherryBomb", 255;
+		DamageFactor "Chop", 1.25;
+		Painchance "Chop", 213;
 	}
 }
 
-class BaronOfHellNew : BaronOfHell replaces BaronOfHell
+class ChaingunGuyNew : ChaingunGuy replaces ChaingunGuy
 {
 	default
 	{
-		Tag "Baron of Hell";
-		DamageFactor "Fire", 0.5;
-		Painchance "Fire", 25;
-		DamageFactor "CherryBomb", 3.75;
-		Painchance "CherryBomb", 187;
-		DamageFactor "BRocket", 2.5;
-		Painchance "BRocket", 125;
-		DamageFactor "Spinner", 2.5;
-		Painchance "Spinner", 125;
+		Tag "Chaingun Guy";
+		DamageFactor "Fire", 2.0;
+		Painchance "Fire", 256;
+		DamageFactor "CherryBomb", 1.5;
+		Painchance "CherryBomb", 255;
+		DamageFactor "Chop", 1.25;
+		Painchance "Chop", 213;
+	}
+}
+class WolfensteinSSNew : WolfensteinSS replaces WolfensteinSS
+{
+	default
+	{
+		Tag "Schutzstaffel";
+		DamageFactor "Fire", 2.0;
+		Painchance "Fire", 256;
+		DamageFactor "CherryBomb", 1.5;
+		Painchance "CherryBomb", 255;
+		DamageFactor "Chop", 1.25;
+		Painchance "Chop", 213;
+	}
+}
+
+class DoomImpNew : DoomImp replaces DoomImp
+{
+	default
+	{
+		Tag "Imp";
+		DamageFactor "Fire", 0.2;
+		Painchance "Fire", 40;
+		DamageFactor "CherryBomb", 0.6;
+		Painchance "CherryBomb", 120;
+		DamageFactor "Chop", 1.5;
+		Painchance "Chop", 256;
+	}
+}
+
+class DemonNew : Demon replaces Demon
+{
+	default
+	{
+		Tag "Pinky Demon";
+		DamageFactor "Fire", 0.75;
+		Painchance "Fire", 135;
 		DamageFactor "Suck", 0.75;
-		Painchance "Suck", 37;
+		Painchance "Suck", 135;
+		DamageFactor "CherryBomb", 0.875;
+		Painchance "CherryBomb", 157;
+		DamageFactor "Chop", 0.875;
+		Painchance "Chop", 157;
+		DamageFactor "Breakfast", 2.5;
+		Painchance "Breakfast", 256;
+		DamageFactor "Bonk", 1.125;
+		Painchance "Bonk", 202;
+		DamageFactor "Cricket", 1.5;
+		Painchance "Cricket", 240;
+		DamageFactor "Dust", 1.5;
+		Painchance "Dust", 240;
 	}
 }
 
-class HellKnightNew : HellKnight replaces HellKnight
+class SpectreNew : DemonNew replaces Spectre
 {
 	default
 	{
-		Tag "Hell Knight";
-		DamageFactor "Fire", 0.5;
-		Painchance "Fire", 25;
-		DamageFactor "CherryBomb", 3.75;
-		Painchance "CherryBomb", 187;
-		DamageFactor "BRocket", 2.5;
-		Painchance "BRocket", 125;
-		DamageFactor "Spinner", 2.5;
-		Painchance "Spinner", 125;
-		DamageFactor "Suck", 0.75;
-		Painchance "Suck", 37;
+		Tag "Pinky Spectre";
+		+SHADOW
+		RenderStyle "OptFuzzy";
 	}
 }
 
@@ -109,6 +143,8 @@ class CacodemonNew : Cacodemon replaces Cacodemon
 		MeleeRange 80;
 		DamageFactor "Fire", 0.25;
 		Painchance "Fire", 32;
+		DamageFactor "Breakfast", 5;
+		Painchance "Breakfast", 256;
 		DamageFactor "Suck", 0.5;
 		Painchance "Suck", 64;
 		DamageFactor "CherryBomb", 0.5;
@@ -143,6 +179,8 @@ class PainElementalNew : PainElemental replaces PainElemental
 		PainChance "Normal", 16;
 		DamageFactor "Fire", 0.5;
 		Painchance "Fire", 8;
+		DamageFactor "Breakfast", 5;
+		Painchance "Breakfast", 80;
 		DamageFactor "Suck", 7.5;
 		Painchance "Suck", 120;
 		DamageFactor "BRocket", 2.5;
@@ -174,31 +212,19 @@ class PainElementalNew : PainElemental replaces PainElemental
 	}
 }
 
-class ArchvileNew : Archvile replaces Archvile
+class RevenantNew : Revenant replaces Revenant
 {
 	default
 	{
-		Tag "Archvile";
-		DamageFactor "Fire", 0.1;
-		Painchance "Fire", 1;
-		DamageFactor "Suck", 3.75;
-		Painchance "Suck", 38;
-		DamageFactor "Bonk", 2.5;
-		Painchance "Bonk", 25;
-		DamageFactor "Cricket", 5;
-		Painchance "Cricket", 5;
-		DamageFactor "Chop", 5.0;
-		Painchance "Chop", 50;
-		DamageFactor "Lead", 1.5;
-		Painchance "Lead", 15;
-		DamageFactor "BRocket", 1.5;
-		Painchance "BRocket", 15;
-		DamageFactor "CherryBomb", 0.25;
-		Painchance "CherryBomb", 2;
-		DamageFactor "Spinner", 1.5;
-		Painchance "Spinner", 15;
-		DamageFactor "Popper", 1.5;
-		Painchance "Popper", 15;
+		Tag "Revenant";
+	}
+}
+
+class ArachnotronNew : Arachnotron replaces Arachnotron
+{
+	default
+	{
+		Tag "Arachnotron";
 	}
 }
 
@@ -231,3 +257,469 @@ class MancubusNew : Fatso replaces Fatso
 		Painchance "Popper", 100;
 	}
 }
+class HellKnightNew : HellKnight replaces HellKnight
+{
+	default
+	{
+		Tag "Hell Knight";
+		DamageFactor "Fire", 0.5;
+		Painchance "Fire", 25;
+		DamageFactor "CherryBomb", 3.75;
+		Painchance "CherryBomb", 187;
+		DamageFactor "BRocket", 2.5;
+		Painchance "BRocket", 125;
+		DamageFactor "Spinner", 2.5;
+		Painchance "Spinner", 125;
+		DamageFactor "Suck", 0.75;
+		Painchance "Suck", 37;
+	}
+}
+
+class BaronOfHellNew : BaronOfHell replaces BaronOfHell
+{
+	default
+	{
+		Tag "Baron of Hell";
+		DamageFactor "Fire", 0.5;
+		Painchance "Fire", 25;
+		DamageFactor "CherryBomb", 3.75;
+		Painchance "CherryBomb", 187;
+		DamageFactor "BRocket", 2.5;
+		Painchance "BRocket", 125;
+		DamageFactor "Spinner", 2.5;
+		Painchance "Spinner", 125;
+		DamageFactor "Suck", 0.75;
+		Painchance "Suck", 37;
+	}
+}
+
+class ArchvileNew : Archvile replaces Archvile
+{
+	default
+	{
+		Tag "Archvile";
+		DamageFactor "Fire", 0.1;
+		Painchance "Fire", 1;
+		DamageFactor "Suck", 3.75;
+		Painchance "Suck", 38;
+		DamageFactor "Bonk", 2.5;
+		Painchance "Bonk", 25;
+		DamageFactor "Cricket", 5;
+		Painchance "Cricket", 5;
+		DamageFactor "Chop", 5.0;
+		Painchance "Chop", 50;
+		DamageFactor "Lead", 1.5;
+		Painchance "Lead", 15;
+		DamageFactor "BRocket", 1.5;
+		Painchance "BRocket", 15;
+		DamageFactor "CherryBomb", 0.25;
+		Painchance "CherryBomb", 2;
+		DamageFactor "Spinner", 1.5;
+		Painchance "Spinner", 15;
+		DamageFactor "Popper", 1.5;
+		Painchance "Popper", 15;
+	}
+}
+
+class CyberdemonNew : Cyberdemon replaces Cyberdemon
+{
+	default
+	{
+		Tag "Cyberdemon";
+		DamageFactor "BRocket", 10;
+		Painchance "BRocket", 200;
+		DamageFactor "CherryBomb", 0.5;
+		Painchance "CherryBomb", 10;
+		DamageFactor "Spinner", 1.25;
+		Painchance "Spinner", 25;
+		DamageFactor "Popper", 2.5;
+		Painchance "Popper", 50;
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 5;
+	}
+}
+
+class SpiderMasterMindNew : SpiderMasterMind replaces SpiderMasterMind
+{
+	default
+	{
+		Tag "Spider Mastermind";
+		DamageFactor "BRocket", 10;
+		Painchance "BRocket", 256;
+		DamageFactor "CherryBomb", 0.5;
+		Painchance "CherryBomb", 20;
+		DamageFactor "Spinner", 1.25;
+		Painchance "Spinner", 50;
+		DamageFactor "Popper", 2.5;
+		Painchance "Popper", 100;
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 10;
+	}
+}
+
+//********************
+//* Heretic specific *
+//********************
+class ChickenNew : Chicken replaces Chicken
+{
+	default
+	{
+	}
+}
+
+class HereticImpNew : HereticImp replaces HereticImp
+{
+	default
+	{
+	}
+}
+
+class HereticImpLeaderNew : HereticImpLeader replaces HereticImpLeader
+{
+	default
+	{
+	}
+}
+
+class MummyNew : Mummy replaces Mummy
+{
+	default
+	{
+	}
+}
+
+class MummyGhostNew : MummyGhost replaces MummyGhost
+{
+	default
+	{
+	}
+}
+
+class MummyLeaderNew : MummyLeader replaces MummyLeader
+{
+	default
+	{
+	}
+}
+
+class MummyLeaderGhostNew : MummyLeaderGhost replaces MummyLeaderGhost
+{
+	default
+	{
+	}
+}
+
+class KnightNew : Knight replaces Knight
+{
+	default
+	{
+	}
+}
+
+class KnightGhostNew : KnightGhost replaces KnightGhost
+{
+	default
+	{
+	}
+}
+
+class WizardNew : Wizard replaces Wizard
+{
+	default
+	{
+	}
+}
+
+class IronLichNew : IronLich replaces IronLich
+{
+	default
+	{
+	}
+}
+
+class BeastNew : Beast replaces Beast
+{
+	default
+	{
+	}
+}
+
+class ClinkNew : Clink replaces Clink
+{
+	default
+	{
+	}
+}
+
+class MinotaurNew : Minotaur replaces Minotaur
+{
+	default
+	{
+	}
+}
+
+class SnakeNew : Snake replaces Snake
+{
+	default
+	{
+	}
+}
+
+class Sorcerer1New : Sorcerer1 replaces Sorcerer1
+{
+	default
+	{
+	}
+}
+
+class Sorcerer2New : Sorcerer2 replaces Sorcerer2
+{
+	default
+	{
+	}
+}
+
+//******************
+//* Hexen specific *
+//******************
+class PigNew : Pig replaces Pig
+{
+	default
+	{
+	}
+}
+
+class FireDemonNew : FireDemon replaces FireDemon
+{
+	default
+	{
+	}
+}
+
+class EttinNew : Ettin replaces Ettin
+{
+	default
+	{
+	}
+}
+
+class EttinMashNew : EttinMash replaces EttinMash
+{
+	default
+	{
+	}
+}
+
+class CentaurNew : Centaur replaces Centaur
+{
+	default
+	{
+	}
+}
+
+class CentaurMashNew : CentaurMash replaces CentaurMash
+{
+	default
+	{
+	}
+}
+
+class CentaurLeaderNew : CentaurLeader replaces CentaurLeader
+{
+	default
+	{
+	}
+}
+
+class Demon1New : Demon1 replaces Demon1
+{
+	default
+	{
+	}
+}
+class Demon1MashNew : Demon1Mash replaces Demon1Mash
+{
+	default
+	{
+	}
+}
+
+class Demon2New : Demon2 replaces Demon2
+{
+	default
+	{
+	}
+}
+
+class Demon2MashNew : Demon2Mash replaces Demon2Mash
+{
+	default
+	{
+	}
+}
+
+class IceGuyNew : IceGuy replaces IceGuy
+{
+	default
+	{
+	}
+}
+
+class SerpentLeaderNew : SerpentLeader replaces SerpentLeader
+{
+	default
+	{
+	}
+}
+
+class SerpentNew : Serpent replaces Serpent
+{
+	default
+	{
+	}
+}
+
+class BishopNew : Bishop replaces Bishop
+{
+	default
+	{
+	}
+}
+
+class WraithNew : Wraith replaces Wraith
+{
+	default
+	{
+	}
+}
+
+class WraithBuriedNew : WraithBuried replaces WraithBuried
+{
+	default
+	{
+	}
+}
+
+class DragonNew : Dragon replaces Dragon
+{
+	default
+	{
+	}
+}
+
+class ClericBossNew : ClericBoss replaces ClericBoss
+{
+	default
+	{
+	}
+}
+
+class FighterBossNew : FighterBoss replaces FighterBoss
+{
+	default
+	{
+	}
+}
+
+class MageBossNew : MageBoss replaces MageBoss
+{
+	default
+	{
+	}
+}
+
+class KoraxNew : Korax replaces Korax
+{
+	default
+	{
+	}
+}
+
+class MinotaurFriendNew : MinotaurFriend replaces MinotaurFriend
+{
+	default
+	{
+	}
+}
+
+//*******************
+//* Strife specific *
+//*******************
+
+class AcolyteNew : Acolyte replaces Acolyte
+{
+	default
+	{
+	}
+}
+
+class AcolyteTanNew : AcolyteTan replaces AcolyteTan
+{
+	default
+	{
+	}
+}
+
+class AcolyteRedNew : AcolyteRed replaces AcolyteRed
+{
+	default
+	{
+	}
+}
+
+class AcolyteRustNew : AcolyteRust replaces AcolyteRust
+{
+	default
+	{
+	}
+}
+
+class AcolyteGrayNew : AcolyteGray replaces AcolyteGray
+{
+	default
+	{
+	}
+}
+
+class AcolyteDGreenNew : AcolyteDGreen replaces AcolyteDGreen
+{
+	default
+	{
+	}
+}
+
+class AcolyteGoldNew : AcolyteGold replaces AcolyteGold
+{
+	default
+	{
+	}
+}
+
+class AcolyteLGreenNew : AcolyteLGreen replaces AcolyteLGreen
+{
+	default
+	{
+	}
+}
+
+class AcolyteBlueNew : AcolyteBlue replaces AcolyteBlue
+{
+	default
+	{
+	}
+}
+
+class AcolyteShadowNew : AcolyteShadow replaces AcolyteShadow
+{
+	default
+	{
+	}
+}
+
+class AcolyteToBeNew : AcolyteToBe replaces AcolyteToBe
+{
+	default
+	{
+	}
+}
+// TBC :V
