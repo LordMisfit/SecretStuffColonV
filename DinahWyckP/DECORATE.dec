@@ -1527,6 +1527,21 @@ ACTOR RecordShot
 	+FORCERADIUSDMG
 	//+NOEXTREMEDEATH
 	RENDERSTYLE Normal
+
+	+BOUNCEONWALLS
+	+BOUNCEONFLOORS
+	+BOUNCEONCEILINGS
+	+BOUNCEONACTORS
+	+NOBOUNCESOUND
+	+EXPLODEONWATER
+	+DONTBOUNCEONSHOOTABLES
+	+SKYEXPLODE
+	+CANBOUNCEWATER
+	BounceType "Hexen"
+	BounceFactor 1.03125
+	WallBounceFactor 1.03125
+	BounceCount 2
+
 	SeeSound "axe/throw"
 	DeathSound "axe/hit"
 	States
@@ -1800,6 +1815,7 @@ ACTOR CherryBombPickup : CustomInventory replaces RocketAmmo 12011
 	+INVENTORY.PERSISTENTPOWER
 	+INVENTORY.KEEPDEPLETED
 	+FLOATBOB
+	+DONTGIB
 	States
 	{
 		Spawn:
@@ -1939,6 +1955,7 @@ ACTOR BRocketPickup : CustomInventory 12017
 	+INVENTORY.PERSISTENTPOWER
 	+INVENTORY.KEEPDEPLETED
 	+FLOATBOB
+	+DONTGIB
 	States
 	{
 		Spawn:
@@ -2069,6 +2086,7 @@ ACTOR SpinnerPickup : CustomInventory 12018
 	+INVENTORY.PERSISTENTPOWER
 	+INVENTORY.KEEPDEPLETED
 	+FLOATBOB
+	+DONTGIB
 	States
 	{
 		Spawn:
@@ -2132,6 +2150,7 @@ ACTOR PopperPickup : CustomInventoryExt 13019
 	+INVENTORY.PERSISTENTPOWER
 	+INVENTORY.KEEPDEPLETED
 	+FLOATBOB
+	+DONTGIB
 	States
 	{
 		Spawn:
@@ -2277,6 +2296,7 @@ ACTOR SnakePickup : CustomInventory 12091
 	+INVENTORY.PERSISTENTPOWER
 	+INVENTORY.KEEPDEPLETED
 	+FLOATBOB
+	+DONTGIB
 	States
 	{
 		Spawn:
@@ -2331,6 +2351,7 @@ ACTOR ArmorScrap : ArmorBonus replaces ArmorBonus
 	Armor.SaveAmount 1
 	Armor.MaxSaveAmount 1000 //500
 	+FLOATBOB
+	+DONTGIB
 	States
 	{
 		Spawn:
@@ -2379,6 +2400,7 @@ ACTOR ArmorScrap2 : ArmorScrap
 	Armor.SaveAmount 1
 	Armor.MaxSaveAmount 1000 //500
 	+FLOATBOB
+	+DONTGIB
 	States
 	{
 		Spawn:
@@ -2396,6 +2418,7 @@ ACTOR ArmorScrap3 : ArmorScrap2
 	Armor.SaveAmount 1
 	Armor.MaxSaveAmount 1000 //500
 	+FLOATBOB
+	+DONTGIB
 	States
 	{
 		Spawn:
@@ -2406,6 +2429,7 @@ ACTOR ArmorScrap3 : ArmorScrap2
 
 ACTOR KnightGownSpawner : RandomSpawner2 replaces GreenArmor 15017
 {
+	+DONTGIB
 	DropItem "KnightGown", 256, 56
 	DropItem "KnightGown2", 256, 7
 	DropItem "KnightGown3", 256, 1
@@ -2423,6 +2447,8 @@ ACTOR KnightGown : SilverShield
   Armor.SavePercent 50
   Armor.SaveAmount 125
 	Scale 0.5
+	+DONTGIB
+	+FLOATBOB
 	Tag "Knight-Gown"
 	States
 	{
@@ -2447,6 +2473,8 @@ ACTOR KnightGown2 : EnchantedShield
   Armor.SavePercent 75
   Armor.SaveAmount 250
 	Scale 0.5
+	+DONTGIB
+	+FLOATBOB
 	Tag "Expert's Knight-Gown"
 	States
 	{
@@ -2465,6 +2493,8 @@ ACTOR KnightGown3 : EnchantedShield
   Armor.SavePercent 87.5
   Armor.SaveAmount 500
 	Scale 0.5
+	+DONTGIB
+	+FLOATBOB
 	Tag "Master's Knight-Gown"
 	States
 	{
@@ -2476,6 +2506,7 @@ ACTOR KnightGown3 : EnchantedShield
 
 ACTOR WineArmor : BasicArmorPickup
 {
+	+DONTGIB
 	+FLOATBOB
 	Inventory.PickupMessage "One little sip won't hurt..."
 	Inventory.Icon "WINEI0"
@@ -2511,7 +2542,8 @@ actor DivingHelm : PowerupGiver 15126
 	+INVENTORY.HUBPOWER
 	+INVENTORY.PERSISTENTPOWER
 	+INVENTORY.KEEPDEPLETED
-	+FloatBob
+	+DONTGIB
+	+FLOATBOB
 	Inventory.Icon "DIVRI0"
 	Tag "Chic Diving Helmet"
 	states
@@ -2536,6 +2568,7 @@ ACTOR PalaceKey : PuzzleItem 12015
 	+INVENTORY.HUBPOWER
 	+INVENTORY.PERSISTENTPOWER
 	+INVENTORY.KEEPDEPLETED
+	+DONTGIB
 	+FLOATBOB
 	States
 	{
@@ -2554,6 +2587,7 @@ ACTOR ClockGear : PuzzleItem 12016
 	Inventory.PickupSound "Dinah/allowme"
 	PuzzleItem.Number 2
 	Tag "Clock Gear"
+	+DONTGIB
 	+FLOATBOB
 	States
 	{
@@ -2579,6 +2613,7 @@ ACTOR ArcadeChip : PuzzleItem 13020
 	+INVENTORY.HUBPOWER
 	+INVENTORY.PERSISTENTPOWER
 	+INVENTORY.KEEPDEPLETED
+	+DONTGIB
 	+FLOATBOB
 	-NOGRAVITY
 	States
@@ -2603,6 +2638,7 @@ ACTOR DoorBell : CustomInventory 13126
 	+INVENTORY.HUBPOWER
 	+INVENTORY.PERSISTENTPOWER
 	+INVENTORY.KEEPDEPLETED
+	+DONTGIB
 	+FLOATBOB
 	States
 	{
@@ -10819,7 +10855,8 @@ Actor TimePotion : CustomInventory 13162
 	Inventory.PickupMessage "\c[gold]'Essence of Time?' Hmm..."
 	Tag "Essence of Time"
 	Inventory.Icon "TIMPI0"
-	+FloatBob
+	+FLOATBOB
+	+DONTGIB
 	+INVENTORY.INVBAR
 	+INVENTORY.HUBPOWER
 	+INVENTORY.PERSISTENTPOWER

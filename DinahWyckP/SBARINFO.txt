@@ -17,31 +17,35 @@ statusbar fullscreen, fullscreenoffsets
 {
 	//health
 	drawimage "ARTIWINE", 64, -4, centerbottom; // 48, -3
-	drawnumber 2147483647, BIGFONT, brick, health, drawshadow, interpolate(8), 48, -26, 1; // 41, -21
+	drawnumber 2147483647, BIGFONT, brick, health, drawshadow(1, 1), interpolate(8), 48, -26, 1; // 41, -21
 	drawstring "SMALLFONT", brick, "/", 16, -17, 1;
-	drawnumber 2147483647, SMALLFONT, brick, "PlayerMaxHP", drawshadow, interpolate(8), 48, -13, 1; // 41, -21
+	drawnumber 2147483647, SMALLFONT, brick, "PlayerMaxHP", drawshadow(2, 2), interpolate(8), 48, -13, 1; // 41, -21
 
 	//armor
 	drawimage armoricon, 64, -32, centerbottom; // 52, -24
-	drawnumber 2147483647, BIGFONT, untranslated, armor, drawshadow, whennotzero, 48, -57, 1; // 41, -43
+	drawnumber 2147483647, BIGFONT, untranslated, armor, drawshadow(1, 1), whennotzero, 48, -57, 1; // 41, -43
 	InInventory "KnightGownItem", 1
 	{
-		drawnumber 2147483647, BIGFONT, Purple, armor, drawshadow, whennotzero, 48, -57, 1; // 41, -43
+		drawnumber 2147483647, BIGFONT, Purple, armor, drawshadow(1, 1), whennotzero, 48, -57, 1; // 41, -43
 		drawstring "SMALLFONT", Purple, "/", 16, -49, 1;
 		drawstring "SMALLFONT", Purple, "250", 48, -44, 1;
 	}
 	InInventory "KnightGownItem2", 1
 	{
-		drawnumber 2147483647, BIGFONT, Cyan, armor, drawshadow, whennotzero, 48, -57, 1; // 41, -43
+		drawnumber 2147483647, BIGFONT, Cyan, armor, drawshadow(1, 1), whennotzero, 48, -57, 1; // 41, -43
 		drawstring "SMALLFONT", Cyan, "/", 16, -49, 1;
 		drawstring "SMALLFONT", Cyan, "500", 48, -44, 1;
 	}
 	InInventory "KnightGownItem3", 1
 	{
-		drawnumber 2147483647, BIGFONT, Gold, armor, drawshadow, whennotzero, 48, -57, 1; // 41, -43
+		drawnumber 2147483647, BIGFONT, Gold, armor, drawshadow(1, 1), whennotzero, 48, -57, 1; // 41, -43
 		drawstring "SMALLFONT", Gold, "/", 16, -49, 1;
 		drawstring "SMALLFONT", Gold, "1000", 48, -44, 1;
 	}
+
+	//level
+	drawstring "SMALLFONT", gray, "LVL", 48, -90, 1;
+	drawnumber 2147483647, BIGFONT, gray, "PlayerLevel", drawshadow(1, 1), interpolate(8), 48, -82, 1; // 41, -21
 
 	//frags/keys
 	gamemode deathmatch
