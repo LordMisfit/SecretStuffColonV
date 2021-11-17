@@ -315,3 +315,5 @@ $limit TimeStopTick 2
 
 getberserkpack    BERSPKUP
 getberserkpack2   BERSPKU2
+
+caco/melee dsdembit

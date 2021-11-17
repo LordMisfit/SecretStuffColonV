@@ -24,6 +24,9 @@ class DinahPlayer : HereticPlayer
 		Player.ViewHeight 37;
 		Player.InvulnerabilityMode "Reflective";
 		species "Players";
+		Health 87; // 100
+		Player.MaxHealth 87;
+		Player.MugShotMaxHealth -1; // 100
 		Scale 0.875;
 		Mass 64;
 		Height 50;
@@ -310,6 +313,15 @@ class DinahPlayer : HereticPlayer
 			if (debugdisplays) Console.Printf("PDamage [Berserk Effects]: %d", damage, olddmg);
 		}
 		
+		if (CountInv("PowerTimeFreezer") || CountInv("TimePotionTimeFreezer"))
+		{
+			if (mod == 'Slime' || mod == 'Magma')
+			{
+				if (debugdisplays) Console.Printf("PDamage [TimeFreeze on Slime abort]");
+				return 0;
+			}
+		}
+		
 		int armoramt = CountInv("BasicArmor");
 		if (debugdisplays) Console.Printf("PDamage [Final] - Final Damage: %d", damage);
 		
@@ -333,7 +345,7 @@ class DinahPlayer : HereticPlayer
 		{
 			double MaxHealthTrue = CountInv("PlayerMaxHP");
 			double HealthRatio = health / MaxHealthTrue;
-			Console.Printf("%.8f", HealthRatio);
+			// Console.Printf("%.8f", HealthRatio);
 			if (health > 0)
 			{
 				if (HealthRatio >= 0.667) A_StartSound("Dinah/Pain1",CHAN_VOICE,CHANF_DEFAULT,1.0,ATTN_NORM);

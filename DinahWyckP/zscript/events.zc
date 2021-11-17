@@ -192,8 +192,22 @@ class DWP_EventHandler : EventHandler
 		S_ChangeMusic("*", 0, false, true);
 		Super.PlayerRespawned(e);
 	}
+
 }
 
 class DWP_StaticEventHandler : StaticEventHandler
 {
+	override void WorldLoaded(WorldEvent evt) 
+	{
+		bool debugworldloaded = false;
+		if (gameinfo.gametype & GAME_Raven)
+		{
+			for (let i = 0, l = level.Sectors.Size(); i < l; i++)
+			{
+				if (debugworldloaded) Console.Printf("    \czFireFloorAdjuster\c-: %d / %d", i, l);
+				if (level.Sectors[i].damagetype == 'Fire' || level.Sectors[i].damagetype == 'Lava')
+						level.Sectors[i].damagetype = 'Magma';
+			}
+		}
+	}
 }

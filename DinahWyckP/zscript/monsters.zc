@@ -1,11 +1,54 @@
+class CyberdemonNew : Cyberdemon replaces Cyberdemon
+{
+	default
+	{
+		Tag "Cyberdemon";
+		DamageFactor "BRocket", 10;
+		Painchance "BRocket", 200;
+		DamageFactor "CherryBomb", 0.5;
+		Painchance "CherryBomb", 10;
+		DamageFactor "Spinner", 1.25;
+		Painchance "Spinner", 25;
+		DamageFactor "Popper", 2.5;
+		Painchance "Popper", 50;
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 5;
+	}
+}
+
+class SpiderMasterMindNew : SpiderMasterMind replaces SpiderMasterMind
+{
+	default
+	{
+		Tag "Spider Mastermind";
+		DamageFactor "BRocket", 10;
+		Painchance "BRocket", 256;
+		DamageFactor "CherryBomb", 0.5;
+		Painchance "CherryBomb", 20;
+		DamageFactor "Spinner", 1.25;
+		Painchance "Spinner", 50;
+		DamageFactor "Popper", 2.5;
+		Painchance "Popper", 100;
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 10;
+	}
+}
+
 class BaronOfHellNew : BaronOfHell replaces BaronOfHell
 {
 	default
 	{
+		Tag "Baron of Hell";
 		DamageFactor "Fire", 0.5;
 		Painchance "Fire", 25;
 		DamageFactor "CherryBomb", 3.75;
 		Painchance "CherryBomb", 187;
+		DamageFactor "BRocket", 2.5;
+		Painchance "BRocket", 125;
+		DamageFactor "Spinner", 2.5;
+		Painchance "Spinner", 125;
+		DamageFactor "Suck", 0.75;
+		Painchance "Suck", 37;
 	}
 }
 
@@ -13,10 +56,17 @@ class HellKnightNew : HellKnight replaces HellKnight
 {
 	default
 	{
+		Tag "Hell Knight";
 		DamageFactor "Fire", 0.5;
 		Painchance "Fire", 25;
 		DamageFactor "CherryBomb", 3.75;
 		Painchance "CherryBomb", 187;
+		DamageFactor "BRocket", 2.5;
+		Painchance "BRocket", 125;
+		DamageFactor "Spinner", 2.5;
+		Painchance "Spinner", 125;
+		DamageFactor "Suck", 0.75;
+		Painchance "Suck", 37;
 	}
 }
 
@@ -24,19 +74,103 @@ class LostSoulNew : LostSoul replaces LostSoul
 {
 	default
 	{
+		Tag "Lost Soul";
 		DamageFactor "Fire", 0.334;
 		Painchance "Fire", 85;
 		DamageFactor "Suck", 15;
 		Painchance "Suck", 256;
-		DamageFactor "Bonk", 2.5;
+		DamageFactor "Bonk", 1.25;
 		Painchance "Bonk", 256;
-		DamageFactor "Cricket", 5;
+		DamageFactor "Cricket", 2.5;
 		Painchance "Cricket", 256;
-		DamageFactor "Chop", 7.5;
+		DamageFactor "Chop", 5;
 		Painchance "Chop", 256;
 		DamageFactor "Lead", 0.5;
 		Painchance "Lead", 128;
+		DamageFactor "Dust", 0.25;
+		Painchance "Dust", 64;
+		DamageFactor "CherryBomb", 0.25;
+		Painchance "CherryBomb", 64;
+		DamageFactor "BRocket", 0.5;
+		Painchance "BRocket", 128;
+		DamageFactor "Spinner", 1.25;
+		Painchance "Spinner", 256;
+		DamageFactor "Popper", 2.5;
+		Painchance "Popper", 256;
 		//-RETARGEAFTERNSLAM
+	}
+}
+
+class CacodemonNew : Cacodemon replaces Cacodemon
+{
+	default
+	{
+		Tag "Cacodemon";
+		MeleeRange 80;
+		DamageFactor "Fire", 0.25;
+		Painchance "Fire", 32;
+		DamageFactor "Suck", 0.5;
+		Painchance "Suck", 64;
+		DamageFactor "CherryBomb", 0.5;
+		Painchance "CherryBomb", 64;
+		DamageFactor "BRocket", 2.5;
+		Painchance "BRocket", 40;
+		DamageFactor "Spinner", 3.75;
+		Painchance "Spinner", 256;
+		DamageFactor "Dust", 5;
+		Painchance "Dust", 256;
+		DamageFactor "Popper", 0.25;
+		Painchance "Popper", 32;
+	}
+
+	States
+	{
+		Melee:
+		Missile:
+			HEAD B 5 A_FaceTarget;
+			HEAD C 5 A_FaceTarget;
+			HEAD D 5 BRIGHT A_CustomComboAttack("CacodemonBall", 32, 10 * random(1, 6), "caco/melee");
+			Goto See;
+	}
+}
+
+class PainElementalNew : PainElemental replaces PainElemental
+{
+	default
+	{
+		Tag "Pain Elemental";
+		MeleeRange 80;
+		PainChance "Normal", 16;
+		DamageFactor "Fire", 0.5;
+		Painchance "Fire", 8;
+		DamageFactor "Suck", 7.5;
+		Painchance "Suck", 120;
+		DamageFactor "BRocket", 2.5;
+		Painchance "BRocket", 40;
+		DamageFactor "Dust", 5;
+		Painchance "Dust", 80;
+		//-RETARGEAFTERNSLAM
+	}
+	
+	States
+	{
+		Melee:
+		Missile:
+			PAIN D 5 A_FaceTarget;
+			PAIN E 5 A_FaceTarget;
+			PAIN F 5 BRIGHT A_FaceTarget;
+			PAIN F 0 BRIGHT 
+			{
+				if (CheckMeleeRange()) 
+				{ 
+					A_CustomMeleeAttack(10*random(1,6),"caco/melee","none","Melee",true);
+				}
+				else
+				{
+					A_PainAttack();
+				}
+			}
+			Goto See;
 	}
 }
 
@@ -44,17 +178,56 @@ class ArchvileNew : Archvile replaces Archvile
 {
 	default
 	{
-		DamageFactor "Fire", 0.334;
-		Painchance "Fire", 3;
-		DamageFactor "Suck", 15;
-		Painchance "Suck", 150;
+		Tag "Archvile";
+		DamageFactor "Fire", 0.1;
+		Painchance "Fire", 1;
+		DamageFactor "Suck", 3.75;
+		Painchance "Suck", 38;
 		DamageFactor "Bonk", 2.5;
 		Painchance "Bonk", 25;
 		DamageFactor "Cricket", 5;
 		Painchance "Cricket", 5;
-		DamageFactor "Chop", 7.5;
-		Painchance "Chop", 75;
-		DamageFactor "Lead", 0.5;
-		Painchance "Lead", 5;
+		DamageFactor "Chop", 5.0;
+		Painchance "Chop", 50;
+		DamageFactor "Lead", 1.5;
+		Painchance "Lead", 15;
+		DamageFactor "BRocket", 1.5;
+		Painchance "BRocket", 15;
+		DamageFactor "CherryBomb", 0.25;
+		Painchance "CherryBomb", 2;
+		DamageFactor "Spinner", 1.5;
+		Painchance "Spinner", 15;
+		DamageFactor "Popper", 1.5;
+		Painchance "Popper", 15;
+	}
+}
+
+class MancubusNew : Fatso replaces Fatso
+{
+	default
+	{
+		Tag "Mancubus";
+		DamageFactor "Fire", 0.667;
+		Painchance "Fire", 53;
+		DamageFactor "Suck", 0.5;
+		Painchance "Suck", 40;
+		DamageFactor "Bonk", 3.75;
+		Painchance "Bonk", 256;
+		DamageFactor "Cricket", 0.5;
+		Painchance "Cricket", 40;
+		DamageFactor "Chop", 5;
+		Painchance "Chop", 256;
+		DamageFactor "Lead", 1.25;
+		Painchance "Lead", 100;
+		DamageFactor "Dust", 1.5;
+		Painchance "Dust", 120;
+		DamageFactor "BRocket", 1.5;
+		Painchance "BRocket", 256;
+		DamageFactor "CherryBomb", 2;
+		Painchance "CherryBomb", 160;
+		DamageFactor "Spinner", 1.75;
+		Painchance "Spinner", 140;
+		DamageFactor "Popper", 1.25;
+		Painchance "Popper", 100;
 	}
 }

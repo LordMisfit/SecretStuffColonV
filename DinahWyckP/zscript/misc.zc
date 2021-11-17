@@ -176,15 +176,40 @@ class PlayerStatItem : Inventory
 				{
 					if (PlayerLevel < LevelCap)
 					{
-						StatIncrease = randompick(1,1,1,1,2,2,3);
-						owner.player.mo.stamina += StatIncrease;
-						owner.player.mo.health += StatIncrease;
+						levelmodulo = PlayerLevel % 20;
+						if (levelmodulo == 0) levelbonustype = 0;
+						else if (levelmodulo == 4) levelbonustype = 1;
+						else if (levelmodulo == 5) levelbonustype = randompick(2,2,2,2,1);
+						else if (levelmodulo == 8) levelbonustype = 1;
+						else if (levelmodulo == 10) levelbonustype = randompick(2,2,2,2,1);
+						else if (levelmodulo == 12) levelbonustype = 1;
+						else if (levelmodulo == 15) levelbonustype = randompick(2,2,2,2,1);
+						else if (levelmodulo == 16) levelbonustype = 1;
+						else levelbonustype = 2;
+						
+						// Health/HP Boost
+						CurrentHealth = owner.health;
+						int LevelAddMaxHP = 0;
+						int HPMaxGain;
+						int HPRandomizer1;
+
+						HPMaxGain += randompick(1,1,1,1,2,2,3);
+						if (levelbonustype == 0) HPMaxGain += randompick(1,1,2,2,2,3,3);
+						if (levelbonustype == 1) HPMaxGain += randompick(1,1,1,2,2,2,3);
+						if (levelbonustype == 2) HPMaxGain += randompick(0,0,0,0,1,1,2);
+						if (TrueGameSkill <= SKILL_VERY_EASY) HPMaxGain += (MaxHealthTrue / 80); // 288
+						if (TrueGameSkill == SKILL_EASY) HPMaxGain += (MaxHealthTrue / 90); // 360
+						if (TrueGameSkill == SKILL_NORMAL) HPMaxGain += (MaxHealthTrue / 100); // 432
+						if (TrueGameSkill == SKILL_HARD) HPMaxGain += (MaxHealthTrue / 110); // 504
+						if (TrueGameSkill == SKILL_VERY_HARD) HPMaxGain += (MaxHealthTrue / 120); // 576
+						owner.player.mo.stamina += HPMaxGain;
+						owner.player.mo.health += HPMaxGain;
 						MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
 
 						PlayerLevel += 1;
 						owner.A_StartSound("misc/bellring",101,CHANF_DEFAULT,frandom(0.6,0.75),ATTN_NORM,frandom(1.25,1.5));
 						owner.A_SetInventory("PlayerLevel",PlayerLevel);
-						owner.A_Print(String.Format("\c[Green]Congradulations, you've reached Level %d \c[brick][+%d HP]", PlayerLevel, StatIncrease));
+						owner.A_Print(String.Format("\c[Green]Congradulations, you've reached Level %d \c[brick][+%d HP]", PlayerLevel, HPMaxGain));
 						owner.A_SetBlend("00 00 FF",0.3,3,"00 00 FF",0.0);
 					}
 				}
@@ -620,7 +645,7 @@ class PlayerStatItem : Inventory
 		// ******************
 		if (passive && damage > 0) // If the owner [usually the player] of the item is the DEFENDER
 		{
-			Console.Printf("FDamage (passive[pre]): %d", damage);
+			if (debugdmg) Console.Printf("FDamage (passive[pre]): %d", damage);
 			double LVLFactor = (1.00 - (PlayerLevel * 0.0125));
 			if (debugdmg) Console.Printf("Damage (passive - Level): %d", damage);
 

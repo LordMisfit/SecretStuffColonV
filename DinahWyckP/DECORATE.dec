@@ -1719,6 +1719,34 @@ ACTOR VacShot
 	Damage 20
 	Scale 1
 	PROJECTILE
+	DamageType "Dust"
+	DONTHURTSHOOTER
+	RENDERSTYLE "Normal"
+	seesound "Weapons/RocketFire"
+	deathsound "croquet/ballhit"
+	+RIPPER
+	+FORCERADIUSDMG
+	//+NOEXTREMEDEATH
+	States
+	{
+		Spawn:
+			VSHT ABC 3 Bright A_Explode(41,64,0,0,16)
+			loop
+		Death:
+			TNT1 A 4 A_Explode(82,128,0,0,32)
+			stop
+	}
+}
+
+ACTOR VacShot2 
+{
+	Radius 3
+	Height 8
+	Speed 20
+	Damage 20
+	Scale 1
+	PROJECTILE
+	DamageType "Dust"
 	DONTHURTSHOOTER
 	RENDERSTYLE "Normal"
 	seesound "Weapons/RocketFire"
@@ -1928,7 +1956,7 @@ ACTOR BRocketShot
 	Height 8
 	Speed 60
 	Damage 20
-	DamageType "Fire"
+	DamageType "BRocket"
 	Projectile
 	renderstyle normal
 	+RANDOMIZE
@@ -1978,7 +2006,7 @@ actor BRocketBoom1
 {
 	radius 10
 	height 12
-	DamageType "Fire"
+	DamageType "BRocket"
 	speed 0
 	Scale 2
 	renderstyle Add
@@ -2003,7 +2031,7 @@ actor BRocketBoom2
 {
 	radius 10
 	height 12
-	DamageType "Fire"
+	DamageType "BRocket"
 	speed 0
 	Scale 2
 	renderstyle Add
@@ -2058,7 +2086,7 @@ actor Spinnershot
 	Height 6
 	Speed 14
 	Damage 5
-	DamageType "Fire"
+	DamageType "Spinner"
 	+SEEKERMISSILE
 	//+NOEXTREMEDEATH
 	PROJECTILE
@@ -2202,7 +2230,7 @@ ACTOR PopperPuff1 : DynPuffBase
 	+PUFFONACTORS
 	RenderStyle Translucent
 	Alpha 0.6
-	DamageType "Fire"
+	DamageType "Popper"
 	States
 	{
 		Spawn:
@@ -2221,7 +2249,7 @@ ACTOR PopperPuff2 : DynPuffBase
 	+PUFFONACTORS
 	RenderStyle Translucent
 	Alpha 0.6
-	DamageType "Fire"
+	DamageType "Popper"
 	States
 	{
 		Spawn:
