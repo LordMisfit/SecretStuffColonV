@@ -99,7 +99,7 @@ class DinahPlayer : HereticPlayer
 
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
-		bool debugdisplays = true;
+		bool debugdisplays = false;
 		
 		Actor AttackingActor;
 		Actor UniqueProjectile;
@@ -327,6 +327,22 @@ class DinahPlayer : HereticPlayer
 		return ret;
 	}
 
+	void A_APPPain()
+	{
+		if (GetClassName() == "DinahPlayer")
+		{
+			double MaxHealthTrue = CountInv("PlayerMaxHP");
+			double HealthRatio = health / MaxHealthTrue;
+			Console.Printf("%.8f", HealthRatio);
+			if (health > 0)
+			{
+				if (HealthRatio >= 0.667) A_StartSound("Dinah/Pain1",CHAN_VOICE,CHANF_DEFAULT,1.0,ATTN_NORM);
+				else if (HealthRatio >= 0.334 && HealthRatio < 0.667) A_StartSound("Dinah/Pain2",CHAN_VOICE,CHANF_DEFAULT,1.0,ATTN_NORM);
+				else if (HealthRatio < 0.334) A_StartSound("Dinah/Pain3",CHAN_VOICE,CHANF_DEFAULT,1.0,ATTN_NORM);
+			}
+		}
+	}
+
 	States
 	{
 		Spawn:
@@ -336,7 +352,7 @@ class DinahPlayer : HereticPlayer
 			DINA BCDE 4;
 			Loop;
 		Pain:
-			DINA H 6 A_Pain;
+			DINA H 6 A_APPPain();
 			Goto Spawn;
 		Missile:
 			DINA FG 6;

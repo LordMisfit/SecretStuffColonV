@@ -276,7 +276,7 @@ class PlayerStatItem : Inventory
 				{
 					if (hpwillregen)
 					{
-						int inc = 20;
+						int inc = 20 + (PlayerLevel * 0.05);
 
 						if (owner.CountInv("PowerStrength")) inc = floor(inc * 4);
 
@@ -323,7 +323,7 @@ class PlayerStatItem : Inventory
 				{
 					if (hpwilldegen)
 					{
-						int inc = 20;
+						int inc = 20 - (PlayerLevel * 0.05);
 						
 						if (owner.CountInv("PowerStrength")) inc = floor(inc * 0.25);
 						
@@ -508,10 +508,28 @@ class PlayerStatItem : Inventory
 					if (TimeFreezeTimer > 66 && PrevTimeFreezeTimer != 0)
 					{
 						BeatVol = 0.5;
-						if (Owner.CountInv("NormalHealth")) { BeatTimer = TimeFreezeTimer % 42; BeatVol = 0.25; }
-						else if (Owner.CountInv("DecentHealth")) { BeatTimer = TimeFreezeTimer % 34; BeatVol = 0.3125; }
-						else if (Owner.CountInv("LowHealth")) { BeatTimer = TimeFreezeTimer % 26; BeatVol = 0.3875; }
-						else if (Owner.CountInv("CriticalHealth")) { BeatTimer = TimeFreezeTimer % 18; BeatVol = 0.5; }
+						int BeatInt1 = 42;
+						int BeatInt2 = 34;
+						int BeatInt3 = 26;
+						int BeatInt4 = random(13,15);
+						double BeatVol1 = 0.25;
+						double BeatVol2 = 0.3125;
+						double BeatVol3 = 0.3875;
+						double BeatVol4 = 0.5;
+						if (owner.CountInv("PowerStrength"))
+						{
+							if (Owner.CountInv("NormalHealth"))					{ BeatTimer = TimeFreezeTimer % (BeatInt1 * 0.75); BeatVol = (BeatVol1 * 1.33); }
+							else if (Owner.CountInv("DecentHealth"))		{ BeatTimer = TimeFreezeTimer % (BeatInt2 * 0.75); BeatVol = (BeatVol2 * 1.33); }
+							else if (Owner.CountInv("LowHealth"))				{ BeatTimer = TimeFreezeTimer % (BeatInt3 * 0.75); BeatVol = (BeatVol3 * 1.33); }
+							else if (Owner.CountInv("CriticalHealth"))	{ BeatTimer = TimeFreezeTimer % (BeatInt4 * 0.75); BeatVol = (BeatVol4 * 1.33); }
+						}
+						else
+						{
+							if (Owner.CountInv("NormalHealth"))					{ BeatTimer = TimeFreezeTimer % BeatInt1; BeatVol = BeatVol1; }
+							else if (Owner.CountInv("DecentHealth"))		{ BeatTimer = TimeFreezeTimer % BeatInt2; BeatVol = BeatVol2; }
+							else if (Owner.CountInv("LowHealth"))				{ BeatTimer = TimeFreezeTimer % BeatInt3; BeatVol = BeatVol3; }
+							else if (Owner.CountInv("CriticalHealth"))	{ BeatTimer = TimeFreezeTimer % BeatInt4; BeatVol = BeatVol4; }
+						}
 					}
 					if (debugtimefreeze) Console.Printf("BeatTimer: %d", BeatTimer);
 					if (BeatTimer == 0)

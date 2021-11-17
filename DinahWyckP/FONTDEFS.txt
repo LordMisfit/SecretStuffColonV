@@ -1,0 +1,14 @@
+HUDFONT_RAVEN
+{
+	- NEGNUM
+	0 IN0
+	1 IN1
+	2 IN2
+	3 IN3
+	4 IN4
+	5 IN5
+	6 IN6
+	7 IN7
+	8 IN8
+	9 IN9
+}

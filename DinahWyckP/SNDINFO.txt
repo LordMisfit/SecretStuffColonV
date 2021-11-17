@@ -16,6 +16,13 @@ $pitchshift Dinah/jump 0
 $random JumpSND { null null Dinah/jump Dinah/jump Dinah/jump }
 $pitchshift JumpSND 0
 
+Dinah/Pain1 K_PAIN1
+$pitchshift K_PAIN1 0
+Dinah/Pain2 K_PAIN2
+$pitchshift K_PAIN2 0
+Dinah/Pain3 K_PAIN3
+$pitchshift K_PAIN3 0
+
 KGIGL KGIGL
 $pitchshift KGIGL 0
 KGIGL2 KGIGL2
@@ -306,3 +313,5 @@ TimeStopTick0 TMSPTIC0
 $random TimeStopTick { TimeStopTick1 TimeStopTick2 TimeStopTick3 TimeStopTick4 TimeStopTick5 TimeStopTick6 TimeStopTick7 TimeStopTick8 TimeStopTick9 TimeStopTick0 }
 $limit TimeStopTick 2
 
+getberserkpack    BERSPKUP
+getberserkpack2   BERSPKU2

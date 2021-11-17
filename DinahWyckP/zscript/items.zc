@@ -29,7 +29,7 @@ class GalaApple : CustomInventoryExt replaces Stimpack
 					player.mo.health = player.health = temp1;
 					A_StartSound("Dinah/eatapple",CHAN_VOICE);
 					A_SetBlend("f1 ff f1",0.1,4);
-					Console.Printf("\c[red]A tasty gala apple! \c[green]+%d Health", temp3);
+					Console.Printf("\c[red]A tasty gala apple! \c[green]+%d HP", temp3);
 					invoker.A_FadeOut(1.0,FTF_REMOVE);
 				}
 			}
@@ -56,7 +56,7 @@ Class GalaAppleWeak : GalaApple
 					player.mo.health = player.health = temp1;
 					A_StartSound("Dinah/eatapple",CHAN_VOICE);
 					A_SetBlend("f1 ff f1",0.1,random(4,6));
-					Console.Printf("\c[red]A tasty gala apple! \c[green]+%d Health", temp3);
+					Console.Printf("\c[red]A tasty gala apple! \c[green]+%d HP", temp3);
 					invoker.A_FadeOut(1.0,FTF_REMOVE);
 				}
 			}
@@ -122,7 +122,7 @@ class FoodPlateFruit : CustomInventoryExt replaces HealthBonus
 				player.mo.health = player.health = temp1;
 				A_StartSound("Dinah/eat",CHAN_VOICE);
 				A_SetBlend("f1 ff f1",0.1,random(4,6));
-				Console.Printf("\c[red]Food Plate (Fruit)! \c[green]+%d (Over)Health", temp3);
+				Console.Printf("\c[red]Food Plate (Fruit)! \c[green]+%d (Over)HP", temp3);
 				//invoker.A_FadeOut(1.0,FTF_REMOVE);
 			}
 			stop;
@@ -169,7 +169,7 @@ class PigRoastDish : CustomInventoryExt replaces Soulsphere
 				A_StartSound("Dinah/eat",CHAN_VOICE);
 				A_SetBlend("f1 ff f1",0.1,random(4,6));
 				player.mo.A_GiveInventory("PowerRoastBuff");
-				Console.Printf("\c[red]Ate a dish of Roasted Pig! \c[green]+%d (Over)Health", temp3);
+				Console.Printf("\c[red]Ate a dish of Roasted Pig! \c[green]+%d (Over)HP", temp3);
 				//invoker.A_FadeOut(1.0,FTF_REMOVE);
 			}
 			stop;
@@ -185,3 +185,45 @@ class PigRoastDishExtra : PigRoastDish
 			Loop;
 	}
 }
+
+class BerserkNew : CustomInventory replaces Berserk
+{
+	default
+	{
+		+COUNTITEM
+		+INVENTORY.ALWAYSPICKUP
+		Inventory.PickupMessage "";
+		Inventory.PickupSound "";
+	}
+	States
+	{
+		Spawn:
+			PSTR A -1;
+			Stop;
+		Pickup:
+			TNT1 A 0
+			{
+				int temp1 = player.mo.health;
+				int prevtemp1 = temp1;
+				int temp4 = player.mo.CountInv("PlayerMaxHP");
+				int temp2 = (temp4 * 1.25);
+				int perc = 125;
+
+				int temp3 = temp4;
+				temp3 *= 1.00;
+					
+				temp1 += temp3;
+				if (temp1 > temp2) temp1 = temp2;
+				player.mo.health = player.health = temp1;
+
+				A_StartSound("getberserkpack",CHAN_BODY);
+				A_StartSound("Dinah/Gotcha",CHAN_VOICE);
+				A_SetBlend("f0 f0 f0",0.2,random(8,12));
+				player.mo.A_GiveInventory("PowerStrength");
+				if (prevtemp1 < temp2) Console.Printf("\c[red]Berserk! All Melee Attacks \c[purple]x10\c[red] Damage! \c[green]HP restored to %d%% of max!", perc);
+													else Console.Printf("\c[red]Berserk! All Melee Attacks \c[purple]x10\c[red] Damage!");
+			}
+			Stop;
+	}
+}
+
