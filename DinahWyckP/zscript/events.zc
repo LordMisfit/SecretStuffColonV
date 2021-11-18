@@ -65,7 +65,7 @@ class DWP_EventHandler : EventHandler
 					Console.Printf("\c[green]+%d EXP! \c[darkgreen][Have: %d / %d (Lvl: %d)] \c[red](Kills: %d)", ExpGain, ExpNew, ExpNeeded, PlayerLevel, Kills);
 				}
 
-				bool debugdrops = true;
+				bool debugdrops = false;
 				// Heal Items
 				int basechance = 256;
 				int maxchance = basechance;

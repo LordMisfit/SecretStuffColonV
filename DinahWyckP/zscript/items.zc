@@ -284,3 +284,46 @@ class BerserkNew : CustomInventory replaces Berserk
 			Stop;
 	}
 }
+
+//Cherry Bomb
+class CherryBombPickup : CustomInventoryExt replaces RocketAmmo
+{
+	default
+	{
+		//$Category RPFireworks
+		Inventory.Amount 1;
+		Inventory.MaxAmount 24; // 12
+		Inventory.InterHubAmount 24; // 12
+		Inventory.PickupSound "Dinah/giggle";
+		Inventory.PickupMessage "A Cherry Bomb!";
+		Inventory.Icon "CBOMI0";
+		Tag "Cherry Bomb";
+		Scale 0.8;
+		+INVENTORY.INVBAR
+		+INVENTORY.HUBPOWER
+		+INVENTORY.PERSISTENTPOWER
+		+INVENTORY.KEEPDEPLETED
+		+FLOATBOB
+		+DONTGIB
+	}
+
+	States
+	{
+		Spawn:
+			CBOP A -1;
+			Stop;
+		Use:
+			TNT1 A 0 
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				{
+					A_ThrowGrenade("CherryBombShotBerserk",-2,(random(14,18) * 2.5),(frandom(2.75,3.25) * 1.75),0);
+				}
+				else
+				{
+					A_ThrowGrenade("CherryBombShot",-2,random(14,18),frandom(2.75,3.25),0);
+				}
+			}
+			Stop;
+	} 
+}

@@ -34,9 +34,67 @@ class DinahPlayer : HereticPlayer
 		+NOBLOOD
 		+PLAYERPAWN.NOTHRUSTWHENINVUL
 	}
-	
+
+	bool isvoodoodoll;
+	int neverbleeds;
+
+	double TotalAirControl;
+	double basexscale, baseyscale;
+	double scalexmulti, scaleymulti;
+
+	override void MovePlayer()
+	{
+		if (!isvoodoodoll) 
+		{
+			String nm;
+			int PlayerLevel = CountInv("PlayerLevel");
+			double AirControlBase = frandom(0.2432,0.2436);
+
+			// Level Based AirControl
+			double LVLAirControl = 1.00 + (PlayerLevel * 0.00125);
+
+			// Armor items
+			double ArmorAirControl = 1.00;
+			if (CountInv("KnightGownItem"))			ArmorAirControl += 0.0667;
+			if (CountInv("KnightGownItem2"))		ArmorAirControl += 0.10;
+			if (CountInv("KnightGownItem3"))		ArmorAirControl += 0.1334;
+			if (CountInv("KnightGownItem4"))		ArmorAirControl += 0.18;
+			if (CountInv("PowerWineBuffWeak"))	ArmorAirControl *= frandom(0.98,1.00);
+			if (CountInv("PowerWineBuffStrong"))	ArmorAirControl *= frandom(0.96,1.00);
+			if (CountInv("PowerWineBuffStrongest"))	ArmorAirControl *= frandom(0.93,1.00);
+			if (CountInv("PowerWineBuffStrongestEven"))	ArmorAirControl *= frandom(0.88,1.00);
+
+			// Buffs
+			double BuffAirControl = 1.00;
+			if (CountInv("PowerStrength")) BuffAirControl *= 1.334;
+			if (CountInv("PowerRoastBuff")) BuffAirControl *= 1.5;
+
+			level.aircontrol = AirControlBase
+											* LVLAirControl
+											* ArmorAirControl
+											* BuffAirControl;
+			level.airfriction = level.aircontrol * -0.0941 + 1.0004;
+
+			bool debugmove = false;
+			if (debugmove)
+			{
+				Console.Printf("    \czSV_AirControl:\c- \cz%.8f\c-  \cwTotalAirControl:\c- \cw%.8f\c-, \cyAirControlBase:\c- \cy%.8f\c-, LVLAirControl: %.8f, ArmorAirControl: %.8f, BuffAirControl: %.8f", 
+														sv_aircontrol, level.aircontrol, AirControlBase,
+														LVLAirControl, ArmorAirControl, BuffAirControl);
+				Console.Printf("    \cwTotalFriction:\c- \cw%.8f\c-, \cyLevelAirFriction:\c- \cy%.8f\c-", friction, level.airfriction);
+			}
+		}
+		
+		super.MovePlayer();
+	}
+
 	override void PostBeginPlay()
 	{
+		basexscale = scale.x;
+		baseyscale = scale.y;
+		scalexmulti = 1.00;
+		scaleymulti = 1.00;
+
 		// VOODOO Doll Protection
 		if (!player || !player.mo || player.mo != self) 
 		{
@@ -51,16 +109,62 @@ class DinahPlayer : HereticPlayer
 			Super.PostBeginPlay(); 
 			return;
 		}
+
+		if (bNOBLOOD == 1) 
+		{
+			if (bNOBLOODDECALS == 0) bNOBLOODDECALS == 1;
+			neverbleeds = 1;
+		}
+		if (bNOBLOODDECALS == 1) 
+		{
+			if (bNOBLOOD == 0) bNOBLOOD == 1;
+			neverbleeds = 1;
+		}
 		
-		Super.PostBeginPlay(); 
+		Super.PostBeginPlay(); // KEEP THIS HERE ELSE OTHER FUNCTIONS RELATED TO PostBeginPlay() BREAK :V
+	}
+
+	override void CheckAirSupply()
+	{
+		if (!isvoodoodoll)
+		{
+			bool debugairmeter = false;
+			int DrownDmg = 2 + ((level.maptime - player.air_finished) / TICRATE);
+			DrownDmg = ceil(DrownDmg * frandompick(0.625,0.75,0.875,1.000));
+			DrownDmg = clamp(DrownDmg, 0, DrownDmg);
+			// Handle air supply	
+			//if (level.airsupply > 0)
+			{
+				let player = self.player;
+				if (waterlevel < 3 || (bInvulnerable) || 
+					(player.cheats & (CF_GODMODE | CF_NOCLIP2)) || (player.cheats & CF_GODMODE2))
+				{
+					ResetAirSupply();
+				}
+				else if (player.air_finished <= level.maptime && !(level.maptime & 31))
+				{
+					DamageMobj(NULL, NULL, DrownDmg, 'Drowning');
+				}
+			}
+			int AirTime = max(player.air_finished - level.maptime, 0);
+			if (debugairmeter) Console.Printf("    WaterLevel: %d, Level.Time: %d, Level.MapTime: %d, Player.AirFinished: %d, \cxAirTime: %d / %d\c- (%d), DrownDmg: %d", waterlevel, level.time, level.maptime, player.air_finished, AirTime, level.airsupply, AirCapacity, DrownDmg);
+		}
+		else
+		{
+			super.CheckAirSupply();
+		}
 	}
 
 	override void Tick()
 	{
+		// VOODOO Doll Protection
 		bool debugdisplays = false;
 		// VOODOO Doll Protection
 		if (!player || !player.mo || player.mo != self) 
 		{
+			isvoodoodoll = true; 
+			Super.Tick();
+			return;
 		}
 		else
 		{
@@ -98,6 +202,30 @@ class DinahPlayer : HereticPlayer
 		}
 		
 		super.Tick(); // KEEP THIS HERE ELSE OTHER FUNCTIONS RELATED TO THIS BREAK :V
+	}
+
+	void A_CheckNeverBleed(int type, int damage, int flags)
+	{
+		if (type == 0)
+		{
+			if (neverbleeds == 0)
+			{
+				if (bNOBLOOD) bNOBLOOD = 0;
+				if (bNOBLOODDECALS) bNOBLOODDECALS = 1;
+			}
+		}
+		else
+		{
+			//Console.Printf("(A_CheckNeverBleed [player], damage: %d)", damage);
+			if (flags & !DMG_EXPLOSION)
+			{
+				if (neverbleeds == 0)
+				{
+					bNOBLOOD = 1;
+					bNOBLOODDECALS = 1;
+				}
+			}
+		}
 	}
 
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
@@ -339,6 +467,22 @@ class DinahPlayer : HereticPlayer
 		return ret;
 	}
 
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if (!isvoodoodoll)
+		{
+			// Non-passive means the one moving into the other is performing the checks.
+			if (!passive)
+			{
+				// Pass through different species of select types.
+				if (other.bFRIENDLY == 1)
+					return false;
+			}
+		}
+		// We don't really care about others making the check.
+		return true;
+	}
+	
 	void A_APPPain()
 	{
 		if (GetClassName() == "DinahPlayer")

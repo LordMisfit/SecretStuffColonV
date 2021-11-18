@@ -1746,45 +1746,6 @@ ACTOR VacAmmo : Ammo replaces Cell
 }
 
 //INVENTORY
-//Cherry Bomb
-ACTOR CherryBombPickup : CustomInventory replaces RocketAmmo 12011
-{
-	//$Category RPFireworks
-	Inventory.Amount 1
-	Inventory.MaxAmount 16 // 12
-	Inventory.InterHubAmount 16 // 12
-	Inventory.PickupSound "Dinah/giggle"
-	Inventory.PickupMessage "A Cherry Bomb!"
-	Inventory.Icon CBOMI0
-	Tag "Cherry Bomb"
-	Scale 0.8
-	+INVENTORY.INVBAR
-	+INVENTORY.HUBPOWER
-	+INVENTORY.PERSISTENTPOWER
-	+INVENTORY.KEEPDEPLETED
-	+FLOATBOB
-	+DONTGIB
-	States
-	{
-		Spawn:
-			CBOP A -1
-			Stop
-		Use:
-			TNT1 A 0 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
-				{
-					A_ThrowGrenade("CherryBombShotBerserk",-2,(random(14,18) * 2.5),(frandom(2.75,3.25) * 1.75),0);
-				}
-				else
-				{
-					A_ThrowGrenade("CherryBombShot",-2,random(14,18),frandom(2.75,3.25),0);
-				}
-			}
-			Stop
-	} 
-}
-
 ACTOR CherryBombShot
 {
 	Radius 3
@@ -1891,8 +1852,8 @@ ACTOR BRocketPickup : CustomInventory 12017
 {
 	//$Category RPFireworks
 	Inventory.Amount 1
-	Inventory.MaxAmount 3 // 2
-	Inventory.InterHubAmount 3 // 2
+	Inventory.MaxAmount 4 // 2
+	Inventory.InterHubAmount 4 // 2
 	Inventory.PickupSound "Dinah/giggle"
 	Inventory.PickupMessage "A Bottle Rocket!"
 	Inventory.Icon BROKI0
@@ -2022,8 +1983,8 @@ ACTOR SpinnerPickup : CustomInventory 12018
 {
 	//$Category RPFireworks
 	Inventory.Amount 1
-	Inventory.MaxAmount 11 // 8
-	Inventory.InterHubAmount 11 // 8
+	Inventory.MaxAmount 16 // 8
+	Inventory.InterHubAmount 16 // 8
 	Inventory.PickupSound "Dinah/giggle"
 	Inventory.PickupMessage "A Spinner-Chaser!"
 	Inventory.Icon SPINI0
@@ -2086,8 +2047,8 @@ ACTOR PopperPickup : CustomInventoryExt 13019
 {
 	//$Category RPFireworks
 	Inventory.Amount 1
-	Inventory.MaxAmount 1
-	Inventory.InterHubAmount 1
+	Inventory.MaxAmount 2
+	Inventory.InterHubAmount 2
 	Inventory.PickupSound "Dinah/giggle"
 	Inventory.PickupMessage "A Scatter-Popper!"
 	Inventory.Icon POPRI0
@@ -2232,8 +2193,8 @@ ACTOR SnakePickup : CustomInventory 12091
 {
 	//$Category RPFireworks
 	Inventory.Amount 1
-	Inventory.MaxAmount 1
-	Inventory.InterHubAmount 1
+	Inventory.MaxAmount 2
+	Inventory.InterHubAmount 2
 	Inventory.PickupSound "Dinah/giggle"
 	Inventory.PickupMessage "A King Sugar Snake!"
 	Inventory.Icon FSNKI0
@@ -2269,8 +2230,8 @@ Actor AppleWine : CustomInventoryExt replaces Medikit 15016
 	+FLOATBOB
 	Inventory.PickupSound "Dinah/giggle"
 	Inventory.Amount 1
-	Inventory.MaxAmount 12 // 8
-	Inventory.InterHubAmount 12 // 8
+	Inventory.MaxAmount 16 // 8
+	Inventory.InterHubAmount 16 // 8
 	Inventory.PickupMessage "Sweet apple wine! (Drink for Health and Brief buff)"
 	Inventory.Icon "GOBLI0"
 	Tag "Apple Wine Goblet: Heals 18-22% Health and Gives Defense Buff up to 4 tiers. Cannot be drank when buff is at max."
@@ -2480,8 +2441,8 @@ actor DivingHelm : PowerupGiver 15126
 	//$Category RPArtifacts
 	Inventory.PickupMessage "Chic Diving Helmet"
 	Inventory.Amount 1
-	Inventory.MaxAmount 1
-	Inventory.InterHubAmount 1
+	Inventory.MaxAmount 2
+	Inventory.InterHubAmount 2
 	Powerup.Color Grey 0.1
 	Inventory.DefMaxAmount
 	Powerup.Type NoDrown

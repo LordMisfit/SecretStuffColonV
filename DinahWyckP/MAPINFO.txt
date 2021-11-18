@@ -1,5 +1,6 @@
 DoomEdNums
 {
+	12011 = CherryBombPickup
 	31981 = Grimophone
 }
 
@@ -44,3 +45,4 @@ skill nightmare
 	Name = "Basically Illegal Explosives"
 	Key = "b"
 }
+
