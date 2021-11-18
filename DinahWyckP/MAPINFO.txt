@@ -1,6 +1,7 @@
 DoomEdNums
 {
 	12011 = CherryBombPickup
+	15016 = AppleWine
 	31981 = Grimophone
 }
 

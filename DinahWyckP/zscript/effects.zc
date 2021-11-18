@@ -13,7 +13,7 @@ class CustomInventoryExt : CustomInventory
 	action void A_UseAppleWine()
 	{
 		int currenthealth = player.mo.health;
-		int maxhealth = (player.mo.SpawnHealth() + player.mo.stamina);
+		int maxhealth = (player.mo.maxhealth + player.mo.stamina);
 		bool willheal;
 		bool useitem;
 		

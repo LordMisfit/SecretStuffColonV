@@ -83,19 +83,44 @@ class PlayerStatItem : Inventory
 			bool debugexptables = false;
 			if (ClassCheck <= 6)
 			{
-				if (ClassCheck <= 1) 
+				if (ClassCheck <= 0) 
 				{
+					owner.A_SetInventory("DoorBell",1);
+					owner.A_SetInventory("DoorBell",0);
+					owner.A_SetInventory("DivingHelm",1);
+					owner.A_SetInventory("DivingHelm",0);
+					owner.A_SetInventory("TimePotion",1);
+					owner.A_SetInventory("TimePotion",0);
+					owner.A_SetInventory("SnakePickup",1);
+					owner.A_SetInventory("SnakePickup",0);
+					owner.A_SetInventory("PopperPickup",1);
+					owner.A_SetInventory("PopperPickup",0);
+					owner.A_SetInventory("BRocketPickup",1);
+					owner.A_SetInventory("BRocketPickup",0);
+					owner.A_SetInventory("SpinnerPickup",1);
+					owner.A_SetInventory("SpinnerPickup",0);
+					owner.A_SetInventory("CherryBombPickup",1);
+					owner.A_SetInventory("CherryBombPickup",0);
+					owner.A_SetInventory("AppleWine",1);
+					owner.A_SetInventory("AppleWine",0);
+
 					PlayerLevel = 0;
 
 					if (TrueGameSkill == SKILL_VERY_EASY) 
 					{
 						MaxHealthTrue = 96;
 						MaxHealthTrue *= (1.00 + (frandom(-0.0125,0.0125)));
+						owner.A_SetInventory("Blunderaxe",1);
+						owner.A_SetInventory("BlunderAmmo",6);
+						owner.A_SetInventory("AppleJack",1);
+						owner.A_SetInventory("JackAmmo",12);
 					}
 					if (TrueGameSkill == SKILL_EASY) 
 					{
 						MaxHealthTrue = 88; 
 						MaxHealthTrue *= (1.00 + (frandom(-0.025,0.025)));
+						owner.A_SetInventory("AppleJack",1);
+						owner.A_SetInventory("JackAmmo",6);
 					}
 					if (TrueGameSkill == SKILL_NORMAL) 
 					{
