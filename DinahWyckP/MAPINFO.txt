@@ -9,6 +9,7 @@ Gameinfo
 {
 	PlayerClasses = "DinahPlayer"
 	AddEventHandlers = "DWP_EventHandler", "DWP_StaticEventHandler"
+	statusbarclass = "DDStatusBarMain"
 }
 
 skill baby

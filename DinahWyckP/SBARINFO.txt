@@ -46,7 +46,7 @@ statusbar fullscreen, fullscreenoffsets
 	//level
 	drawnumber 2147483647, BIGFONT, gray, "PlayerLevel", drawshadow(1, 1), interpolate(8), 48, -82, 1; // 41, -21
 	drawstring "SMALLFONT", gray, "LVL", 48, -90, 1;
-
+	//EXP
 	drawnumber 2147483647, SMALLFONT, gray, "ExpPts", drawshadow(1, 1), interpolate(8), 96, -87, 1; // 41, -21
 	drawstring "SMALLFONT", gray, "/", 104, -83, 1;
 	drawnumber 2147483647, SMALLFONT, gray, "ExpPtsNeeded", drawshadow(2, 2), interpolate(8), 96, -79, 1; // 41, -21
@@ -55,7 +55,7 @@ statusbar fullscreen, fullscreenoffsets
 	gamemode deathmatch
 		drawnumber 2147483647, HUDFONT_RAVEN, untranslated, frags, drawshadow, 70, -16, 1;
 	else
-		drawkeybar 100, vertical, reverse, 16, 86, -7, 0, 3, auto; // 8, 54, -7
+		drawkeybar 100, vertical, reverse, 8, 86, -7, 0, 3, auto; // 8, 54, -7
 
 	//ammo
 	drawnumber 2147483647, SMALLFONT, DarkGray, Ammo1Capacity, drawshadow(2, 2), -2, -13, 1;

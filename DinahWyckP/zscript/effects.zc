@@ -389,4 +389,3 @@ class PlayingDoom : PlaceholderItem { } // This works as an inventory flag to in
 class PlayingHeretic : PlaceholderItem { } // This works as an inventory flag to indicate the game mode
 class PlayingHexen : PlaceholderItem { } // This works as an inventory flag to indicate the game mode
 class PlayingStrife : PlaceholderItem { } // This works as an inventory flag to indicate the game mode
-
