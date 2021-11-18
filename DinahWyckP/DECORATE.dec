@@ -1461,58 +1461,6 @@ ACTOR JackAmmo : Ammo replaces ClipBox 12475
 	}
 }
 
-//GRIMOPHONE
-ACTOR Grimophone : Weapon replaces BFG9000 31981
-{
-	//$Category RPWeapons
-	Weapon.SelectionOrder 800
-	Weapon.Ammotype1 "musicammo"
-	Weapon.Ammouse1 1
-	Weapon.Ammotype2 "musicammo"
-	Weapon.Ammouse2 1
-	Weapon.Ammogive1 20
-	Weapon.Ammogive2 0
-	Weapon.SlotNumber 7
-	inventory.pickupsound "misc/w_pkup" //"Dinah/marvelous"
-	Inventory.Pickupmessage "Grimophone"
-	Tag "Grimophone"
-	SpawnID 31981
-	+FLOATBOB
-	States
-	{
-		Spawn:
-			RPLY P 1
-			loop
-		Ready:
-			RPLY A 1 A_WeaponReady
-			loop
-		Select:
-			RPLY A 1
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Raise(12); }
-				A_Raise(12);
-			}
-			Loop
-		Deselect:
-			RPLY A 1
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Lower(12); }
-				A_Lower(12);
-			}
-			TNT1 A 0 A_StopSound(5)
-			Loop
-		Fire:
-			NULL A 0 A_GunFlash
-			RPLY A 0 A_PlaySound("grimophone/jam",5,1.0,1)
-			RPLY B 3 Bright A_FireCustomMissile("recordshot",0,1)
-			RPLY C 3
-			RPLY B 3 Bright A_FireCustomMissile("recordshot",0,0)
-			RPLY C 3
-			RPLY C 0 A_Refire
-			RPLY A 0 A_StopSound(5)
-			Goto ready
-	}
-}
 
 ACTOR RecordShot
 {

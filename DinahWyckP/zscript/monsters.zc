@@ -722,4 +722,67 @@ class AcolyteToBeNew : AcolyteToBe replaces AcolyteToBe
 	{
 	}
 }
+
+class Macil1New : Macil1 replaces Macil1
+{
+	default
+	{
+	}
+}
+
+class Macil2New : Macil2 replaces Macil2
+{
+	default
+	{
+	}
+}
+
+class RebelNew : Rebel replaces Rebel
+{
+	default
+	{
+	}
+}
+
+class Rebel1New : Rebel1 replaces Rebel1
+{
+	default
+	{
+	}
+}
+
+class Rebel2New : Rebel2 replaces Rebel2
+{
+	default
+	{
+	}
+}
+
+class Rebel3New : Rebel3 replaces Rebel3
+{
+	default
+	{
+	}
+}
+
+class Rebel4New : Rebel4 replaces Rebel4
+{
+	default
+	{
+	}
+}
+
+class Rebel5New : Rebel5 replaces Rebel5
+{
+	default
+	{
+	}
+}
+
+class Rebel6New : Rebel6 replaces Rebel6
+{
+	default
+	{
+	}
+}
 // TBC :V

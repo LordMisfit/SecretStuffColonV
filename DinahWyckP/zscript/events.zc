@@ -65,25 +65,31 @@ class DWP_EventHandler : EventHandler
 					Console.Printf("\c[green]+%d EXP! \c[darkgreen][Have: %d / %d (Lvl: %d)] \c[red](Kills: %d)", ExpGain, ExpNew, ExpNeeded, PlayerLevel, Kills);
 				}
 
+				bool debugdrops = true;
 				// Heal Items
 				int basechance = 256;
 				int maxchance = basechance;
 				if (AttackName == "BatPuff") maxchance = (basechance * 0.5);
-				if (AttackName == "BlunderPuff") maxchance = randompick(192,224,256,288,320);
-				if (AttackName == "ApplePuff") maxchance = (basechance * 0.75);
-				if (AttackName == "VacPuff") maxchance = 4096;
+				if (AttackName == "ApplePuff") maxchance = randompick((basechance * 0.375),(basechance * 0.4375),(basechance * 0.5),(basechance * 0.5625),(basechance * 0.625));
+				if (AttackName == "BlunderPuff") maxchance = randompick((basechance * 0.75),(basechance * 0.875),(basechance),(basechance * 1.125),(basechance * 1.25));
+				if (AttackName == "RecordShot") maxchance = randompick((basechance * 1.5),(basechance * 1.75),(basechance * 2),(basechance * 2.25),(basechance * 2.5));
+				if (AttackName == "VacPuff") maxchance = (basechance * 16);
 				if (random(1,(maxchance)) == 1) e.thing.A_SpawnItemEx("GalaApple",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
 				if (random(1,(maxchance)) == 1) e.thing.A_SpawnItemEx("FoodPlateFruit",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
 				if (random(1,(maxchance*2)) == 1) e.thing.A_SpawnItemEx("AppleWine",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
 				if (random(1,(maxchance*4)) == 1) e.thing.A_SpawnItemEx("PigRoastDishExtra",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
 				if (random(1,(maxchance*4)) == 1) e.thing.A_SpawnItemEx("Berserk",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
+				if (debugdrops) Console.Printf("maxchance [heal]: %d (%d)", maxchance, basechance);
 				
 				// Armor Items
 				basechance = 512;
 				maxchance = basechance;
+				if (AttackName == "BatPuff") maxchance = (basechance * 0.5);
+				if (AttackName == "ApplePuff") maxchance = randompick((basechance * 0.375),(basechance * 0.4375),(basechance * 0.5),(basechance * 0.5625),(basechance * 0.625));
 				if (AttackName == "BlunderPuff") maxchance = (basechance * 16);
 				if (AttackName == "RecordShot") maxchance = (basechance * 4);
 				if (AttackName == "VacPuff") maxchance = (basechance * 0.125);
+				if (debugdrops) Console.Printf("maxchance [armor]: %d (%d)", maxchance, basechance);
 				if (random(1,maxchance) == 1)
 				{
 					//Full Armor Drops
@@ -111,20 +117,21 @@ class DWP_EventHandler : EventHandler
 							if (random(1,(baseval*baseval*baseval*baseval)) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
 							if (random(1,(baseval*baseval*baseval*baseval*baseval)) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
 							if (random(1,(baseval*baseval*baseval*baseval*baseval*baseval)) == 1) e.thing.A_SpawnItemEx("ArmorScrap",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-2,2),SXF_NOCHECKPOSITION);
-							if (debugworlddied) Console.Printf("%d / %d", i, scraprolls);
+							if (debugdrops) Console.Printf("ScrapRolls: %d / %d", i, scraprolls);
 						}
 					}
 				}
 				
 				// Random Inventory Item Drops
-				
+				// Primary
 				basechance = 32;
 				maxchance = basechance;
 				if (AttackName == "BatPuff") maxchance = (basechance * 0.5);
-				if (AttackName == "ApplePuff") maxchance = randompick(12,14,16,18,20);
-				if (AttackName == "BlunderPuff") maxchance = randompick(24,28,32,36,40);
-				if (AttackName == "RecordShot") maxchance = (randompick(24,28,32,36,40) * 2);
-				if (AttackName == "VacPuff") maxchance = 512;
+				if (AttackName == "ApplePuff") maxchance = randompick((basechance * 0.375),(basechance * 0.4375),(basechance * 0.5),(basechance * 0.5625),(basechance * 0.625));
+				if (AttackName == "BlunderPuff") maxchance = randompick((basechance * 0.75),(basechance * 0.875),(basechance),(basechance * 1.125),(basechance * 1.25));
+				if (AttackName == "RecordShot") maxchance = randompick((basechance * 1.5),(basechance * 1.75),(basechance * 2),(basechance * 2.25),(basechance * 2.5));
+				if (AttackName == "VacPuff") maxchance = (basechance * 16);
+				if (debugdrops) Console.Printf("maxchance [primaryinv]: %d (%d)", maxchance, basechance);
 				if (random(1,maxchance) == 1)
 				{
 					user_type = random(1,20);
@@ -150,12 +157,15 @@ class DWP_EventHandler : EventHandler
 					if (user_type == 20) { e.thing.A_SpawnItemEx("SnakePickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
 				}
 
-				maxchance = 128;
-				if (AttackName == "BatPuff") maxchance = 64;
-				if (AttackName == "ApplePuff") maxchance = randompick(48,56,64,72,80);
-				if (AttackName == "BlunderPuff") maxchance = randompick(96,112,128,144,160);
-				if (AttackName == "RecordShot") maxchance = (randompick(96,112,128,144,160) * 2);
-				if (AttackName == "VacPuff") maxchance = 2048;
+				// Secondary
+				basechance = 256;
+				maxchance = basechance;
+				if (AttackName == "BatPuff") maxchance = (basechance * 0.5);
+				if (AttackName == "ApplePuff") maxchance = randompick((basechance * 0.375),(basechance * 0.4375),(basechance * 0.5),(basechance * 0.5625),(basechance * 0.625));
+				if (AttackName == "BlunderPuff") maxchance = randompick((basechance * 0.75),(basechance * 0.875),(basechance),(basechance * 1.125),(basechance * 1.25));
+				if (AttackName == "RecordShot") maxchance = randompick((basechance * 1.5),(basechance * 1.75),(basechance * 2),(basechance * 2.25),(basechance * 2.5));
+				if (AttackName == "VacPuff") maxchance = (basechance * 16);
+				if (debugdrops) Console.Printf("maxchance [secondaryinv]: %d (%d)", maxchance, basechance);
 				if (random(1,maxchance) == 1)
 				{
 					user_type = random(1,20);

@@ -247,6 +247,16 @@ class ExpPtsNeeded : PlaceholderItem
 	}
 }
 
+class ExpPtsLeft : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 0x7FFFFFFD;
+		+INVENTORY.KEEPDEPLETED 
+	}
+}
+
 class PlayerLevel : PlaceholderItem
 {
 	default

@@ -24,8 +24,8 @@ class DinahPlayer : HereticPlayer
 		Player.ViewHeight 37;
 		Player.InvulnerabilityMode "Reflective";
 		species "Players";
-		Health 72; // 100
-		Player.MaxHealth 72;
+		Health 80; // 100
+		Player.MaxHealth 80;
 		Player.MugShotMaxHealth -1; // 100
 		Scale 0.875;
 		Mass 64;

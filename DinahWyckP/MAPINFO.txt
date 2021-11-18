@@ -1,13 +1,46 @@
+DoomEdNums
+{
+	31981 = Grimophone
+}
+
 Gameinfo
 {
 	PlayerClasses = "DinahPlayer"
 	AddEventHandlers = "DWP_EventHandler", "DWP_StaticEventHandler"
 }
 
+skill baby
+{
+	SpawnFilter = Baby
+	Name = "Sissy Sparkler Show"
+	Key = "s"
+}
+
+skill easy
+{
+	SpawnFilter = Easy
+	Name = "Lit Bag of Snakes"
+	Key = "l"
+}
+
+skill normal
+{
+	DefaultSkill
+	SpawnFilter = Normal
+	Name = "Roman Candle Skirmish"
+	Key = "r"
+}
+
+skill hard
+{
+	SpawnFilter = Hard
+	Name = "Cherry Bomb in the Toilet"
+	Key = "c"
+}
+
 skill nightmare
 {
-	//AmmoFactor = 2
 	SpawnFilter = Nightmare
-	Name = "NIGHTMARE?!?!"
-	Key = "n"
+	Name = "Basically Illegal Explosives"
+	Key = "b"
 }

@@ -86,6 +86,38 @@ class PlayerStatItem : Inventory
 				if (ClassCheck <= 1) 
 				{
 					PlayerLevel = 0;
+
+					if (TrueGameSkill == SKILL_VERY_EASY) 
+					{
+						MaxHealthTrue = 96;
+						MaxHealthTrue *= (1.00 + (frandom(-0.0125,0.0125)));
+					}
+					if (TrueGameSkill == SKILL_EASY) 
+					{
+						MaxHealthTrue = 88; 
+						MaxHealthTrue *= (1.00 + (frandom(-0.025,0.025)));
+					}
+					if (TrueGameSkill == SKILL_NORMAL) 
+					{
+						MaxHealthTrue = 80; 
+						MaxHealthTrue *= (1.00 + (frandom(-0.05,0.05)));
+					}
+					if (TrueGameSkill == SKILL_HARD) 
+					{
+						MaxHealthTrue = 72; 
+						MaxHealthTrue *= (1.00 + (frandom(-0.1,0.1)));
+					}
+					if (TrueGameSkill == SKILL_VERY_HARD) 
+					{
+						MaxHealthTrue = 64; 
+						MaxHealthTrue *= (1.00 + (frandom(-0.2,0.2)));
+					}
+					if (MaxHealthTrue < 1) MaxHealthTrue = 1;
+					owner.player.mo.stamina = 0;
+					owner.player.health = owner.player.mo.health = owner.player.mo.maxhealth = CurrentHealth = MaxHealthTrue;
+					owner.A_SetInventory("PlayerMaxHP",MaxHealthTrue);
+					//Console.Printf("MaxHP: %d", MaxHealthTrue);
+					
 					owner.A_SetInventory("PlayerLevel",PlayerLevel);
 					LevelCap = 200;
 					LevelExpRequirement.Resize((LevelCap+1));
@@ -162,9 +194,10 @@ class PlayerStatItem : Inventory
 			//
 			// Leveling Up
 			//
+			int Experience = owner.CountInv("ExpPts");
+			owner.A_SetInventory("ExpPtsLeft",(LevelExpRequirement[(PlayerLevel)]-Experience));
 			owner.A_SetInventory("ExpPtsNeeded",LevelExpRequirement[(PlayerLevel)]);
 			bool debuglevelup = false;
-			int Experience = owner.CountInv("ExpPts");
 			int levelmodulo, levelbonustype;
 			int leveluptimes = 0;
 			int leveluptimesmax = LevelCap - PlayerLevel;
@@ -177,37 +210,43 @@ class PlayerStatItem : Inventory
 				{
 					if (PlayerLevel < LevelCap)
 					{
+						PlayerLevel += 1;
+
 						levelmodulo = PlayerLevel % 20;
 						if (levelmodulo == 0) levelbonustype = 0;
 						else if (levelmodulo == 4) levelbonustype = 1;
-						else if (levelmodulo == 5) levelbonustype = randompick(2,2,2,2,1);
+						else if (levelmodulo == 5) levelbonustype = randompick(2,2,2,2,2,1);
 						else if (levelmodulo == 8) levelbonustype = 1;
-						else if (levelmodulo == 10) levelbonustype = randompick(2,2,2,2,1);
+						else if (levelmodulo == 10) levelbonustype = randompick(2,2,2,2,2,1);
 						else if (levelmodulo == 12) levelbonustype = 1;
-						else if (levelmodulo == 15) levelbonustype = randompick(2,2,2,2,1);
+						else if (levelmodulo == 15) levelbonustype = randompick(2,2,2,2,2,1);
 						else if (levelmodulo == 16) levelbonustype = 1;
 						else levelbonustype = 2;
 						
 						// Health/HP Boost
-						CurrentHealth = owner.health;
+						CurrentHealth = owner.player.mo.health;
 						int LevelAddMaxHP = 0;
 						int HPMaxGain;
 						int HPRandomizer1;
-
-						HPMaxGain += randompick(1,1,1,1,2,2,3);
-						if (levelbonustype == 0) HPMaxGain += randompick(1,1,2,2,2,3,3);
-						if (levelbonustype == 1) HPMaxGain += randompick(1,1,1,2,2,2,3);
-						if (levelbonustype == 2) HPMaxGain += randompick(0,0,0,0,1,1,2);
-						if (TrueGameSkill <= SKILL_VERY_EASY) HPMaxGain += (MaxHealthTrue / 80); // 288
-						if (TrueGameSkill == SKILL_EASY) HPMaxGain += (MaxHealthTrue / 90); // 360
-						if (TrueGameSkill == SKILL_NORMAL) HPMaxGain += (MaxHealthTrue / 100); // 432
-						if (TrueGameSkill == SKILL_HARD) HPMaxGain += (MaxHealthTrue / 110); // 504
-						if (TrueGameSkill == SKILL_VERY_HARD) HPMaxGain += (MaxHealthTrue / 120); // 576
+						
+						if (PlayerLevel >= 151 && PlayerLevel <= 200)				HPMaxGain += floor(PlayerLevel * frandompick(0.105,0.12));
+						else if (PlayerLevel >= 101 && PlayerLevel <= 150)	HPMaxGain += floor(PlayerLevel * frandompick(0.09,0.105));
+						else if (PlayerLevel >= 51 && PlayerLevel <= 100)		HPMaxGain += floor(PlayerLevel * frandompick(0.075,0.09));
+						else if (PlayerLevel <= 50)													HPMaxGain += floor(PlayerLevel * frandompick(0.06,0.075));
+						
+						HPMaxGain += 													randompick(1,1,1,1,1,1,1,1,1,2,2,2,2,3);
+						if (levelbonustype == 0) HPMaxGain += randompick(1,1,1,1,1,2,2,2,2,2,2,3,3,3);
+						if (levelbonustype == 1) HPMaxGain += randompick(0,1,1,1,1,1,1,2,2,2,2,2,3,3);
+						if (levelbonustype == 2) HPMaxGain += randompick(0,0,0,0,0,0,0,1,1,1,1,1,1,2);
+						if (TrueGameSkill <= SKILL_VERY_EASY) HPMaxGain += (MaxHealthTrue / 144); // 288
+						if (TrueGameSkill == SKILL_EASY) HPMaxGain += (MaxHealthTrue / 180); // 360
+						if (TrueGameSkill == SKILL_NORMAL) HPMaxGain += (MaxHealthTrue / 216); // 432
+						if (TrueGameSkill == SKILL_HARD) HPMaxGain += (MaxHealthTrue / 252); // 504
+						if (TrueGameSkill == SKILL_VERY_HARD) HPMaxGain += (MaxHealthTrue / 288); // 576
 						owner.player.mo.stamina += HPMaxGain;
 						owner.player.mo.health += HPMaxGain;
-						MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
+						MaxHealthTrue = (owner.player.mo.maxhealth + owner.player.mo.stamina);
 
-						PlayerLevel += 1;
 						owner.A_StartSound("misc/bellring",101,CHANF_DEFAULT,frandom(0.6,0.75),ATTN_NORM,frandom(1.25,1.5));
 						owner.A_SetInventory("PlayerLevel",PlayerLevel);
 						owner.A_Print(String.Format("\c[Green]Congradulations, you've reached Level %d \c[brick][+%d HP]", PlayerLevel, HPMaxGain));
@@ -231,7 +270,7 @@ class PlayerStatItem : Inventory
 			HPRegenTimerMax = 7000 - (owner.player.mo.stamina * 35);
 			HPDegenTimerMax = 1750 + (owner.player.mo.stamina * 17.5);
 			CurrentHealth = owner.player.mo.health;
-			MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
+			MaxHealthTrue = (owner.player.mo.maxhealth + owner.player.mo.stamina);
 			
 			//
 			// HP Regen/Degen
@@ -430,6 +469,37 @@ class PlayerStatItem : Inventory
 				if (SurviveRNGVal <= SurvivalRate) Console.Printf("    \cdSurvival Rate % Roll / Rate: %d / %d, \cx[cheatbits: %d]", SurviveRNGVal, SurvivalRate, owner.player.cheats);
 																			else Console.Printf("    \cgSurvival Rate % Roll / Rate: %d / %d, \cx[cheatbits: %d]", SurviveRNGVal, SurvivalRate, owner.player.cheats);
 			}
+			
+			//
+			// Mass
+			//
+			bool debugmass = false;
+			TotalMass = 64;
+			if (debugmass) Console.Printf("Mass [Base]: %d", TotalMass);
+
+			TotalMass += (PlayerLevel * 0.08889);
+			if (debugmass) Console.Printf("Mass [Level]: %d", TotalMass);
+			
+			// Buffs
+			if ((owner.bINVULNERABLE || owner.player.cheats & CF_GODMODE2 || owner.player.cheats & CF_GODMODE)) TotalMass *= 128; 
+			if (owner.CountInv("PowerStrength")) TotalMass *= 1.111; 
+
+			if (Owner.CountInv("PowerWineBuffWeak")) TotalMass *= 1.0334;
+			if (Owner.CountInv("PowerWineBuffStrong")) TotalMass *= 1.1334;
+			if (Owner.CountInv("PowerWineBuffStrongest")) TotalMass *= 1.2334;
+			if (Owner.CountInv("PowerWineBuffStrongestEven")) TotalMass *= 1.3334;
+			if (debugmass) Console.Printf("Mass [Buffs]: %d", TotalMass);
+
+			// Armor
+			if (Owner.CountInv("KnightGownItem"))	{ TotalMass += 4;  TotalMass *= 1.01; }
+			if (Owner.CountInv("KnightGownItem2"))	{ TotalMass += 8;  TotalMass *= 1.02; }
+			if (Owner.CountInv("KnightGownItem3"))	{ TotalMass += 12; TotalMass *= 1.04; }
+			if (Owner.CountInv("KnightGownItem4"))	{ TotalMass += 16; TotalMass *= 1.08; }
+			if (debugmass) Console.Printf("Mass [Armor]: %d", TotalMass);
+
+			owner.Mass = TotalMass;
+			if (debugmass) Console.Printf("    Calculated Mass: %d [Real Mass: %d]", TotalMass, owner.mass);
+			
 			
 			//
 			// JumpZ
@@ -713,7 +783,7 @@ class PlayerStatItem : Inventory
 		bool debugspeed = false;
 		let weapon = owner.player.ReadyWeapon;
 		CurrentHealth = owner.health;
-		MaxHealthTrue = (owner.spawnhealth() + owner.player.mo.stamina);
+		MaxHealthTrue = (owner.player.mo.maxhealth + owner.player.mo.stamina);
 
 		Speed = 1.00;
 		if (debugspeed) Console.Printf("SpeedX [base]: %.8f", Speed);
