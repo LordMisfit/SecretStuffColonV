@@ -2226,6 +2226,8 @@ ACTOR ArmorScrap : ArmorBonus replaces ArmorBonus
 	Armor.SavePercent 50
 	Armor.SaveAmount 1
 	Armor.MaxSaveAmount 1000 //500
+	DamageFactor "Melee", 0.8
+	DamageFactor "Zap", 0.9
 	+FLOATBOB
 	+DONTGIB
 	States
@@ -2275,6 +2277,8 @@ ACTOR ArmorScrap2 : ArmorScrap
 	Armor.SavePercent 75
 	Armor.SaveAmount 1
 	Armor.MaxSaveAmount 1000 //500
+	DamageFactor "Melee", 0.6
+	DamageFactor "Zap", 0.8
 	+FLOATBOB
 	+DONTGIB
 	States
@@ -2293,6 +2297,28 @@ ACTOR ArmorScrap3 : ArmorScrap2
   Armor.SavePercent 87.5
 	Armor.SaveAmount 1
 	Armor.MaxSaveAmount 1000 //500
+	DamageFactor "Melee", 0.4
+	DamageFactor "Zap", 0.6
+	+FLOATBOB
+	+DONTGIB
+	States
+	{
+		Spawn:
+			DACL D -1 
+			stop
+	}
+}
+
+ACTOR ArmorScrap4 : ArmorScrap3
+{
+	Inventory.Icon "DACLB0"
+	Inventory.Pickupmessage "Knight-Gown Scrap (+1 Armor)"
+	Inventory.PickupSound "Scrap/Find"
+  Armor.SavePercent 93.75
+	Armor.SaveAmount 1
+	Armor.MaxSaveAmount 1000 //500
+	DamageFactor "Melee", 0.2
+	DamageFactor "Zap", 0.3
 	+FLOATBOB
 	+DONTGIB
 	States
@@ -2322,6 +2348,8 @@ ACTOR KnightGown : SilverShield
 	Inventory.PickupSound "Dinah/marvelous"
   Armor.SavePercent 50
   Armor.SaveAmount 125
+	DamageFactor "Melee", 0.8
+	DamageFactor "Zap", 0.9
 	Scale 0.5
 	+DONTGIB
 	+FLOATBOB
@@ -2348,6 +2376,8 @@ ACTOR KnightGown2 : EnchantedShield
 	Inventory.PickupSound "Dinah/marvelous"
   Armor.SavePercent 75
   Armor.SaveAmount 250
+	DamageFactor "Melee", 0.6
+	DamageFactor "Zap", 0.8
 	Scale 0.5
 	+DONTGIB
 	+FLOATBOB
@@ -2364,10 +2394,34 @@ ACTOR KnightGown3 : EnchantedShield
 {
 	//$Category RPArtifacts
 	Inventory.Icon "AGWNK0"
-	Inventory.Pickupmessage "Master's Knight-Gown (93.75% Protection)"
+	Inventory.Pickupmessage "Master's Knight-Gown (87.5% Protection)"
 	Inventory.PickupSound "Dinah/giggle"
   Armor.SavePercent 87.5
   Armor.SaveAmount 500
+	DamageFactor "Melee", 0.4
+	DamageFactor "Zap", 0.6
+	Scale 0.5
+	+DONTGIB
+	+FLOATBOB
+	Tag "Master's Knight-Gown"
+	States
+	{
+		Spawn:
+			AGWN C -1
+			Stop
+	}
+}
+
+ACTOR KnightGown4 : EnchantedShield
+{
+	//$Category RPArtifacts
+	Inventory.Icon "AGWNK0"
+	Inventory.Pickupmessage "Master's Knight-Gown (93.75% Protection)"
+	Inventory.PickupSound "Dinah/giggle"
+  Armor.SavePercent 93.75
+  Armor.SaveAmount 1000
+	DamageFactor "Melee", 0.2
+	DamageFactor "Zap", 0.3
 	Scale 0.5
 	+DONTGIB
 	+FLOATBOB
