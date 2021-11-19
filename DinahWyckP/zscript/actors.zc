@@ -1,0 +1,14 @@
+// Base class [for later use]
+class DDBaseZSC : Actor
+{
+	
+	default
+	{
+		+CASTSPRITESHADOW;
+		-NOSPRITESHADOW;
+	}
+}
+
+class ShieldPartBase : DDBaseZSC
+{
+}
