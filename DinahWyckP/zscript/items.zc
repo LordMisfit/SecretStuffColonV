@@ -71,7 +71,6 @@ class FoodPlateFruit : CustomInventoryExt replaces HealthBonus
 	
 	default
 	{
-		+COUNTITEM
 		+DONTGIB
 		+INVENTORY.AUTOACTIVATE
 		+INVENTORY.ALWAYSPICKUP
@@ -102,8 +101,8 @@ class FoodPlateFruit : CustomInventoryExt replaces HealthBonus
 						if (invoker.user_type == 9) { A_SpawnItemEx("BRocketPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
 						if (invoker.user_type == 10) { A_SpawnItemEx("PopperPickup",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
 					}
-					invoker.bCOUNTITEM = false;
-					invoker.A_FadeOut(1.0,FTF_REMOVE);
+					bCOUNTITEM = false;
+					A_FadeOut(1.0,FTF_REMOVE);
 				}
 			}
 		Idle:

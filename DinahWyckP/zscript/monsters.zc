@@ -145,8 +145,8 @@ class CacodemonNew : Cacodemon replaces Cacodemon
 		Painchance "Fire", 32;
 		DamageFactor "Breakfast", 5;
 		Painchance "Breakfast", 256;
-		DamageFactor "Suck", 0.5;
-		Painchance "Suck", 64;
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 32;
 		DamageFactor "CherryBomb", 0.5;
 		Painchance "CherryBomb", 64;
 		DamageFactor "BRocket", 2.5;

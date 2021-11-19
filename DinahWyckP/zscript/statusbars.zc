@@ -1,82 +1,3 @@
-class InventoryBarStateDD : InventoryBarState
-{
-	TextureID box;
-	TextureID selector;
-	Vector2 boxsize;
-	Vector2 boxofs;
-	Vector2 selectofs;
-	Vector2 innersize;
-		
-	TextureID left;
-	TextureID right;
-	Vector2 arrowoffset;
-
-	double itemalpha;
-	
-	HUDFont amountfont;
-	int cr;
-	int flags;
-
-	private static void Init(InventoryBarState me, HUDFont indexfont, int cr, double itemalpha, Vector2 innersize,	String leftgfx, String rightgfx, Vector2 arrowoffs, int flags)
-	{
-		me.itemalpha = itemalpha;
-		if (innersize == (0, 0))
-		{
-			me.boxofs = (2, 2);
-			me.innersize = me.boxsize - (4, 4);	// Default is based on Heretic's and Hexens icons.
-		}
-		else
-		{
-			me.innersize = innersize;
-			me.boxofs = (me.boxsize - me.innersize) / 2;
-		}
-		if (me.selector.IsValid())
-		{
-			Vector2 sel = TexMan.GetScaledSize(me.selector);
-			me.selectofs = (me.boxsize - sel) / 2;
-		}
-		me.left = TexMan.CheckForTexture(leftgfx, TexMan.TYPE_MiscPatch);
-		me.right = TexMan.CheckForTexture(rightgfx, TexMan.TYPE_MiscPatch);
-		me.arrowoffset = arrowoffs;
-		me.arrowoffset.Y += me.boxsize.Y/2;	// default is centered to the side of the box.
-		if (indexfont == null) 
-		{
-			me.amountfont = HUDFont.Create("INDEXFONT");
-			if (cr == Font.CR_UNTRANSLATED) cr = Font.CR_GOLD;
-		}
-		else me.amountfont = indexfont;
-		me.cr = cr;
-		me.flags = flags;
-	}
-
-	// The default settings here are what SBARINFO is using.
-	static InventoryBarState Create(HUDFont indexfont = null, int cr = Font.CR_UNTRANSLATED, double itemalpha = 1.,
-							String boxgfx = "ARTIBOXD", String selgfx = "SELECTBO", Vector2 innersize = (0, 0),
-							String leftgfx = "INVGEML1", String rightgfx = "INVGEMR1", Vector2 arrowoffs = (0, 0), int flags = 0)
-	{
-		let me = new ("InventoryBarState");
-		me.box = TexMan.CheckForTexture(boxgfx, TexMan.TYPE_MiscPatch);
-		me.selector = TexMan.CheckForTexture(selgfx, TexMan.TYPE_MiscPatch);
-		if (me.box.IsValid() || me.selector.IsValid()) me.boxsize = TexMan.GetScaledSize(me.box.IsValid()? me.box : me.selector);
-		else me.boxsize = (32., 32.);
-		Init(me, indexfont, cr, itemalpha, innersize, leftgfx, rightgfx, arrowoffs, flags);
-		return me;
-	}
-	
-	// The default settings here are what SBARINFO is using.
-	static InventoryBarState CreateNoBox(HUDFont indexfont = null, int cr = Font.CR_UNTRANSLATED, double itemalpha = 1.,
-							Vector2 boxsize = (32, 32), String selgfx = "SELECTBO", Vector2 innersize = (0, 0),
-							String leftgfx = "INVGEML1", String rightgfx = "INVGEMR1", Vector2 arrowoffs = (0, 0), int flags = 0)
-	{
-		let me = new ("InventoryBarState");
-		me.box.SetInvalid();
-		me.selector = TexMan.CheckForTexture(selgfx, TexMan.TYPE_MiscPatch);
-		me.boxsize = boxsize;
-		Init(me, indexfont, cr, itemalpha, innersize, leftgfx, rightgfx, arrowoffs, flags);
-		return me;
-	}
-}
-
 class DDStatusBarMain : BaseStatusBar
 {
 	DynamicValueInterpolator mHealthInterpolator;
@@ -88,12 +9,11 @@ class DDStatusBarMain : BaseStatusBar
 	InventoryBarState diparms;
 	InventoryBarState diparms_sbar;
 	private int wiggle;
-	
 
 	override void Init()
 	{
 		Super.Init();
-		SetSize(42, 320, 200);
+		SetSize(42, 320, 200); // 42, 320, 200
 
 		// Create the font used for the fullscreen HUD
 		Font fnt = "HUDFONT_RAVEN";
@@ -150,8 +70,6 @@ class DDStatusBarMain : BaseStatusBar
 	// Except for the placement information this gets all info from the struct that gets passed in.
 	void DrawInventoryBar(InventoryBarState parms, Vector2 position, int numfields, int flags = 0, double bgalpha = 1.)
 	{
-		/*
-		*/
 		Font fnt = "INDEXFONT_DD";
 		parms.amountfont = HUDFont.Create(fnt, fnt.GetCharWidth("0"), true, 1, 1);
 		parms.box = TexMan.CheckForTexture("ARTIBOXD", TexMan.TYPE_MiscPatch);
@@ -394,7 +312,7 @@ class DDStatusBarMain : BaseStatusBar
 		DrawImage("CHAINBAC", (0, 190), DI_ITEM_OFFSETS);
 		// wiggle the chain if it moves
 		int inthealth =  mHealthInterpolator.GetValue();
-		DrawGem("CHAIN", "LIFEGEM2",inthealth, CPlayer.mo.GetMaxHealth(true), (2, 191 + wiggle), 15, 25, 16, (multiplayer? DI_TRANSLATABLE : 0) | DI_ITEM_LEFT_TOP); 
+		DrawGem("CHAIN", "LIFEGEM4", inthealth, CPlayer.mo.GetMaxHealth(true), (2, 191 + wiggle), 15, 25, 16, (multiplayer? DI_TRANSLATABLE : 0) | DI_ITEM_LEFT_TOP); 
 		DrawImage("LTFACE", (0, 190), DI_ITEM_OFFSETS);
 		DrawImage("RTFACE", (276, 190), DI_ITEM_OFFSETS);
 		DrawShader(SHADER_HORZ, (19, 190), (16, 10));
@@ -402,41 +320,100 @@ class DDStatusBarMain : BaseStatusBar
 
 		if (!isInventoryBarVisible())
 		{
+			int x = 86;
+			int y = 174;
 			//statbar
-			if (!deathmatch)
+			int PlayerMaxHP = CPlayer.mo.CountInv("PlayerMaxHP");
+
+			DrawImage("LIFEBAR", (34, 160), DI_ITEM_OFFSETS);
+			DrawImage("ARMCLEAR", (57, 171), DI_ITEM_OFFSETS);
+			DrawString(HUDFont.Create("INDEXFONT_DD"), FormatNumber(PlayerMaxHP, 3), (x, y+5), DI_TEXT_ALIGN_RIGHT, font.cr_brick);
+			DrawString(HUDFont.Create("INDEXFONT_DD"), "/", (x+6, y), DI_TEXT_ALIGN_RIGHT, font.cr_brick);
+			DrawString(HUDFont.Create("INDEXFONT_DDL"), FormatNumber(mHealthInterpolator.GetValue(), 3), (x, y-6), DI_TEXT_ALIGN_RIGHT, font.cr_brick);
+
+			x = 253;
+			y = 174;
+			int armorcolor = font.CR_White; 
+			int armormax;
+			let armor = CPlayer.mo.FindInventory("BasicArmor");
+			if (CPlayer.mo.CountInv("KnightGownItem"))
 			{
-				DrawImage("LIFEBAR", (34, 160), DI_ITEM_OFFSETS);
-				DrawImage("ARMCLEAR", (57, 171), DI_ITEM_OFFSETS);
-				DrawString(mHUDFont, FormatNumber(mHealthInterpolator.GetValue(), 3), (88, 170), DI_TEXT_ALIGN_RIGHT);
+				armorcolor = font.CR_Purple;
+				armormax = 250;
+			}
+			if (CPlayer.mo.CountInv("KnightGownItem2"))
+			{
+				armorcolor = font.CR_Cyan;
+				armormax = 500;
+			}
+			if (CPlayer.mo.CountInv("KnightGownItem3"))
+			{
+				armorcolor = font.CR_Gold;
+				armormax = 1000;
+			}
+			if (armormax)
+			{
+				DrawInventoryIcon(armor, (x-22, y+10), DI_TEXT_ALIGN_CENTER, 0.75, (-1, -1), (0.5,0.5)); // 58, -24
+				DrawString(HUDFont.Create("INDEXFONT_DD"), FormatNumber(armormax, 4), (x, y+5), DI_TEXT_ALIGN_RIGHT, armorcolor, 0.90); // 41, -43
+				DrawString(HUDFont.Create("INDEXFONT_DD"), "/", (x+6, y), DI_TEXT_ALIGN_RIGHT, armorcolor, 0.90); // 41, -43
+				DrawString(HUDFont.Create("INDEXFONT_DDL"), FormatNumber(mArmorInterpolator.GetValue(), 4), (x, y-6), DI_TEXT_ALIGN_RIGHT, armorcolor, 0.90); // 41, -43
 			}
 			else
 			{
-				DrawImage("STATBAR", (34, 160), DI_ITEM_OFFSETS);
-				DrawImage("ARMCLEAR", (57, 171), DI_ITEM_OFFSETS);
-				DrawString(mHUDFont, FormatNumber(CPlayer.FragCount, 3), (88, 170), DI_TEXT_ALIGN_RIGHT);
+				DrawString(HUDFont.Create("INDEXFONT_DDL"), FormatNumber(mArmorInterpolator.GetValue(), 4), (x, y-4), DI_TEXT_ALIGN_RIGHT, armorcolor, 0.90); // 41, -43
 			}
-			DrawString(mHUDFont, FormatNumber(GetArmorAmount(), 3), (255, 170), DI_TEXT_ALIGN_RIGHT);
 
 			//ammo
 			Ammo ammo1, ammo2;
 			[ammo1, ammo2] = GetCurrentAmmo();
+			x = 136;
+			y = 162;
 			if (ammo1 != null && ammo2 == null)
 			{
-				DrawString(mHUDFont, FormatNumber(ammo1.Amount, 3), (136, 162), DI_TEXT_ALIGN_RIGHT);
-				DrawTexture(ammo1.icon, (123, 180), DI_ITEM_CENTER);
+				DrawTexture(ammo1.icon, (x-15, y+13), DI_ITEM_CENTER, 0.75, (-1, -1), (1.0,1.0));
+				DrawString(HUDFont.Create("INDEXFONT_DDL"), FormatNumber(ammo1.Amount, 3), (136, y), DI_TEXT_ALIGN_RIGHT, font.cr_Gold);
+				DrawString(HUDFont.Create("INDEXFONT_DD"), "/", (136, y+12), DI_TEXT_ALIGN_RIGHT, font.cr_Gold);
+				DrawString(HUDFont.Create("INDEXFONT_DD"), FormatNumber(ammo1.MaxAmount, 3), (136, y+19), DI_TEXT_ALIGN_RIGHT, font.cr_Gold);
 			}
 			else if (ammo2 != null)
 			{
-				DrawString(mIndexFont, FormatNumber(ammo1.Amount, 3), (137, 165), DI_TEXT_ALIGN_RIGHT);
-				DrawString(mIndexFont, FormatNumber(ammo2.Amount, 3), (137, 177), DI_TEXT_ALIGN_RIGHT);
+				DrawString(mIndexFont, FormatNumber(ammo1.Amount, 3), (137, 165), DI_TEXT_ALIGN_RIGHT, font.cr_Gold);
+				DrawString(mIndexFont, FormatNumber(ammo2.Amount, 3), (137, 177), DI_TEXT_ALIGN_RIGHT, font.cr_Gold);
 				DrawTexture(ammo1.icon, (115, 169), DI_ITEM_CENTER);
 				DrawTexture(ammo2.icon, (115, 180), DI_ITEM_CENTER);
 			}
 
 			//keys
-			if (CPlayer.mo.CheckKeys(3, false, true)) DrawImage("YKEYICON", (153, 164), DI_ITEM_OFFSETS);
-			if (CPlayer.mo.CheckKeys(1, false, true)) DrawImage("GKEYICON", (153, 172), DI_ITEM_OFFSETS);
-			if (CPlayer.mo.CheckKeys(2, false, true)) DrawImage("BKEYICON", (153, 180), DI_ITEM_OFFSETS);
+			if (gameinfo.gametype & 1) // Doom Mode
+			{
+				bool locks[6];
+				String image = "";
+				for(int i = 0; i < 6; i++) locks[i] = CPlayer.mo.CheckKeys(i + 1, false, true);
+				// key 1
+				if (locks[1] && locks[4]) image = "BKEYICO2";
+				else if (locks[1]) image = "BKEYICO0";
+				else if (locks[4]) image = "BKEYICO1";
+				else image = "";
+				DrawImage(image, (153, 164), DI_ITEM_OFFSETS);
+
+				if (locks[2] && locks[5]) image = "YKEYICO2";
+				else if (locks[2]) image = "YKEYICO0";
+				else if (locks[5]) image = "YKEYICO1";
+				else image = "";
+				DrawImage(image, (153, 172), DI_ITEM_OFFSETS);
+
+				if (locks[0] && locks[3]) image = "RKEYICO2";
+				else if (locks[0]) image = "RKEYICO0";
+				else if (locks[3]) image = "RKEYICO1";
+				else image = "";
+				DrawImage(image, (153, 180), DI_ITEM_OFFSETS);
+			}
+			if (gameinfo.gametype & 2) // Heretic Mode
+			{
+				if (CPlayer.mo.CheckKeys(3, false, true)) DrawImage("YKEYICON", (153, 164), DI_ITEM_OFFSETS);
+				if (CPlayer.mo.CheckKeys(1, false, true)) DrawImage("GKEYICON", (153, 172), DI_ITEM_OFFSETS);
+				if (CPlayer.mo.CheckKeys(2, false, true)) DrawImage("BKEYICON", (153, 180), DI_ITEM_OFFSETS);
+			}
 
 			//inventory box
 			if (CPlayer.mo.InvSel != null)
@@ -570,14 +547,14 @@ class DDStatusBarMain : BaseStatusBar
 		//ammo
 		Ammo ammo1, ammo2;
 		[ammo1, ammo2] = GetCurrentAmmo();
-		int X;
+		int x = -4;
 		int y = -22;
 		if (ammo1 != null)
 		{
-			DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(ammo1.MaxAmount, 3), (-2, y+9), DI_TEXT_ALIGN_RIGHT, font.cr_DarkGray);
-			DrawString(HUDFont.Create("SMALLFONT"), "/", (-31, y+5), DI_TEXT_ALIGN_RIGHT, font.cr_DarkGray);
-			DrawString(HUDFont.Create("BIGFONT"), FormatNumber(ammo1.Amount, 3), (-4, y-4), DI_TEXT_ALIGN_RIGHT, font.cr_Gray);
-			DrawTexture(ammo1.Icon, (-14, y)); // -17, y
+			DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(ammo1.MaxAmount, 3), (x+2, y+14), DI_TEXT_ALIGN_RIGHT, font.cr_DarkGray);
+			DrawString(HUDFont.Create("SMALLFONT"), "/", (x-27, y+9), DI_TEXT_ALIGN_RIGHT, font.cr_DarkGray);
+			DrawString(HUDFont.Create("BIGFONT"), FormatNumber(ammo1.Amount, 3), (x, y+2), DI_TEXT_ALIGN_RIGHT, font.cr_Gray);
+			DrawTexture(ammo1.Icon, (x-10, y), DI_TEXT_ALIGN_RIGHT, 1.0, (-1, -1), (1.0,1.0)); // -17, y
 			y -= 40;
 		}
 		/*
