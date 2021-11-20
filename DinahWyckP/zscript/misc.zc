@@ -50,6 +50,8 @@ class PlayerStatItem : Inventory
 	
 	int StrifeStamLvl;
 	int StrifeAccuLvl;
+	
+	double atkfct, deffct, spdfct, jmpfct;
 
 	default 
 	{
@@ -81,6 +83,7 @@ class PlayerStatItem : Inventory
 			TrueGameSkill = skill;
 			
 			bool debugexptables = false;
+			bool debugstartup = true;
 			if (ClassCheck <= 6)
 			{
 				if (ClassCheck <= 0) 
@@ -106,6 +109,8 @@ class PlayerStatItem : Inventory
 
 					PlayerLevel = 0;
 
+					atkfct = deffct = spdfct = jmpfct = 1.00;
+					double variance = 0.10;
 					if (TrueGameSkill == SKILL_VERY_EASY) 
 					{
 						MaxHealthTrue = 96;
@@ -114,6 +119,7 @@ class PlayerStatItem : Inventory
 						owner.A_SetInventory("BlunderAmmo",6);
 						owner.A_SetInventory("AppleJack",1);
 						owner.A_SetInventory("JackAmmo",12);
+						variance = 0.05;
 					}
 					if (TrueGameSkill == SKILL_EASY) 
 					{
@@ -121,27 +127,37 @@ class PlayerStatItem : Inventory
 						MaxHealthTrue *= (1.00 + (frandom(-0.025,0.025)));
 						owner.A_SetInventory("AppleJack",1);
 						owner.A_SetInventory("JackAmmo",6);
+						variance = 0.075;
 					}
 					if (TrueGameSkill == SKILL_NORMAL) 
 					{
 						MaxHealthTrue = 80; 
 						MaxHealthTrue *= (1.00 + (frandom(-0.05,0.05)));
+						variance = 0.10;
 					}
 					if (TrueGameSkill == SKILL_HARD) 
 					{
 						MaxHealthTrue = 72; 
 						MaxHealthTrue *= (1.00 + (frandom(-0.1,0.1)));
+						variance = 0.125;
 					}
 					if (TrueGameSkill == SKILL_VERY_HARD) 
 					{
 						MaxHealthTrue = 64; 
 						MaxHealthTrue *= (1.00 + (frandom(-0.2,0.2)));
+						variance = 0.15;
 					}
+					atkfct += frandom(-variance,variance);
+					deffct += frandom(-variance,variance);
+					spdfct += frandom(-variance,variance);
+					jmpfct += frandom(-variance,variance);
+					if (debugstartup) Console.Printf("atkfct: %.8f, deffct: %.8f, spdfct: %.8f, jmpfct: %.8f", atkfct, deffct, spdfct, jmpfct);
+					
 					if (MaxHealthTrue < 1) MaxHealthTrue = 1;
 					owner.player.mo.stamina = 0;
 					owner.player.health = owner.player.mo.health = owner.player.mo.maxhealth = CurrentHealth = MaxHealthTrue;
 					owner.A_SetInventory("PlayerMaxHP",MaxHealthTrue);
-					//Console.Printf("MaxHP: %d", MaxHealthTrue);
+					if (debugstartup) Console.Printf("MaxHP: %d", MaxHealthTrue);
 					
 					owner.A_SetInventory("PlayerLevel",PlayerLevel);
 					LevelCap = 200;
@@ -151,7 +167,7 @@ class PlayerStatItem : Inventory
 					if (InitEXPTables == 0)
 					{
 						double ExpValue;
-						int BaseEXPRequirement = 100; // clamp(dydu_baseexprequirement, 250, 11200);
+						int BaseEXPRequirement = 250; // clamp(dydu_baseexprequirement, 250, 11200);
 						BaseEXPRequirement *= (0.875 + (TrueGameSkill * 0.0625));
 
 						double BaseExtra = 1; // clamp(dydu_baseexpextra, 0, 100);
@@ -579,7 +595,8 @@ class PlayerStatItem : Inventory
 												* LevelJumpZ
 												* BuffJumpZ
 												* ArmorJumpZ
-												* WeaponJumpZ;
+												* WeaponJumpZ
+												* jmpfct;
 
 			if (debugjumpz) Console.Printf("%.8f (%.8f, %.8f, %.8f, %.8f)", TotalJumpZ, CharacterJumpZ, LevelJumpZ, BuffJumpZ, ArmorJumpZ);
 			PlayerPawn(Owner).JumpZ = TotalJumpZ;
@@ -755,7 +772,8 @@ class PlayerStatItem : Inventory
 			double TOTALFactor = 1.0
 													 * LVLFactor
 													 * SkillFactor
-													 * BuffFactor;
+													 * BuffFactor
+													 * atkfct;
 
 			newdamage = max(1, ApplyDamageFactors(GetClass(), damageType, damage, damage * TOTALFactor));
 			if (debugdmg) Console.Printf("FDamage (!passive): %d", newdamage);
@@ -806,7 +824,8 @@ class PlayerStatItem : Inventory
 			double TOTALFactor = 1.0
 													 * LVLFactor
 													 * SkillFactor
-													 * BuffFactor;
+													 * BuffFactor
+													 * deffct;
 
 			newdamage = max(0, ApplyDamageFactors(GetClass(), damageType, damage, damage * TOTALFactor));
 			if (debugdmg) Console.Printf("FDamage (passive - Final): %d", newdamage);
@@ -863,6 +882,8 @@ class PlayerStatItem : Inventory
 		If (weapon is "SuperVac") Speed *= 0.875;
 		If (weapon is "Grimophone") Speed *= 0.875;
 		if (debugspeed) Console.Printf("SpeedX [WeaponEquipped]: %.8f", Speed);
+		
+		Speed *= spdfct;
 
 		if (debugspeed) Console.Printf("SpeedX [Final]: %.8f", Speed);
 		return Speed; 
