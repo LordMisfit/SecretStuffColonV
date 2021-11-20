@@ -415,9 +415,11 @@ class HandToHand : DDWeapon
 		PunchStartL:
 			DHND B 3
 			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 			}
 			DPUN A 3
 			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 				if (random(1,256) <= 4) { A_AlertMonsters(); }
 				A_StartSound("fistswingmedium",CHAN_BODY);
 				
@@ -433,21 +435,26 @@ class HandToHand : DDWeapon
 			}
 			DPUN B 4
 			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 			}
 			DPUN A 3
 			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 			}
 			DHND B 4
 			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 				A_ReFire();
 			}
 			goto Ready;
 		PunchStartR:
 			DHND C 3
 			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 			}
 			DPUN C 3
 			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 				if (random(1,256) <= 4) { A_AlertMonsters(); }
 				A_StartSound("fistswingmedium",CHAN_BODY);
 				
@@ -463,12 +470,15 @@ class HandToHand : DDWeapon
 			}
 			DPUN D 4
 			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 			}
 			DPUN C 3
 			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 			}
 			DHND B 4
 			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 				A_ReFire();
 			}
 			goto Ready;
@@ -612,6 +622,7 @@ class KickPuff : DDPuff
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
 				{
 					dmg *= 10;
+					radi *= 2.5;
 					A_StartSound("fisthitberserk", 56); 
 				} else { A_StartSound("FistHit", 56); }
 
@@ -638,6 +649,7 @@ class KickPuff : DDPuff
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
 				{
 					dmg *= 10;
+					radi *= 2.5;
 					A_StartSound("fisthitberserk", 56); 
 				} else { A_StartSound("FistHit", 56); }
 
@@ -664,6 +676,7 @@ class KickPuff : DDPuff
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
 				{
 					dmg *= 10;
+					radi *= 2.5;
 					A_StartSound("fisthitberserkwall", 56); 
 				} else { A_StartSound("FistHitWall", 56); }
 
@@ -702,6 +715,7 @@ class KickPuffNoThrust : KickPuff
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
 				{
 					dmg *= 10;
+					radi *= 2.5;
 					A_StartSound("fisthitberserk", 56); 
 				} else { A_StartSound("FistHit", 56); }
 
@@ -724,6 +738,7 @@ class KickPuffNoThrust : KickPuff
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
 				{
 					dmg *= 10;
+					radi *= 2.5;
 					A_StartSound("fisthitberserk", 56); 
 				} else { A_StartSound("FistHit", 56); }
 
@@ -746,6 +761,7 @@ class KickPuffNoThrust : KickPuff
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
 				{
 					dmg *= 10;
+					radi *= 2.5;
 					A_StartSound("fisthitberserkwall", 56);
 				} else { A_StartSound("FistHitWall", 56); }
 
@@ -794,6 +810,7 @@ class FistPuff : DDPuff
 				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					dmg *= 10;
+					radi *= 2.5;
 					A_StartSound("fisthitberserk", 56); 
 				} else { A_StartSound("FistHit", 56); }
 
@@ -816,6 +833,7 @@ class FistPuff : DDPuff
 				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					dmg *= 10;
+					radi *= 2.5;
 					A_StartSound("fisthitberserk", 56); 
 				} else { A_StartSound("FistHit", 56); }
 
@@ -838,6 +856,7 @@ class FistPuff : DDPuff
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
 				{
 					dmg *= 10;
+					radi *= 2.5;
 					A_StartSound("fisthitberserkwall", 56);
 				} else { A_StartSound("FistHitWall", 56); }
 

@@ -445,13 +445,13 @@ class PowerStrengthDD : PowerStrength
 
 		if (Dire == 1)
 		{
-			if (!owner.CountInv("TimePotionTimeFreezer")) EffectTics += increment;
+			if (owner.CountInv("TimePotionTimeFreezer") <= 0) EffectTics += increment;
 			if (EffectTics >= Point2) Dire = 2;
 		}
 		else
 		if (Dire == 2)
 		{
-			if (!owner.CountInv("TimePotionTimeFreezer")) EffectTics -= increment;
+			if (owner.CountInv("TimePotionTimeFreezer") <= 0) EffectTics -= increment;
 			if (EffectTics <= Point1) Dire = 1;
 		}
 
