@@ -276,7 +276,7 @@ class BerserkNew : CustomInventory replaces Berserk
 				A_StartSound("getberserkpack",CHAN_BODY);
 				A_StartSound("Dinah/Gotcha",CHAN_VOICE);
 				A_SetBlend("f0 f0 f0",0.2,random(8,12));
-				player.mo.A_GiveInventory("PowerStrength");
+				player.mo.A_GiveInventory("PowerStrengthDD"); // PowerStrength
 				if (prevtemp1 < temp2) Console.Printf("\c[red]Berserk! All Melee Attacks \c[purple]x10\c[red] Damage! \c[green]HP restored to %d%% of max!", perc);
 													else Console.Printf("\c[red]Berserk! All Melee Attacks \c[purple]x10\c[red] Damage!");
 			}
@@ -350,7 +350,7 @@ class CherryBombPickup : CustomInventoryExt replaces RocketAmmo
 		Use:
 			TNT1 A 0 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_ThrowGrenade("CherryBombShotBerserk",-2,(random(14,18) * 2.5),(frandom(2.75,3.25) * 1.75),0);
 				}
@@ -361,4 +361,32 @@ class CherryBombPickup : CustomInventoryExt replaces RocketAmmo
 			}
 			Stop;
 	} 
+}
+
+class InvulnerabilitySphere2 : CustomInventoryExt replaces InvulnerabilitySphere
+{
+	default
+	{
+		+FLOATBOB
+		+DONTGIB
+		+COUNTITEM
+		+INVENTORY.AUTOACTIVATE
+		+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.BIGPOWERUP
+		Inventory.PickupMessage "\Picked up the Invulnerability Sphere!";
+		Inventory.PickupSound "powerups/invuln";
+		
+	}
+	States
+	{
+		Spawn:
+			PINV ABCDCB 6 Bright;
+			Loop;
+		Pickup:
+			TNT1 A 0
+			{
+				A_GiveInventory("PowerInvulnDD");
+			}
+			Stop;
+	}
 }

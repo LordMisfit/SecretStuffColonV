@@ -6,11 +6,12 @@ class DinahPlayer : HereticPlayer
 		Player.SoundClass "DinahPlayer";
 		Player.StartItem "PlayerStatItem";
 		Player.StartItem "CricketBat";
+		Player.StartItem "HandToHand";
 		Player.StartItem "MalletAmmo", 10;
-		Player.Weaponslot 1, "CricketBat";
-		Player.Weaponslot 2, "Blundaxe";
-		Player.Weaponslot 3, "AppleJack";
-		Player.Weaponslot 4, "Scrambler";
+		Player.Weaponslot 1, "HandToHand";
+		Player.Weaponslot 2, "CricketBat";
+		Player.Weaponslot 3, "Blundaxe", "Scrambler";
+		Player.Weaponslot 4, "AppleJack";
 		Player.Weaponslot 5, "WizardPike";
 		Player.Weaponslot 6, "SuperVac";
 		Player.Weaponslot 7, "Grimophone";
@@ -66,7 +67,7 @@ class DinahPlayer : HereticPlayer
 
 			// Buffs
 			double BuffAirControl = 1.00;
-			if (CountInv("PowerStrength")) BuffAirControl *= 1.334;
+			if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) BuffAirControl *= 1.334;
 			if (CountInv("PowerRoastBuff")) BuffAirControl *= 1.5;
 
 			level.aircontrol = AirControlBase
@@ -137,7 +138,8 @@ class DinahPlayer : HereticPlayer
 			{
 				let player = self.player;
 				if (waterlevel < 3 || (bInvulnerable) || 
-					(player.cheats & (CF_GODMODE | CF_NOCLIP2)) || (player.cheats & CF_GODMODE2))
+					(player.cheats & (CF_GODMODE | CF_NOCLIP2)) || (player.cheats & CF_GODMODE2) || 
+					CountInv("PowerInvulnDD") || CountInv("PowerInvulnerable"))
 				{
 					ResetAirSupply();
 				}
@@ -432,7 +434,7 @@ class DinahPlayer : HereticPlayer
 		}
 		
 		// Berserk Effects
-		if (CountInv("PowerStrength"))
+		if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
 		{
 			olddmg = damage;
 			if (mod == 'Falling') damage = ceil(damage * frandom(0.625,0.75));

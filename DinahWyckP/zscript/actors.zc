@@ -11,4 +11,50 @@ class DDBaseZSC : Actor
 
 class ShieldPartBase : DDBaseZSC
 {
+	
+	default
+	{
+		Species "Players";
+		Health 2147483646;
+		Painchance 256;
+		Radius 32; // out of 32
+		Height 16; // out of 32
+		Scale 0.5;
+		RenderStyle "Add"; // Add
+		Alpha 0.0; // 0.003125
+		+NOTARGET; 
+		+NEVERTARGET;
+		+BUDDHA;
+		+DONTBLAST;
+		+SOLID; //+SHOOTABLE;
+		+NOGRAVITY;
+		+NOTELEPORT;
+		+NODAMAGE;
+		+DONTRIP;
+		+NOBLOOD;
+		+NOBLOODDECALS;
+		+FLOORCLIP;
+		+NOTELESTOMP;
+		+NOTIMEFREEZE;
+		+THRUSPECIES;
+		+MTHRUSPECIES;
+	}
+
+	override void PostBeginPlay()
+	{
+		
+		Super.PostBeginPlay();
+	}
+	
+	override void Tick()
+	{
+		if (level.time % 2 == 0) bSOLID = true; else bSOLID = false;
+		Super.Tick();
+	}
+
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		// We don't really care about others making the check.
+		return true;
+	}
 }

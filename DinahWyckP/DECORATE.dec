@@ -34,7 +34,7 @@ actor CricketBat : Weapon 31977
 {
 	//$Category RPWeapons
 	Weapon.SelectionOrder 100
-	Weapon.SlotNumber 1
+	Weapon.SlotNumber 2
 	Weapon.Kickback 50
 	Weapon.AmmoType2 "MalletAmmo"
 	Weapon.AmmoGive2 5
@@ -66,14 +66,14 @@ actor CricketBat : Weapon 31977
 		Deselect:
 			DBID A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop
 		Select: 
 			DBID A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop
@@ -81,23 +81,23 @@ actor CricketBat : Weapon 31977
 			DBID A 1
 			DBID B 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID C 1
 			DBID D 1 
 			{
 				A_PlaySound("MalletSwing");
 				if (random(1,32) <= 1) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID E 1 
 			DBID F 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID G 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_CustomPunch ((Random(6, 8)*10), FALSE, 0, "BatPuff", 112);
 				}
@@ -108,36 +108,36 @@ actor CricketBat : Weapon 31977
 			}
 			DBID H 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID IJCCBA 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(randompick(0,1,1,1,1,1)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(randompick(0,1,1,1,1,1)); }
 			}
 			goto Ready
 		AltFire:
 			DBID A 1
 			DBID B 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID C 1
 			DBID D 1
 			{
 				A_PlaySound("MalletSwing");
 				if (random(1,32) <= 1) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID E 1 
 			DBID F 1 
 			{
 				A_PlaySound("croquet/ballfire",1);
 				if (random(1,8) <= 1) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID G 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_FireCustomMissile("MalletShotBerserk",0,1,0,0);
 				}
@@ -148,15 +148,15 @@ actor CricketBat : Weapon 31977
 			}
 			DBID H 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID IJC 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			DBID BA 3
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
 			}
 			goto Ready
 	}
@@ -308,7 +308,7 @@ actor Blunderaxe : Weapon replaces Shotgun 31967
 {
 	//$Category RPWeapons
 	Weapon.SelectionOrder 200
-	Weapon.SlotNumber 2
+	Weapon.SlotNumber 3
 	Weapon.Kickback 40
 	Weapon.AmmoType2 "BlunderAmmo"
 	Weapon.AmmoGive2 6
@@ -358,14 +358,14 @@ actor Blunderaxe : Weapon replaces Shotgun 31967
 		Deselect:
 			BLAX A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop
 		Select: 
 			BLAX A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop
@@ -377,15 +377,15 @@ actor Blunderaxe : Weapon replaces Shotgun 31967
 			{
 				A_PlaySound("Blunderswing");
 				if (random(1,32) <= 1) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			BLAX HI 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			BLAX J 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_SetTics(1);
 					A_CustomPunch ((Random(16, 20)*10), FALSE, 0, "BlunderPuff", 96);
@@ -397,11 +397,11 @@ actor Blunderaxe : Weapon replaces Shotgun 31967
 			}
 			BLAX KLMN 3 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
 			}
 			BLAX O 4
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(randompick(1,2,2,3,3,3)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(randompick(1,2,2,3,3,3)); }
 			}
 			goto Ready
 		AltFire:
@@ -423,7 +423,7 @@ actor Blunderaxe : Weapon replaces Shotgun 31967
 			}
 			BLAX C 3 Bright
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
 				{
 					A_Recoil(frandom(0.96,1.44));
 					A_SetTics(random(1,2));
@@ -435,20 +435,20 @@ actor Blunderaxe : Weapon replaces Shotgun 31967
 			}
 			BLAX DE 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(randompick(0,1,1,2)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(randompick(0,1,1,2)); }
 			}
 			BLAX FF 7
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(3,4)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(3,4)); }
 			}
 			BLAX D 8
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(3,5)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(3,5)); }
 			}
 			BLAX A 9 
 			{
 				A_Refire;
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(4,5)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(4,5)); }
 			}
 			goto Ready
 	}
@@ -553,7 +553,7 @@ actor Scrambler : Weapon replaces SuperShotgun 31957
 {
 	//$Category RPWeapons
 	Weapon.SelectionOrder 300
-	Weapon.SlotNumber 4
+	Weapon.SlotNumber 3
 	Weapon.Kickback 75
 	Weapon.AmmoType2 "EggAmmo"
 	Weapon.AmmoGive2 3
@@ -578,34 +578,34 @@ actor Scrambler : Weapon replaces SuperShotgun 31957
 		Deselect:
 			FPAN A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop
 		Select: 
 			FPAN A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop
 		Fire:
 			FPAN A 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			FPAN B 2 
 			{
 				A_PlaySound("MalletSwing");
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			FPAN C 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			FPAN D 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_SetTics(1);
 					A_CustomPunch ((Random(10, 12)*10), FALSE, 0, "PanPuff", 72);
@@ -617,36 +617,36 @@ actor Scrambler : Weapon replaces SuperShotgun 31957
 			}
 			FPAN EFG 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			TNT1 A 5
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(2,3)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(2,3)); }
 			}
 			FPAN B 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(0,1)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(0,1)); }
 			}
 			goto Ready
 		AltFire:
 			FPAN A 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			FPAN B 2 
 			{
 				A_PlaySound("MalletSwing");
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			FPAN C 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			FPAN D 0 
 			FPAN D 2 
 			{
 				A_PlaySound("panclang",1);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_SetTics(1);
 					A_FireCustomMissile("EggShotBerserk",0,1,0,0);
@@ -658,15 +658,15 @@ actor Scrambler : Weapon replaces SuperShotgun 31957
 			}
 			FPAN EFG 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			TNT1 A 5
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(2,3)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(2,3)); }
 			}
 			FPAN B 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(0,1)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(0,1)); }
 			}
 			goto Ready
 	}
@@ -833,6 +833,7 @@ ACTOR EggGrenade
 	RENDERSTYLE Normal
 	DeathSound "blunderfire"
 	ExplosionDamage 64
+	BounceCount 1
 	States
 	{
 		Spawn:
@@ -863,6 +864,7 @@ ACTOR EggGrenadeBerserk : EggGrenade
 	RENDERSTYLE Normal
 	DeathSound "blunderfire"
 	ExplosionDamage 160
+	BounceCount 1
 	States
 	{
 		Spawn:
@@ -892,6 +894,7 @@ ACTOR EggMini
 	RENDERSTYLE Normal
 	DeathSound "blunderfire"
 	ExplosionDamage 32
+	BounceCount 2
 	States
 	{
 		Spawn:
@@ -919,6 +922,7 @@ ACTOR EggMiniBerserk : EggMini
 	RENDERSTYLE Normal
 	DeathSound "blunderfire"
 	ExplosionDamage 48
+	BounceCount 2
 	States
 	{
 		Spawn:
@@ -982,14 +986,14 @@ actor WizardPike : Weapon replaces RocketLauncher 31947
 		Deselect:
 			SCEP A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop
 		Select: 
 			SCEP A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop
@@ -997,18 +1001,18 @@ actor WizardPike : Weapon replaces RocketLauncher 31947
 			SCEP E 1 bright A_PlaySound("Malletswing")
 			SCEP F 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			SCEP G 1 
 			SCEP H 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			SCEP I 1 
 			SCEP J 5
 			{
 				if (random(1,32) <= 1) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_SetTics(random(2,3));
 					A_CustomPunch ((Random(6, 8)*10), FALSE, 0, "PikePuff", 96);
@@ -1021,12 +1025,12 @@ actor WizardPike : Weapon replaces RocketLauncher 31947
 			SCEP I 1 
 			SCEP H 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			SCEP G 1 
 			SCEP F 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			goto Ready
 		AltFire:
@@ -1050,7 +1054,7 @@ actor WizardPike : Weapon replaces RocketLauncher 31947
 			SCEP C 1 bright
 			SCEP C 0
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Recoil(frandom(0.64,0.96)); } else { A_Recoil(frandom(3.2,4.8)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Recoil(frandom(0.64,0.96)); } else { A_Recoil(frandom(3.2,4.8)); }
 			}
 			SCEP D 6 bright
 			{
@@ -1216,7 +1220,7 @@ actor AppleJack : Weapon replaces Chaingun 31970
 {
 	//$Category RPWeapons
 	Weapon.SelectionOrder 100
-	Weapon.SlotNumber 3
+	Weapon.SlotNumber 4
 	Weapon.Kickback 75
 	Weapon.AmmoType2 "JackAmmo"
 	Weapon.AmmoGive2 12
@@ -1242,14 +1246,14 @@ actor AppleJack : Weapon replaces Chaingun 31970
 		Deselect:
 			AJAK A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop
 		Select: 
 			AJAK A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop
@@ -1258,15 +1262,15 @@ actor AppleJack : Weapon replaces Chaingun 31970
 			{
 				A_PlaySound("MalletSwing");
 				if (random(1,32) <= 1) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			AJAK C 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			AJAK D 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_SetTics(1);
 					A_CustomPunch ((Random(6, 8)*10), FALSE, 0, "ApplePuff", 96);
@@ -1278,11 +1282,11 @@ actor AppleJack : Weapon replaces Chaingun 31970
 			}
 			AJAK E 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			AJAK F 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_SetTics(1);
 					A_CustomPunch ((Random(6, 8)*10), FALSE, 0, "ApplePuff", 96);
@@ -1294,26 +1298,26 @@ actor AppleJack : Weapon replaces Chaingun 31970
 			}
 			AJAK G 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			TNT1 A 3
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
 			}
 			AJAK BA 3
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
 			}
 			goto Ready
 		AltFire:
 			AJAF CDE 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			AJAF F 2 
 			{
 				if (random(1,32) <= 31) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
 				{ 
 					A_SetTics(1); 
 					A_FireCustomMissile("JackShotBerserk",0,1,0,0);
@@ -1325,15 +1329,15 @@ actor AppleJack : Weapon replaces Chaingun 31970
 			}
 			AJAF GHI 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			TNT1 A 3
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
 			}
 			AJAK BA 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			goto Ready
 	}
@@ -1565,14 +1569,14 @@ actor SuperVac : Weapon replaces PlasmaRifle 31980
 		Deselect:
 			VACM A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop
 		Select: 
 			VACM A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop
@@ -1600,7 +1604,7 @@ actor SuperVac : Weapon replaces PlasmaRifle 31980
 			{
 				if (random(1,16) == 1)
 				{
-					if (CountInv("PowerStrength",AAPTR_PLAYER1))
+					if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 					{
 						A_CustomPunch((Random(3,6)*1.25), FALSE, 0, "VacPuff", 80, frandompick(0.01,0.05,0.1));
 					}
@@ -1611,7 +1615,7 @@ actor SuperVac : Weapon replaces PlasmaRifle 31980
 				}
 				else
 				{
-					if (CountInv("PowerStrength",AAPTR_PLAYER1))
+					if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 					{
 						A_CustomPunch((Random(3,6)*1.25), FALSE, 0, "VacPuff", 80);
 					}
@@ -2116,7 +2120,7 @@ ACTOR PopperPickup : CustomInventoryExt 13019
 			TNT1 A 0 A_ThrowGrenade("Confetti_P",4,random(2,8),random(1,3),0)
 			TNT1 A 0
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Recoil(frandom(0.96,1.44)); } else { A_Recoil(frandom(4.8,7.2)); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Recoil(frandom(0.96,1.44)); } else { A_Recoil(frandom(4.8,7.2)); }
 			}
 			Stop
 	} 
@@ -8248,11 +8252,11 @@ Actor QuisSpawnCookie2 : QuisSpawnCookie
 actor Teacher_Quis 10832
 {
 	//$Category RPTeachers
-    Health 1200
-    Radius 20
-    Height 80
-    Speed 18
-    PainChance 200
+	Health 1200
+	Radius 20
+	Height 80
+	Speed 18
+	PainChance 200
 	DamageFactor "Fire", 0.5
 	Painchance "Suck", 64
 	DamageFactor "Bonk", 2
@@ -8263,99 +8267,99 @@ actor Teacher_Quis 10832
 	RenderStyle ADD
 	Mass 5000
 	Scale 1
-    MONSTER 
-    +FLOORCLIP
+	MONSTER 
+	+FLOORCLIP
 	+NOBLOOD
 	+NOINFIGHTING
 	+DONTHARMCLASS
 	+NOTARGET
-    SeeSound "quisling/sight"
-    PainSound "quisling/pain"
-    DeathSound "quisling/death"
-    Obituary "%o was flunked by Meister Quisling."
+	SeeSound "quisling/sight"
+	PainSound "quisling/pain"
+	DeathSound "quisling/death"
+	Obituary "%o was flunked by Meister Quisling."
 	Tag "Meister Quisling"
 	Species "Quisling"
 	SpawnID 10832
-    States
-    {
-    Spawn:
-		MQIS E 10 A_Look
-        Loop
-    See:
-		TNT1 A 0 A_JumpIfInventory ("QuisSpawnCookie2", 1, "See3")
-		TNT1 A 0 A_GiveInventory ("QuisSpawnCookie2")
-		MQIS E 3 A_SetTranslucent (0.2,0)
-		MQIS E 3 A_SetTranslucent (0.4,0)
-		MQIS E 3 A_SetTranslucent (0.6,0)
-		MQIS E 3 A_SetTranslucent (0.8,0)
-		MQIS E 3 A_SetTranslucent (1,0)
-		MQIS E 0 A_changeflag (INVULNERABLE,0)
-		goto See3
-	See3:
-		MQIS AABBCCDD 3 A_Chase
-		loop
-	SpawnClones:
-		MQIS A 0 A_KillChildren
-		MQIS A 0 A_changeflag (INVULNERABLE,1)
-		MQIS E 3 A_SetTranslucent (0.8,0)
-		MQIS E 3 A_SetTranslucent (0.6,0)
-		MQIS E 3 A_SetTranslucent (0.4,0)
-		MQIS E 3 A_SetTranslucent (0.2,0)
-		MQIS E 3 A_SetTranslucent (0,0)
-		MQIS AAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_Wander
-		MQIS A 0 A_SpawnItemEx ("QuisFake",0,0,0,0,0,0,0,48)
-		MQIS AAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_Wander
-		MQIS A 0 A_SpawnItemEx ("QuisFake",0,0,0,0,0,0,0,48)
-		MQIS AAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_Wander
-		MQIS E 3 A_SetTranslucent (0.2,0)
-		MQIS E 3 A_SetTranslucent (0.4,0)
-		MQIS E 3 A_SetTranslucent (0.6,0)
-		MQIS E 3 A_SetTranslucent (0.8,0)
-		MQIS E 3 A_SetTranslucent (1,0)
-		MQIS A 0 A_changeflag (INVULNERABLE,0)
-		goto See3
-    Missile:
-        MQIS E 0 ACS_Execute(102,0,0,0,0)
-		MQIS E 0 A_Jump(128,"MissileZap")
-		MQIS E 0 A_Playsound("quisling/sight",CHAN_VOICE)
-		MQIS E 8 A_FaceTarget
-		MQIS FGFGFG 2 bright
-		MQIS H 0 A_Playsound("teacher/chargeup",CHAN_BODY)
-		MQIS H 6 bright A_CustomMissile("CheeseFX",40,0)
-		MQIS H 6 bright A_CustomMissile("CheeseFX",40,0,45)
-		MQIS H 6 bright A_CustomMissile("CheeseFX",40,0-45)
-        Goto See3
-	MissileZap:
-		MQIS H 0 A_PlaySound("Handmother/Zap")
-		MQIS EE 3 bright 
-		MQIS H 3 bright A_CustomMissile("badZapshot",40)
-		MQIS H 3 bright
-		MQIS H 0 bright A_CustomMissile("badZapshot",40,-48)
-		MQIS H 3 bright A_CustomMissile("badZapshot",40,48)
-		MQIS H 3 bright 
-		MQIS H 3 bright A_CustomMissile("badZapshot",40)
-		MQIS HH 3 bright
-        Goto See3
-	Pain:
-    	MQIS I 4 A_Pain
-		MQIS J 6 ACS_Execute(102,0,0,0,0)
-		MQIS J 0 A_KillChildren
-		MQIS J 0 A_changeflag (INVULNERABLE,1)
-		MQIS J 3 A_SetTranslucent (0.8,0)
-		MQIS J 3 A_SetTranslucent (0.6,0)
-		MQIS J 3 A_SetTranslucent (0.4,0)
-		MQIS J 3 A_SetTranslucent (0.2,0)
-		MQIS J 3 A_SetTranslucent (0,0)
-		Goto SpawnClones +25
-	Death:
-        MQIS I 5 A_Scream
-        MQIS J 5 A_KillChildren
-		MQIS KL 5 bright
-		TBUM A 0 A_Playsound("teacher/death")
-		TBUM ABCDEFGH 5 bright
-        TBUM I 5 bright A_NoBlocking
-        Stop
-    }
+	States
+	{
+		Spawn:
+			MQIS E 10 A_Look
+			Loop
+		See:
+			TNT1 A 0 A_JumpIfInventory ("QuisSpawnCookie2", 1, "See3")
+			TNT1 A 0 A_GiveInventory ("QuisSpawnCookie2")
+			MQIS E 3 A_SetTranslucent (0.2,0)
+			MQIS E 3 A_SetTranslucent (0.4,0)
+			MQIS E 3 A_SetTranslucent (0.6,0)
+			MQIS E 3 A_SetTranslucent (0.8,0)
+			MQIS E 3 A_SetTranslucent (1,0)
+			MQIS E 0 A_changeflag (INVULNERABLE,0)
+			goto See3
+		See3:
+			MQIS AABBCCDD 3 A_Chase
+			loop
+		SpawnClones:
+			MQIS A 0 A_KillChildren
+			MQIS A 0 A_changeflag (INVULNERABLE,1)
+			MQIS E 3 A_SetTranslucent (0.8,0)
+			MQIS E 3 A_SetTranslucent (0.6,0)
+			MQIS E 3 A_SetTranslucent (0.4,0)
+			MQIS E 3 A_SetTranslucent (0.2,0)
+			MQIS E 3 A_SetTranslucent (0,0)
+			MQIS AAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_Wander
+			MQIS A 0 A_SpawnItemEx ("QuisFake",0,0,0,0,0,0,0,48)
+			MQIS AAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_Wander
+			MQIS A 0 A_SpawnItemEx ("QuisFake",0,0,0,0,0,0,0,48)
+			MQIS AAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_Wander
+			MQIS E 3 A_SetTranslucent (0.2,0)
+			MQIS E 3 A_SetTranslucent (0.4,0)
+			MQIS E 3 A_SetTranslucent (0.6,0)
+			MQIS E 3 A_SetTranslucent (0.8,0)
+			MQIS E 3 A_SetTranslucent (1,0)
+			MQIS A 0 A_changeflag (INVULNERABLE,0)
+			goto See3
+		Missile:
+			MQIS E 0 ACS_Execute(102,0,0,0,0)
+			MQIS E 0 A_Jump(128,"MissileZap")
+			MQIS E 0 A_Playsound("quisling/sight",CHAN_VOICE)
+			MQIS E 8 A_FaceTarget
+			MQIS FGFGFG 2 bright
+			MQIS H 0 A_Playsound("teacher/chargeup",CHAN_BODY)
+			MQIS H 6 bright A_CustomMissile("CheeseFX",40,0)
+			MQIS H 6 bright A_CustomMissile("CheeseFX",40,0,45)
+			MQIS H 6 bright A_CustomMissile("CheeseFX",40,0-45)
+			Goto See3
+		MissileZap:
+			MQIS H 0 A_PlaySound("Handmother/Zap")
+			MQIS EE 3 bright 
+			MQIS H 3 bright A_CustomMissile("badZapshot",40)
+			MQIS H 3 bright
+			MQIS H 0 bright A_CustomMissile("badZapshot",40,-48)
+			MQIS H 3 bright A_CustomMissile("badZapshot",40,48)
+			MQIS H 3 bright 
+			MQIS H 3 bright A_CustomMissile("badZapshot",40)
+			MQIS HH 3 bright
+			Goto See3
+		Pain:
+			MQIS I 4 A_Pain
+			MQIS J 6 ACS_Execute(102,0,0,0,0)
+			MQIS J 0 A_KillChildren
+			MQIS J 0 A_changeflag (INVULNERABLE,1)
+			MQIS J 3 A_SetTranslucent (0.8,0)
+			MQIS J 3 A_SetTranslucent (0.6,0)
+			MQIS J 3 A_SetTranslucent (0.4,0)
+			MQIS J 3 A_SetTranslucent (0.2,0)
+			MQIS J 3 A_SetTranslucent (0,0)
+			Goto SpawnClones +25
+		Death:
+			MQIS I 5 A_Scream
+			MQIS J 5 A_KillChildren
+			MQIS KL 5 bright
+			TBUM A 0 A_Playsound("teacher/death")
+			TBUM ABCDEFGH 5 bright
+			TBUM I 5 bright A_NoBlocking
+			Stop
+	}
 }
 
 Actor QuisFake 
@@ -10563,7 +10567,7 @@ Actor RatNose : Beak
 		Deselect:
 			RATW A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
 				A_Lower(12);
 			}
 			Loop
@@ -10574,7 +10578,7 @@ Actor RatNose : Beak
 			RATW A 0 A_PlaySound ("Rat/Attack", CHAN_WEAPON)
 			RATW A 8
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_CustomPunch((1*10));
 				}
@@ -10779,7 +10783,7 @@ Actor RavenWeapon : Beak
 		Deselect:
 			TNT1 A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
 				A_Lower(12);
 			}
 			Loop

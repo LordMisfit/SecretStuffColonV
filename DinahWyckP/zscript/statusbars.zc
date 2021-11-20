@@ -3,6 +3,9 @@ class DDStatusBarMain : BaseStatusBar
 	DynamicValueInterpolator mHealthInterpolator;
 	DynamicValueInterpolator mArmorInterpolator;
 	DynamicValueInterpolator mEXPInterpolator;
+	int prevhealthtick, healthtick;
+	int prevarmortick, armortick;
+	int prevEXPtick, EXPtick;
 	HUDFont mHUDFont;
 	HUDFont mIndexFont;
 	HUDFont mBigFont;
@@ -27,6 +30,7 @@ class DDStatusBarMain : BaseStatusBar
 		mHealthInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 8);
 		mArmorInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 8);
 		mEXPInterpolator = DynamicValueInterpolator.Create(0, 0.25, 1, 8);
+		healthtick = armortick = EXPtick = 8;
 	}
 	
 	override int GetProtrusion(double scaleratio) const
@@ -45,10 +49,31 @@ class DDStatusBarMain : BaseStatusBar
 	override void Tick()
 	{
 		Super.Tick();
-		mHealthInterpolator.Update(CPlayer.health);
+		double tickinc = 0.1;
+		healthtick = CPlayer.mo.CountInv("PlayerMaxHP") * tickinc;
+		if (healthtick < 1) healthtick = 1;
+		if (healthtick != prevhealthtick) mHealthInterpolator = DynamicValueInterpolator.Create(CPlayer.health, 0.25, 1, healthtick);
 		let armor = CPlayer.mo.FindInventory("BasicArmor");
+		if (armor != null && armor.Amount > 0) 
+		{
+			if (CPlayer.mo.CountInv("KnightGownItem")) armortick = 250 * tickinc;
+			if (CPlayer.mo.CountInv("KnightGownItem2")) armortick = 500 * tickinc;
+			if (CPlayer.mo.CountInv("KnightGownItem3")) armortick = 1000 * tickinc;
+			if (armortick < 1) armortick = 1;
+			if (armortick != prevarmortick) mArmorInterpolator = DynamicValueInterpolator.Create(armor.Amount, 0.25, 1, armortick);
+		}
+		EXPtick = CPlayer.mo.CountInv("ExpPtsNeeded") * tickinc;
+		if (EXPtick < 1) EXPtick = 1;
+		if (EXPtick != prevEXPtick) mEXPInterpolator = DynamicValueInterpolator.Create(CPlayer.mo.CountInv("ExpPts"), 0.25, 1, EXPTick);
+		//Console.Printf("HealthTick: %d [%d], ArmorTick %d [%d], EXPTick %d [%d]", healthtick, prevhealthtick, armortick, prevarmortick, EXPtick, prevEXPtick);
+
+		mHealthInterpolator.Update(CPlayer.health);
 		if (armor != null && armor.Amount > 0) mArmorInterpolator.Update(armor.Amount);
 		mEXPInterpolator.Update(CPlayer.mo.CountInv("ExpPts"));
+		
+		prevhealthtick = healthtick;
+		prevarmortick = armortick;
+		prevEXPtick = EXPtick;
 
 		// wiggle the chain if it moves
 		if (Level.time & 1)

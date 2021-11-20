@@ -240,14 +240,14 @@ class Grimophone : DDWeapon replaces BFG9000
 		Select:
 			RPLY A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
 				A_Raise(12);
 			}
 			Loop;
 		Deselect:
 			RPLY A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
 				A_Lower(12);
 			}
 			TNT1 A 0 A_StopSound(65);
@@ -272,5 +272,271 @@ class Grimophone : DDWeapon replaces BFG9000
 			RPLY C 0 A_Refire("Fire2");
 			RPLY A 0 A_StopSound(65);
 			Goto Ready;
+	}
+}
+
+class HandToHand : DDWeapon
+{
+	default
+	{
+		Weapon.SelectionOrder 3700;
+		Weapon.Kickback 80;
+		+WEAPON.NOALERT
+		+WEAPON.MELEEWEAPON
+		+INVENTORY.UNDROPPABLE
+		+INVENTORY.UNTOSSABLE
+		Tag "Hand to Hand";
+		Obituary "%o was kicked to Mars by %k's CQC.";
+	}
+	states
+	{
+		Ready:
+			DHND A 1
+			{
+				A_WeaponReady(); // WRF_ALLOWUSER4
+			}
+			loop;
+		Deselect:
+			DHND A 1
+			{
+				A_Lower(18);
+			}
+			loop;
+		Select:
+			DHND A 1
+			{
+				A_Raise(18);
+			}
+			loop;
+		Fire:
+			TNT1 A 0 
+			{
+			}
+			TNT1 AAAAA 1
+			{
+				if (random(1,8) == 1) { A_SetTics(0); }
+			}
+		KickStart:
+			DKIC A 1;
+			DKIC B 1
+			{
+				A_StartSound("fistswingmedium0",CHAN_BODY);
+			}
+			DKIC C 1
+			{
+				if (random(1,256) >= 240)
+				{
+					A_StopSound(CHAN_VOICE);
+					A_StartSound("Dinah/jump",CHAN_VOICE); 
+				} 
+			}
+			DKIC DEFG 1;
+			DKIC H 1
+			{
+				double recl = frandom(-0.125,-0.075);
+				int dmg = random(28,52);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				{
+					dmg *= 10;
+					recl *= 2.5;
+				}
+				A_Recoil(recl);
+				A_CustomPunch((dmg),1,CPF_NOTURN,"KickPuff",random(102,106),0,0,"","","");
+			}
+			DKIC GFEDCBA 1;
+			TNT1 AAAAA 1
+			{
+				if (random(1,100) == 1) { A_SetTics(0); }
+			}
+			/*
+			DKIC A 0
+			{ 
+				return resolvestate("KickEnd"); 
+			}
+			*/
+		// KICK END
+		KickEnd:
+			TNT1 A 0
+			{
+			}
+			goto Ready;
+	}
+}
+
+class KickPuff : DDPuff
+{
+	int user_randompain;
+
+	default
+	{
+		Tag "Kick";
+		Species "Players";
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+ALLOWPARTICLES
+		+RANDOMIZE
+		+FORCERADIUSDMG +PUFFGETSOWNER +PUFFONACTORS 
+		+THRUSPECIES +MTHRUSPECIES
+		RenderStyle "Translucent";
+		ProjectileKickback 375; // 1500
+		Alpha 0.5;
+		VSpeed 1;
+		Mass 5;
+		damagetype "Kick";
+		SeeSound "null"; // "FistHit"
+		AttackSound "null";
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay
+			{
+				int dmg = random(28,52);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				{
+					dmg *= 10;
+					A_StartSound("fisthitberserk", 56); 
+				} else { A_StartSound("FistHit", 56); }
+
+				A_Explode((dmg * frandom(0.05,0.15)), (24*frandom(0.84375,1.15625)), 0, 0, ((24*frandom(0.84375,1.15625))*0.25));
+			}
+		Spawn2:
+			TNT1 A 2 
+			{
+				int dist = randompick(3,3,4);
+				A_RadiusThrust(375,dist,0,dist);
+			}
+			TNT1 A 2;
+			TNT1 A 2;
+			TNT1 A 2;
+			Stop;
+		Melee:
+			TNT1 A 0
+			{
+				user_randompain = 4;
+				if (random(1,100) <= user_randompain) { bFORCEPAIN = true; }
+				
+				int dmg = random(28,52);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				{
+					dmg *= 10;
+					A_StartSound("fisthitberserk", 56); 
+				} else { A_StartSound("FistHit", 56); }
+
+				A_Explode((dmg * frandom(0.05,0.15)), (24*frandom(0.84375,1.15625)), 0, 0, ((24*frandom(0.84375,1.15625))*0.25));
+			}
+		Melee2:
+			TNT1 A 2 
+			{
+				int dist = randompick(3,3,4);
+				A_RadiusThrust(375,dist,0,dist);
+			}
+			TNT1 A 2;
+			TNT1 A 2;
+			TNT1 A 2;
+			Stop;
+		Crash:
+			PUFF C 0
+			{
+				user_randompain = 4;
+				if (random(1,100) <= user_randompain) { bFORCEPAIN = true; }
+
+				int dmg = random(28,52);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				{
+					dmg *= 10;
+					A_StartSound("fisthitberserk", 56); 
+				} else { A_StartSound("FistHit", 56); }
+
+				A_Explode((dmg * frandom(0.05,0.15)), (24*frandom(0.84375,1.15625)), 0, 0, ((24*frandom(0.84375,1.15625))*0.25));
+
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_StartSound("fisthitberserkwall", 57); } else { A_StartSound("FistHitWall", 57); }
+			}
+		Crash2:
+			TNT1 A 2 
+			{
+				int dist = randompick(3,3,4);
+				A_RadiusThrust(375,dist,0,dist);
+			}
+			TNT1 A 2;
+			TNT1 A 2;
+			TNT1 A 2;
+			Stop;
+	}
+}
+
+class KickPuffNoThrust : KickPuff
+{
+	default
+	{
+		ProjectileKickback 0;
+		+NODAMAGETHRUST
+	}
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay
+			{
+				user_randompain = 4;
+				if (random(1,100) <= user_randompain) { bFORCEPAIN = true; }
+
+				int dmg = random(28,52);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				{
+					dmg *= 10;
+					A_StartSound("fisthitberserk", 56); 
+				} else { A_StartSound("FistHit", 56); }
+
+				A_Explode((dmg * frandom(0.05,0.15)), (24*frandom(0.84375,1.15625)), 0, 0, ((24*frandom(0.84375,1.15625))*0.25));
+			}
+		Spawn2:
+			TNT1 A 2;
+			TNT1 A 2;
+			TNT1 A 2;
+			TNT1 A 2;
+			Stop;
+		Melee:
+			TNT1 A 0
+			{
+				user_randompain = 4;
+				if (random(1,100) <= user_randompain) { bFORCEPAIN = true; }
+				
+				int dmg = random(28,52);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				{
+					dmg *= 10;
+					A_StartSound("fisthitberserk", 56); 
+				} else { A_StartSound("FistHit", 56); }
+
+				A_Explode((dmg * frandom(0.05,0.15)), (24*frandom(0.84375,1.15625)), 0, 0, ((24*frandom(0.84375,1.15625))*0.25));
+			}
+		Melee2:
+			TNT1 A 2;
+			TNT1 A 2;
+			TNT1 A 2;
+			TNT1 A 2;
+			Stop;
+		Crash:
+			PUFF C 0
+			{
+				user_randompain = 4;
+				if (random(1,100) <= user_randompain) { bFORCEPAIN = true; }
+				
+				int dmg = random(28,52);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				{
+					dmg *= 10;
+					A_StartSound("fisthitberserk", 56);
+				} else { A_StartSound("FistHit", 56); }
+
+				A_Explode((dmg * frandom(0.05,0.15)), (24*frandom(0.84375,1.15625)), 0, 0, ((24*frandom(0.84375,1.15625))*0.25));
+			}
+		Crash2:
+			TNT1 A 2;
+			TNT1 A 2;
+			TNT1 A 2;
+			TNT1 A 2;
+			Stop;
 	}
 }
