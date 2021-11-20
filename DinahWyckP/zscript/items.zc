@@ -1,3 +1,43 @@
+// Backpack
+class BackpackNew : CustomInventoryExt replaces Backpack
+{
+	default
+	{
+		Height 26;
+		+DONTGIB
+		+INVENTORY.AUTOACTIVATE
+		+INVENTORY.ALWAYSPICKUP
+		Inventory.PickupMessage "Picked up a backpack full of ammo/goodies!";
+		Inventory.PickupSound "";
+	}
+	States
+	{
+		Spawn:
+			BPAK A -1;
+			Stop;
+		Pickup:
+			TNT1 A 0
+			{
+				A_GiveInventory("Backpack",AAPTR_PLAYER1);
+				A_StartSound("Dinah/there",CHAN_VOICE);
+
+				A_GiveInventory("CherryBombPickup",2,AAPTR_PLAYER1);
+				if (random(1,3) <= 1) { A_GiveInventory("CherryBombPickup",1,AAPTR_PLAYER1); }
+				if (random(1,6) <= 1) { A_GiveInventory("CherryBombPickup",1,AAPTR_PLAYER1); }
+				if (random(1,12) <= 1) { A_GiveInventory("CherryBombPickup",1,AAPTR_PLAYER1); }
+				
+				A_GiveInventory("SpinnerPickup",random(1,2),AAPTR_PLAYER1);
+				if (random(1,3) <= 1) { A_GiveInventory("SpinnerPickup",1,AAPTR_PLAYER1); }
+				if (random(1,12) <= 1) { A_GiveInventory("SpinnerPickup",1,AAPTR_PLAYER1); }
+				
+				if (random(1,3) <= 2) { A_GiveInventory("BRocketPickup",1,AAPTR_PLAYER1); }
+				if (random(1,6) <= 1) { A_GiveInventory("BRocketPickup",1,AAPTR_PLAYER1); }
+				if (random(1,24) <= 1) { A_GiveInventory("BRocketPickup",1,AAPTR_PLAYER1); }
+			}
+			stop;
+	}
+}
+
 //Apple
 class GalaApple : CustomInventoryExt replaces Stimpack
 {
@@ -65,13 +105,71 @@ Class GalaAppleWeak : GalaApple
 	}
 }
 
-class FoodPlateFruit : CustomInventoryExt replaces HealthBonus
+class HealthBonusSpawner : RandomSpawner2 replaces HealthBonus
 {
-	int user_type;
-	
+	default
+	{
+		DropItem "CupOfTea", 256, 40;
+		DropItem "FoodPlateFruit", 256, 10;
+		DropItem "NoItemSpawn", 256, 50;
+	}
+}
+
+class CupOfTea : CustomInventoryExt // replaces HealthBonus
+{
 	default
 	{
 		+DONTGIB
+		+COUNTITEM
+		+INVENTORY.AUTOACTIVATE
+		+INVENTORY.ALWAYSPICKUP
+		//+INVENTORY.FANCYPICKUPSOUND
+		Inventory.PickupMessage "";
+		Inventory.PickupSound "";
+		Inventory.Icon "TCUPA0";
+		Tag "Cup of Tea";
+	}
+	states
+	{
+		Spawn:
+			TCUP A 0 NoDelay
+			{
+			}
+		Idle:
+			TCUP BC 5 Bright
+			{
+				A_SetTics(random(3,5));
+			}
+			loop;
+		Pickup:
+			TNT1 A 0
+			{
+				int temp1 = player.mo.health;
+				int temp4 = player.mo.CountInv("PlayerMaxHP");
+				int temp2 = (temp4 * 3.0);
+
+				int temp3 = temp4;
+				temp3 *= frandompick(0.01,0.015,0.02);
+				if (temp3 < 1) temp3 = 1;
+					
+				temp1 += temp3;
+				if (temp1 > temp2) temp1 = temp2;
+				player.mo.health = player.health = temp1;
+				A_StartSound("Tea/Sipping",CHAN_VOICE);
+				A_SetBlend("f1 ff f1",0.1,random(2,3));
+				Console.Printf("\c[red]A Cup of Tea! \c[green]+%d (Over)HP", temp3);
+				//invoker.A_FadeOut(1.0,FTF_REMOVE);
+			}
+			stop;
+	}
+}
+
+class FoodPlateFruit : CustomInventoryExt // replaces HealthBonus
+{
+	default
+	{
+		+DONTGIB
+		+COUNTITEM
 		+INVENTORY.AUTOACTIVATE
 		+INVENTORY.ALWAYSPICKUP
 		//+INVENTORY.FANCYPICKUPSOUND
@@ -178,7 +276,7 @@ class PigRoastDish : CustomInventoryExt replaces Soulsphere
 	}
 }
 
-class PigRoastDish2 : CustomInventoryExt replaces Megasphere
+class GourmetMeal : CustomInventoryExt replaces Megasphere
 {
 	default
 	{
@@ -195,16 +293,11 @@ class PigRoastDish2 : CustomInventoryExt replaces Megasphere
 	States
 	{
 		Spawn:
-			FOOD A 0 NoDelay
+			FOOD Z 0 NoDelay
 			{
-				if (random(1,16) == 1) { invoker.A_SpawnItemEx("PigRoastDishExtra",0.0,0.0,0.0,frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),SXF_NOCHECKPOSITION); }
-				if (random(1,16) == 1) { invoker.A_SpawnItemEx("PigRoastDishExtra",0.0,0.0,0.0,frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),SXF_NOCHECKPOSITION); }
-				invoker.A_SpawnItemEx("PigRoastDishExtra",0.0,0.0,0.0,frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),SXF_NOCHECKPOSITION);
-				invoker.A_SpawnItemEx("PigRoastDishExtra",0.0,0.0,0.0,frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),SXF_NOCHECKPOSITION);
-				invoker.A_SpawnItemEx("PigRoastDishExtra",0.0,0.0,0.0,frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),frandompick(-2.5,-1.25,0.25,0.25,1.25,2.5),SXF_NOCHECKPOSITION);
 			}
 		Idle:
-			FOOD A -1 Bright;
+			FOOD Z -1 Bright;
 			Loop;
 		Pickup:
 			TNT1 A 0
@@ -214,15 +307,16 @@ class PigRoastDish2 : CustomInventoryExt replaces Megasphere
 				int temp2 = (temp4 * 3.0);
 
 				int temp3 = temp4;
-				temp3 *= 0.50;
+				temp3 *= 2.00;
 					
 				temp1 += temp3;
 				if (temp1 > temp2) temp1 = temp2;
 				player.mo.health = player.health = temp1;
 				A_StartSound("Dinah/eat",CHAN_VOICE);
-				A_SetBlend("f1 ff f1",0.1,random(4,6));
-				player.mo.A_GiveInventory("PowerRoastBuff");
-				Console.Printf("\c[red]Ate a dish of Roasted Pig! \c[green]+%d (Over)HP", temp3);
+				A_SetBlend("f1 ff f1",0.1,random(10,15));
+				player.mo.A_GiveInventory("PowerMealBuff");
+				player.mo.A_GiveInventory("PowerMealBuff2");
+				Console.Printf("\c[red]Ate a massive Gourmet Meal! \c[green]+%d (Over)HP", temp3);
 				//invoker.A_FadeOut(1.0,FTF_REMOVE);
 			}
 			stop;

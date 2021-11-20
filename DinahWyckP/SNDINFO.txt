@@ -316,6 +316,17 @@ $limit TimeStopTick 2
 getberserkpack    BERSPKUP
 getberserkpack2   BERSPKU2
 
+Tea/Sip1				TEASIP1
+Tea/Sip2				TEASIP2
+Tea/Sip3				TEASIP3
+Tea/Sip4				TEASIP4
+$random Tea/Sipping { Tea/Sip1 Tea/Sip2 Tea/Sip3 Tea/Sip4 }
+$pitchshift Tea/Sipping 0
+$pitchshift Tea/Sip1 0
+$pitchshift Tea/Sip2 0
+$pitchshift Tea/Sip3 0
+$pitchshift Tea/Sip4 0
+
 caco/melee			dsdembit
 
 sa/rickroll			dsrr

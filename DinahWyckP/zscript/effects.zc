@@ -10,6 +10,8 @@ class RandomSpawner2 : RandomSpawner
 
 class CustomInventoryExt : CustomInventory
 {
+	int user_type;
+	
 	action void A_UseAppleWine()
 	{
 		int currenthealth = player.mo.health;
@@ -203,6 +205,26 @@ class PowerRoastBuff : PowerDamage
 		DamageFactor "Normal", 2;
 		Inventory.Icon "FOODA0";
 		Powerup.Duration -12;
+	}
+}
+
+class PowerMealBuff : PowerDamage
+{
+	default
+	{
+		DamageFactor "Normal", 2.5;
+		Inventory.Icon "FOODZ0";
+		Powerup.Duration -30;
+	}
+}
+
+class PowerMealBuff2 : PowerProtection
+{
+	default
+	{
+		DamageFactor "Normal", 0.4;
+		Inventory.Icon "FOODZ0";
+		Powerup.Duration -30;
 	}
 }
 
@@ -445,13 +467,13 @@ class PowerStrengthDD : PowerStrength
 
 		if (Dire == 1)
 		{
-			if (owner.CountInv("TimePotionTimeFreezer") <= 0) EffectTics += increment;
+			if (owner && owner.CountInv("TimePotionTimeFreezer") <= 0) EffectTics += increment;
 			if (EffectTics >= Point2) Dire = 2;
 		}
 		else
 		if (Dire == 2)
 		{
-			if (owner.CountInv("TimePotionTimeFreezer") <= 0) EffectTics -= increment;
+			if (owner && owner.CountInv("TimePotionTimeFreezer") <= 0) EffectTics -= increment;
 			if (EffectTics <= Point1) Dire = 1;
 		}
 

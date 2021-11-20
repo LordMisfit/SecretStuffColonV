@@ -83,7 +83,7 @@ class PlayerStatItem : Inventory
 			TrueGameSkill = skill;
 			
 			bool debugexptables = false;
-			bool debugstartup = true;
+			bool debugstartup = false;
 			if (ClassCheck <= 6)
 			{
 				if (ClassCheck <= 0) 
@@ -582,6 +582,7 @@ class PlayerStatItem : Inventory
 
 			// Weapon Checks
 			double WeaponJumpZ = 1.00;
+			If (weapon is "HandToHand") WeaponJumpZ *= 1.125;
 			If (weapon is "CricketBat") WeaponJumpZ *= 1.00;
 			If (weapon is "BlunderAxe") WeaponJumpZ *= 0.96875;
 			If (weapon is "AppleJack") WeaponJumpZ *= 1.03125;
@@ -812,6 +813,7 @@ class PlayerStatItem : Inventory
 			
 			// Weapons
 			double WeaponFactor = 1.00;
+			If (weapon is "HandToHand") WeaponFactor = 1.125;
 			If (weapon is "CricketBat") WeaponFactor = 1.00;
 			If (weapon is "BlunderAxe") WeaponFactor = 1.0625;
 			If (weapon is "AppleJack") WeaponFactor = 0.9375;
@@ -874,6 +876,7 @@ class PlayerStatItem : Inventory
 		if (debugspeed) Console.Printf("SpeedX [Armor]: %.8f", Speed);
 		
 		// Weapon Checks
+		If (weapon is "HandToHand") Speed *= 1.125;
 		If (weapon is "CricketBat") Speed *= 1.00;
 		If (weapon is "BlunderAxe") Speed *= 0.95;
 		If (weapon is "AppleJack") Speed *= 1.05;

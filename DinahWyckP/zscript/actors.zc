@@ -7,6 +7,15 @@ class DDBaseZSC : Actor
 		+CASTSPRITESHADOW;
 		-NOSPRITESHADOW;
 	}
+	
+	void A_Destroy()
+	{
+		self.Destroy();
+	}
+}
+
+class DDCreature : DDBaseZSC
+{
 }
 
 class ShieldPartBase : DDBaseZSC
@@ -56,5 +65,15 @@ class ShieldPartBase : DDBaseZSC
 	{
 		// We don't really care about others making the check.
 		return true;
+	}
+}
+
+class NoItemSpawn : DDBaseZSC // A special 'drop' that is meant to be an empty "drop" for use in droptables
+{
+	states
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_Destroy();
+			stop;
 	}
 }

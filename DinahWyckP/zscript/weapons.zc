@@ -6,7 +6,11 @@ class DDWeapon : Weapon
 	default
 	{
 	}
-
+	
+	action void A_Destroy()
+	{
+		self.Destroy();
+	}
 	
 	action void A_KickDecelerate(int minval = 0, int maxval = 2, int chance = 192)
 	{
