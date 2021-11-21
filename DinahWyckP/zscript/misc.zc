@@ -51,6 +51,8 @@ class PlayerStatItem : Inventory
 	int StrifeStamLvl;
 	int StrifeAccuLvl;
 	
+	int CricketBatBuffTimer;
+	
 	double atkfct, deffct, spdfct, jmpfct, suvfct;
 
 	default 
@@ -748,13 +750,21 @@ class PlayerStatItem : Inventory
 			owner.A_SetInventory("TimeFreezeTimer",TimeFreezeTimer);
 			owner.A_SetInventory("TimePotionTimeFreezer",TimeFreeze);
 			
-			
-			
-			
 			//
 			owner.player.health = owner.player.mo.health = CurrentHealth;
 			owner.A_SetInventory("PlayerMaxHP",MaxHealthTrue);
 			
+			if (CricketBatBuffTimer)
+			{
+				CricketBatBuffTimer--;
+				owner.A_SetInventory("CricketBatGuard",1);
+				Console.Printf("timer: %d", CricketBatBuffTimer);
+			}
+			else
+			{
+				owner.A_SetInventory("CricketBatGuard",0);
+			}
+
 			ClassCheck++;
 			super.DoEffect();
 		}

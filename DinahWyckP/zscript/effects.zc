@@ -150,10 +150,10 @@ class CricketBatGuard : PowerProtection
 {
 	default
 	{
-		DamageFactor "Normal", 0.675;
-		DamageFactor "Melee", 0.135;
+		DamageFactor "Normal", 0.625;
+		DamageFactor "Melee", 0.125;
 		Inventory.Icon "SPBTA0";
-		Powerup.Duration 4;
+		Powerup.Duration 2147483646; // 8
 		Powerup.Color "00 00 00", 0.00;
 	}
 }

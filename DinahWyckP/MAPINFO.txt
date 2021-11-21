@@ -3,7 +3,9 @@ DoomEdNums
 	5232 = Killetante
 	12011 = CherryBombPickup
 	15016 = AppleWine
+	31967 = Blunderaxe
 	31977 = CricketBat
+	31980 = SuperVac
 	31981 = Grimophone
 }
 

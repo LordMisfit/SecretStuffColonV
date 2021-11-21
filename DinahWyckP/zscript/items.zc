@@ -149,16 +149,15 @@ class CupOfTea : CustomInventoryExt // replaces HealthBonus
 				int temp2 = (temp4 * 3.0);
 
 				int temp3 = temp4;
-				temp3 *= frandompick(0.01,0.015,0.02);
+				temp3 *= frandompick(0.015,0.0175,0.0175,0.02,0.02,0.02,0.02,0.02,0.02,0.0225,0.0225,0.025);
 				if (temp3 < 1) temp3 = 1;
 					
 				temp1 += temp3;
 				if (temp1 > temp2) temp1 = temp2;
 				player.mo.health = player.health = temp1;
 				A_StartSound("Tea/Sipping",CHAN_VOICE);
-				A_SetBlend("f1 ff f1",0.1,random(2,3));
+				A_SetBlend("f1 ff f1",0.1,random(3,4));
 				Console.Printf("\c[red]A Cup of Tea! \c[green]+%d (Over)HP", temp3);
-				//invoker.A_FadeOut(1.0,FTF_REMOVE);
 			}
 			stop;
 	}

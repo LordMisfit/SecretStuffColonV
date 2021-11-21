@@ -148,156 +148,6 @@ ACTOR MalletAmmo : Ammo replaces Clip 12467
 	}
 }
 
-actor Blunderaxe : Weapon replaces Shotgun 31967
-{
-	//$Category RPWeapons
-	Weapon.SelectionOrder 200
-	Weapon.SlotNumber 3
-	Weapon.Kickback 40
-	Weapon.AmmoType2 "BlunderAmmo"
-	Weapon.AmmoGive2 6
-	Weapon.AmmoUse2 1
-	+WEAPON.MELEEWEAPON
-	+WEAPON.NOALERT
-	+PUFFONACTORS
-	+FLOATBOB
-	Inventory.Icon "BLAXP0"
-	Inventory.PickupMessage "Blunderaxe"
-	inventory.pickupsound "misc/w_pkup" //"Dinah/marvelous"
-	Tag "Blunderaxe"
-	Obituary "%k used %o for target practice."
-	States
-	{
-		Spawn:
-			BLAX P 0 NoDelay
-			BLAX P 0 A_CheckFlag("DROPPED", "Dropp", AAPTR_DEFAULT)
-			BLAX P 0
-			{
-				if (random(1,8) == 1)
-				{
-					A_SpawnItemEx("Scrambler",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION);
-					A_ChangeFlag("COUNTITEM",0);
-					Thing_Remove(0); 
-				}
-			}
-			goto Idle
-		Dropp:
-			BLAX P 0
-			{
-				if (random(1,64) == 1)
-				{
-					A_SpawnItemEx("Scrambler",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION);
-					A_ChangeFlag("COUNTITEM",0);
-					Thing_Remove(0); 
-				}
-			}
-			goto Idle
-
-		Idle:
-			BLAX P 6
-			loop
-		Ready:
-			BLAX A 1 A_WeaponReady
-			loop
-		Deselect:
-			BLAX A 1
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
-				A_Lower(12);
-			}
-			loop
-		Select: 
-			BLAX A 1
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
-				A_Raise(12);
-			}
-			loop
-		Fire:
-			BLAX D 1
-			BLAX F 1
-			TNT1 A 1
-			BLAX G 2 
-			{
-				A_PlaySound("Blunderswing");
-				if (random(1,32) <= 1) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
-			}
-			BLAX HI 2 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
-			}
-			BLAX J 2 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
-				{
-					A_SetTics(1);
-					A_CustomPunch ((Random(16, 20)*10), FALSE, 0, "BlunderPuff", 96);
-				}
-				else
-				{
-					A_CustomPunch (Random(16, 20), FALSE, 0, "BlunderPuff", 96);
-				}
-			}
-			BLAX KLMN 3 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
-			}
-			BLAX O 4
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(randompick(1,2,2,3,3,3)); }
-			}
-			goto Ready
-		AltFire:
-			BLAX A 0 
-			{
-				A_PlaySound("blunderfire",1);
-				if (random(1,32) <= 31) { A_AlertMonsters; }
-			}
-			BLAX B 3 Bright
-			{
-				if (random(1,16) <= 1)
-				{
-					A_FireCustomMissile("BlunderShot",random(-1,1),0,0,0,0,random(1,1));
-					A_FireCustomMissile("BlunderShot",random(-9,9),0,0,0,0,random(-1,1));
-				}
-				A_FireCustomMissile("BlunderShot",random(-3,3),0,0,0,0,random(1,1));
-				A_FireCustomMissile("BlunderShot",random(-5,5),0,0,0,0,random(-1,1));
-				A_FireCustomMissile("BlunderShot",random(-7,7),1,0,0,0,random(-1,1));
-			}
-			BLAX C 3 Bright
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
-				{
-					A_Recoil(frandom(0.96,1.44));
-					A_SetTics(random(1,2));
-				} 
-				else 
-				{
-					A_Recoil(frandom(4.8,7.2)); 
-				}
-			}
-			BLAX DE 2 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(randompick(0,1,1,2)); }
-			}
-			BLAX FF 7
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(3,4)); }
-			}
-			BLAX D 8
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(3,5)); }
-			}
-			BLAX A 9 
-			{
-				A_Refire;
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(4,5)); }
-			}
-			goto Ready
-	}
-}
-
 ACTOR BlunderPuff : DynPuffBase
 {
 	+NOBLOCKMAP
@@ -393,7 +243,7 @@ ACTOR BlunderAmmo : Ammo replaces Shell 12457
 	}
 }
 
-actor Scrambler : Weapon replaces SuperShotgun 31957
+actor Scrambler : DDWeapon replaces SuperShotgun 31957
 {
 	//$Category RPWeapons
 	Weapon.SelectionOrder 300
@@ -800,7 +650,7 @@ ACTOR EggAmmo : Ammo replaces ShellBox 12447
 }
 
 //WIZARD PIKE
-actor WizardPike : Weapon replaces RocketLauncher 31947
+actor WizardPike : DDWeapon replaces RocketLauncher 31947
 {
 	//$Category RPWeapons
 	Weapon.SelectionOrder 400
@@ -1060,7 +910,7 @@ ACTOR PikeAmmo : Ammo replaces RocketBox 12437
 }
 
 //APPLEJACK
-actor AppleJack : Weapon replaces Chaingun 31970
+actor AppleJack : DDWeapon replaces Chaingun 31970
 {
 	//$Category RPWeapons
 	Weapon.SelectionOrder 100
@@ -1374,116 +1224,6 @@ ACTOR MusicAmmo : Ammo replaces CellPack 12478
 		Loop
 	}
 }
-
-//SUPERVAC
-actor SuperVac : Weapon replaces PlasmaRifle 31980
-{
-	//$Category RPWeapons
-	Weapon.SelectionOrder 900
-	Weapon.SlotNumber 6
-	Weapon.Kickback 0
-	Weapon.AmmoType2 "VacAmmo"
-	Weapon.AmmoGive2 0
-	Weapon.AmmoUse2 8
-	+WEAPON.MELEEWEAPON
-	+PUFFONACTORS
-	Inventory.Icon "VACMP0"
-	Inventory.Pickupsound "DinahWeap"
-	Inventory.PickupMessage "SuperVac"
-	inventory.pickupsound "misc/w_pkup" //"Dinah/marvelous"
-	Tag "SuperVac"
-	Obituary "%o sucks."
-	States
-	{
-		Spawn:
-			TNT1 A 0 NoDelay
-			{
-				if (CountInv("SuperVac",AAPTR_PLAYER1))
-				{
-					A_SpawnItemEx("VacAmmo",0,0,0,0,0,0,SXF_NOCHECKPOSITION);
-					A_ChangeFlag("COUNTITEM",0);
-					Thing_Remove(0); 
-				}
-			}
-			VACM P 1
-			Loop
-		Ready:
-			VACM A 1 A_WeaponReady
-			loop
-		Deselect:
-			VACM A 1
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
-				A_Lower(12);
-			}
-			loop
-		Select: 
-			VACM A 1
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
-				A_Raise(12);
-			}
-			loop
-		Full:
-			VACM A 0 A_PlaySound("VacEmpty",CHAN_WEAPON)
-			VACM AB 2
-			Goto Ready
-		Fire:
-			VACM A 0
-			{
-				if (CountInv("BackPack",AAPTR_PLAYER1) || CountInv("BackPackNew",AAPTR_PLAYER1))
-				{
-					if (CountInv("VacAmmo",AAPTR_PLAYER1) >= 24) { return state("Full"); }
-					return state("");
-				}
-				else
-				{
-					if (CountInv("VacAmmo",AAPTR_PLAYER1) >= 16) { return state("Full"); }
-					return state("");
-				}
-				return state("");
-			}
-			VACM B 0 A_PlaySound("VacSuck")
-			VACM BA 2
-			{
-				if (random(1,16) == 1)
-				{
-					if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
-					{
-						A_CustomPunch((Random(3,6)*1.25), FALSE, 0, "VacPuff", 80, frandompick(0.01,0.05,0.1));
-					}
-					else
-					{
-						A_CustomPunch(Random(3,6), FALSE, 0, "VacPuff", 80, frandompick(0.01,0.05,0.1));
-					}
-				}
-				else
-				{
-					if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
-					{
-						A_CustomPunch((Random(3,6)*1.25), FALSE, 0, "VacPuff", 80);
-					}
-					else
-					{
-						A_CustomPunch(Random(3,6), FALSE, 0, "VacPuff", 80);
-					}
-				}
-			}
-			goto Ready
-		AltFire:
-			VACM B 4 A_Playsound("VacDed",CHAN_WEAPON)
-			VACM C 4
-			{
-				A_FireCustomMissile("VacShot",15,0,0,0);
-				A_FireCustomMissile("VacShot",0,12,0,0);
-				A_FireCustomMissile("VacShot",-15,0,0,0);
-			}
-			VACM B 3 
-			VACM A 3 
-			goto Ready
-	}
-}
-
 ACTOR VacPuff : DynPuffBase
 {
 	+NOBLOCKMAP
@@ -3298,6 +3038,22 @@ actor MiniNote2 : NoteCloud2
 	Height 5
 	Speed 0
 	Scale 0.75
+} 
+
+actor MicroNote1 : NoteCloud
+{ 
+	Radius 12 
+	Height 3
+	Speed 0
+	Scale 0.5
+} 
+
+actor MicroNote2 : NoteCloud2
+{ 
+	Radius 12 
+	Height 3
+	Speed 0
+	Scale 0.5
 } 
 
 //MUDDERNAUT
