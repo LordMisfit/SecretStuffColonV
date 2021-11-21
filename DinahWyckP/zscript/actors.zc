@@ -78,7 +78,7 @@ class ShieldPartBase : DDBaseZSC
 		PlayerPawn playpawn2;
 		playpawn = PlayerPawn(other);
 
-		bool debugshieldcollision = true;
+		bool debugshieldcollision = false;
 		if (debugshieldcollision) Console.Printf("\cyShieldPart [%s] (gametic %d):\c- other: %s", GetClassName(), gametic, other.GetClassName());
 		if (passive)
 		{

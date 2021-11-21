@@ -133,7 +133,7 @@ class KilletanteBuffSPD : PowerSpeed
 	}
 }
 
-class KilletanteMistress : Killetante
+class KilletanteSoloist : Killetante
 {
 	int reactive1;
 	int regentimer, regentimermax;
@@ -162,9 +162,9 @@ class KilletanteMistress : Killetante
 		PainSound "dancer/pain";
 		DeathSound "virtuoso/death";
 		ActiveSound "dancer/active";
-		Obituary "%o was out-tango'd by a Killetante Mistress.";
-		HitObituary "%o was roundhouse-kicked over the horizon by a Killetante Mistress.";
-		Tag "Killetante Mistress";
+		Obituary "%o was out-tango'd by a Killetante Soloist.";
+		HitObituary "%o was roundhouse-kicked over the horizon by a Killetante Soloist.";
+		Tag "Killetante Soloist";
 		Species "Killetante";
 		+DONTHARMCLASS
 		+AVOIDHAZARDS
@@ -196,7 +196,7 @@ class KilletanteMistress : Killetante
 			if (reactive1)
 			{
 				regentimermax *= frandom(0.7,0.9);
-				inc *= random(5,6);
+				inc *= random(7,8);
 			}
 			regentimer += inc;
 			if (regentimer > regentimermax)
@@ -217,7 +217,7 @@ class KilletanteMistress : Killetante
 			A_SetInventory("KilletanteBuffDEF",1);
 			A_SetInventory("KilletanteBuffSPD",1);
 			if (random(1,4) <= 3) reactive1--;
-			Console.Printf("Killetante Mistress Buff Timer: %d", reactive1);
+			//Console.Printf("Killetante Soloist Buff Timer: %d", reactive1);
 		}
 		else
 		{
@@ -284,9 +284,15 @@ class KilletanteMistress : Killetante
 				A_FastChase();
 				if (random(1,10) == 1) { A_SpawnItemEx("Mininote2", 0, 0, 25, 0, random(-1, 1), random(-1, 1)); }
 			}
+			DANS J 0
+			{
+				if (random(1,8) == 1) { return resolvestate("Dodge"); }
+				return resolvestate(null);
+			}
 			Goto See;
 		Missile:
 			DANS F 0 A_Jump(96,"MusicAttk");
+		Missile2:
 			DANS F 0; //ACS_Execute(102,0,0,0,0)
 			DANS F 4 
 			{
@@ -314,6 +320,11 @@ class KilletanteMistress : Killetante
 				A_SetTics(random(2,4));
 				A_CustomMeleeAttack ((random(20,25)*frandom(0.95,1.05)), "mallethit", "malletswing", "", 1);
 			}
+			DANS J 0
+			{
+				if (random(1,8) == 1) { return resolvestate("Missile"); }
+				return resolvestate(null);
+			}
 			Goto See;
 		MusicAttk:
 			DANS F 0; //ACS_Execute(102,0,0,0,0)
@@ -322,16 +333,45 @@ class KilletanteMistress : Killetante
 				A_SetTics(randompick(2,3,3,3,4));
 				A_StartSound("dancer/danceattk",CHAN_BODY);
 			}
-			DANS GHIFGHI 4 
+			DANS GHI 4 
 			{
 				A_SetTics(randompick(2,3,3,3,4));
 				A_Recoil(frandompick(-1,1.5,-2,-2.5,-3));
+				if (random(1,15) <= 2)
+				{
+					A_StartSound("virtuoso/musicfire",CHAN_VOICE);
+					A_SpawnProjectile("MusicBall2",40);
+				}
+			}
+			DANS F 4
+			{
+				A_SetTics(randompick(2,3,3,3,4));
+				if (random(1,5) <= 2)
+				{
+					A_StartSound("virtuoso/musicfire",CHAN_VOICE);
+					A_SpawnProjectile("MusicBall2",40);
+				}
+			}
+			DANS GHI 4 
+			{
+				A_SetTics(randompick(2,3,3,3,4));
+				A_Recoil(frandompick(-1,1.5,-2,-2.5,-3));
+				if (random(1,15) <= 2)
+				{
+					A_StartSound("virtuoso/musicfire",CHAN_VOICE);
+					A_SpawnProjectile("MusicBall2",40);
+				}
 			}
 			DANS J 4 
 			{
 				A_SetTics(randompick(2,3,3,3,4));
 				ThrustThingz (0, randompick(18,27,36), 0, 0);
 				ThrustThing (((angle*256/360*frandom(0.75,1.25))), randompick(18,27,36), 0, 0);
+				if (random(1,10) <= 2)
+				{
+					A_StartSound("virtuoso/musicfire",CHAN_VOICE);
+					A_SpawnProjectile("MusicBall2",40);
+				}
 			}
 			DANS D 4 
 			{
@@ -342,6 +382,16 @@ class KilletanteMistress : Killetante
 			DANS E 4
 			{
 				A_SetTics(randompick(2,3,3,3,4));
+				if (random(1,10) <= 2)
+				{
+					A_StartSound("virtuoso/musicfire",CHAN_VOICE);
+					A_SpawnProjectile("MusicBall2",40);
+				}
+			}
+			DANS J 0
+			{
+				if (random(1,8) == 1) { return resolvestate("Missile"); }
+				return resolvestate(null);
 			}
 			Goto See;
 		Melee:
@@ -378,6 +428,11 @@ class KilletanteMistress : Killetante
 			DANS KK 3
 			{
 				A_SetTics(randompick(1,2,2,3));
+			}
+			DANS J 0
+			{
+				if (random(1,8) == 1) { return resolvestate("Melee"); }
+				return resolvestate(null);
 			}
 			Goto See;
 			/*

@@ -343,6 +343,33 @@ class TimeFreezerKeepSound : PowerTimeFreezer
 	}
 }
 
+class DDMiscTimeFreezer : TimeFreezerKeepSound
+{
+	int timer;
+	default
+	{
+		+NOTIMEFREEZE
+		Powerup.Duration 51;
+	}
+	
+	/*
+	override void PostBeginPlay()
+	{
+		timer = 50;
+		Super.DoEffect();
+	}
+	
+	override void DoEffect()
+	{
+		timer--;
+		Console.Printf("Timer: %d", timer);
+		if (timer <= 0) { owner.A_SetInventory("DDMiscTimeFreezer",0); Level.SetFrozen(false); }
+		Super.DoEffect();
+	}
+	*/
+	
+}
+
 class TimePotionTimeFreezer : TimeFreezerKeepSound
 {
 	default
