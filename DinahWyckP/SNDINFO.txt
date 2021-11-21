@@ -57,14 +57,13 @@ $playersound           DinahPlayer	male	*land	    BOOTLAND
 $playersound           DinahPlayer	male	*usefail	K_PUSH
 $playersound           DinahPlayer	male	*death	    K_DEATH
 $playersound           DinahPlayer	male	*xdeath	    gsqueel
-$playersound           DinahPlayer	male	*wimpydeath	K_PAIN1
+$playersound           DinahPlayer	male	*wimpydeath	K_DEATH
 $playersound           DinahPlayer	male	*crazydeath	gsqueel
 $playersound           DinahPlayer	male	*puzzfail	KWUT
 $playersound           DinahPlayer	male	*falling	K_DEATH
 $playersound           DinahPlayer	male	*fallingsplat	SPLAT
 $playeralias           DinahPlayer	male	*jump		Dinah/JumpSND
 $playersound           DinahPlayer	male	*gibbed		gsqueel
-
 
 $playersound           DinahPlayer	female	*pain100	K_PAIN1
 $playersound           DinahPlayer	female	*pain75	    K_PAIN2
@@ -75,13 +74,30 @@ $playersound           DinahPlayer	female	*land	    BOOTLAND
 $playersound           DinahPlayer	female	*usefail	K_PUSH
 $playersound           DinahPlayer	female	*death	    K_DEATH
 $playersound           DinahPlayer	female	*xdeath	    gsqueel
-$playersound           DinahPlayer	female	*wimpydeath	K_PAIN1
+$playersound           DinahPlayer	female	*wimpydeath	K_DEATH
 $playersound           DinahPlayer	female	*crazydeath	gsqueel
 $playersound           DinahPlayer	female	*puzzfail	KWUT
 $playersound           DinahPlayer	female	*falling	K_DEATH
 $playersound           DinahPlayer	female	*fallingsplat	SPLAT
 $playeralias           DinahPlayer	female	*jump		JumpSND
 $playersound           DinahPlayer	female	*gibbed		gsqueel
+
+$playersound           DinahPlayer	other	*pain100	K_PAIN1
+$playersound           DinahPlayer	other	*pain75	    K_PAIN2
+$playersound           DinahPlayer	other	*pain50	    K_PAIN2
+$playersound           DinahPlayer	other	*pain25	    K_PAIN3
+$playersound           DinahPlayer	other	*grunt	    K_PAIN1
+$playersound           DinahPlayer	other	*land	    BOOTLAND
+$playersound           DinahPlayer	other	*usefail	K_PUSH
+$playersound           DinahPlayer	other	*death	    K_DEATH
+$playersound           DinahPlayer	other	*xdeath	    gsqueel
+$playersound           DinahPlayer	other	*wimpydeath	K_DEATH
+$playersound           DinahPlayer	other	*crazydeath	gsqueel
+$playersound           DinahPlayer	other	*puzzfail	KWUT
+$playersound           DinahPlayer	other	*falling	K_DEATH
+$playersound           DinahPlayer	other	*fallingsplat	SPLAT
+$playeralias           DinahPlayer	other	*jump		JumpSND
+$playersound           DinahPlayer	other	*gibbed		gsqueel
 
 
 //Weapon Sounds
@@ -408,3 +424,13 @@ $limit fisthitberserk 0
 $limit fisthitberserkwall 0
 
 FistHit                dspunch
+
+CricketBat/ShieldHit1  CRKBTG1
+CricketBat/ShieldHit2  CRKBTG2
+CricketBat/ShieldHit3  CRKBTG3
+
+$random CricketBat/ShieldHit { CricketBat/ShieldHit1 CricketBat/ShieldHit2 CricketBat/ShieldHit3 }
+$limit CricketBat/ShieldHit 0
+$limit CricketBat/ShieldHit1 0
+$limit CricketBat/ShieldHit2 0
+$limit CricketBat/ShieldHit3 0

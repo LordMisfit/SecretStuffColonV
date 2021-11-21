@@ -146,6 +146,17 @@ class PlaceholderItemMax : PlaceholderItem
 	}
 }
 
+class CricketBatGuard : PowerProtection
+{
+	default
+	{
+		DamageFactor "Normal", 0.675;
+		DamageFactor "Melee", 0.135;
+		Inventory.Icon "SPBTA0";
+		Powerup.Duration 4;
+		Powerup.Color "00 00 00", 0.00;
+	}
+}
 
 
 // Placeholder for Armor Class :V

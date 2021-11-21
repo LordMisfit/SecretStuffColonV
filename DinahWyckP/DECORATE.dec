@@ -6,138 +6,6 @@ actor ChainsawSpawner : RandomSpawner2 replaces Chainsaw
 	DropItem "Grimophone", 256, 1
 }
 
-actor CricketBat : Weapon 31977
-{
-	//$Category RPWeapons
-	Weapon.SelectionOrder 100
-	Weapon.SlotNumber 2
-	Weapon.Kickback 50
-	Weapon.AmmoType2 "MalletAmmo"
-	Weapon.AmmoGive2 5
-	Weapon.AmmoUse2 1
-	+WEAPON.NOALERT
-	+WEAPON.MELEEWEAPON
-	+PUFFONACTORS
-	+FLOATBOB
-	Inventory.Icon "SPBTA0"
-	Inventory.Pickupsound "DinahWeap"
-	Inventory.PickupMessage "Cricket Bat"
-	inventory.pickupsound "misc/w_pkup" //"Dinah/marvelous"
-	Tag "Cricket Bat"
-	Obituary "%k scored a point with %o."
-	States
-	{
-		Pickup:
-			SPBT A 0 
-			SPBT A 0 A_PlaySound("misc/w_pkup",CHAN_WEAPON)
-			SPBT A 0 
-			Fail
-
-		Spawn:
-			SPBT A 6
-			loop
-		Ready:
-			DBID A 1 A_WeaponReady
-			loop
-		Deselect:
-			DBID A 1
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
-				A_Lower(12);
-			}
-			loop
-		Select: 
-			DBID A 1
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
-				A_Raise(12);
-			}
-			loop
-		Fire:
-			DBID A 1
-			DBID B 1
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
-			}
-			DBID C 1
-			DBID D 1 
-			{
-				A_PlaySound("MalletSwing");
-				if (random(1,32) <= 1) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
-			}
-			DBID E 1 
-			DBID F 1 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
-			}
-			DBID G 1 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
-				{
-					A_CustomPunch ((Random(6, 8)*10), FALSE, 0, "BatPuff", 112);
-				}
-				else
-				{
-					A_CustomPunch (Random(6, 8), FALSE, 0, "BatPuff", 112);
-				}
-			}
-			DBID H 1 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
-			}
-			DBID IJCCBA 2
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(randompick(0,1,1,1,1,1)); }
-			}
-			goto Ready
-		AltFire:
-			DBID A 1
-			DBID B 1 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
-			}
-			DBID C 1
-			DBID D 1
-			{
-				A_PlaySound("MalletSwing");
-				if (random(1,32) <= 1) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
-			}
-			DBID E 1 
-			DBID F 1 
-			{
-				A_PlaySound("croquet/ballfire",1);
-				if (random(1,8) <= 1) { A_AlertMonsters; }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
-			}
-			DBID G 1 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
-				{
-					A_FireCustomMissile("MalletShotBerserk",0,1,0,0);
-				}
-				else
-				{
-					A_FireCustomMissile("MalletShot",0,1,0,0);
-				}
-			}
-			DBID H 1 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
-			}
-			DBID IJC 2 
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
-			}
-			DBID BA 3
-			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
-			}
-			goto Ready
-	}
-}
-
 ACTOR DynPuffBase : StaffPuff
 {
 	+PUFFGETSOWNER // Needed for the EventHandler for killing enemies [so puffs give proper credit to the player].
@@ -3279,70 +3147,154 @@ actor Vitriola 10305
 //MusicBall
 actor MusicBall
 {
-    Radius 8
-    Height 6
-    Speed 14
-    Damage 2
-    +SEEKERMISSILE
+	Radius 8
+	Height 6
+	Speed 14
+	Damage 2
+	+SEEKERMISSILE
 	+NOEXTREMEDEATH
-    PROJECTILE
-    Renderstyle ADD
+	PROJECTILE
+	Renderstyle ADD
 	PoisonDamage 32
-    DeathSound "virtuoso/musichit"
-    States
-    {
-    Spawn:
-    	GBAL A  0 Bright A_SpawnItemEx("notetrail", 0, 0, 0, 0, 0, 0, 180, 128)
-        GBAL A 2 Bright A_SeekerMissile (7,7,SMF_LOOK)
-        GBAL B 2 Bright 
-		Loop
+	DeathSound "virtuoso/musichit"
+	States
+	{
+		Spawn:
+			GBAL A 0 Bright A_SpawnItemEx("notetrail", 0, 0, 0, 0, 0, 0, 180, 128)
+			GBAL A 2 Bright A_SeekerMissile (7,7,SMF_LOOK)
+			GBAL B 2 Bright 
+			Loop
     Death:
-		TNT1 AAAAAA 1 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        Stop
-    }
+			TNT1 AAAAAA 1 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			Stop
+	}
+}
+
+actor MusicBall2
+{
+	Radius 8
+	Height 6
+	Speed 15
+	Damage 5
+	+SEEKERMISSILE
+	+NOEXTREMEDEATH
+	PROJECTILE
+	Renderstyle ADD
+	PoisonDamage 20
+	DeathSound "virtuoso/musichit"
+	States
+	{
+		Spawn:
+			PBAL A 0 Bright A_SpawnItemEx("notetrail2", 0, 0, 0, 0, 0, 0, 180, 128)
+			PBAL A 1 Bright 
+			{
+				A_SeekerMissile(random(3,4),random(3,4),SMF_LOOK);
+			}
+			PBAL B 1 Bright 
+			{
+				if (random(1,4) <= 1) { A_SeekerMissile(random(3,4),random(3,4),SMF_LOOK); }
+			}
+			PBAL C 1 Bright 
+			{
+				A_SeekerMissile(random(3,4),random(3,4),SMF_LOOK);
+			}
+			PBAL D 1 Bright 
+			{
+				if (random(1,4) <= 1) { A_SeekerMissile(random(3,4),random(3,4),SMF_LOOK); }
+			}
+			Loop
+    Death:
+			TNT1 AAAAAA 1 A_SpawnItemEx("Mininote2", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			Stop
+	}
 }
 
 
 ACTOR notetrail
 {
-   Radius 2
-   Height 2
-   Speed 0
-   renderstyle Add
-   Alpha 0.4
-   PROJECTILE
-   +CLIENTSIDEONLY
-   +NOINTERACTION
-   States
-   {
-   Spawn:
-   HRT2 ABCBADED 4 BRIGHT
-   Stop
-   }
+	Radius 2
+	Height 2
+	Speed 0
+	renderstyle Add
+	Alpha 0.4
+	PROJECTILE
+	+CLIENTSIDEONLY
+	+NOINTERACTION
+	States
+	{
+		Spawn:
+			HRT2 ABCBADED 4 BRIGHT
+			Stop
+	}
+}
+
+ACTOR notetrail2
+{
+	Radius 2
+	Height 2
+	Speed 0
+	renderstyle Add
+	Alpha 0.4
+	PROJECTILE
+	+CLIENTSIDEONLY
+	+NOINTERACTION
+	States
+	{
+		Spawn:
+			HRT4 ABCBADED 4 BRIGHT
+			Stop
+	}
 }
 
 actor NoteCloud
 { 
-    Radius 24 
-    Height 6 
-    Speed 5 
-    PROJECTILE 
-    RENDERSTYLE Translucent 
-    ALPHA 0.67 
-    States 
-    { 
-    Spawn: 
-        HRT1 ABABABAB 4 
-        Stop 
-    Death:
-	    HRT1 ABAB 4
-		Stop
-    } 
+	Radius 24 
+	Height 6 
+	Speed 5 
+	PROJECTILE 
+	RENDERSTYLE Translucent 
+	ALPHA 0.67 
+	States 
+	{ 
+		Spawn: 
+			HRT1 ABABABAB 4 
+			Stop 
+		Death:
+			HRT1 ABAB 4
+			Stop
+	} 
+} 
+
+actor NoteCloud2
+{ 
+	Radius 24 
+	Height 6 
+	Speed 5 
+	PROJECTILE 
+	RENDERSTYLE Translucent 
+	ALPHA 0.67 
+	States 
+	{ 
+		Spawn: 
+			HRT3 ABABABAB 4 
+			Stop 
+		Death:
+			HRT3 ABAB 4
+			Stop
+	} 
 } 
 
 actor MiniNote : NoteCloud
 { 
-    Radius 18 
+	Radius 18 
+	Height 5
+	Speed 0
+	Scale 0.75
+} 
+
+actor MiniNote2 : NoteCloud2
+{ 
+	Radius 18 
 	Height 5
 	Speed 0
 	Scale 0.75
@@ -10194,6 +10146,26 @@ ACTOR PipePickup : PuzzleItem 13151
   Spawn:
     PIPE P 6 
     Loop
+  }
+}
+
+//Knight Helm
+ACTOR Helm : PuzzleItem 12020
+{
+  //$Category RPArtifacts
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  Inventory.Icon "HELMI0"
+  Inventory.PickupMessage "An empty helmet...?"
+  Inventory.PickupSound "Dinah/allowme"
+  PuzzleItem.Number 4
+  Tag "Helmet"
+  +FLOATBOB
+  States
+  {
+  Spawn:
+    HELM A -1
+    Stop
   }
 }
 

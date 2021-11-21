@@ -3,6 +3,7 @@ DoomEdNums
 	5232 = Killetante
 	12011 = CherryBombPickup
 	15016 = AppleWine
+	31977 = CricketBat
 	31981 = Grimophone
 }
 

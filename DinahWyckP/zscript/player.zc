@@ -24,7 +24,7 @@ class DinahPlayer : HereticPlayer
 		Player.GruntSpeed 12;
 		Player.ViewHeight 37;
 		Player.InvulnerabilityMode "Reflective";
-		species "Players";
+		Species "Players";
 		Health 80; // 100
 		Player.MaxHealth 80;
 		Player.MugShotMaxHealth -1; // 100
