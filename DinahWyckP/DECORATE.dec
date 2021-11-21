@@ -3175,12 +3175,12 @@ actor MusicBall2
 	Radius 8
 	Height 6
 	Speed 15
-	Damage 5
+	Damage 3
 	+SEEKERMISSILE
 	+NOEXTREMEDEATH
 	PROJECTILE
 	Renderstyle ADD
-	PoisonDamage 20
+	PoisonDamage 15
 	DeathSound "virtuoso/musichit"
 	States
 	{
