@@ -552,3 +552,6 @@ class PlayerDashing : PowerSpeed // Used to create trails behind the player for 
 		Powerup.Duration 2147483646;
 	}
 }
+
+// Dash Effects
+class DashPuff : PhoenixPuff { default { +NOINTERACTION } }

@@ -705,7 +705,7 @@ actor WizardPike : DDWeapon replaces RocketLauncher 31947
 			SCEP I 1 
 			SCEP J 5
 			{
-				if (random(1,32) <= 1) { A_AlertMonsters; }
+				if (random(1,32) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters; }
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
 				{
 					A_SetTics(random(2,3));
@@ -955,7 +955,7 @@ actor AppleJack : DDWeapon replaces Chaingun 31970
 			AJAK B 2
 			{
 				A_PlaySound("MalletSwing");
-				if (random(1,32) <= 1) { A_AlertMonsters; }
+				if (random(1,32) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters; }
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			AJAK C 2

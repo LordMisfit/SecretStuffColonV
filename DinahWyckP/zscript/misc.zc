@@ -806,7 +806,7 @@ class PlayerStatItem : Inventory
 	{
 		let weapon = owner.player.ReadyWeapon;
 		TrueGameSkill = skill;
-		bool debugdmg = true;
+		bool debugdmg = false;
 		
 		// ******************
 		// ******************
@@ -985,23 +985,17 @@ class PlayerStatItem : Inventory
 }
 
 /////////////////////////////////////////////////////////////DASH
-
-Class DEDashBar : Ammo 
+// Dash and double jump code by TheCamaleonMaligno ( https://www.youtube.com/watch?v=mTfGxY_Afhs )
+class PlayerDashJump : Inventory
 {
-	Default
-	{
-		Inventory.Amount 0;
-		Inventory.MaxAmount 2;
-		Ammo.BackpackAmount 0;
-		Ammo.BackpackMaxAmount 2;
-	}
-}
-
-class PlayerDashJump : Inventory ///Dash and double jump code by TheCamaleonMaligno ( https://www.youtube.com/watch?v=mTfGxY_Afhs )
-{
-	Double DashDir, DashSpeed;
+	Double DashDir, DashSpeed, DashVSpeed;
 	Int DashTics, DashCharge, AirTics;
 	Bool DJump, Waiting;
+	string dashgruntsound;
+	int dashgruntchance;
+	int dashtype;
+	int airdashtype;
+	Int DashMaxCharge, MaxDashes, MaxDashTics;
 	
 	Default
 	{
@@ -1010,26 +1004,35 @@ class PlayerDashJump : Inventory ///Dash and double jump code by TheCamaleonMali
 		+Inventory.UNTOSSABLE
 	}
 	
-	Override Void Tick()
+	override void Tick()
 	{
 		Super.Tick();
 		if (!Owner || Owner && (!Owner.Player || Owner.Health < 1)) Return;
-		PlayerInfo P = Owner.Player;
-		Int BT = P.cmd.buttons;
-		Int DashMaxCharge = 52;
-		int MaxDashes = 2;
+		PlayerInfo PlayDash = Owner.Player;
+		Int BTInput = PlayDash.cmd.buttons;
+		dashgruntchance = randompick(66,66,67);
+		DashMaxCharge = 35;
+		MaxDashes = 1;
+		MaxDashTics = random(9,10);
+		double dashsndvol = 0.67;
+		double dashgruntsndvol = 1.0;
 		
-		if (!Waiting && (BT & BT_USER3) && DashCharge >= (DashMaxCharge / MaxDashes) && !DashTics)
+		airdashtype = 0;
+		// 0 = No loss of altitude
+		// 1 = Start with a short "hop" but fall to the ground afterwards.
+		
+		if (!Waiting && (BTInput & BT_USER3) && DashCharge >= (DashMaxCharge / MaxDashes) && !DashTics)
 		{
+			//Console.Printf("OnGround: %d", PlayDash.OnGround);
 			DashDir = 0;
-			If	(BT & BT_FORWARD) DashDir = 0;
-			If	(BT & BT_BACK) DashDir = 180;
-			If	(BT & BT_MOVELEFT) DashDir = 90;
-			If	(BT & BT_MOVERIGHT) DashDir = -90;
-			If	((BT & BT_FORWARD) && (BT & BT_MOVELEFT)) DashDir = 45;
-			If	((BT & BT_FORWARD) && (BT & BT_MOVERIGHT)) DashDir = -45;
-			If	((BT & BT_BACK) && (BT & BT_MOVELEFT)) DashDir = (180 - 45);
-			If	((BT & BT_BACK) && (BT & BT_MOVERIGHT)) DashDir = (180 + 45);
+			If	(BTInput & BT_FORWARD) DashDir = 0;
+			If	(BTInput & BT_BACK) DashDir = 180;
+			If	(BTInput & BT_MOVELEFT) DashDir = 90;
+			If	(BTInput & BT_MOVERIGHT) DashDir = -90;
+			If	((BTInput & BT_FORWARD) && (BTInput & BT_MOVELEFT)) DashDir = 45;
+			If	((BTInput & BT_FORWARD) && (BTInput & BT_MOVERIGHT)) DashDir = -45;
+			If	((BTInput & BT_BACK) && (BTInput & BT_MOVELEFT)) DashDir = (180 - 45);
+			If	((BTInput & BT_BACK) && (BTInput & BT_MOVERIGHT)) DashDir = (180 + 45);
 			DashDir += Owner.Angle;
 			if (DashCharge < DashMaxCharge) 
 			{
@@ -1037,60 +1040,135 @@ class PlayerDashJump : Inventory ///Dash and double jump code by TheCamaleonMali
 				DashCharge = 0; 
 			}
 			DashCharge = Max(0, (DashCharge - (DashMaxCharge / MaxDashes)));
-			DashSpeed = 35; // 35
-			DashTics = 10; // 10
+
+			if (PlayDash.OnGround)
+			{
+				DashSpeed = 25; // 35 
+				DashTics = MaxDashTics;
+				dashtype = 0;
+				Owner.A_StartSound("player/dash",CHAN_BODY,CHANF_OVERLAP,dashsndvol);
+			}
+			else
+			{
+				if (airdashtype == 1) DashSpeed = 25;
+												 else DashSpeed = 20; // 35
+				DashVSpeed = 5;
+				DashTics = MaxDashTics;
+				dashtype = 1; // Airdash
+				Owner.A_StartSound("player/airjump",CHAN_BODY,CHANF_OVERLAP,dashsndvol);
+			}
 			
-			//Owner.TakeInventory("DEDashBar",1,AAPTR_DEFAULT);
-			
-			//Owner.A_SetBlend("White",0.1,20);
-			Owner.A_StartSound("Player/Dash",50,CHANF_OVERLAP);
-			//Owner.A_QuakeEx(2,2,2,15,0,1,"",QF_SCALEDOWN);
-			Actor C = Spawn("DashCollisionChecker", Owner.Pos);
-			C.bSolid = True;
-			C.Master = Self;
-			C.Target = Owner;
-			C.A_SetSize(Owner.Radius, Owner.Height);
-			C.bNoTImeFreeze = True;
-			
+			if (random(1,100) <= dashgruntchance)
+			{
+				if (Owner.GetClassName() == "DinahPlayer") dashgruntsound = "dinah/jump";
+				Owner.A_StopSound(CHAN_VOICE);
+				Owner.A_StartSound(dashgruntsound,CHAN_VOICE,CHANF_DEFAULT,(dashgruntsndvol * frandom(1.25,1.375)));
+			}
+
+			bool CollisonSpawn = false;
+			if (CollisonSpawn)
+			{
+				Actor CollDash = Spawn("DashCollisionChecker", Owner.Pos);
+				CollDash.bSolid = True;
+				CollDash.Master = Self;
+				CollDash.Target = Owner;
+				CollDash.A_SetSize(Owner.Radius, Owner.Height);
+				CollDash.bNoTImeFreeze = True;
+			}
 		}
 		if (DashTics)
 		{
-			//if (P.OnGround) { P.OnGround = False; Owner.AddZ(1); }
+			//if (PlayDash.OnGround) { PlayDash.OnGround = False; Owner.AddZ(1); }
+			if (PlayDash.OnGround && DashTics % 2) 
+			{
+				Owner.A_SpawnItemEx("DashPuff",0,0,randompick(4,6,8),0.0,0.0,0.0,0,SXF_NOCHECKPOSITION); 
+				//Owner.A_QuakeEx(1,1,1,random(2,3),0,1,"",QF_SCALEDOWN);
+			}
+			if (!PlayDash.OnGround && 
+					(DashTics > (MaxDashTics - 2)) 
+					&& airdashtype == 1) 
+					{
+						Owner.Vel.Z += DashVSpeed;
+					}
+					else
+					{
+						Owner.Vel.Z = 0.0;
+					}
+
+			if (level.time % 4 <= 1) owner.A_SetRenderStyle(frandompick(0.375,0.5,0.625),STYLE_Add); 
+													else owner.A_SetRenderStyle(frandompick(0.625,0.75,0.875),STYLE_Add);
+
+			Owner.A_SetBlend("78447E",frandom(0.08,0.12),random(2,3));
+			Owner.A_SetInventory("PlayerDashing",1);
+			Owner.bSHOOTABLE = false;
+			Owner.bVISIBILITYPULSE = true;
+			Owner.bTHRUACTORS = true;
 			DashTics--;
+
 			Owner.VelFromAngle(DashSpeed, DashDir);
-			if (DashTics <= 5) DashSpeed *= 0.8;
-			Owner.Vel.Z = 0;
+			if (Owner.CountInv("PowerStrength") || Owner.CountInv("PowerStrengthDD"))
+			{
+				if (DashTics > (MaxDashTics * 0.75)) DashSpeed *= 1.025;
+
+				if (DashTics % 3)
+				{
+					Owner.A_Explode((random(8,12)*random(1,3)),(radius*3),XF_NOTMISSILE);
+					bool success;
+					Actor firetrail;
+					[success, firetrail] = Owner.A_SpawnItemEx("ArchvileFire",frandom(-1,1),frandom(-1,1));
+					if (firetrail && success) 
+					{
+						firetrail.scale.x = frandom(0.4,0.6);
+						firetrail.scale.y = frandom(0.4,0.6);
+						firetrail.A_SetRenderStyle(frandom(0.4,0.6),6); // Sets to Transperant
+					}
+				}
+			}
+			
+			if (DashTics <= (MaxDashTics * 0.25)) DashSpeed *= 0.85;
+			else if (DashTics <= (MaxDashTics * 0.5)) DashSpeed *= 0.9;
+			else if (DashTics <= (MaxDashTics * 0.75)) DashSpeed *= 0.95;
 		}
-		
-		if (P.onGround)
+		else
+		{
+			owner.A_SetRenderStyle(1.00,STYLE_Translucent);
+			Owner.A_SetInventory("PlayerDashing",0);
+			Owner.bSHOOTABLE = true;
+			Owner.bVISIBILITYPULSE = false;
+			Owner.bTHRUACTORS = false;
+			dashtype = -1;
+		}
+/*
+		if (PlayDash.onGround)
 		{
 			DJump = True;
-			//AirTics=0;
+			//AirTics = 0;
 		}
-		else if (!(Owner.GetPlayerInput(MODINPUT_OLDBUTTONS) & BT_JUMP) && (Owner.GetPlayerInput(MODINPUT_BUTTONS) & BT_JUMP) && DJump && AirTics >= 5)
+		else 
+		if (!(Owner.GetPlayerInput(MODINPUT_OLDBUTTONS) & BT_JUMP) && 
+				(Owner.GetPlayerInput(MODINPUT_BUTTONS) & BT_JUMP) && 
+				DJump &&
+				AirTics >= 5)
 		{
-			//Owner.Vel.Z = Max(Owner.Vel.Z+8,8);
-			
+			//Owner.Vel.Z = Max((Owner.Vel.Z + 8),8);
 			//Owner.A_StartSound("DoubleJump",69,CHANF_OVERLAP);
 			
 			DJump = False;
 		}
 		else AirTics++;
+*/
 		
 		if (DashCharge < DashMaxCharge)
 		{
-			//GiveInventory("DEDashBar",2,AAPTR_DEFAULT);
 			DashCharge++;
-			if (DashCharge == DashMaxCharge && !P.OnGround) 
+			if (DashCharge == DashMaxCharge && !PlayDash.OnGround) 
 			{
 				DashCharge = DashMaxCharge - 1; 
-				//GiveInventory("DEDashBar",2,AAPTR_DEFAULT);
 			}
 
 			if (DashCharge == DashMaxCharge)
 			{
 				Waiting = False;
-				//GiveInventory("DEDashBar",70,AAPTR_DEFAULT);
 				Owner.A_StartSound("Player/DashReady",69,CHANF_OVERLAP);
 			}
 		}
@@ -1106,6 +1184,7 @@ Class DashCollisionChecker : Actor
 		let sas = PlayerDashJump(Master);
 		je = sas;
 	}
+
 	Override bool CanCollideWith(Actor other, bool passive)
 	{
 		if (Other == target || Other.bMissile)
@@ -1115,9 +1194,10 @@ Class DashCollisionChecker : Actor
 		Tracer = Other;
 		Return False;
 	}
+
 	Override Void Tick()
 	{
-		Super.TIck();
+		Super.Tick();
 		if (!target || !je || je && !je.dashtics) { Destroy(); Return; }
 		SetOrigin((Target.Pos + (Target.Vel * 0.1)),0);
 		Vel = Target.Vel;

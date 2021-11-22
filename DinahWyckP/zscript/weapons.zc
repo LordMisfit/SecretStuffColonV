@@ -409,7 +409,7 @@ class HandToHand : DDWeapon replaces Fist
 			DPUN A 3
 			{
 				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
-				if (random(1,256) <= 4) { A_AlertMonsters(); }
+				if (random(1,64) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
 				A_StartSound("fistswingmedium",CHAN_BODY);
 				
 				double recl = frandom(-0.125,-0.075);
@@ -444,7 +444,7 @@ class HandToHand : DDWeapon replaces Fist
 			DPUN C 3
 			{
 				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
-				if (random(1,256) <= 4) { A_AlertMonsters(); }
+				if (random(1,64) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
 				A_StartSound("fistswingmedium",CHAN_BODY);
 				
 				double recl = frandom(-0.125,-0.075);
@@ -1052,7 +1052,7 @@ class CricketBat : DDWeapon replaces Pistol
 			DBID D 1 
 			{
 				A_StartSound("MalletSwing",CHAN_WEAPON);
-				if (random(1,32) <= 1) { A_AlertMonsters(); }
+				if (random(1,32) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID E 1 
@@ -1096,7 +1096,7 @@ class CricketBat : DDWeapon replaces Pistol
 			DBID D 1
 			{
 				A_StartSound("MalletSwing",CHAN_WEAPON);
-				if (random(1,32) <= 1) { A_AlertMonsters(); }
+				if (random(1,32) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID E 1
@@ -1105,7 +1105,7 @@ class CricketBat : DDWeapon replaces Pistol
 			DBID F 1 
 			{
 				A_StartSound("croquet/ballfire",CHAN_WEAPON);
-				if (random(1,8) <= 1) { A_AlertMonsters(); }
+				if (random(1,8) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
 			}
 			DBID G 1 
@@ -1225,7 +1225,7 @@ class Blunderaxe : DDWeapon replaces Shotgun
 			BLAX G 2 
 			{
 				A_StartSound("Blunderswing",CHAN_WEAPON);
-				if (random(1,32) <= 1) { A_AlertMonsters(); }
+				if (random(1,32) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
 				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
 			}
 			BLAX HI 2 
