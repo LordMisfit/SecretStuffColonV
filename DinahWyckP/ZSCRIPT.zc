@@ -1,5 +1,13 @@
 version "4.7"
 
+enum ECheckSolidFootingFlags
+{
+	CSF_SOLIDGROUND = 1,
+	CSF_SOLIDACTORS = 2,
+	
+	CSF_ALL = CSF_SOLIDGROUND|CSF_SOLIDACTORS,
+}
+
 #include "zscript/statusbars.zc"
 #include "zscript/events.zc"
 #include "zscript/actors.zc"

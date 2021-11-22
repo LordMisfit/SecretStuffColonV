@@ -9,6 +9,8 @@ class PlayerStatItem : Inventory
 	int LevelCap;
 	Array<int> LevelExpRequirement;
 
+	int landdmgbonus;
+
 	int InitEXPTables;
 	int PrevTimeFreezeTimer;
 	int TimeFreeze;
@@ -21,6 +23,8 @@ class PlayerStatItem : Inventory
 	int HPRegenTimerMax;
 	int HPDegenTimerMax;
 	
+	int DashTimer;
+
 	int PrevHealthRatio;
 	int HealthRatio;
 	int CurrentHealth;
@@ -608,14 +612,14 @@ class PlayerStatItem : Inventory
 
 			// Weapon Checks
 			double WeaponJumpZ = 1.00;
-			If (weapon is "HandToHand") WeaponJumpZ *= 1.125;
-			If (weapon is "CricketBat") WeaponJumpZ *= 1.00;
-			If (weapon is "BlunderAxe") WeaponJumpZ *= 0.96875;
-			If (weapon is "AppleJack") WeaponJumpZ *= 1.03125;
-			If (weapon is "Scrambler") WeaponJumpZ *= 1.125;
-			If (weapon is "WizardPike") WeaponJumpZ *= 1.0625;
-			If (weapon is "SuperVac") WeaponJumpZ *= 0.9375;
-			If (weapon is "Grimophone") WeaponJumpZ *= 0.875;
+			if (weapon is "HandToHand") WeaponJumpZ *= 1.125;
+			if (weapon is "CricketBat") WeaponJumpZ *= 1.00;
+			if (weapon is "BlunderAxe") WeaponJumpZ *= 0.96875;
+			if (weapon is "AppleJack") WeaponJumpZ *= 1.03125;
+			if (weapon is "Scrambler") WeaponJumpZ *= 1.125;
+			if (weapon is "WizardPike") WeaponJumpZ *= 1.0625;
+			if (weapon is "SuperVac") WeaponJumpZ *= 0.9375;
+			if (weapon is "Grimophone") WeaponJumpZ *= 0.875;
 			if (debugjumpz) Console.Printf("JumpZ [WeaponEquipped]: %.8f", WeaponJumpZ);
 
 			double TotalJumpZ = CharacterJumpZ
@@ -750,15 +754,43 @@ class PlayerStatItem : Inventory
 			owner.A_SetInventory("TimeFreezeTimer",TimeFreezeTimer);
 			owner.A_SetInventory("TimePotionTimeFreezer",TimeFreeze);
 			
+			// Land Damage
+			bool debuglanddmg = false;
+			landdmgbonus = 0;
+			if (owner.vel.z < -128.0)
+			{
+				landdmgbonus = 4;
+				if (debuglanddmg) Console.Printf("    \ceLanding Damage [Lvl 4 - 13.9453125x Melee Dmg]: ZVel: %.8f", owner.vel.z);
+			}
+			else
+			if (owner.vel.z < -32.0)
+			{
+				landdmgbonus = 3;
+				if (debuglanddmg) Console.Printf("    \ceLanding Damage [Lvl 3 - 6.5625x Melee Dmg]: ZVel: %.8f", owner.vel.z);
+			}
+			else
+			if (owner.vel.z < -8.0)
+			{
+				landdmgbonus = 2;
+				if (debuglanddmg) Console.Printf("    \ceLanding Damage [Lvl 2 - 3.5x Melee Dmg]: ZVel: %.8f", owner.vel.z);
+			}
+			else
+			if (owner.vel.z < -0.0625)
+			{
+				landdmgbonus = 1;
+				if (debuglanddmg) Console.Printf("    \ceLanding Damage [Lvl 1 - 2x Melee Dmg]: ZVel: %.8f", owner.vel.z);
+			}
+			
 			//
 			owner.player.health = owner.player.mo.health = CurrentHealth;
 			owner.A_SetInventory("PlayerMaxHP",MaxHealthTrue);
 			
+			bool debugcricketguard = false;
 			if (CricketBatBuffTimer)
 			{
 				CricketBatBuffTimer--;
 				owner.A_SetInventory("CricketBatGuard",1);
-				Console.Printf("timer: %d", CricketBatBuffTimer);
+				if (debugcricketguard) Console.Printf("timer: %d", CricketBatBuffTimer);
 			}
 			else
 			{
@@ -774,7 +806,7 @@ class PlayerStatItem : Inventory
 	{
 		let weapon = owner.player.ReadyWeapon;
 		TrueGameSkill = skill;
-		bool debugdmg = false;
+		bool debugdmg = true;
 		
 		// ******************
 		// ******************
@@ -785,7 +817,7 @@ class PlayerStatItem : Inventory
 		{
 			if (debugdmg) Console.Printf("Damage (!passive): %d", damage);
 			double LVLFactor = (1.00 + (PlayerLevel * 0.0125));
-			if (debugdmg) Console.Printf("Damage (!passive - Level): %d", damage);
+			if (debugdmg) Console.Printf("Damage (!passive - Level): %.8f", LVLFactor);
 
 			double SkillFactor = 1.00;
 			if (Skill == SKILL_VERY_HARD) SkillFactor *= 0.75;
@@ -793,8 +825,28 @@ class PlayerStatItem : Inventory
 			if (Skill == SKILL_NORMAL) SkillFactor *= 1.00;
 			if (Skill == SKILL_EASY) SkillFactor *= 1.125;
 			if (Skill == SKILL_VERY_EASY) SkillFactor *= 1.25;
-			if (debugdmg) Console.Printf("Damage (!passive - Skill): %d", damage);
+			if (debugdmg) Console.Printf("Damage (!passive - Skill): %.8f", SkillFactor);
 
+			// Landing Bonus
+			double LandingFactor = 1.0;
+			if (damageType == 'Melee' || damageType == 'Trample' || damageType == 'Stomp' || damageType == 'Fist' || damageType == 'Kick' || damageType == 'Chainsaw' ||
+					damageType == 'Bonk' || damageType == 'Bap')
+			{
+				if (landdmgbonus == 1) LandingFactor = 2.0;
+				if (landdmgbonus == 2) LandingFactor = 3.5;
+				if (landdmgbonus == 3) LandingFactor = 6.5625;
+				if (landdmgbonus == 4) LandingFactor = 13.9453125;
+				if (debugdmg) Console.Printf("Damage (!passive - Landing): %.8f", LandingFactor);
+			}
+
+			// Dashing Bonus
+			double DashingFactor = 1.0;
+			if (DashTimer > 0)
+			{
+				if (damageType == 'Melee' || damageType == 'Trample' || damageType == 'Stomp' || damageType == 'Fist' || damageType == 'Kick' || damageType == 'Chainsaw' ||
+					damageType == 'Bonk' || damageType == 'Bap') DashingFactor = frandompick(1.25,1.334,1.425,1.5);
+			}
+			
 			double BuffFactor = 1.00;
 			if (Owner.CountInv("PowerInvisibility")) BuffFactor *= frandompick(1.00,1.00,1.125,1.125,1.25);
 
@@ -802,13 +854,15 @@ class PlayerStatItem : Inventory
 			if (Owner.CountInv("PowerWineBuffStrong")) BuffFactor *= frandompick(0.955,1.045);
 			if (Owner.CountInv("PowerWineBuffStrongest")) BuffFactor *= frandompick(0.91,1.09);
 			if (Owner.CountInv("PowerWineBuffStrongestEven")) BuffFactor *= frandompick(0.85,1.15);
-			if (debugdmg) Console.Printf("Damage (!passive - Buff): %d", damage);
+			if (debugdmg) Console.Printf("Damage (!passive - Buff): %.8f", BuffFactor);
 			
 			double TOTALFactor = 1.0
 													 * LVLFactor
 													 * SkillFactor
+													 * LandingFactor
 													 * BuffFactor
 													 * atkfct;
+			if (debugdmg) Console.Printf("Damage (!passive - Total): %.8f", TOTALFactor);
 
 			newdamage = max(1, ApplyDamageFactors(GetClass(), damageType, damage, damage * TOTALFactor));
 			if (debugdmg) Console.Printf("FDamage (!passive): %d", newdamage);
@@ -823,7 +877,7 @@ class PlayerStatItem : Inventory
 		{
 			if (debugdmg) Console.Printf("FDamage (passive[pre]): %d", damage);
 			double LVLFactor = (1.00 - (PlayerLevel * 0.0125));
-			if (debugdmg) Console.Printf("Damage (passive - Level): %d", damage);
+			if (debugdmg) Console.Printf("Damage (passive - Level): %.8f", LVLFactor);
 
 			// Difficulty Level
 			double SkillFactor = 1.00;
@@ -832,7 +886,7 @@ class PlayerStatItem : Inventory
 			if (Skill == SKILL_NORMAL) SkillFactor *= 1.00;
 			if (Skill == SKILL_HARD) SkillFactor *= 1.125;
 			if (Skill == SKILL_VERY_HARD) SkillFactor *= 1.25;
-			if (debugdmg) Console.Printf("Damage (passive - Skill): %d", damage);
+			if (debugdmg) Console.Printf("Damage (passive - Skill): %.8f", SkillFactor);
 			
 			// Buffs
 			double BuffFactor = 1.00;
@@ -843,25 +897,26 @@ class PlayerStatItem : Inventory
 			if (Owner.CountInv("PowerWineBuffStrong")) BuffFactor *= frandompick(0.985,1.015);
 			if (Owner.CountInv("PowerWineBuffStrongest")) BuffFactor *= frandompick(0.97,1.03);
 			if (Owner.CountInv("PowerWineBuffStrongestEven")) BuffFactor *= frandompick(0.95,1.05);
-			if (debugdmg) Console.Printf("Damage (passive - Buff): %d", damage);
+			if (debugdmg) Console.Printf("Damage (passive - Buff): %.8f", SkillFactor);
 			
 			// Weapons
 			double WeaponFactor = 1.00;
-			If (weapon is "HandToHand") WeaponFactor = 1.125;
-			If (weapon is "CricketBat") WeaponFactor = 1.00;
-			If (weapon is "BlunderAxe") WeaponFactor = 1.0625;
-			If (weapon is "AppleJack") WeaponFactor = 0.9375;
-			If (weapon is "Scrambler") WeaponFactor = 0.75;
-			If (weapon is "WizardPike") WeaponFactor = 0.875;
-			If (weapon is "SuperVac") WeaponFactor = 1.125;
-			If (weapon is "Grimophone") WeaponFactor = 1.25;
-			if (debugdmg) Console.Printf("Damage (passive - WeaponEquipped): %d", damage);
+			if (weapon is "HandToHand") WeaponFactor = 1.125;
+			if (weapon is "CricketBat") WeaponFactor = 1.00;
+			if (weapon is "BlunderAxe") WeaponFactor = 1.0625;
+			if (weapon is "AppleJack") WeaponFactor = 0.9375;
+			if (weapon is "Scrambler") WeaponFactor = 0.75;
+			if (weapon is "WizardPike") WeaponFactor = 0.875;
+			if (weapon is "SuperVac") WeaponFactor = 1.125;
+			if (weapon is "Grimophone") WeaponFactor = 1.25;
+			if (debugdmg) Console.Printf("Damage (passive - WeaponEquipped): %.8f", WeaponFactor);
 
 			double TOTALFactor = 1.0
 													 * LVLFactor
 													 * SkillFactor
 													 * BuffFactor
 													 * deffct;
+			if (debugdmg) Console.Printf("Damage (passive - Total): %.8f", TOTALFactor);
 
 			newdamage = max(0, ApplyDamageFactors(GetClass(), damageType, damage, damage * TOTALFactor));
 			if (debugdmg) Console.Printf("FDamage (passive - Final): %d", newdamage);
@@ -912,19 +967,181 @@ class PlayerStatItem : Inventory
 		if (debugspeed) Console.Printf("SpeedX [Armor]: %.8f", Speed);
 		
 		// Weapon Checks
-		If (weapon is "HandToHand") Speed *= 1.125;
-		If (weapon is "CricketBat") Speed *= 1.00;
-		If (weapon is "BlunderAxe") Speed *= 0.95;
-		If (weapon is "AppleJack") Speed *= 1.05;
-		If (weapon is "Scrambler") Speed *= 1.125;
-		If (weapon is "WizardPike") Speed *= 1.125;
-		If (weapon is "SuperVac") Speed *= 0.875;
-		If (weapon is "Grimophone") Speed *= 0.875;
+		if (weapon is "HandToHand") Speed *= 1.125;
+		if (weapon is "CricketBat") Speed *= 1.00;
+		if (weapon is "BlunderAxe") Speed *= 0.95;
+		if (weapon is "AppleJack") Speed *= 1.05;
+		if (weapon is "Scrambler") Speed *= 1.125;
+		if (weapon is "WizardPike") Speed *= 1.125;
+		if (weapon is "SuperVac") Speed *= 0.875;
+		if (weapon is "Grimophone") Speed *= 0.875;
 		if (debugspeed) Console.Printf("SpeedX [WeaponEquipped]: %.8f", Speed);
 		
 		Speed *= spdfct;
 
 		if (debugspeed) Console.Printf("SpeedX [Final]: %.8f", Speed);
 		return Speed; 
+	}
+}
+
+/////////////////////////////////////////////////////////////DASH
+
+Class DEDashBar : Ammo 
+{
+	Default
+	{
+		Inventory.Amount 0;
+		Inventory.MaxAmount 2;
+		Ammo.BackpackAmount 0;
+		Ammo.BackpackMaxAmount 2;
+	}
+}
+
+class PlayerDashJump : Inventory ///Dash and double jump code by TheCamaleonMaligno ( https://www.youtube.com/watch?v=mTfGxY_Afhs )
+{
+	Double DashDir, DashSpeed;
+	Int DashTics, DashCharge, AirTics;
+	Bool DJump, Waiting;
+	
+	Default
+	{
+		+Inventory.PERSISTENTPOWER
+		+Inventory.UNDROPPABLE
+		+Inventory.UNTOSSABLE
+	}
+	
+	Override Void Tick()
+	{
+		Super.Tick();
+		if (!Owner || Owner && (!Owner.Player || Owner.Health < 1)) Return;
+		PlayerInfo P = Owner.Player;
+		Int BT = P.cmd.buttons;
+		Int DashMaxCharge = 52;
+		int MaxDashes = 2;
+		
+		if (!Waiting && (BT & BT_USER3) && DashCharge >= (DashMaxCharge / MaxDashes) && !DashTics)
+		{
+			DashDir = 0;
+			If	(BT & BT_FORWARD) DashDir = 0;
+			If	(BT & BT_BACK) DashDir = 180;
+			If	(BT & BT_MOVELEFT) DashDir = 90;
+			If	(BT & BT_MOVERIGHT) DashDir = -90;
+			If	((BT & BT_FORWARD) && (BT & BT_MOVELEFT)) DashDir = 45;
+			If	((BT & BT_FORWARD) && (BT & BT_MOVERIGHT)) DashDir = -45;
+			If	((BT & BT_BACK) && (BT & BT_MOVELEFT)) DashDir = (180 - 45);
+			If	((BT & BT_BACK) && (BT & BT_MOVERIGHT)) DashDir = (180 + 45);
+			DashDir += Owner.Angle;
+			if (DashCharge < DashMaxCharge) 
+			{
+				Waiting = True;
+				DashCharge = 0; 
+			}
+			DashCharge = Max(0, (DashCharge - (DashMaxCharge / MaxDashes)));
+			DashSpeed = 35; // 35
+			DashTics = 10; // 10
+			
+			//Owner.TakeInventory("DEDashBar",1,AAPTR_DEFAULT);
+			
+			//Owner.A_SetBlend("White",0.1,20);
+			Owner.A_StartSound("Player/Dash",50,CHANF_OVERLAP);
+			//Owner.A_QuakeEx(2,2,2,15,0,1,"",QF_SCALEDOWN);
+			Actor C = Spawn("DashCollisionChecker", Owner.Pos);
+			C.bSolid = True;
+			C.Master = Self;
+			C.Target = Owner;
+			C.A_SetSize(Owner.Radius, Owner.Height);
+			C.bNoTImeFreeze = True;
+			
+		}
+		if (DashTics)
+		{
+			//if (P.OnGround) { P.OnGround = False; Owner.AddZ(1); }
+			DashTics--;
+			Owner.VelFromAngle(DashSpeed, DashDir);
+			if (DashTics <= 5) DashSpeed *= 0.8;
+			Owner.Vel.Z = 0;
+		}
+		
+		if (P.onGround)
+		{
+			DJump = True;
+			//AirTics=0;
+		}
+		else if (!(Owner.GetPlayerInput(MODINPUT_OLDBUTTONS) & BT_JUMP) && (Owner.GetPlayerInput(MODINPUT_BUTTONS) & BT_JUMP) && DJump && AirTics >= 5)
+		{
+			//Owner.Vel.Z = Max(Owner.Vel.Z+8,8);
+			
+			//Owner.A_StartSound("DoubleJump",69,CHANF_OVERLAP);
+			
+			DJump = False;
+		}
+		else AirTics++;
+		
+		if (DashCharge < DashMaxCharge)
+		{
+			//GiveInventory("DEDashBar",2,AAPTR_DEFAULT);
+			DashCharge++;
+			if (DashCharge == DashMaxCharge && !P.OnGround) 
+			{
+				DashCharge = DashMaxCharge - 1; 
+				//GiveInventory("DEDashBar",2,AAPTR_DEFAULT);
+			}
+
+			if (DashCharge == DashMaxCharge)
+			{
+				Waiting = False;
+				//GiveInventory("DEDashBar",70,AAPTR_DEFAULT);
+				Owner.A_StartSound("Player/DashReady",69,CHANF_OVERLAP);
+			}
+		}
+	}
+}
+
+Class DashCollisionChecker : Actor
+{
+	PlayerDashJump je;
+	Override Void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		let sas = PlayerDashJump(Master);
+		je = sas;
+	}
+	Override bool CanCollideWith(Actor other, bool passive)
+	{
+		if (Other == target || Other.bMissile)
+		Return False;
+		if (Pos.Z > (Other.Pos.Z + Other.Height) || Other.Pos.Z > (Pos.Z + Height)) Return False;
+		if (Other.bSolid && Other.bShootable && Other.CanCollideWith(Self,0))
+		Tracer = Other;
+		Return False;
+	}
+	Override Void Tick()
+	{
+		Super.TIck();
+		if (!target || !je || je && !je.dashtics) { Destroy(); Return; }
+		SetOrigin((Target.Pos + (Target.Vel * 0.1)),0);
+		Vel = Target.Vel;
+		if (Tracer)
+		{
+			bThruActors = True;
+			/*
+			Let Cg = Weapon_Chaingun(Target.player.ReadyWeapon);
+			if (Cg && Cg.Tracer)
+			{
+				bForcePain = True;
+				Target.Vel *= 0;
+				Tracer.DamageMobj(Self, Target, 75, 'Normal', 0, Target.Angle);
+				Tracer.ApplyKickback(Target, Target, 300, Target.Angle, 'Normal', 0);
+				Tracer.A_TakeInventory("DashStun");
+				Tracer.A_GiveInventory("DashStun");
+				Target.A_StartSound("Weapons/DE/ChaingunShieldDash",9,CHANF_OVERLAP,0.5);
+				Target.A_QuakeEx(1,1,1,8,0,1,"",QF_SCALEDOWN);
+				Cg.DashImpact();
+				Cg.DashImpact();
+			}
+			*/
+			je.DashSpeed = 0;
+			Destroy();
+		}
 	}
 }

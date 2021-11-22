@@ -12,15 +12,89 @@ class DDBaseZSC : Actor
 	const SKILL_IMPOSSIBLE = 7;
 	const SKILL_OMEGA = 8;
 	
+	double oldVelZ;
+	
 	default
 	{
 		+CASTSPRITESHADOW;
 		-NOSPRITESHADOW;
 	}
 	
+	override void Tick()
+	{
+		// add the following line to your actor's Tick() method
+		oldVelZ = vel.z;
+		
+		super.Tick();
+	}
+
+	action state A_CheckSolidFooting(StateLabel label, int flags = CSF_ALL)
+	{
+		// small optimization: if our z-vel has changed, we aren't standing on something
+		if (invoker.oldVelZ != vel.z)
+				return null;
+		
+		// are we standing on solid ground?
+		if (abs(pos.z - GetZAt()) <= 1)
+		{
+				if (flags & CSF_SOLIDGROUND)
+						return ResolveState(label);
+		}
+		
+		// are we standing on an actor?
+		bool ok; Actor below;
+		[ok, below] = TestMobjZ(true);
+		if (below)
+		{
+				if (flags & CSF_SOLIDACTORS)
+						return ResolveState(label);
+		}
+		
+		// has our z-velocity not changed?
+		if (vel.z == invoker.oldVelZ && (flags & CSF_SOLIDGROUND))
+				return ResolveState(label);
+		
+		// we aren't standing on anything
+		return null;
+	}
+
 	void A_Destroy()
 	{
 		self.Destroy();
+	}
+}
+
+// Base Projectile Class
+class DDProjectile : DDBaseZSC
+{
+}
+
+// Base Puff Class
+class DDPuff : DDBaseZSC
+{
+	int user_randompain;
+	default
+	{
+	}
+}
+
+class DDVisualAImage : DDBaseZSC
+{
+	default
+	{
+		Radius 16;
+		Height 8;
+		Scale 0.8;
+		Alpha 0.85;
+		RenderStyle "Add";
+		+NOGRAVITY
+		+THRUACTORS
+	}
+	States
+	{
+		Spawn:
+			TNT1 AA 1 Bright;
+			Stop;
 	}
 }
 

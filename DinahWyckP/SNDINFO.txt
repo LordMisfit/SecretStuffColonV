@@ -434,3 +434,8 @@ $limit CricketBat/ShieldHit 0
 $limit CricketBat/ShieldHit1 0
 $limit CricketBat/ShieldHit2 0
 $limit CricketBat/ShieldHit3 0
+
+player/dash	  	NINJDODG
+player/airjump	NINJJUMP
+$pitchshift player/dash 0
+$pitchshift player/airjump 0

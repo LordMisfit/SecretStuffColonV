@@ -540,3 +540,15 @@ class PowerStrengthDD : PowerStrength
 		return 0;
 	}
 }
+
+// Dash Trails
+
+class PlayerDashing : PowerSpeed // Used to create trails behind the player for dashing
+{
+	default
+	{
+		Speed 1.0;
+		inventory.icon "";
+		Powerup.Duration 2147483646;
+	}
+}

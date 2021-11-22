@@ -6,8 +6,8 @@ class DWP_EventHandler : EventHandler
 		if (e.thing)
 		{
 			if (!(e.thing.GetClassName() == "DinahPlayer" || 
-			    e.thing.GetClassName() == "ExplosiveBarrel" || 
-					e.thing.GetClassName() == "Pod"))
+			    e.thing.GetClassName() == "ExplosiveBarrel" || e.thing.GetClassName() == "ExplosiveBarrelNew" || 
+					e.thing.GetClassName() == "Pod" || e.thing.GetClassName() == "PodNew"))
 			{
 				int user_type;
 				string AttackName = "NONE";
@@ -42,8 +42,8 @@ class DWP_EventHandler : EventHandler
 		if (e.thing)
 		{
 			if (!(e.thing.GetClassName() == "DinahPlayer" || 
-			    e.thing.GetClassName() == "ExplosiveBarrel" || 
-					e.thing.GetClassName() == "Pod"))
+			    e.thing.GetClassName() == "ExplosiveBarrel" || e.thing.GetClassName() == "ExplosiveBarrelNew" || 
+					e.thing.GetClassName() == "Pod" || e.thing.GetClassName() == "PodNew"))
 			{
 				int user_type;
 				string AttackName = "NONE";
@@ -172,6 +172,34 @@ class DWP_EventHandler : EventHandler
 					user_type = random(1,20);
 					if (user_type >= 1 || user_type <= 19) { e.thing.A_SpawnItemEx("TimePotion",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
 					if (user_type == 20) { e.thing.A_SpawnItemEx("DoorBell",0.0,0.0,0.0,0.0,0.0,0.0,SXF_NOCHECKPOSITION); }
+				}
+				
+				//
+				if (e.thing.GetClassName() == "KilletanteSoloist")
+				{
+					string dropname = "GalaApple";
+					if (random(1,2) == 1) dropname = "AppleWine";
+					e.thing.A_SpawnItemEx(dropname,frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),SXF_NOCHECKPOSITION);
+					if (random(1,2) == 1)
+					{
+						dropname = "GalaApple";
+						if (random(1,2) == 1) dropname = "AppleWine";
+						e.thing.A_SpawnItemEx(dropname,frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),SXF_NOCHECKPOSITION);
+						
+						if (random(1,4) == 1)
+						{
+							dropname = "GalaApple";
+							if (random(1,2) == 1) dropname = "AppleWine";
+							e.thing.A_SpawnItemEx(dropname,frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),SXF_NOCHECKPOSITION);
+							
+							if (random(1,8) == 1)
+							{
+								dropname = "GalaApple";
+								if (random(1,2) == 1) dropname = "AppleWine";
+								e.thing.A_SpawnItemEx(dropname,frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),frandom(-5,5),SXF_NOCHECKPOSITION);
+							}
+						}
+					}
 				}
 				
 				// Killed With Certain Weapons

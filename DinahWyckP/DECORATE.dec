@@ -2885,7 +2885,7 @@ actor Vitriola 10305
 }
 
 //MusicBall
-actor MusicBall
+actor MusicBall : DDProjectile
 {
 	Radius 8
 	Height 6
@@ -2910,7 +2910,7 @@ actor MusicBall
 	}
 }
 
-actor MusicBall2
+actor MusicBall2 : DDProjectile
 {
 	Radius 8
 	Height 6
