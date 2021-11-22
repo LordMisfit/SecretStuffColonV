@@ -217,7 +217,7 @@ class DDPlayerPawn : PlayerPawn
 
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
-		bool debugdisplays = true;
+		bool debugdisplays = false;
 		
 		Actor AttackingActor;
 		Actor UniqueProjectile;
@@ -430,16 +430,13 @@ class DDPlayerPawn : PlayerPawn
 		
 		if (CountInv("PlayerDashing"))
 		{
-			if (!(OnGround && (mod == 'Slime' || mod == 'Magma')))
-			{
-				if (debugdisplays) Console.Printf("PDamage [Dashing [Off Ground] Avoids Damage]");
-				return 0;
-			}
+			if (debugdisplays) Console.Printf("PDamage [Dashing Avoids Damage]");
+			return 0;
 		}
 
 		if (CountInv("PowerTimeFreezer") || CountInv("TimePotionTimeFreezer"))
 		{
-			if (OnGround && (mod == 'Slime' || mod == 'Magma'))
+			if (mod == 'Slime' || mod == 'Magma')
 			{
 				if (debugdisplays) Console.Printf("PDamage [TimeFreeze on Slime abort]");
 				return 0;
