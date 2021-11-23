@@ -86,7 +86,7 @@ class DDWeapon : Weapon
 	{
 		bool debug = false;
 		int prev = invoker.kickspeed;
-		if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) chance = ceil(chance * frandom(0.25,0.75));
+		if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) chance = ceil(chance * frandom(0.25,0.75));
 		if (debug) Console.Printf("chance: %d", chance);
 		if (random(1,256) <= chance)
 		{
@@ -126,7 +126,7 @@ class DDWeapon : Weapon
 		bool debug = false;
 		int prev = invoker.kickspeed;
 
-		if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) chance = floor(chance * frandom(1.125,1.375));
+		if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) chance = floor(chance * frandom(1.125,1.375));
 		if (debug) Console.Printf("chance: %d", chance);
 		int chance2;
 		if (chance > 256) chance2 = (chance % 256);
@@ -289,6 +289,10 @@ class DDWeapon : Weapon
 */
 }
 
+class DinahWeapon : DDWeapon
+{
+}
+
 class BadMusic : DDProjectile
 {
 	default
@@ -344,7 +348,7 @@ class BadMusic : DDProjectile
 //**************
 //* Grimophone *
 //**************
-class Grimophone : DDWeapon replaces BFG9000
+class Grimophone : DinahWeapon replaces BFG9000
 {
 	int musictype;
 	default
@@ -379,14 +383,14 @@ class Grimophone : DDWeapon replaces BFG9000
 		Select:
 			RPLY A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Raise(12); }
 				A_Raise(12);
 			}
 			Loop;
 		Deselect:
 			RPLY A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Lower(12); }
 				A_Lower(12);
 			}
 			TNT1 A 0 A_StopSound(65);
@@ -414,7 +418,79 @@ class Grimophone : DDWeapon replaces BFG9000
 	}
 }
 
-class HandToHand : DDWeapon replaces Fist
+class RecordShot : DDProjectile
+{
+	default
+	{
+		Radius 6;
+		Height 6;
+		Speed 30;
+		Damage 12;
+		DamageType "Beats";
+		PROJECTILE;
+		+SEEKERMISSILE
+		+DONTREFLECT
+		+FORCERADIUSDMG
+		//+NOEXTREMEDEATH
+		RENDERSTYLE "Normal";
+
+		+BOUNCEONWALLS
+		+BOUNCEONFLOORS
+		+BOUNCEONCEILINGS
+		+BOUNCEONACTORS
+		+NOBOUNCESOUND
+		+EXPLODEONWATER
+		+DONTBOUNCEONSHOOTABLES
+		+SKYEXPLODE
+		+CANBOUNCEWATER
+		BounceType "Hexen";
+		BounceFactor 1.03125;
+		WallBounceFactor 1.03125;
+		BounceCount 2;
+		SeeSound "axe/throw";
+		DeathSound "axe/hit";
+	}
+	
+	States
+	{
+		Spawn:
+			RBUL A 0 NoDelay;
+			RBUL AB 1 
+			{
+				A_SeekerMissile(18,18,SMF_LOOK|SMF_PRECISE);
+				A_ScaleVelocity(1.001);
+			}
+			Loop;
+		Death:
+			BASH ABC 3 Bright;
+			BASH DE 2 bright;
+			Stop;
+	}
+}
+
+class MusicAmmo : Ammo replaces CellPack
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 3; // 6
+		Inventory.MaxAmount 66; // 50
+		Ammo.BackpackAmount 3; // 6
+		Ammo.BackpackMaxAmount 99;
+		Inventory.Icon "RAMOI0";
+		Inventory.PickupMessage "A musical record";
+		+FLOATBOB
+	}
+	
+	States
+	{
+		Spawn:
+			RAMO A -1;
+			Loop;
+	}
+}
+
+class HandToHand : DinahWeapon replaces Fist
 {
 	default
 	{
@@ -441,7 +517,7 @@ class HandToHand : DDWeapon replaces Fist
 			DHND A 1
 			{
 				A_KickDecelerate();
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop;
@@ -449,7 +525,7 @@ class HandToHand : DDWeapon replaces Fist
 			DHND A 1
 			{
 				A_KickDecelerate();
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop;
@@ -483,7 +559,7 @@ class HandToHand : DDWeapon replaces Fist
 				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 				if (random(1,64) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
 
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					if (random(1,256) <= 192) { A_StartSound("fistswingheavy",CHAN_WEAPON); }
 					else { A_StartSound("fistswingmedium",CHAN_WEAPON); }
@@ -520,7 +596,7 @@ class HandToHand : DDWeapon replaces Fist
 				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(ceil(tics*frandom(0.34,0.67))); }
 				if (random(1,64) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
 
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					if (random(1,256) <= 192) { A_StartSound("fistswingheavy",CHAN_WEAPON); }
 					else { A_StartSound("fistswingmedium",CHAN_WEAPON); }
@@ -673,7 +749,7 @@ class HandToHand : DDWeapon replaces Fist
 					A_StopSound(CHAN_VOICE);
 					A_StartSound("Dinah/jump",CHAN_VOICE); 
 				} 
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					if (random(1,256) <= 192) { A_StartSound("fistswingheavy0",CHAN_WEAPON); }
 					else { A_StartSound("fistswingmedium0",CHAN_WEAPON); }
@@ -795,7 +871,7 @@ class FistPuff : DDPuff
 
 				int dmg = A_GetPunchDamage(0,1,true);
 				int radi = 16 * frandom(0.84375,1.15625);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					radi *= 2.5;
 					A_StartSound("fisthitberserkwall", 56); 
@@ -834,7 +910,7 @@ class UppercutPuff : FistPuff
 				
 				int dmg = A_GetPunchDamage(1,1,true);
 				int radi = 16 * frandom(0.84375,1.15625);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					radi *= 2.5;
 					A_StartSound("fisthitberserkwall", 56);
@@ -856,7 +932,7 @@ class UppercutPuff : FistPuff
 				
 				int dmg = A_GetPunchDamage(1,1,true);
 				int radi = 16 * frandom(0.84375,1.15625);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					radi *= 2.5;
 					A_StartSound("fisthitberserk", 56); 
@@ -878,7 +954,7 @@ class UppercutPuff : FistPuff
 				
 				int dmg = A_GetPunchDamage(1,1,true);
 				int radi = 16 * frandom(0.84375,1.15625);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					radi *= 2.5;
 					A_StartSound("fisthitberserkwall", 56);
@@ -924,7 +1000,7 @@ class KickPuff : DDPuff
 			{
 				int dmg = random(28,52);
 				int radi = 24 * frandom(0.84375,1.15625);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					dmg *= 10;
 					radi *= 2.5;
@@ -951,7 +1027,7 @@ class KickPuff : DDPuff
 				
 				int dmg = random(28,52);
 				int radi = 24 * frandom(0.84375,1.15625);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					dmg *= 10;
 					radi *= 2.5;
@@ -978,7 +1054,7 @@ class KickPuff : DDPuff
 
 				int dmg = random(28,52);
 				int radi = 24 * frandom(0.84375,1.15625);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					dmg *= 10;
 					radi *= 2.5;
@@ -1017,7 +1093,7 @@ class KickPuffNoThrust : KickPuff
 
 				int dmg = random(28,52);
 				int radi = 24 * frandom(0.84375,1.15625);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					dmg *= 10;
 					radi *= 2.5;
@@ -1040,7 +1116,7 @@ class KickPuffNoThrust : KickPuff
 				
 				int dmg = random(28,52);
 				int radi = 24 * frandom(0.84375,1.15625);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					dmg *= 10;
 					radi *= 2.5;
@@ -1063,7 +1139,7 @@ class KickPuffNoThrust : KickPuff
 				
 				int dmg = random(28,52);
 				int radi = 24 * frandom(0.84375,1.15625);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					dmg *= 10;
 					radi *= 2.5;
@@ -1193,7 +1269,7 @@ class CricketSwingPartNoReflect : ShieldPartNoReflect
 //***************
 //* Cricket Bat *
 //***************
-class CricketBat : DDWeapon replaces Pistol
+class CricketBat : DinahWeapon replaces Pistol
 {
 	default
 	{
@@ -1375,14 +1451,14 @@ class CricketBat : DDWeapon replaces Pistol
 		Deselect:
 			DBID A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop;
 		Select: 
 			DBID A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop;
@@ -1392,7 +1468,7 @@ class CricketBat : DDWeapon replaces Pistol
 			}
 			DBID B 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
 			}
 			DBID C 1
 			{
@@ -1401,18 +1477,18 @@ class CricketBat : DDWeapon replaces Pistol
 			{
 				A_StartSound("MalletSwing",CHAN_WEAPON);
 				if (random(1,32) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
 			}
 			DBID E 1 
 			{
 			}
 			DBID F 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
 			}
 			DBID G 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
 				{
 					A_CustomPunch ((Random(6, 8)*10), FALSE, 0, "BatPuff", 112);
 					A_CricketBatSwing(1);
@@ -1425,11 +1501,11 @@ class CricketBat : DDWeapon replaces Pistol
 			}
 			DBID H 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
 			}
 			DBID IJCCBA 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(randompick(0,1,1,1,1,1)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(randompick(0,1,1,1,1,1)); }
 			}
 			goto Ready;
 		AltFire:
@@ -1438,7 +1514,7 @@ class CricketBat : DDWeapon replaces Pistol
 			}
 			DBID B 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
 			}
 			DBID C 1
 			{
@@ -1447,7 +1523,7 @@ class CricketBat : DDWeapon replaces Pistol
 			{
 				A_StartSound("MalletSwing",CHAN_WEAPON);
 				if (random(1,32) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
 			}
 			DBID E 1
 			{
@@ -1456,11 +1532,11 @@ class CricketBat : DDWeapon replaces Pistol
 			{
 				A_StartSound("croquet/ballfire",CHAN_WEAPON);
 				if (random(1,8) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
 			}
 			DBID G 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
 				{
 					A_FireProjectile("MalletShotBerserk",0,1,0,0);
 				}
@@ -1471,15 +1547,15 @@ class CricketBat : DDWeapon replaces Pistol
 			}
 			DBID H 1 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(0); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
 			}
 			DBID IJC 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			DBID BA 3
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(1,2)); }
 			}
 			goto Ready;
 			
@@ -1656,7 +1732,7 @@ class MalletAmmo : Ammo
 }
 
 // Blunderaxe
-class Blunderaxe : DDWeapon replaces Shotgun
+class Blunderaxe : DinahWeapon replaces Shotgun
 {
 	default
 	{
@@ -1717,14 +1793,14 @@ class Blunderaxe : DDWeapon replaces Shotgun
 		Deselect:
 			BLAX A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop;
 		Select: 
 			BLAX A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop;
@@ -1736,15 +1812,15 @@ class Blunderaxe : DDWeapon replaces Shotgun
 			{
 				A_StartSound("Blunderswing",CHAN_WEAPON);
 				if (random(1,32) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			BLAX HI 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			BLAX J 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
 				{
 					A_SetTics(1);
 					A_CustomPunch ((Random(16, 20)*10), FALSE, 0, "BlunderPuff", 96);
@@ -1756,11 +1832,11 @@ class Blunderaxe : DDWeapon replaces Shotgun
 			}
 			BLAX KLMN 3 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(1,2)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(1,2)); }
 			}
 			BLAX O 4
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(randompick(1,2,2,3,3,3)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(randompick(1,2,2,3,3,3)); }
 			}
 			goto Ready;
 		AltFire:
@@ -1782,7 +1858,7 @@ class Blunderaxe : DDWeapon replaces Shotgun
 			}
 			BLAX C 3 Bright
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) 
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
 				{
 					A_Recoil(frandom(0.96,1.44));
 					A_SetTics(random(1,2));
@@ -1794,20 +1870,20 @@ class Blunderaxe : DDWeapon replaces Shotgun
 			}
 			BLAX DE 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(randompick(0,1,1,2)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(randompick(0,1,1,2)); }
 			}
 			BLAX FF 7
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(3,4)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(3,4)); }
 			}
 			BLAX D 8
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(3,5)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(3,5)); }
 			}
 			BLAX A 9 
 			{
 				A_Refire();
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(4,5)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(4,5)); }
 			}
 			goto Ready;
 	}
@@ -1902,7 +1978,7 @@ class BadBlundershot : Blundershot
 	}
 }
 
-class BlunderAmmo : Ammo replaces Shell
+class BlunderAmmo : Ammo
 {
 	default
 	{
@@ -1924,7 +2000,7 @@ class BlunderAmmo : Ammo replaces Shell
 }
 
 //SUPERVAC
-class SuperVac : DDWeapon replaces PlasmaRifle
+class SuperVac : DinahWeapon replaces PlasmaRifle
 {
 	default
 	{
@@ -1965,14 +2041,14 @@ class SuperVac : DDWeapon replaces PlasmaRifle
 		Deselect:
 			VACM A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop;
 		Select: 
 			VACM A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop;
@@ -2000,7 +2076,7 @@ class SuperVac : DDWeapon replaces PlasmaRifle
 			{
 				if (random(1,16) == 1)
 				{
-					if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
+					if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
 					{
 						A_CustomPunch((Random(3,6)*1.25), FALSE, 0, "VacPuff", 80, frandompick(0.01,0.05,0.1));
 					}
@@ -2011,7 +2087,7 @@ class SuperVac : DDWeapon replaces PlasmaRifle
 				}
 				else
 				{
-					if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
+					if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
 					{
 						A_CustomPunch((Random(3,6)*1.25), FALSE, 0, "VacPuff", 80);
 					}
@@ -2036,7 +2112,146 @@ class SuperVac : DDWeapon replaces PlasmaRifle
 	}
 }
 
-class Scrambler : DDWeapon replaces SuperShotgun
+class VacPuff : DDPuff
+{
+	default
+	{
+		+NOBLOCKMAP
+		+NOGRAVITY
+		+NOEXTREMEDEATH
+		+PUFFONACTORS
+		+PUFFGETSOWNER
+		+BLOODLESSIMPACT
+		RenderStyle "Translucent";
+		Alpha 0.6;
+		VSpeed 1;
+		DamageType "Suck";
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay
+			{
+				if (random(1,12) == 1) { bFORCEPAIN = true; }
+			}
+			BASH DE 3 bright;
+			Stop;
+		Melee:
+			TNT1 A 0
+			{
+				if (random(1,12) == 1) { bFORCEPAIN = true; }
+			}
+			BASH DE 3 bright;
+			Stop;
+		Crash:
+			TNT1 A 0
+			{
+				if (random(1,12) == 1) { bFORCEPAIN = true; }
+			}
+			BASH DE 3 bright;
+			Stop;
+	}
+} 
+
+class VacShot : DDProjectile
+{
+	default
+	{
+	Radius 3;
+	Height 8;
+	Speed 20;
+	Damage 20;
+	Scale 1;
+	PROJECTILE;
+	DamageType "Dust";
+	DontHurtShooter;
+	RENDERSTYLE "Normal";
+	seesound "Weapons/RocketFire";
+	deathsound "croquet/ballhit";
+
+	+BOUNCEONWALLS
+	+BOUNCEONFLOORS
+	+BOUNCEONCEILINGS
+	+BOUNCEONACTORS
+	+NOBOUNCESOUND
+	+EXPLODEONWATER
+	+DONTBOUNCEONSHOOTABLES
+	+SKYEXPLODE
+	+CANBOUNCEWATER
+	BounceType "Hexen";
+	BounceFactor 1.03125;
+	WallBounceFactor 1.03125;
+	BounceCount 5;
+	+RIPPER
+	+FORCERADIUSDMG
+	//+NOEXTREMEDEATH
+	}
+	
+	States
+	{
+		Spawn:
+			VSHT ABC 3 Bright A_Explode(41,64,0,0,16);
+			loop;
+		Death:
+			TNT1 A 4 A_Explode(82,128,0,0,32);
+			stop;
+	}
+}
+
+class VacShot2 : DDProjectile
+{
+	default
+	{
+		Radius 3;
+		Height 8;
+		Speed 20;
+		Damage 20;
+		Scale 1;
+		PROJECTILE;
+		DamageType "Dust";
+		DontHurtShooter;
+		RENDERSTYLE "Normal";
+		seesound "Weapons/RocketFire";
+		deathsound "croquet/ballhit";
+		+RIPPER
+		+FORCERADIUSDMG
+		//+NOEXTREMEDEATH
+	}
+	
+	States
+	{
+		Spawn:
+			VSHT ABC 3 Bright A_Explode(41,64,0,0,16);
+			loop;
+		Death:
+			TNT1 A 4 A_Explode(82,128,0,0,32);
+			stop;
+	}
+}
+
+class VacAmmo : Ammo replaces Cell
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 1;
+		Inventory.MaxAmount 16; // 12
+		Ammo.BackpackAmount 1;
+		Ammo.BackpackMaxAmount 24;
+		Inventory.Icon "VACMJ0";
+		Inventory.PickupMessage "This bag is full. Ammo for SuperVac +1!";
+	}
+	
+	States
+	{
+		Spawn:
+			VACM Q -1;
+			Loop;
+	}
+}
+
+class Scrambler : DinahWeapon replaces SuperShotgun
 {
 	default
 	{
@@ -2069,34 +2284,34 @@ class Scrambler : DDWeapon replaces SuperShotgun
 		Deselect:
 			FPAN A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Lower(12); }
 				A_Lower(12);
 			}
 			loop;
 		Select: 
 			FPAN A 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Raise(12); }
 				A_Raise(12);
 			}
 			loop;
 		Fire:
 			FPAN A 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			FPAN B 2 
 			{
 				A_StartSound("MalletSwing",CHAN_WEAPON);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			FPAN C 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			FPAN D 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
 				{
 					A_SetTics(1);
 					A_CustomPunch ((Random(10, 12)*10), FALSE, 0, "PanPuff", 72);
@@ -2108,35 +2323,35 @@ class Scrambler : DDWeapon replaces SuperShotgun
 			}
 			FPAN EFG 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			TNT1 A 5
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(2,3)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(2,3)); }
 			}
 			FPAN B 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(0,1)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(0,1)); }
 			}
 			goto Ready;
 		AltFire:
 			FPAN A 2
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			FPAN B 2 
 			{
 				A_StartSound("MalletSwing",CHAN_WEAPON);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			FPAN C 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			FPAN D 2 
 			{
 				A_StartSound("panclang",CHAN_WEAPON);
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
 				{
 					A_SetTics(1);
 					A_FireProjectile("EggShotBerserk",0,1,0,0);
@@ -2148,15 +2363,15 @@ class Scrambler : DDWeapon replaces SuperShotgun
 			}
 			FPAN EFG 2 
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
 			}
 			TNT1 A 5
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(2,3)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(2,3)); }
 			}
 			FPAN B 1
 			{
-				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(0,1)); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(0,1)); }
 			}
 			goto Ready;
 	}
@@ -2499,6 +2714,566 @@ class EggAmmo : Ammo replaces ShellBox
 	{
 		Spawn:
 			EGGC ABCB 6;
+			Loop;
+	}
+}
+
+//WIZARD PIKE
+class WizardPike : DinahWeapon replaces RocketLauncher
+{
+	default
+	{
+		//$Category RPWeapons
+		Weapon.SelectionOrder 400;
+		Weapon.SlotNumber 5;
+		Weapon.Kickback 25;
+		Weapon.AmmoType2 "PikeAmmo";
+		Weapon.AmmoGive2 2;
+		Weapon.AmmoUse2 1;
+		+WEAPON.MELEEWEAPON
+		+WEAPON.NOALERT
+		+PUFFONACTORS
+		+FLOATBOB
+		Inventory.Icon "SCPPA0";
+		Inventory.PickupMessage "Pike";
+		inventory.pickupsound "misc/w_pkup"; //"Dinah/marvelous"
+		Tag "Pike";
+		Obituary "%k fed %o to a hungry pike.";
+	}
+	
+	States
+	{
+		Spawn:
+			SCPP ABCDEFGH 6 Bright;
+			loop;
+		Ready:
+			SCEP A 1 A_WeaponReady();
+			loop;
+		Deselect:
+			SCEP A 1
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Lower(12); }
+				A_Lower(12);
+			}
+			loop;
+		Select: 
+			SCEP A 1
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Raise(12); }
+				A_Raise(12);
+			}
+			loop;
+		Fire:
+			SCEP E 1 bright A_StartSound("Malletswing",CHAN_WEAPON);
+			SCEP F 1 
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
+			}
+			SCEP G 1;
+			SCEP H 1 
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
+			}
+			SCEP I 1;
+			SCEP J 5
+			{
+				if (random(1,32) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
+				{
+					A_SetTics(random(2,3));
+					A_CustomPunch ((Random(6, 8)*10), FALSE, 0, "PikePuff", 96);
+				}
+				else
+				{
+					A_CustomPunch (Random(6, 8), FALSE, 0, "PikePuff", 96);
+				}
+			}
+			SCEP I 1;
+			SCEP H 1 
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
+			}
+			SCEP G 1;
+			SCEP F 1 
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(0); }
+			}
+			goto Ready;
+		AltFire:
+			SCEP A 2 bright 
+			{
+				A_StartSound("Handmother/Zap",CHAN_WEAPON);
+				if (random(1,32) <= 31) { A_AlertMonsters(); }
+			}
+			SCEP B 1 bright A_FireProjectile("ZapShot",0,0,0,0);
+			SCEP A 1 bright;
+			SCEP B 1
+			{
+				A_FireProjectile("miniZapShot",0,0,48,0);
+				A_FireProjectile("miniZapShot",0,0,-48,0);
+			}
+			SCEP C 1 bright;
+			SCEP B 1 bright 
+			{
+				A_FireProjectile("ZapShot",0,0,0,0);
+			}
+			SCEP C 1 bright;
+			SCEP C 0
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Recoil(frandom(0.64,0.96)); } else { A_Recoil(frandom(3.2,4.8)); }
+			}
+			SCEP D 6 bright
+			{
+				A_FireProjectile("miniZapShot",0,0,48,0);
+				A_FireProjectile("miniZapShot",0,0,-48,0);
+				A_FireProjectile("miniZapShot",0,0,0,40);
+				A_FireProjectile("ZapShot",0,1,0,0);
+			}
+			SCEP CBA 2 bright;
+			goto Ready;
+	}
+}
+
+class PikePuff : BatPuff
+{
+	default
+	{
+		+NOBLOCKMAP
+		+NOGRAVITY
+		//+NOEXTREMEDEATH
+		+PUFFONACTORS
+		+FORCERADIUSDMG
+		RenderStyle "Translucent";
+		Alpha 0.6;
+		SeeSound "MalletHit";
+		AttackSound "MalletWall";
+		VSpeed 1;
+		DamageType "Bonk";
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay
+			{
+				if (random(1,4) <= 3) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+		Melee:
+			TNT1 A 0
+			{
+				if (random(1,4) <= 3) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+		Crash:
+			TNT1 A 0
+			{
+				if (random(1,4) <= 3) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+	}
+}  
+
+class PikeTracer : DDPuff
+{
+	default
+	{
+		+NOBLOCKMAP
+		+NOGRAVITY
+		//+NOEXTREMEDEATH
+		+NOGRAVITY
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		DamageType "zap";
+	}
+	
+	States
+	{
+		Spawn:
+			ZBUX A 4 Bright A_Explode;
+			ZBUX BCD 4 Bright;
+			Stop;
+	}
+}  
+
+class ZapShot : DDFastProjectile
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 80;
+		Damage 12;
+		Scale 1;
+		DamageType "Zap";
+		PROJECTILE;
+		RENDERSTYLE "Normal";
+		deathsound "croquet/ballhit";
+		+FORCERADIUSDMG
+		//+NOEXTREMEDEATH
+	}
+	
+	States
+	{
+		Spawn:
+			ZBUL ABCD 3 Bright;
+			loop;
+		Death:
+			ZBUX A 4 Bright A_Explode;
+			ZBUX BCD 4 Bright;
+			stop;
+	}
+}
+
+class MiniZapShot : DDFastProjectile
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 80;
+		Damage 8;
+		Scale 0.5;
+		DamageType "Zap";
+		PROJECTILE;
+		RENDERSTYLE "Normal";
+		deathsound "croquet/ballhit";
+		+FORCERADIUSDMG
+		//+NOEXTREMEDEATH
+	}
+	
+	States
+	{
+		Spawn:
+			ZBUL ABCD 3 Bright;
+			loop;
+		Death:
+			ZBUX A 3 Bright;
+			ZBUX BCD 3 Bright;
+			stop;
+	}
+}
+
+class BadZapshot : Zapshot
+{
+	default
+	{
+		Speed 20;
+		Scale 0.75;
+		Damage 5;
+		+FORCERADIUSDMG
+	}
+	States
+	{
+		Spawn:
+			ZBUL ABCD 3 Bright;
+			loop;
+		Death:
+			ZBUX A 4 Bright ;
+			ZBUX BCD 4 Bright;
+			stop;
+	}
+}
+
+class PikeAmmo : Ammo
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 1; // 2
+		Inventory.MaxAmount 12; // 10
+		Ammo.BackpackAmount 1; // 2
+		Ammo.BackpackMaxAmount 18;
+		Scale 1;
+		Inventory.Icon "SCPAI0";
+		Inventory.PickupMessage "A pint of devil's food";
+		+FLOATBOB
+	}
+	
+	States
+	{
+		Spawn:
+			SCPA ABC 6 Bright;
+			Loop;
+	}
+}
+
+//APPLEJACK
+class AppleJack : DinahWeapon replaces Chaingun
+{
+	default
+	{
+		//$Category RPWeapons
+		Weapon.SelectionOrder 100;
+		Weapon.SlotNumber 4;
+		Weapon.Kickback 75;
+		Weapon.AmmoType2 "JackAmmo";
+		Weapon.AmmoGive2 12;
+		Weapon.AmmoUse2 1;
+		+WEAPON.NOALERT
+		+WEAPON.MELEEWEAPON
+		+PUFFONACTORS
+		+FLOATBOB
+		Inventory.Icon "AJAKP0";
+		Inventory.Pickupsound "DinahWeap";
+		Inventory.PickupMessage "Apple Jack";
+		inventory.pickupsound "misc/w_pkup"; //"Dinah/marvelous"
+		Tag "Apple Jack";
+		Obituary "%k kept the doctor away from %o.";
+	}
+	
+	States
+	{
+		Spawn:
+			AJAK P -1;
+			stop;
+		Ready:
+			AJAK A 1 A_WeaponReady();
+			loop;
+		Deselect:
+			AJAK A 1
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Lower(12); }
+				A_Lower(12);
+			}
+			loop;
+		Select: 
+			AJAK A 1
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_Raise(12); }
+				A_Raise(12);
+			}
+			loop;
+		Fire:
+			AJAK B 2
+			{
+				A_StartSound("MalletSwing",CHAN_WEAPON);
+				if (random(1,32) <= 1 && !CountInv("PlayingStrife",AAPTR_PLAYER1)) { A_AlertMonsters(); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
+			}
+			AJAK C 2
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
+			}
+			AJAK D 2
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
+				{
+					A_SetTics(1);
+					A_CustomPunch ((Random(6, 8)*10), FALSE, 0, "ApplePuff", 96);
+				}
+				else
+				{
+					A_CustomPunch (Random(6, 8), FALSE, 0, "ApplePuff", 96);
+				}
+			}
+			AJAK E 2 
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
+			}
+			AJAK F 2
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
+				{
+					A_SetTics(1);
+					A_CustomPunch ((Random(6, 8)*10), FALSE, 0, "ApplePuff", 96);
+				}
+				else
+				{
+					A_CustomPunch (Random(6, 8), FALSE, 0, "ApplePuff", 96);
+				}
+			}
+			AJAK G 2 
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
+			}
+			TNT1 A 3
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(1,2)); }
+			}
+			AJAK BA 3
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(1,2)); }
+			}
+			goto Ready;
+		AltFire:
+			AJAF CDE 2
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
+			}
+			AJAF F 2 
+			{
+				if (random(1,32) <= 31) { A_AlertMonsters(); }
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) 
+				{ 
+					A_SetTics(1); 
+					A_FireProjectile("JackShotBerserk",0,1,0,0);
+				}
+				else
+				{
+					A_FireProjectile("JackShot",0,1,0,0);
+				}
+			}
+			AJAF GHI 2 
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
+			}
+			TNT1 A 3
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(random(1,2)); }
+			}
+			AJAK BA 2
+			{
+				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD")) { A_SetTics(1); }
+			}
+			goto Ready;
+	}
+}
+
+class ApplePuff : BatPuff
+{
+	default
+	{
+		+NOBLOCKMAP
+		+NOGRAVITY
+		//+NOEXTREMEDEATH
+		+PUFFONACTORS
+		+FORCERADIUSDMG
+		RenderStyle "Translucent";
+		Alpha 0.6;
+		SeeSound "MalletHit";
+		AttackSound "MalletWall";
+		VSpeed 1;
+		DamageType "Bonk";
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay
+			{
+				if (random(1,7) == 1) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+		Melee:
+			TNT1 A 0
+			{
+				if (random(1,7) == 1) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+		Crash:
+			TNT1 A 0
+			{
+				if (random(1,7) == 1) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+	}
+}
+
+class JackShot : DDProjectile
+{
+	default
+	{
+		Radius 6;
+		Height 6;
+		Speed 50;
+		Damage 20;
+		DamageType "Bonk";
+		PROJECTILE;
+		+DONTREFLECT
+		+FORCERADIUSDMG
+		//+NOEXTREMEDEATH
+		RENDERSTYLE "Normal";
+		SeeSound "axe/throw";
+		DeathSound "axe/hit";
+	}
+	
+	States
+	{
+		Spawn:
+			ABAL AB 2;
+			Loop;
+		Death:
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+	}
+}
+
+class JackShotBerserk : JackShot
+{
+	default
+	{
+		Speed 75;
+		Damage 100;
+	}
+	
+	States
+	{
+		Spawn:
+			ABAL AB 2;
+			Loop;
+		Death:
+			BASH A 0
+			{
+				A_Explode(64,64,0);
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+	}
+}
+
+class Badjackshot : Jackshot
+{
+	default
+	{
+		Speed 20;
+		Damage 3;
+	}
+	
+	States
+	{
+		Spawn:
+			ABAL AB 2;
+			Loop;
+		Death:
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+	}
+}
+
+class JackAmmo : Ammo
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 3; // 6
+		Inventory.MaxAmount 64; // 48
+		Ammo.BackpackAmount 3; // 6
+		Ammo.BackpackMaxAmount 96;
+		Inventory.Icon "AJAMI0";
+		Inventory.PickupMessage "An aggro-apple!";
+		+FLOATBOB
+	}
+	
+	States
+	{
+		Spawn:
+			AJAM A -1;
 			Loop;
 	}
 }

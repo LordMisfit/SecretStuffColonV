@@ -71,7 +71,7 @@ class PlayerStatItem : Inventory
 	override void DoEffect()
 	{
 		let playeractor = PlayerPawn(owner);
-		if (!playeractor) // Removes itself if given to a Player Class
+		if (!playeractor) // Removes itself if given to a non-Player Class
 		{
 			owner.A_SetInventory("PlayerStatItem",0); super.DoEffect(); 
 		} 
@@ -79,7 +79,8 @@ class PlayerStatItem : Inventory
 		if (playeractor) // Otherwise, Keep
 		{
 			let weapon = owner.player.ReadyWeapon;
-			if (playeractor.GetClassName() == "DinahPlayer") CharacterClass == 0;
+			if (playeractor.GetClassName() == "DinahPlayer") CharacterClass == 10;
+			if (!owner.CountInv("HandToHand")) owner.A_SetInventory("HandToHand",1); // Prevents your "fists/hand-to-hand" from being removed by inventory removing events.
 			if (owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) berserked = true;
 			
 			ClassicDoomType = gameinfo.gametype; // 0 = Unknown, 1 = Doom [any], 2 = Heretic, 4 = Hexen, 8 = Strife
