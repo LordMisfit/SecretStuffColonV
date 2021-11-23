@@ -600,3 +600,12 @@ class PlayerDashing : PowerSpeed // Used to create trails behind the player for 
 
 // Dash Effects
 class DashPuff : PhoenixPuff { default { +NOINTERACTION } }
+
+class UsingBoxingGloves : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 1;
+	}
+}
