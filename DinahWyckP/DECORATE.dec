@@ -2910,45 +2910,6 @@ actor MusicBall : DDProjectile
 	}
 }
 
-actor MusicBall2 : DDProjectile
-{
-	Radius 8
-	Height 6
-	Speed 15
-	Damage 3
-	+SEEKERMISSILE
-	+NOEXTREMEDEATH
-	PROJECTILE
-	Renderstyle ADD
-	PoisonDamage 15
-	DeathSound "virtuoso/musichit"
-	States
-	{
-		Spawn:
-			PBAL A 0 Bright A_SpawnItemEx("notetrail2", 0, 0, 0, 0, 0, 0, 180, 128)
-			PBAL A 1 Bright 
-			{
-				A_SeekerMissile(random(3,4),random(3,4),SMF_LOOK);
-			}
-			PBAL B 1 Bright 
-			{
-				if (random(1,4) <= 1) { A_SeekerMissile(random(3,4),random(3,4),SMF_LOOK); }
-			}
-			PBAL C 1 Bright 
-			{
-				A_SeekerMissile(random(3,4),random(3,4),SMF_LOOK);
-			}
-			PBAL D 1 Bright 
-			{
-				if (random(1,4) <= 1) { A_SeekerMissile(random(3,4),random(3,4),SMF_LOOK); }
-			}
-			Loop
-    Death:
-			TNT1 AAAAAA 1 A_SpawnItemEx("Mininote2", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-			Stop
-	}
-}
-
 
 ACTOR notetrail
 {

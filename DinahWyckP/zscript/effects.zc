@@ -156,6 +156,50 @@ class CricketBatGuard : PowerProtection
 		Powerup.Duration 2147483646; // 8
 		Powerup.Color "00 00 00", 0.00;
 	}
+	string texname;
+	
+	override void Tick()
+	{
+		Super.Tick();
+		if (dydudebug_showbufficons) 
+		{
+			texname = "SPBTA0";
+			icon = TexMan.CheckForTexture(texname, TexMan.TYPE_MiscPatch);
+		}
+		else 
+		{
+			texname = "";
+			icon = TexMan.CheckForTexture(texname, TexMan.TYPE_MiscPatch);
+		}
+	}
+}
+
+class CricketBatSwingDEF : PowerProtection
+{
+	default
+	{
+		DamageFactor "Normal", 0.8125;
+		DamageFactor "Melee", 0.5625;
+		Inventory.Icon "";
+		Powerup.Duration 2147483646; // 8
+		Powerup.Color "00 00 00", 0.00;
+	}
+	string texname;
+	
+	override void Tick()
+	{
+		Super.Tick();
+		if (dydudebug_showbufficons) 
+		{
+			texname = "SPBTA0";
+			icon = TexMan.CheckForTexture(texname, TexMan.TYPE_MiscPatch);
+		}
+		else 
+		{
+			texname = "";
+			icon = TexMan.CheckForTexture(texname, TexMan.TYPE_MiscPatch);
+		}
+	}
 }
 
 
@@ -374,6 +418,7 @@ class TimePotionTimeFreezer : TimeFreezerKeepSound
 {
 	default
 	{
+		Inventory.Icon "TIMPI0";
 		Powerup.Color "8f 8f 8f", 0.5;
 	}
 

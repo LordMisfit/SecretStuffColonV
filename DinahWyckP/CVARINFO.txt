@@ -1,0 +1,16 @@
+// GamePlay
+
+// debug
+server nosave int dydudebug_worlddamaged = 0;
+server nosave int dydudebug_worlddied = 0;
+server nosave int dydudebug_worlddiedmonsterdrops = 0;
+server nosave int dydudebug_worldloaded = 0;
+
+server nosave int dydudebug_airmeter = 0;
+server nosave int dydudebug_showbufficons = 0;
+server nosave int dydudebug_playermove = 0;
+server nosave int dydudebug_playertick = 0;
+server nosave int dydudebug_playerdamagemobj = 0;
+server nosave int dydudebug_menutooltipdisplays = 0;
+server nosave int dydudebug_shieldpiecedmg = 0;
+server nosave int dydudebug_shieldcollision = 0;

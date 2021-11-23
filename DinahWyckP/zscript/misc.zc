@@ -56,6 +56,7 @@ class PlayerStatItem : Inventory
 	int StrifeAccuLvl;
 	
 	int CricketBatBuffTimer;
+	int CricketBatSwingBuffTimer;
 	
 	double atkfct, deffct, spdfct, jmpfct, suvfct;
 
@@ -796,6 +797,16 @@ class PlayerStatItem : Inventory
 			{
 				owner.A_SetInventory("CricketBatGuard",0);
 			}
+			if (CricketBatSwingBuffTimer)
+			{
+				CricketBatSwingBuffTimer--;
+				owner.A_SetInventory("CricketBatSwingDEF",1);
+				if (debugcricketguard) Console.Printf("timer: %d", CricketBatSwingBuffTimer);
+			}
+			else
+			{
+				owner.A_SetInventory("CricketBatSwingDEF",0);
+			}
 
 			ClassCheck++;
 			super.DoEffect();
@@ -841,7 +852,7 @@ class PlayerStatItem : Inventory
 
 			// Dashing Bonus
 			double DashingFactor = 1.0;
-			if (DashTimer > 0)
+			if (CountInv("PlayerDashing"))
 			{
 				if (damageType == 'Melee' || damageType == 'Trample' || damageType == 'Stomp' || damageType == 'Fist' || damageType == 'Kick' || damageType == 'Chainsaw' ||
 					damageType == 'Bonk' || damageType == 'Bap') DashingFactor = frandompick(1.25,1.334,1.425,1.5);
@@ -996,6 +1007,7 @@ class PlayerDashJump : Inventory
 	int dashtype;
 	int airdashtype;
 	Int DashMaxCharge, MaxDashes, MaxDashTics;
+	bool slownthres1, slownthres2, slownthres3;
 	
 	Default
 	{
@@ -1007,13 +1019,14 @@ class PlayerDashJump : Inventory
 	override void Tick()
 	{
 		Super.Tick();
+		int debugdashing = false;
 		if (!Owner || Owner && (!Owner.Player || Owner.Health < 1)) Return;
 		PlayerInfo PlayDash = Owner.Player;
 		Int BTInput = PlayDash.cmd.buttons;
 		dashgruntchance = randompick(66,66,67);
-		DashMaxCharge = 35;
-		MaxDashes = 1;
-		MaxDashTics = random(9,10);
+		DashMaxCharge = randompick(46,47,47);
+		MaxDashes = 2;
+		MaxDashTics = randompick(6,6,7,7,7);
 		double dashsndvol = 0.67;
 		double dashgruntsndvol = 1.0;
 		
@@ -1021,25 +1034,36 @@ class PlayerDashJump : Inventory
 		// 0 = No loss of altitude
 		// 1 = Start with a short "hop" but fall to the ground afterwards.
 		
-		if (!Waiting && (BTInput & BT_USER3) && DashCharge >= (DashMaxCharge / MaxDashes) && !DashTics)
+		int pushingdirection = 0;
+		If (BTInput & BT_FORWARD) pushingdirection += 1;
+		If (BTInput & BT_BACK) pushingdirection += 2;
+		If (BTInput & BT_MOVELEFT) pushingdirection += 4;
+		If (BTInput & BT_MOVERIGHT) pushingdirection = 8;
+		
+		if (!Waiting && 
+				(BTInput & BT_USER3) && 
+				DashCharge >= (DashMaxCharge / MaxDashes) && 
+				pushingdirection &&
+				!DashTics)
 		{
 			//Console.Printf("OnGround: %d", PlayDash.OnGround);
 			DashDir = 0;
-			If	(BTInput & BT_FORWARD) DashDir = 0;
-			If	(BTInput & BT_BACK) DashDir = 180;
-			If	(BTInput & BT_MOVELEFT) DashDir = 90;
-			If	(BTInput & BT_MOVERIGHT) DashDir = -90;
-			If	((BTInput & BT_FORWARD) && (BTInput & BT_MOVELEFT)) DashDir = 45;
-			If	((BTInput & BT_FORWARD) && (BTInput & BT_MOVERIGHT)) DashDir = -45;
-			If	((BTInput & BT_BACK) && (BTInput & BT_MOVELEFT)) DashDir = (180 - 45);
-			If	((BTInput & BT_BACK) && (BTInput & BT_MOVERIGHT)) DashDir = (180 + 45);
+			If (BTInput & BT_FORWARD) DashDir = 0;
+			If (BTInput & BT_BACK) DashDir = 180;
+			If (BTInput & BT_MOVELEFT) DashDir = 90;
+			If (BTInput & BT_MOVERIGHT) DashDir = -90;
+			If ((BTInput & BT_FORWARD) && (BTInput & BT_MOVELEFT)) DashDir = 45;
+			If ((BTInput & BT_FORWARD) && (BTInput & BT_MOVERIGHT)) DashDir = -45;
+			If ((BTInput & BT_BACK) && (BTInput & BT_MOVELEFT)) DashDir = (180 - 45);
+			If ((BTInput & BT_BACK) && (BTInput & BT_MOVERIGHT)) DashDir = (180 + 45);
 			DashDir += Owner.Angle;
-			if (DashCharge < DashMaxCharge) 
+			//DashCharge = Max(0, (DashCharge - (DashMaxCharge / MaxDashes)));
+			DashCharge -= randompick(ceil(DashMaxCharge / MaxDashes),floor(DashMaxCharge / MaxDashes));
+			if (DashCharge <= 0) 
 			{
 				Waiting = True;
-				DashCharge = 0; 
+				DashCharge = 0;
 			}
-			DashCharge = Max(0, (DashCharge - (DashMaxCharge / MaxDashes)));
 
 			if (PlayDash.OnGround)
 			{
@@ -1110,9 +1134,10 @@ class PlayerDashJump : Inventory
 			{
 				if (DashTics > (MaxDashTics * 0.75)) DashSpeed *= 1.025;
 
-				if (DashTics % 3)
+				if (DashTics % 2) Owner.A_Explode((random(8,12)*random(1,3)),(radius*3),XF_NOTMISSILE,false,(radius*1.5),0,0,"","Dashing");
+				/*
+				if (DashTics % 4)
 				{
-					Owner.A_Explode((random(8,12)*random(1,3)),(radius*3),XF_NOTMISSILE);
 					bool success;
 					Actor firetrail;
 					[success, firetrail] = Owner.A_SpawnItemEx("ArchvileFire",frandom(-1,1),frandom(-1,1));
@@ -1123,11 +1148,34 @@ class PlayerDashJump : Inventory
 						firetrail.A_SetRenderStyle(frandom(0.4,0.6),6); // Sets to Transperant
 					}
 				}
+				*/
 			}
 			
-			if (DashTics <= (MaxDashTics * 0.25)) DashSpeed *= 0.85;
-			else if (DashTics <= (MaxDashTics * 0.5)) DashSpeed *= 0.9;
-			else if (DashTics <= (MaxDashTics * 0.75)) DashSpeed *= 0.95;
+			if (DashTics <= (MaxDashTics * 0.25))
+			{
+				if (!slownthres1)
+				{
+					slownthres1 = true;
+					DashSpeed *= 0.85;
+				}
+			}
+			else if (DashTics <= (MaxDashTics * 0.5)) 
+			{
+				if (!slownthres2)
+				{
+					slownthres2 = true;
+					DashSpeed *= 0.9;
+				}
+			}
+			else if (DashTics <= (MaxDashTics * 0.75))
+			{
+				if (!slownthres3)
+				{
+					slownthres3 = true;
+					DashSpeed *= 0.95;
+				}
+			}
+			if (debugdashing) Console.Printf("DashTics: %d / %d, Thresh: [1] %d, [2] %d, [3] %d", DashTics, MaxDashTics, slownthres1, slownthres2, slownthres3);
 		}
 		else
 		{
@@ -1137,6 +1185,9 @@ class PlayerDashJump : Inventory
 			Owner.bVISIBILITYPULSE = false;
 			Owner.bTHRUACTORS = false;
 			dashtype = -1;
+			slownthres1 = false;
+			slownthres2 = false;
+			slownthres3 = false;
 		}
 /*
 		if (PlayDash.onGround)
@@ -1160,17 +1211,24 @@ class PlayerDashJump : Inventory
 		
 		if (DashCharge < DashMaxCharge)
 		{
-			DashCharge++;
-			if (DashCharge == DashMaxCharge && !PlayDash.OnGround) 
+			if ((DashTics && (level.time % 14 == 2)))
 			{
-				DashCharge = DashMaxCharge - 1; 
+				if (debugdashing) Console.Printf("if ((DashTics && (level.time % 14 == 2)))");
+				DashCharge++;
 			}
+			else if (!DashTics)
+			{
+				if (debugdashing) Console.Printf("(!DashTics)");
+				DashCharge++;
+			}
+			//if (DashCharge == DashMaxCharge && !PlayDash.OnGround) DashCharge = DashMaxCharge - 1; 
 
 			if (DashCharge == DashMaxCharge)
 			{
 				Waiting = False;
 				Owner.A_StartSound("Player/DashReady",69,CHANF_OVERLAP);
 			}
+			if (debugdashing) Console.Printf("DashCharge: %d / %d", DashCharge, DashMaxCharge);
 		}
 	}
 }

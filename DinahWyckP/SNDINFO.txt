@@ -439,3 +439,11 @@ player/dash	  	NINJDODG
 player/airjump	NINJJUMP
 $pitchshift player/dash 0
 $pitchshift player/airjump 0
+
+//
+misc/WeaknessHit MELEE-WH
+misc/WeaknessHitMid MELEE-MH
+misc/WeaknessHitHigh MELEE-HH
+misc/ResistanceHit PARRY
+misc/ResistanceHitMid PARRY2
+misc/ResistanceHitHigh PARRY3

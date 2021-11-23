@@ -118,7 +118,8 @@ class ShieldPartBase : DDBaseZSC
 		+NEVERTARGET;
 		+BUDDHA;
 		+DONTBLAST;
-		+SOLID; //+SHOOTABLE;
+		+SOLID;
+		//+SHOOTABLE;
 		+NOGRAVITY;
 		+NOTELEPORT;
 		+NODAMAGE;
@@ -141,10 +142,34 @@ class ShieldPartBase : DDBaseZSC
 	
 	override void Tick()
 	{
-		if (level.time % 2 == 0) bSOLID = true; else bSOLID = false;
+
 		Super.Tick();
 	}
 */
+
+	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
+	{
+		if (dydudebug_shieldpiecedmg) Console.Printf("DamageMobj [ShieldPart]");
+		if (source)
+		{
+			if (dydudebug_shieldpiecedmg) Console.Printf("DamageMobj [Has Source: %s]", Source.GetClassName());
+		}
+		if (target)
+		{
+			if (dydudebug_shieldpiecedmg) Console.Printf("DamageMobj [Has Target: %s]", Target.GetClassName());
+		}
+		if (inflictor)
+		{
+			if (dydudebug_shieldpiecedmg) Console.Printf("DamageMobj [Has Inflictor: %s]", inflictor.GetClassName());
+		}
+		if (master)
+		{
+			if (dydudebug_shieldpiecedmg) Console.Printf("DamageMobj [Has Master: %s]", master.GetClassName());
+			if (flags & DMG_EXPLOSION && !(flags & DMG_NO_PAIN)) { flags |= DMG_NO_PAIN; } // turns on DMG_NO_PAIN;
+		}
+
+		return super.DamageMobj(inflictor, source, damage, mod, flags, angle);
+	}
 
 	override bool CanCollideWith(Actor other, bool passive)
 	{
@@ -152,8 +177,7 @@ class ShieldPartBase : DDBaseZSC
 		PlayerPawn playpawn2;
 		playpawn = PlayerPawn(other);
 
-		bool debugshieldcollision = false;
-		if (debugshieldcollision) Console.Printf("\cyShieldPart [%s] (gametic %d):\c- other: %s", GetClassName(), gametic, other.GetClassName());
+		if (dydudebug_shieldcollision) Console.Printf("\cyShieldPart [%s] (gametic %d):\c- other: %s", GetClassName(), gametic, other.GetClassName());
 		if (passive)
 		{
 			if (other.GetClassName() == "MalletShot" || 
@@ -188,7 +212,7 @@ class ShieldPartBase : DDBaseZSC
 			{
 					return false;
 			}
-			if (debugshieldcollision) Console.Printf("\cyShieldPart (gametic %d):\c- passive: %s", gametic, GetClassName());
+			if (dydudebug_shieldcollision) Console.Printf("\cyShieldPart (gametic %d):\c- passive: %s", gametic, GetClassName());
 			// Pass through different species of select types.
 			if (playpawn) return false; // Player Checking
 
@@ -196,8 +220,8 @@ class ShieldPartBase : DDBaseZSC
 			{
 				if (other.bFRIENDLY) return false;
 				if (other.health <= 0) return false;
-				let ShieldPiece = ShieldPartBase(other);
-				if (ShieldPiece) return false;
+				if (GetClassName() == "CricketSwingShieldPart" || GetClassName() == "CricketSwingPartNoReflect") return false;
+				//let ShieldPiece = ShieldPartBase(other); if (ShieldPiece) return false;
 				return true;
 			}
 
@@ -207,7 +231,7 @@ class ShieldPartBase : DDBaseZSC
 		}
 		else // Non-passive means the one moving into the other is performing the checks.
 		{
-			if (debugshieldcollision) Console.Printf("\cyShieldPart (gametic %d):\c- non-passive: %s", gametic, GetClassName());
+			if (dydudebug_shieldcollision) Console.Printf("\cyShieldPart (gametic %d):\c- non-passive: %s", gametic, GetClassName());
 			playpawn = PlayerPawn(other.target);
 			playpawn2 = PlayerPawn(master);
 			if (playpawn && playpawn2) return false;
@@ -242,7 +266,6 @@ class ShieldPart : ShieldPartBase // The Main segment of the sceptre-shield whic
 		Spawn:
 			HEXA C 2 bright NoDelay 
 			{
-				A_FadeTo(0.25,0.25);
 				//if (CountInv("PlayingDoom64")) { A_SetSize(19,19); }
 			}
 			stop;
@@ -277,7 +300,6 @@ class ShieldPartNoReflect : ShieldPart
 		Spawn:
 			HEXA A 2 bright NoDelay
 			{
-				A_FadeTo(0.25,0.25);
 				//if (CountInv("PlayingDoom64")) { A_SetSize(19,19); }
 			}
 			stop;
