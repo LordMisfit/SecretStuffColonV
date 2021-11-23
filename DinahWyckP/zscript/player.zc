@@ -526,6 +526,7 @@ class DinahPlayer : DDPlayerPawn // HereticPlayer
 		Mass 64;
 		Height 50;
 		Radius 12;
+		Tag "Dinah Wyck";
 		+NOBLOOD
 		+PLAYERPAWN.NOTHRUSTWHENINVUL
 	}

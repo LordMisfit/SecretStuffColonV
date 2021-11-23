@@ -1,4 +1,5 @@
 // GamePlay
+server int dydu_combatlog = 1;
 
 // debug
 server nosave int dydudebug_worlddamaged = 0;

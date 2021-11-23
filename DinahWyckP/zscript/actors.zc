@@ -67,6 +67,19 @@ class DDBaseZSC : Actor
 // Base Projectile Class
 class DDProjectile : DDBaseZSC
 {
+	
+	override void Tick()
+	{
+		if (!bNOTIMEFREEZE)
+		{
+			if (target && target.bNOTIMEFREEZE) bNOTIMEFREEZE = true;
+		}
+		else
+		{
+			if (target && !target.bNOTIMEFREEZE) bNOTIMEFREEZE = false;
+		}
+		Super.Tick();
+	}
 }
 
 // Base Puff Class
@@ -75,6 +88,20 @@ class DDPuff : DDBaseZSC
 	int user_randompain;
 	default
 	{
+		+PUFFGETSOWNER
+	}
+	
+	override void Tick()
+	{
+		if (!bNOTIMEFREEZE)
+		{
+			if (target && target.bNOTIMEFREEZE) bNOTIMEFREEZE = true;
+		}
+		else
+		{
+			if (target && !target.bNOTIMEFREEZE) bNOTIMEFREEZE = false;
+		}
+		Super.Tick();
 	}
 }
 

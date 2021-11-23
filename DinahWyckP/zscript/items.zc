@@ -425,7 +425,7 @@ class CherryBombPickup : CustomInventoryExt replaces RocketAmmo
 		Inventory.PickupSound "Dinah/giggle";
 		Inventory.PickupMessage "A Cherry Bomb!";
 		Inventory.Icon "CBOMI0";
-		Tag "Cherry Bomb";
+		Tag "Cherry Bomb: Thrown at Enemies and explodes. Berserk effects its' arc/distance and impact damage.";
 		Scale 0.8;
 		+INVENTORY.INVBAR
 		+INVENTORY.HUBPOWER
@@ -468,7 +468,6 @@ class InvulnerabilitySphere2 : CustomInventoryExt replaces InvulnerabilitySphere
 		+INVENTORY.BIGPOWERUP
 		Inventory.PickupMessage "\Picked up the Invulnerability Sphere!";
 		Inventory.PickupSound "powerups/invuln";
-		
 	}
 	States
 	{

@@ -3,6 +3,7 @@ class DDWeapon : Weapon
 {
 	int kickspeed;
 	int punchspeed;
+	
 	default
 	{
 	}
@@ -371,14 +372,16 @@ class HandToHand : DDWeapon replaces Fist
 			DHND A 1
 			{
 				A_KickDecelerate();
-				A_Lower(18);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
+				A_Lower(12);
 			}
 			loop;
 		Select:
 			DHND A 1
 			{
 				A_KickDecelerate();
-				A_Raise(18);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
+				A_Raise(12);
 			}
 			loop;
 		Fire:
@@ -1274,6 +1277,166 @@ class CricketBat : DDWeapon replaces Pistol
 	}
 }
 
+class BatPuff : DDPuff
+{
+	default
+	{
+		+NOBLOCKMAP
+		+NOGRAVITY
+		//+NOEXTREMEDEATH
+		+PUFFONACTORS
+		+FORCERADIUSDMG
+		RenderStyle "Translucent";
+		Alpha 0.6;
+		SeeSound "MalletHit";
+		AttackSound "MalletWall";
+		VSpeed 1;
+		DamageType "Bonk";
+	}
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay
+			{
+				if (random(1,4) == 1) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+		Melee:
+			TNT1 A 0
+			{
+				if (random(1,4) == 1) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+		Crash:
+			TNT1 A 0
+			{
+				if (random(1,4) == 1) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+	}
+}
+
+class MalletShot : DDProjectile
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 70;
+		Damage 12;
+		DamageType "Cricket";
+		PROJECTILE;
+		-NOGRAVITY
+		//+NOEXTREMEDEATH
+		+FORCERADIUSDMG
+		RENDERSTYLE "Normal";
+		DeathSound "croquet/ballhit";
+	}
+	
+	States
+	{
+		Spawn:
+			CBAL AB 3;
+			loop;
+		Death:
+			CBAL C 0 
+			{
+				bNOGRAVITY = true;
+			}
+			CBAL CDEF 4 Bright;
+			stop;
+		Crash:
+			CBAL C 0 
+			{
+				bNOGRAVITY = true;
+			}
+			CBAL CDEF 4 Bright;
+			stop;
+		XDeath:
+			TNT1 A 1
+			{
+				bNOGRAVITY = true;
+			}
+			stop;
+	}
+}
+
+class MalletShotBerserk : MalletShot
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 140;
+		Damage 60;
+		DamageType "Cricket";
+		PROJECTILE;
+		-NOGRAVITY
+		+FORCERADIUSDMG
+		//+NOEXTREMEDEATH
+		RENDERSTYLE "Normal";
+		DeathSound "croquet/ballhit";
+	}
+	
+	States
+	{
+		Spawn:
+			CBAL AB 3;
+			loop;
+		Death:
+			CBAL C 0 
+			{
+				bNOGRAVITY = true;
+				A_Explode(64,64,0);
+			}
+			CBAL CDEF 4 Bright;
+			stop;
+		Crash:
+			CBAL C 0 
+			{
+				bNOGRAVITY = true;
+				A_Explode(64,64,0);
+			}
+			CBAL CDEF 4 Bright;
+			stop;
+		XDeath:
+			TNT1 A 1
+			{
+				A_Explode(64,64,0);
+				bNOGRAVITY = true;
+			}
+			stop;
+	}
+}
+
+class MalletAmmo : Ammo
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 2; // 3
+		Inventory.MaxAmount 60; // 45
+		Ammo.BackpackAmount 2; // 3
+		Ammo.BackpackMaxAmount 90;
+		Inventory.Icon "CBAMI0";
+		Inventory.PickupMessage "A cricket ball";
+		+FLOATBOB
+	}
+	
+	States
+	{
+		Spawn:
+			CBAM A -1;
+			Loop;
+	}
+}
+
 // Blunderaxe
 class Blunderaxe : DDWeapon replaces Shotgun
 {
@@ -1432,6 +1595,116 @@ class Blunderaxe : DDWeapon replaces Shotgun
 	}
 }
 
+class BlunderPuff : DDPuff
+{
+	default
+	{
+		+NOBLOCKMAP
+		+NOGRAVITY
+		//+NOEXTREMEDEATH
+		+PUFFONACTORS
+		RenderStyle "Translucent";
+		Alpha 0.6;
+		SeeSound "MalletHit";
+		AttackSound "MalletWall";
+		VSpeed 1;
+		DamageType "Chop";
+	}
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay
+			{
+				if (random(1,6) == 1) { bFORCEPAIN = true; }
+			}
+			CHOP ABC 4 Bright;
+			Stop;
+		Melee:
+			TNT1 A 0
+			{
+				if (random(1,6) == 1) { bFORCEPAIN = true; }
+			}
+			CHOP ABC 4 Bright;
+			Stop;
+		Crash:
+			TNT1 A 0
+			{
+				if (random(1,6) == 1) { bFORCEPAIN = true; }
+			}
+			CHOP ABC 4 Bright;
+			Stop;
+	}
+}  
+
+class BlunderShot : DDProjectile
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 70;
+		Damage 8;
+		Scale 0.5;
+		DamageType "Lead";
+		PROJECTILE;
+		RENDERSTYLE "Normal";
+		SeeSound "blundershot";
+		//+NOEXTREMEDEATH
+		+FORCERADIUSDMG
+	}
+	States
+	{
+		Spawn:
+			BSHT AB 3;
+			loop;
+		Death:
+			BBOM A 4 Bright;
+			BBOM BCD 4 Bright;
+			stop;
+		Crash:
+			BBOM A 4 Bright;
+			BBOM BCD 4 Bright;
+			stop;
+		XDeath:
+			TNT1 A 1 
+			{
+				bNOGRAVITY = true;
+			}
+			stop;
+	}
+}
+
+class BadBlundershot : Blundershot
+{
+	default
+	{
+		Speed 35;
+		Damage 5;
+		+FORCERADIUSDMG
+	}
+}
+
+class BlunderAmmo : Ammo replaces Shell
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 3; // 6
+		Inventory.MaxAmount 48; // 36
+		Ammo.BackpackAmount 3; // 6
+		Ammo.BackpackMaxAmount 72;
+		Inventory.Icon "BAMOI0";
+		Inventory.PickupMessage "A fistful of blundershot";
+		+FLOATBOB
+	}
+	States
+	{
+		Spawn:
+			BAMO ABCD 5;
+			Loop;
+	}
+}
+
 //SUPERVAC
 class SuperVac : DDWeapon replaces PlasmaRifle
 {
@@ -1542,5 +1815,472 @@ class SuperVac : DDWeapon replaces PlasmaRifle
 			VACM B 3;
 			VACM A 3;
 			goto Ready;
+	}
+}
+
+class Scrambler : DDWeapon replaces SuperShotgun
+{
+	default
+	{
+		//$Category RPWeapons
+		Weapon.SelectionOrder 300;
+		Weapon.SlotNumber 3;
+		Weapon.Kickback 75;
+		Weapon.AmmoType2 "EggAmmo";
+		Weapon.AmmoGive2 3;
+		Weapon.AmmoUse2 1;
+		+WEAPON.MELEEWEAPON
+		+PUFFONACTORS
+		+FLOATBOB
+		Inventory.Icon "FPANP0";
+		Inventory.Pickupsound "DinahWeap";
+		Inventory.PickupMessage "Scrambler";
+		inventory.pickupsound "misc/w_pkup"; //"Dinah/marvelous"
+		Tag "Scrambler";
+		Obituary "%k scored a point with %o.";
+	}
+	
+	States
+	{
+		Spawn:
+			FPAN P 6;
+			loop;
+		Ready:
+			FPAN A 1 A_WeaponReady;
+			loop;
+		Deselect:
+			FPAN A 1
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Lower(12); }
+				A_Lower(12);
+			}
+			loop;
+		Select: 
+			FPAN A 1
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_Raise(12); }
+				A_Raise(12);
+			}
+			loop;
+		Fire:
+			FPAN A 2
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+			}
+			FPAN B 2 
+			{
+				A_StartSound("MalletSwing",CHAN_WEAPON);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+			}
+			FPAN C 2 
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+			}
+			FPAN D 2 
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
+				{
+					A_SetTics(1);
+					A_CustomPunch ((Random(10, 12)*10), FALSE, 0, "PanPuff", 72);
+				}
+				else
+				{
+					A_CustomPunch (Random(10, 12), FALSE, 0, "PanPuff", 72);
+				}
+			}
+			FPAN EFG 2 
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+			}
+			TNT1 A 5
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(2,3)); }
+			}
+			FPAN B 1
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(0,1)); }
+			}
+			goto Ready;
+		AltFire:
+			FPAN A 2
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+			}
+			FPAN B 2 
+			{
+				A_StartSound("MalletSwing",CHAN_WEAPON);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+			}
+			FPAN C 2 
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+			}
+			FPAN D 2 
+			{
+				A_StartSound("panclang",CHAN_WEAPON);
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1))
+				{
+					A_SetTics(1);
+					A_FireProjectile("EggShotBerserk",0,1,0,0);
+				}
+				else
+				{
+					A_FireProjectile("EggShot",0,1,0,0);
+				}
+			}
+			FPAN EFG 2 
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(1); }
+			}
+			TNT1 A 5
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(2,3)); }
+			}
+			FPAN B 1
+			{
+				if (CountInv("PowerStrength",AAPTR_PLAYER1) || CountInv("PowerStrengthDD",AAPTR_PLAYER1)) { A_SetTics(random(0,1)); }
+			}
+			goto Ready;
+	}
+}
+
+class PanPuff : DDPuff
+{
+	default
+	{
+		+NOBLOCKMAP
+		+NOGRAVITY
+		//+NOEXTREMEDEATH
+		+PUFFONACTORS
+		+FORCERADIUSDMG
+		RenderStyle "Translucent";
+		Alpha 0.6;
+		SeeSound "PanClang";
+		AttackSound "PanClang";
+		VSpeed 1;
+		DamageType "Bonk";
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay
+			{
+				if (random(1,5) == 1) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+		Melee:
+			TNT1 A 0
+			{
+				if (random(1,5) == 1) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+		Crash:
+			TNT1 A 0
+			{
+				if (random(1,5) == 1) { bFORCEPAIN = true; }
+			}
+			BASH ABC 4 Bright;
+			BASH DE 3 bright;
+			Stop;
+	}
+}
+
+class EggShot : DDProjectile
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 70;
+		Damage 12;
+		DamageType "Breakfast";
+		Scale 2;
+		PROJECTILE;
+		-NOGRAVITY
+		//+NOEXTREMEDEATH
+		RENDERSTYLE "Normal";
+		DeathSound "blunderfire";
+		Explosiondamage 96;
+	}
+	States
+	{
+		Spawn:
+			EGGM ABCDE 3;
+			loop;
+		Death:
+			TNT1 A 0 
+			{
+				bNOGRAVITY = true;
+				A_AlertMonsters();
+			}
+			EGBL A 4 Bright A_Explode(24,96);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,6),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,10),random(6,12),0);
+			EGBL C 4 Bright;
+			Stop;
+		XDeath:
+			TNT1 A 0 
+			{
+				bNOGRAVITY = true;
+				A_AlertMonsters();
+			}
+			EGBL A 4 Bright A_Explode(24,96);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,6),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,10),random(6,12),0);
+			EGBL C 4 Bright;
+			Stop;
+		Crash:
+			TNT1 A 0 
+			{
+				bNOGRAVITY = true;
+				A_AlertMonsters();
+			}
+			EGBL A 4 Bright A_Explode(24,96);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,6),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenade",2,random(1,10),random(6,12),0);
+			EGBL C 4 Bright;
+			Stop;
+	}
+}
+
+class EggShotBerserk : EggShot
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 140;
+		Damage 60;
+		DamageType "Breakfast";
+		Scale 2;
+		PROJECTILE;
+		-NOGRAVITY
+		//+NOEXTREMEDEATH
+		RENDERSTYLE "Normal";
+		DeathSound "blunderfire";
+		Explosiondamage 480;
+	}
+	
+	States
+	{
+		Spawn:
+			EGGM ABCDE 3;
+			loop;
+		Death:
+			TNT1 A 0 
+			{
+				bNOGRAVITY = true;
+				A_AlertMonsters();
+			}
+			EGBL A 4 Bright A_Explode(120,96);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,6),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,10),random(6,12),0);
+			EGBL C 4 Bright;
+			Stop;
+		XDeath:
+			TNT1 A 0 
+			{
+				bNOGRAVITY = true;
+				A_AlertMonsters();
+			}
+			EGBL A 4 Bright A_Explode(120,96);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,6),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,10),random(6,12),0);
+			EGBL C 4 Bright;
+			Stop;
+		Crash:
+			TNT1 A 0 
+			{
+				bNOGRAVITY = true;
+				A_AlertMonsters();
+			}
+			EGBL A 4 Bright A_Explode(120,96);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,6),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggGrenadeBerserk",2,random(1,10),random(6,12),0);
+			EGBL C 4 Bright;
+			Stop;
+	}
+}
+
+class EggGrenade : DDProjectile
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 10;
+		Damage 9;
+		DamageType "Breakfast";
+		Scale 1.5;
+		PROJECTILE;
+		-NOGRAVITY
+		//+NOEXTREMEDEATH
+		+FORCERADIUSDMG
+		RENDERSTYLE "Normal";
+		DeathSound "blunderfire";
+		ExplosionDamage 64;
+		BounceCount 1;
+	}
+	States
+	{
+		Spawn:
+			EGGM ABCDE 3;
+			loop;
+		Death:
+			TNT1 A 0 
+			{
+				bNOGRAVITY = true;
+			}
+			EGBL A 5 Bright A_Explode(64,64);
+			EGBL B 1 Bright A_Throwgrenade("EggMini",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggMini",2,random(1,10),random(6,12),0);
+			EGBL C 4 Bright;
+			Stop;
+	}
+}
+
+class EggGrenadeBerserk : EggGrenade
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 15;
+		Damage 23;
+		DamageType "Breakfast";
+		Scale 1.5;
+		PROJECTILE;
+		-NOGRAVITY
+		//+NOEXTREMEDEATH
+		+FORCERADIUSDMG
+		RENDERSTYLE "Normal";
+		DeathSound "blunderfire";
+		ExplosionDamage 160;
+		BounceCount 1;
+	}
+	States
+	{
+		Spawn:
+			EGGM ABCDE 3;
+			loop;
+		Death:
+			TNT1 A 0 
+			{
+				bNOGRAVITY = true;
+			}
+			EGBL A 5 Bright A_Explode(160,64);
+			EGBL B 1 Bright A_Throwgrenade("EggMiniBerserk",2,random(1,8),random(6,12),0);
+			EGBL B 1 Bright A_Throwgrenade("EggMiniBerserk",2,random(1,10),random(6,12),0);
+			EGBL C 4 Bright;
+			Stop;
+	}
+}
+
+class EggMini : DDProjectile
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 10;
+		Damage 6;
+		DamageType "Breakfast";
+		PROJECTILE;
+		-NOGRAVITY
+		//+NOEXTREMEDEATH
+		+FORCERADIUSDMG
+		RENDERSTYLE "Normal";
+		DeathSound "blunderfire";
+		ExplosionDamage 32;
+		BounceCount 2;
+	}
+	
+	States
+	{
+		Spawn:
+			EGGM ABCDE 3;
+			loop;
+		Death:
+			TNT1 A 0 
+			{
+				bNOGRAVITY = true;
+			}
+			EGBL A 5 Bright A_Explode(32,32);
+			EGBL BC 5 Bright;
+			Stop;
+	}
+}
+
+class EggMiniBerserk : EggMini
+{
+	default
+	{
+		Radius 3;
+		Height 3;
+		Speed 13;
+		Damage 9;
+		DamageType "Breakfast";
+		PROJECTILE;
+		-NOGRAVITY
+		//+NOEXTREMEDEATH
+		+FORCERADIUSDMG
+		RENDERSTYLE "Normal";
+		DeathSound "blunderfire";
+		ExplosionDamage 48;
+		BounceCount 2;
+	}
+	
+	States
+	{
+		Spawn:
+			EGGM ABCDE 3;
+			loop;
+		Death:
+			TNT1 A 0 
+			{
+				bNOGRAVITY = true;
+			}
+			EGBL A 5 Bright A_Explode(48,32);
+			EGBL BC 5 Bright;
+			Stop;
+	}
+}
+
+class EggAmmo : Ammo replaces ShellBox
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 2; // 4
+		Inventory.MaxAmount 28; // 20
+		Ammo.BackpackAmount 2; // 4
+		Ammo.BackpackMaxAmount 42;
+		Scale 1;
+		Inventory.Icon "EGAMI0";
+		Inventory.PickupMessage "A fractal chicken egg";
+		+FLOATBOB
+	}
+	States
+	{
+		Spawn:
+			EGGC ABCB 6;
+			Loop;
 	}
 }

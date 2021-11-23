@@ -1338,6 +1338,7 @@ class ChickenNew : Chicken replaces Chicken
 {
 	default
 	{
+		Tag "Chicken";
 	}
 }
 
@@ -1345,6 +1346,7 @@ class HereticImpNew : HereticImp replaces HereticImp
 {
 	default
 	{
+		Tag "Gargoyle";
 	}
 }
 
@@ -1352,6 +1354,7 @@ class HereticImpLeaderNew : HereticImpLeader replaces HereticImpLeader
 {
 	default
 	{
+		Tag "Gargoyle Leader";
 	}
 }
 
@@ -1359,6 +1362,7 @@ class MummyNew : Mummy replaces Mummy
 {
 	default
 	{
+		Tag "Golem";
 	}
 }
 
@@ -1366,6 +1370,7 @@ class MummyGhostNew : MummyGhost replaces MummyGhost
 {
 	default
 	{
+		Tag "Golem (Ghost)";
 	}
 }
 
@@ -1373,6 +1378,7 @@ class MummyLeaderNew : MummyLeader replaces MummyLeader
 {
 	default
 	{
+		Tag "Golem Leader";
 	}
 }
 
@@ -1380,6 +1386,7 @@ class MummyLeaderGhostNew : MummyLeaderGhost replaces MummyLeaderGhost
 {
 	default
 	{
+		Tag "Golem Leader (Ghost)";
 	}
 }
 
@@ -1387,6 +1394,7 @@ class KnightNew : Knight replaces Knight
 {
 	default
 	{
+		Tag "Undead Warrior";
 	}
 }
 
@@ -1394,6 +1402,7 @@ class KnightGhostNew : KnightGhost replaces KnightGhost
 {
 	default
 	{
+		Tag "Undead Warrior (Ghost)";
 	}
 }
 
@@ -1401,6 +1410,7 @@ class WizardNew : Wizard replaces Wizard
 {
 	default
 	{
+		Tag "Disciple of D'Sparil";
 	}
 }
 
@@ -1408,6 +1418,7 @@ class IronLichNew : IronLich replaces IronLich
 {
 	default
 	{
+		Tag "Iron Lich";
 	}
 }
 
@@ -1415,6 +1426,7 @@ class BeastNew : Beast replaces Beast
 {
 	default
 	{
+		Tag "Weredragon";
 	}
 }
 
@@ -1422,6 +1434,7 @@ class ClinkNew : Clink replaces Clink
 {
 	default
 	{
+		Tag "Sabreclaw";
 	}
 }
 
@@ -1429,6 +1442,7 @@ class MinotaurNew : Minotaur replaces Minotaur
 {
 	default
 	{
+		Tag "Maulotaur";
 	}
 }
 
@@ -1436,6 +1450,7 @@ class SnakeNew : Snake replaces Snake
 {
 	default
 	{
+		Tag "Ophidian";
 	}
 }
 
@@ -1443,6 +1458,7 @@ class Sorcerer1New : Sorcerer1 replaces Sorcerer1
 {
 	default
 	{
+		Tag "\c[gold]D'Sparil (on Serpent)";
 	}
 }
 
@@ -1450,6 +1466,7 @@ class Sorcerer2New : Sorcerer2 replaces Sorcerer2
 {
 	default
 	{
+		Tag "\c[gold]D'Sparil";
 	}
 }
 
@@ -1460,6 +1477,7 @@ class PigNew : Pig replaces Pig
 {
 	default
 	{
+		Tag "Pig";
 	}
 }
 
@@ -1467,6 +1485,7 @@ class FireDemonNew : FireDemon replaces FireDemon
 {
 	default
 	{
+		Tag "Afrit";
 	}
 }
 
@@ -1474,6 +1493,7 @@ class EttinNew : Ettin replaces Ettin
 {
 	default
 	{
+		Tag "Ettin";
 	}
 }
 
@@ -1481,6 +1501,7 @@ class EttinMashNew : EttinMash replaces EttinMash
 {
 	default
 	{
+		Tag "Ettin (Ghost)";
 	}
 }
 
@@ -1488,6 +1509,7 @@ class CentaurNew : Centaur replaces Centaur
 {
 	default
 	{
+		Tag "Centaur";
 	}
 }
 
@@ -1495,6 +1517,7 @@ class CentaurMashNew : CentaurMash replaces CentaurMash
 {
 	default
 	{
+		Tag "Centaur (Ghost)";
 	}
 }
 
@@ -1502,6 +1525,7 @@ class CentaurLeaderNew : CentaurLeader replaces CentaurLeader
 {
 	default
 	{
+		Tag "Slaughtaur";
 	}
 }
 
@@ -1509,12 +1533,15 @@ class Demon1New : Demon1 replaces Demon1
 {
 	default
 	{
+		Tag "Green Chaos Serpent";
 	}
 }
+
 class Demon1MashNew : Demon1Mash replaces Demon1Mash
 {
 	default
 	{
+		Tag "Green Chaos Serpent (Ghost)";
 	}
 }
 
@@ -1522,6 +1549,7 @@ class Demon2New : Demon2 replaces Demon2
 {
 	default
 	{
+		Tag "Brown Chaos Serpent";
 	}
 }
 
@@ -1529,6 +1557,7 @@ class Demon2MashNew : Demon2Mash replaces Demon2Mash
 {
 	default
 	{
+		Tag "Brown Chaos Serpent (Ghost)";
 	}
 }
 
@@ -1536,6 +1565,7 @@ class IceGuyNew : IceGuy replaces IceGuy
 {
 	default
 	{
+		Tag "Wendigo";
 	}
 }
 
@@ -1543,6 +1573,7 @@ class SerpentLeaderNew : SerpentLeader replaces SerpentLeader
 {
 	default
 	{
+		Tag "Alpha Stalker";
 	}
 }
 
@@ -1550,6 +1581,7 @@ class SerpentNew : Serpent replaces Serpent
 {
 	default
 	{
+		Tag "Stalker";
 	}
 }
 
@@ -1557,6 +1589,7 @@ class BishopNew : Bishop replaces Bishop
 {
 	default
 	{
+		Tag "Dark Bishop";
 	}
 }
 
@@ -1564,6 +1597,7 @@ class WraithNew : Wraith replaces Wraith
 {
 	default
 	{
+		Tag "Reiver";
 	}
 }
 
@@ -1571,6 +1605,7 @@ class WraithBuriedNew : WraithBuried replaces WraithBuried
 {
 	default
 	{
+		Tag "Reiver";
 	}
 }
 
@@ -1578,6 +1613,7 @@ class DragonNew : Dragon replaces Dragon
 {
 	default
 	{
+		Tag "Death Wyvern";
 	}
 }
 
@@ -1585,6 +1621,7 @@ class ClericBossNew : ClericBoss replaces ClericBoss
 {
 	default
 	{
+		Tag "\c[gold]Traductus";
 	}
 }
 
@@ -1592,6 +1629,7 @@ class FighterBossNew : FighterBoss replaces FighterBoss
 {
 	default
 	{
+		Tag "\c[gold]Zedek";
 	}
 }
 
@@ -1599,6 +1637,7 @@ class MageBossNew : MageBoss replaces MageBoss
 {
 	default
 	{
+		Tag "\c[gold]Menelkir";
 	}
 }
 
@@ -1606,6 +1645,7 @@ class KoraxNew : Korax replaces Korax
 {
 	default
 	{
+		Tag "\c[gold]Korax";
 	}
 }
 

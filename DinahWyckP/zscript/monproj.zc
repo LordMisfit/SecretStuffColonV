@@ -13,19 +13,6 @@ class MusicBall2 : DDProjectile
 		PoisonDamage 15;
 		DeathSound "virtuoso/musichit";
 	}
-	
-	override void Tick()
-	{
-		if (!bNOTIMEFREEZE)
-		{
-			if (target && target.bNOTIMEFREEZE) bNOTIMEFREEZE = true;
-		}
-		else
-		{
-			if (target && !target.bNOTIMEFREEZE) bNOTIMEFREEZE = false;
-		}
-		Super.Tick();
-	}
 
 	States
 	{

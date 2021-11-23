@@ -22,6 +22,7 @@ class PlayerStatItem : Inventory
 	int HPDegenTimer;
 	int HPRegenTimerMax;
 	int HPDegenTimerMax;
+	bool berserked;
 	
 	int DashTimer;
 
@@ -79,7 +80,8 @@ class PlayerStatItem : Inventory
 		{
 			let weapon = owner.player.ReadyWeapon;
 			if (playeractor.GetClassName() == "DinahPlayer") CharacterClass == 0;
-
+			if (owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) berserked = true;
+			
 			ClassicDoomType = gameinfo.gametype; // 0 = Unknown, 1 = Doom [any], 2 = Heretic, 4 = Hexen, 8 = Strife
 			//Console.Printf("%d", ClassicDoomType);					if (ClassicDoomType == 0) { owner.A_SetInventory("PlayingDoom2",1); } // Doom 2
 			if (ClassicDoomType & 1) { owner.A_SetInventory("PlayingDoom",1); } // Doom 1
@@ -399,7 +401,7 @@ class PlayerStatItem : Inventory
 						if (owner.CountInv("KnightGownItem3")) inc = floor(inc * 1.15);
 						if (owner.CountInv("KnightGownItem4")) inc = floor(inc * 1.20);
 
-						if (owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) inc = floor(inc * frandom(1.5,2.0));
+						if (berserked) inc = floor(inc * frandom(1.5,2.0));
 
 						if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = floor(inc * 0.4);
 						if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = floor(inc * 0.5);
@@ -426,7 +428,7 @@ class PlayerStatItem : Inventory
 							
 							if (CurrentHealth < MaxHealthTrue)
 							{
-								if (owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) CurrentHealth += randompick(1,1,1,1,1,1,1,1,1,2);
+								if (berserked) CurrentHealth += randompick(1,1,1,1,1,1,1,1,1,2);
 								else CurrentHealth += randompick(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2);
 								if (CurrentHealth >= MaxHealthTrue) CurrentHealth = MaxHealthTrue;
 								owner.player.health = owner.player.mo.health = CurrentHealth;
@@ -453,7 +455,7 @@ class PlayerStatItem : Inventory
 						if (owner.CountInv("KnightGownItem3")) inc = ceil(inc * 0.85);
 						if (owner.CountInv("KnightGownItem4")) inc = ceil(inc * 0.80);
 						
-						if (owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) inc = ceil(inc * frandom(0.5,0.667));
+						if (berserked) inc = ceil(inc * frandom(0.5,0.667));
 						
 						if (buttons & BT_FORWARD || buttons & BT_BACK || buttons & BT_MOVELEFT || buttons & BT_MOVERIGHT) inc = ceil(inc * 2.5);
 						if (buttons & BT_ATTACK || buttons & BT_ALTATTACK) inc = ceil(inc * 2.0);
@@ -484,7 +486,7 @@ class PlayerStatItem : Inventory
 							
 							if (CurrentHealth > MaxHealthTrue)
 							{
-								if (owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) CurrentHealth -= randompick(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2);
+								if (berserked) CurrentHealth -= randompick(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2);
 								else CurrentHealth -= randompick(1,1,1,1,1,1,1,1,1,2);
 								if (CurrentHealth <= MaxHealthTrue) CurrentHealth = MaxHealthTrue;
 								owner.player.health = owner.player.mo.health = CurrentHealth;
@@ -521,7 +523,7 @@ class PlayerStatItem : Inventory
 			if (owner.CountInv("KnightGownItem4")) SurvivalRate += 2500;
 			if (debugsurvival) Console.Printf("SurvivalRate [Armor]: %d", SurvivalRate);
 
-			if (owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) SurvivalRate += 500;
+			if (berserked) SurvivalRate += 500;
 			if (Owner.CountInv("PowerWineBuffWeak")) SurvivalRate += random(312,313);
 			if (Owner.CountInv("PowerWineBuffStrong")) SurvivalRate += 625;
 			if (Owner.CountInv("PowerWineBuffStrongest")) SurvivalRate += random(937,938);
@@ -561,7 +563,7 @@ class PlayerStatItem : Inventory
 			// Buffs
 			if ((owner.bINVULNERABLE || owner.player.cheats & CF_GODMODE2 || owner.player.cheats & CF_GODMODE) || 
 					owner.CountInv("PowerInvulnDD") || owner.CountInv("PowerInvulnerable")) TotalMass *= 128; 
-			if (owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) TotalMass *= 1.111; 
+			if (berserked) TotalMass *= 1.111; 
 
 			if (Owner.CountInv("CricketBatGuard")) TotalMass *= frandom(1.334,1.667);
 			
@@ -596,7 +598,7 @@ class PlayerStatItem : Inventory
 			// Buffs
 			double BuffJumpZ = 1.00;
 			if (Owner.CountInv("CricketBatGuard")) BuffJumpZ *= frandom(0.95,0.975);
-			if (owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) BuffJumpZ *= 1.34;
+			if (berserked) BuffJumpZ *= 1.34;
 			if (owner.CountInv("PowerWineBuffWeak")) BuffJumpZ *= frandom(0.98,1.00);
 			if (owner.CountInv("PowerWineBuffStrong")) BuffJumpZ *= frandom(0.96,1.00);
 			if (owner.CountInv("PowerWineBuffStrongest")) BuffJumpZ *= frandom(0.93,1.00);
@@ -613,14 +615,45 @@ class PlayerStatItem : Inventory
 
 			// Weapon Checks
 			double WeaponJumpZ = 1.00;
-			if (weapon is "HandToHand") WeaponJumpZ *= 1.125;
-			if (weapon is "CricketBat") WeaponJumpZ *= 1.00;
-			if (weapon is "BlunderAxe") WeaponJumpZ *= 0.96875;
-			if (weapon is "AppleJack") WeaponJumpZ *= 1.03125;
-			if (weapon is "Scrambler") WeaponJumpZ *= 1.125;
-			if (weapon is "WizardPike") WeaponJumpZ *= 1.0625;
-			if (weapon is "SuperVac") WeaponJumpZ *= 0.9375;
-			if (weapon is "Grimophone") WeaponJumpZ *= 0.875;
+			if (weapon is "HandToHand") 
+			{
+				if (berserked) WeaponJumpZ *= 1.1625;
+				else WeaponJumpZ *= 1.125;
+			}
+			if (weapon is "CricketBat") 
+			{
+				WeaponJumpZ *= 1.00;
+			}
+			if (weapon is "BlunderAxe") 
+			{
+				if (berserked) WeaponJumpZ *= 0.991875;
+				else WeaponJumpZ *= 0.96875;
+			}
+			if (weapon is "AppleJack") 
+			{
+				if (berserked) WeaponJumpZ *= 1.05;
+				else WeaponJumpZ *= 1.03125;
+			}
+			if (weapon is "Scrambler")
+			{
+				if (berserked) WeaponJumpZ *= 1.1625;
+				else WeaponJumpZ *= 1.125;
+			}
+			if (weapon is "WizardPike")
+			{
+				if (berserked) WeaponJumpZ *= 1.08125;
+				else WeaponJumpZ *= 1.0625;
+			}
+			if (weapon is "SuperVac")
+			{
+				if (berserked) WeaponJumpZ *= 0.984375;
+				else WeaponJumpZ *= 0.9375;
+			}
+			if (weapon is "Grimophone") 
+			{
+				if (berserked) WeaponJumpZ *= 0.996875;
+				else WeaponJumpZ *= 0.875;
+			}
 			if (debugjumpz) Console.Printf("JumpZ [WeaponEquipped]: %.8f", WeaponJumpZ);
 
 			double TotalJumpZ = CharacterJumpZ
@@ -713,7 +746,7 @@ class PlayerStatItem : Inventory
 						double BeatVol4 = 0.5;
 						double BeatBersMulti = 0.875;
 						double BeatBersMulti2 = 1.167;
-						if (owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD"))
+						if (berserked)
 						{
 							if (Owner.CountInv("NormalHealth"))					{ BeatTimer = TimeFreezeTimer % (BeatInt1 * BeatBersMulti); BeatVol = (BeatVol1 * BeatBersMulti2); }
 							else if (Owner.CountInv("DecentHealth"))		{ BeatTimer = TimeFreezeTimer % (BeatInt2 * BeatBersMulti); BeatVol = (BeatVol2 * BeatBersMulti2); }
@@ -815,6 +848,10 @@ class PlayerStatItem : Inventory
 	
 	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive)
 	{
+		if (owner)
+		{
+			if (Owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) berserked = true;
+		}
 		let weapon = owner.player.ReadyWeapon;
 		TrueGameSkill = skill;
 		bool debugdmg = false;
@@ -901,7 +938,7 @@ class PlayerStatItem : Inventory
 			
 			// Buffs
 			double BuffFactor = 1.00;
-			if (Owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) BuffFactor *= frandompick(0.8,0.9,0.9,0.9,1.0);
+			if (berserked) BuffFactor *= frandompick(0.8,0.9,0.9,0.9,1.0);
 			if (Owner.CountInv("PowerInvisibility")) BuffFactor *= frandompick(1.00,1.00,0.875,0.875,0.75);
 
 			if (Owner.CountInv("PowerWineBuffWeak")) BuffFactor *= frandompick(0.995,1.005);
@@ -961,7 +998,7 @@ class PlayerStatItem : Inventory
 		else Speed *= 0.8125;
 		if (debugspeed) Console.Printf("SpeedX [health]: %.8f", Speed);
 
-		if (Owner.CountInv("PowerStrength") || owner.CountInv("PowerStrengthDD")) Speed *= 1.125;
+		if (berserked) Speed *= 1.125;
 		
 		if (Owner.CountInv("CricketBatGuard")) Speed *= frandom(0.95,0.975);
 
@@ -1008,6 +1045,7 @@ class PlayerDashJump : Inventory
 	int airdashtype;
 	Int DashMaxCharge, MaxDashes, MaxDashTics;
 	bool slownthres1, slownthres2, slownthres3;
+	int berserked;
 	
 	Default
 	{
@@ -1021,6 +1059,7 @@ class PlayerDashJump : Inventory
 		Super.Tick();
 		int debugdashing = false;
 		if (!Owner || Owner && (!Owner.Player || Owner.Health < 1)) Return;
+		if (Owner.CountInv("PowerStrength") || Owner.CountInv("PowerStrengthDD")) berserked = true;
 		PlayerInfo PlayDash = Owner.Player;
 		Int BTInput = PlayDash.cmd.buttons;
 		dashgruntchance = randompick(66,66,67);
@@ -1130,7 +1169,7 @@ class PlayerDashJump : Inventory
 			DashTics--;
 
 			Owner.VelFromAngle(DashSpeed, DashDir);
-			if (Owner.CountInv("PowerStrength") || Owner.CountInv("PowerStrengthDD"))
+			if (berserked)
 			{
 				if (DashTics > (MaxDashTics * 0.75)) DashSpeed *= 1.025;
 

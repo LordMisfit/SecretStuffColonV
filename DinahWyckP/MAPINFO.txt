@@ -2,11 +2,16 @@ DoomEdNums
 {
 	5232 = Killetante
 	12011 = CherryBombPickup
+	12447 = EggAmmo
+	12457 = BlunderAmmo
+	12467 = MalletAmmo
 	15016 = AppleWine
+	31957 = Scrambler
 	31967 = Blunderaxe
 	31977 = CricketBat
 	31980 = SuperVac
 	31981 = Grimophone
+	
 }
 
 Gameinfo
