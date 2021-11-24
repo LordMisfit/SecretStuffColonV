@@ -1,0 +1,429 @@
+//********
+//* DOOM *
+//********
+class GreenArmorSpawner : RandomSpawner2 replaces GreenArmor
+{
+	default
+	{
+		DropItem "KnightGown", 256, 56;
+		DropItem "KnightGown2", 256, 7;
+		DropItem "KnightGown3", 256, 1;
+	}
+}
+
+class BlueArmorSpawner : RandomSpawner2 replaces BlueArmor
+{
+	default
+	{
+		DropItem "KnightGown2", 256, 7;
+		DropItem "KnightGown3", 256, 1;
+	}
+}
+
+class HealthBonusSpawner : RandomSpawner2 replaces HealthBonus
+{
+	default
+	{
+		DropItem "CupOfTea", 256, 45;
+		DropItem "FoodPlateFruit", 256, 5;
+		DropItem "NoItemSpawn", 256, 50;
+	}
+}
+
+class SoulSphereSpawner : RandomSpawner2 replaces Soulsphere
+{
+	default
+	{
+		DropItem "PigRoastDish", 256, 252;
+		DropItem "GourmetMeal", 256, 4;
+	}
+}
+
+class MegasphereSpawner : RandomSpawner2 replaces Megasphere
+{
+	default
+	{
+		DropItem "GourmetMeal", 256, 252;
+		DropItem "PigRoastDish", 256, 4;
+	}
+}
+
+class ChainsawSpawner : RandomSpawner2 replaces Chainsaw
+{
+	default
+	{
+		DropItem "BerserkNew", 256, 240;
+		DropItem "Scrambler", 256, 10;
+		DropItem "SuperVac", 256, 5;
+		DropItem "Grimophone", 256, 1;
+	}
+}
+
+class ClipSpawner : RandomSpawner2 replaces Clip
+{
+	default
+	{
+		DropItem "MalletAmmo", 256, 256;
+	}
+}
+
+class ClipBoxSpawner : RandomSpawner2 replaces ClipBox
+{
+	default
+	{
+		DropItem "JackAmmo", 256, 256;
+	}
+}
+
+class ShellSpawner : RandomSpawner2 replaces Shell
+{
+	default
+	{
+		DropItem "BlunderAmmo", 256, 256;
+	}
+}
+
+class ShellBoxSpawner : RandomSpawner2 replaces ShellBox
+{
+	default
+	{
+		DropItem "EggAmmo", 256, 256;
+	}
+}
+
+class RocketBoxSpawner : RandomSpawner2 replaces RocketBox
+{
+	default
+	{
+		DropItem "PikeAmmo", 256, 256;
+	}
+}
+
+class CellSpawner : RandomSpawner2 replaces Cell
+{
+	default
+	{
+		DropItem "VacAmmo", 256, 256;
+	}
+}
+
+class CellPackSpawner : RandomSpawner2 replaces CellPack
+{
+	default
+	{
+		DropItem "MusicAmmo", 256, 256;
+	}
+}
+
+//***********
+//* HERETIC *
+//***********
+class GauntletsSpawner : RandomSpawner2 replaces Gauntlets
+{
+	default
+	{
+		DropItem "CricketBat", 256, 8;
+		DropItem "Blunderaxe", 256, 4;
+		DropItem "Scrambler", 256, 4;
+		DropItem "AppleJack", 256, 8;
+		DropItem "WizardPike", 256, 2;
+		DropItem "SuperVac", 256, 2;
+		DropItem "Grimophone", 256, 1;
+	}
+}
+
+class GoldWandAmmoSpawner : RandomSpawner2 replaces GoldWandAmmo
+{
+	default
+	{
+		DropItem "MalletAmmo", 256, 256;
+	}
+}
+
+class GoldWandHeftySpawner : RandomSpawner2 replaces GoldWandHefty
+{
+	default
+	{
+		DropItem "JackAmmo", 256, 256;
+	}
+}
+
+class GoldWandSpawner : RandomSpawner2 replaces GoldWand
+{
+	default
+	{
+		DropItem "CricketBat", 256, 256;
+	}
+}
+
+class CrossbowAmmoSpawner : RandomSpawner2 replaces CrossbowAmmo
+{
+	default
+	{
+		DropItem "BlunderAmmo", 256, 256;
+	}
+}
+
+class CrossbowHeftySpawner : RandomSpawner2 replaces CrossbowHefty
+{
+	default
+	{
+		DropItem "EggAmmo", 256, 256;
+	}
+}
+
+class CrossbowSpawner : RandomSpawner2 replaces Crossbow
+{
+	default
+	{
+		DropItem "Blunderaxe", 256, 192;
+		DropItem "Scrambler", 256, 64;
+	}
+}
+
+class BlasterAmmoSpawner : RandomSpawner2 replaces BlasterAmmo
+{
+	default
+	{
+		DropItem "JackAmmo", 256, 256;
+	}
+}
+
+class BlasterHeftySpawner : RandomSpawner2 replaces BlasterHefty
+{
+	default
+	{
+		DropItem "MalletAmmo", 256, 256;
+	}
+}
+
+class BlasterSpawner : RandomSpawner2 replaces Blaster
+{
+	default
+	{
+		DropItem "AppleJack", 256, 256;
+	}
+}
+
+class SkullRodAmmoSpawner : RandomSpawner2 replaces SkullRodAmmo
+{
+	default
+	{
+		DropItem "VacAmmo", 256, 256;
+	}
+}
+
+class SkullRodHeftySpawner : RandomSpawner2 replaces SkullRodHefty
+{
+	default
+	{
+		DropItem "MusicAmmo", 256, 256;
+	}
+}
+
+class SkullRodSpawner : RandomSpawner2 replaces SkullRod
+{
+	default
+	{
+		DropItem "SuperVac", 256, 256;
+	}
+}
+
+class PhoenixRodAmmoSpawner : RandomSpawner2 replaces PhoenixRodAmmo
+{
+	default
+	{
+		DropItem "PikeAmmo", 256, 256;
+	}
+}
+
+class PhoenixRodHeftySpawner : RandomSpawner2 replaces PhoenixRodHefty
+{
+	default
+	{
+		DropItem "EggAmmo", 256, 256;
+	}
+}
+
+class PhoenixRodSpawner : RandomSpawner2 replaces PhoenixRod
+{
+	default
+	{
+		DropItem "WizardPike", 256, 256;
+	}
+}
+
+class MaceAmmoSpawner : RandomSpawner2 replaces MaceAmmo
+{
+	default
+	{
+		DropItem "MalletAmmo", 256, 1;
+		DropItem "BlunderAmmo", 256, 1;
+		DropItem "EggAmmo", 256, 1;
+		DropItem "JackAmmo", 256, 1;
+		DropItem "PikeAmmo", 256, 1;
+		DropItem "VacAmmo", 256, 1;
+		DropItem "MusicAmmo", 256, 1;
+	}
+}
+
+class MaceHeftySpawner : RandomSpawner2 replaces MaceHefty
+{
+	default
+	{
+		DropItem "MalletAmmo", 256, 1;
+		DropItem "BlunderAmmo", 256, 1;
+		DropItem "EggAmmo", 256, 1;
+		DropItem "JackAmmo", 256, 1;
+		DropItem "PikeAmmo", 256, 1;
+		DropItem "VacAmmo", 256, 1;
+		DropItem "MusicAmmo", 256, 1;
+	}
+}
+
+class MaceSpawner2 : RandomSpawner2 replaces MaceSpawner
+{
+	default
+	{
+		DropItem "CricketBat", 256, 1;
+		DropItem "Blunderaxe", 256, 1;
+		DropItem "Scrambler", 256, 1;
+		DropItem "AppleJack", 256, 1;
+		DropItem "WizardPike", 256, 1;
+		DropItem "SuperVac", 256, 1;
+		DropItem "Grimophone", 256, 23;
+		DropItem "NoItemSpawn", 256, 11;
+	}
+}
+
+class ArtiTimeBombSpawner : RandomSpawner2 replaces ArtiTimeBomb
+{
+	default
+	{
+		DropItem "CherryBombPickup", 256, 20;
+		DropItem "SpinnerPickup", 256, 12;
+		DropItem "BRocketPickup", 256, 6;
+		DropItem "PopperPickup", 256, 2;
+	}
+}
+
+class CrystalVialSpawner : RandomSpawner2 replaces CrystalVial
+{
+	default
+	{
+		DropItem "GalaApple", 256, 240;
+		DropItem "AppleWine", 256, 16;
+	}
+}
+
+class ArtiHealthSpawner : RandomSpawner2 replaces ArtiHealth
+{
+	default
+	{
+		DropItem "AppleWine", 256, 240;
+		DropItem "GalaApple", 256, 16;
+	}
+}
+
+class ArtiSuperHealthSpawner : RandomSpawner2 replaces ArtiSuperHealth
+{
+	default
+	{
+		DropItem "PigRoastDish", 256, 56;
+		DropItem "GourmetMeal", 256, 8;
+	}
+}
+
+class ArtiTomeOfPowerSpawner : RandomSpawner2 replaces ArtiTomeOfPower
+{
+	default
+	{
+		DropItem "BerserkSphere", 256, 192;
+		DropItem "PigRoastDish", 256, 40;
+		DropItem "GourmetMeal", 256, 24;
+	}
+}
+
+class SilverShieldSpawner : RandomSpawner2 replaces SilverShield
+{
+	default
+	{
+		DropItem "KnightGown", 256, 56;
+		DropItem "KnightGown2", 256, 7;
+		DropItem "KnightGown3", 256, 1;
+	}
+}
+
+class EnchantedShieldSpawner : RandomSpawner2 replaces EnchantedShield
+{
+	default
+	{
+		DropItem "KnightGown2", 256, 7;
+		DropItem "KnightGown3", 256, 1;
+	}
+}
+
+//*********
+//* Hexen *
+//*********
+
+class PlatinumHelmSpawner : RandomSpawner2 replaces PlatinumHelm
+{
+	default
+	{
+		DropItem "KnightGown", 256, 54;
+		DropItem "KnightGown2", 256, 18;
+		DropItem "KnightGown3", 256, 6;
+	}
+}
+
+class AmuletOfWardingSpawner : RandomSpawner2 replaces AmuletOfWarding
+{
+	default
+	{
+		DropItem "KnightGown", 256, 54;
+		DropItem "KnightGown2", 256, 18;
+		DropItem "KnightGown3", 256, 6;
+	}
+}
+
+class FalconShieldSpawner : RandomSpawner2 replaces FalconShield
+{
+	default
+	{
+		DropItem "KnightGown", 256, 54;
+		DropItem "KnightGown2", 256, 18;
+		DropItem "KnightGown3", 256, 6;
+	}
+}
+
+class MeshArmorSpawner : RandomSpawner2 replaces MeshArmor
+{
+	default
+	{
+		DropItem "KnightGown", 256, 54;
+		DropItem "KnightGown2", 256, 18;
+		DropItem "KnightGown3", 256, 6;
+	}
+}
+
+class ArtiBoostArmorSpawner : RandomSpawner2 replaces ArtiBoostArmor
+{
+	default
+	{
+		DropItem "KnightGown", 256, 6;
+		DropItem "KnightGown2", 256, 25;
+		DropItem "KnightGown3", 256, 47;
+	}
+}
+
+class ArtiPoisonBagSpawner : RandomSpawner2 replaces ArtiPoisonBag
+{
+	default
+	{
+		DropItem "CherryBombPickup", 256, 20;
+		DropItem "SpinnerPickup", 256, 12;
+		DropItem "BRocketPickup", 256, 6;
+		DropItem "PopperPickup", 256, 2;
+	}
+}

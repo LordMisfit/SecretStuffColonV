@@ -1263,12 +1263,40 @@ class PlayerDashJump : Inventory
 			if ((DashTics && (level.time % 14 == 2)))
 			{
 				if (debugdashing) Console.Printf("if ((DashTics && (level.time % 14 == 2)))");
-				DashCharge++;
+				if (berserked)
+				{
+					if (level.time % 4) 
+					{
+						DashCharge += 2; 
+					}
+					else
+					{
+						DashCharge += 1; 
+					}
+				}
+				else
+				{
+					DashCharge += 1; 
+				}
 			}
 			else if (!DashTics)
 			{
 				if (debugdashing) Console.Printf("(!DashTics)");
-				DashCharge++;
+				if (berserked)
+				{
+					if (level.time % 4) 
+					{
+						DashCharge += 2; 
+					}
+					else
+					{
+						DashCharge += 1; 
+					}
+				}
+				else
+				{
+					DashCharge += 1; 
+				}
 			}
 			//if (DashCharge == DashMaxCharge && !PlayDash.OnGround) DashCharge = DashMaxCharge - 1; 
 
