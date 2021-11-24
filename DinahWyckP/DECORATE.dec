@@ -172,7 +172,7 @@ ACTOR BRocketPickup : CustomInventory 12017
 	} 
 }
 
-ACTOR BRocketShot
+ACTOR BRocketShot : DDProjectile
 {
 	Radius 8
 	Height 8
@@ -202,6 +202,60 @@ ACTOR BRocketShot
 			BMX1 D 8 Bright A_CustomMissile("BRocketBoom2",random(20,64),random(-64,64),random(-64,64),0) 
 			BMX1 E 8 Bright A_CustomMissile("BRocketBoom1",random(20,64),random(-64,64),random(-64,64),0) 
 			TNT1 A 8 Bright A_CustomMissile("BRocketBoom2",random(20,64),random(-64,64),random(-64,64),0)
+			Stop
+	}
+}
+
+ACTOR BigBRocketShot : DDProjectile
+{
+	var int user_explosion;
+	Radius 12
+	Height 12
+	Speed 60
+	Damage 100
+	DamageType "BRocket"
+	Scale 1.5
+	Projectile
+	renderstyle normal
+	+RANDOMIZE
+	+DEHEXPLOSION
+	+ROCKETTRAIL
+	//+NOEXTREMEDEATH
+	SeeSound "weapons/rocketfire"
+	DeathSound "weapons/cherryboom"
+	States
+	{
+		Death:
+			TNT1 A 0 A_StopSoundEx("SoundSlot7")
+			TNT1 A 0 A_AlertMonsters
+			BMX1 AABBB 2 Bright 
+			{
+				A_Explode;
+			}
+			BMX1 CCCCC 2 Bright 
+			{
+				if (user_explosion % 2 == 1) { A_CustomMissile("BRocketBoom1",random(20,64),random(-64,64),random(-64,64),0); }
+																else { A_CustomMissile("BRocketBoom2",random(20,64),random(-64,64),random(-64,64),0); }
+				user_explosion++;
+			}
+			BMX1 DDDDD 2 Bright
+			{
+				if (user_explosion % 2 == 1) { A_CustomMissile("BRocketBoom1",random(20,64),random(-64,64),random(-64,64),0); }
+																else { A_CustomMissile("BRocketBoom2",random(20,64),random(-64,64),random(-64,64),0); }
+				user_explosion++;
+			}
+			BMX1 EEEEE 2 Bright
+			{
+				if (user_explosion % 2 == 1) { A_CustomMissile("BRocketBoom1",random(20,64),random(-64,64),random(-64,64),0); }
+																else { A_CustomMissile("BRocketBoom2",random(20,64),random(-64,64),random(-64,64),0); }
+				user_explosion++;
+			}
+			TNT1 AAAAA 2 Bright
+			{
+				if (user_explosion % 2 == 1) { A_CustomMissile("BRocketBoom1",random(20,64),random(-64,64),random(-64,64),0); }
+																else { A_CustomMissile("BRocketBoom2",random(20,64),random(-64,64),random(-64,64),0); }
+				user_explosion++;
+			}
 			Stop
 	}
 }

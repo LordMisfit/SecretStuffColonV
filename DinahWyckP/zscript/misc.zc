@@ -1142,6 +1142,7 @@ class PlayerDashJump : Inventory
 		}
 		if (DashTics)
 		{
+
 			//if (PlayDash.OnGround) { PlayDash.OnGround = False; Owner.AddZ(1); }
 			if (PlayDash.OnGround && DashTics % 2) 
 			{
@@ -1172,6 +1173,8 @@ class PlayerDashJump : Inventory
 			Owner.VelFromAngle(DashSpeed, DashDir);
 			if (berserked)
 			{
+				if (PlayDash.OnGround && DashTics % 4 <= 2) Owner.A_SetInventory("DashTimeFreezer",1);
+																							 else Owner.A_SetInventory("DashTimeFreezer",0);
 				if (DashTics > (MaxDashTics * 0.75)) DashSpeed *= 1.025;
 
 				if (DashTics % 2) Owner.A_Explode((random(8,12)*random(1,3)),(radius*3),XF_NOTMISSILE,false,(radius*1.5),0,0,"","Dashing");
@@ -1189,6 +1192,11 @@ class PlayerDashJump : Inventory
 					}
 				}
 				*/
+			}
+			else
+			{
+				if (PlayDash.OnGround && DashTics % 4 <= 1) Owner.A_SetInventory("DashTimeFreezer",1);
+																							 else Owner.A_SetInventory("DashTimeFreezer",0);
 			}
 			
 			if (DashTics <= (MaxDashTics * 0.25))
@@ -1219,6 +1227,7 @@ class PlayerDashJump : Inventory
 		}
 		else
 		{
+			Owner.A_SetInventory("DashTimeFreezer",0);
 			owner.A_SetRenderStyle(1.00,STYLE_Translucent);
 			Owner.A_SetInventory("PlayerDashing",0);
 			Owner.bSHOOTABLE = true;

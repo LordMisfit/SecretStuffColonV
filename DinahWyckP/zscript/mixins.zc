@@ -12,7 +12,7 @@ mixin class DmgCalc
 		int damage;
 		int previousdamage;
 		int strengthcounter;
-		int debugmelee = true;
+		int debugmelee = false;
 		String nm, nn, no, np;
 
 		// Character Check [base damage]
