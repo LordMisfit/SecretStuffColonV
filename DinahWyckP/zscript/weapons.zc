@@ -14,6 +14,7 @@ class DDWeapon : Weapon
 	
 	default
 	{
+		+WEAPON.NOAUTOAIM
 	}
 	
 	action void A_Destroy()
@@ -23,7 +24,7 @@ class DDWeapon : Weapon
 
 	action void A_GetPunchSwingRecoil(int attacktype = 0)
 	{
-		if (dydn_meleerecoil)
+		if (dydu_meleerecoil)
 		{
 			int IsMoving = 0;
 			if (vel.x < minxymoveneg || vel.x > minxymovepos) IsMoving++;
@@ -392,6 +393,7 @@ class HandToHand : DinahWeapon replaces Fist
 	{
 		Weapon.SelectionOrder 3700;
 		Weapon.Kickback 80;
+		+SPECTRAL
 		+WEAPON.NOALERT
 		+WEAPON.MELEEWEAPON
 		+INVENTORY.UNDROPPABLE
@@ -1360,6 +1362,7 @@ class BatPuff : DDPuff
 {
 	default
 	{
+		Tag "Cricket Bat Smack";
 		+NOBLOCKMAP
 		+NOGRAVITY
 		//+NOEXTREMEDEATH
@@ -1405,6 +1408,7 @@ class MalletShot : DDProjectile
 {
 	default
 	{
+		Tag "Cricket Ball";
 		Radius 3;
 		Height 3;
 		Speed 70;
@@ -1450,6 +1454,7 @@ class MalletShotBerserk : MalletShot
 {
 	default
 	{
+		Tag "-Cricket Ball-";
 		Radius 3;
 		Height 3;
 		Speed 140;
@@ -1680,6 +1685,7 @@ class BlunderPuff : DDPuff
 {
 	default
 	{
+		Tag "BlunderAxe Chop";
 		+NOBLOCKMAP
 		+NOGRAVITY
 		//+NOEXTREMEDEATH
@@ -1721,6 +1727,7 @@ class BlunderShot : DDProjectile
 {
 	default
 	{
+		Tag "BlunderShot";
 		Radius 3;
 		Height 3;
 		Speed 70;
@@ -1919,6 +1926,7 @@ class PanPuff : DDPuff
 {
 	default
 	{
+		Tag "Scrambler Whack";
 		+NOBLOCKMAP
 		+NOGRAVITY
 		//+NOEXTREMEDEATH
@@ -1965,6 +1973,7 @@ class EggShot : DDProjectile
 {
 	default
 	{
+		Tag "Large Fractal Egg";
 		Radius 3;
 		Height 3;
 		Speed 70;
@@ -2029,6 +2038,7 @@ class EggShotBerserk : EggShot
 {
 	default
 	{
+		Tag "-Large Fractal Egg-";
 		Radius 3;
 		Height 3;
 		Speed 140;
@@ -2094,6 +2104,7 @@ class EggGrenade : DDProjectile
 {
 	default
 	{
+		Tag "Fractal Egg";
 		Radius 3;
 		Height 3;
 		Speed 10;
@@ -2131,6 +2142,7 @@ class EggGrenadeBerserk : EggGrenade
 {
 	default
 	{
+		Tag "-Fractal Egg-";
 		Radius 3;
 		Height 3;
 		Speed 15;
@@ -2168,6 +2180,7 @@ class EggMini : DDProjectile
 {
 	default
 	{
+		Tag "Small Fractal Egg";
 		Radius 3;
 		Height 3;
 		Speed 10;
@@ -2203,6 +2216,7 @@ class EggMiniBerserk : EggMini
 {
 	default
 	{
+		Tag "-Small Fractal Egg-";
 		Radius 3;
 		Height 3;
 		Speed 13;
@@ -2394,6 +2408,7 @@ class ApplePuff : BatPuff
 {
 	default
 	{
+		Tag "AppleJack Bash";
 		+NOBLOCKMAP
 		+NOGRAVITY
 		//+NOEXTREMEDEATH
@@ -2440,6 +2455,7 @@ class JackShot : DDProjectile
 {
 	default
 	{
+		Tag "Aggro-Apple";
 		Radius 6;
 		Height 6;
 		Speed 50;
@@ -2470,6 +2486,7 @@ class JackShotBerserk : JackShot
 {
 	default
 	{
+		Tag "-Aggro-Apple-";
 		Speed 75;
 		Damage 100;
 	}
@@ -2654,6 +2671,7 @@ class PikePuff : BatPuff
 {
 	default
 	{
+		Tag "Pike Poke";
 		+NOBLOCKMAP
 		+NOGRAVITY
 		//+NOEXTREMEDEATH
@@ -2700,6 +2718,7 @@ class PikeTracer : DDPuff
 {
 	default
 	{
+		Tag "Pike Blast";
 		+NOBLOCKMAP
 		+NOGRAVITY
 		//+NOEXTREMEDEATH
@@ -2722,6 +2741,7 @@ class ZapShot : DDFastProjectile
 {
 	default
 	{
+		Tag "Pike Blast";
 		Radius 3;
 		Height 3;
 		Speed 80;
@@ -2751,6 +2771,7 @@ class MiniZapShot : DDFastProjectile
 {
 	default
 	{
+		Tag "Mini Pike Blast";
 		Radius 3;
 		Height 3;
 		Speed 80;
@@ -2827,6 +2848,7 @@ class SuperVac : DinahWeapon replaces PlasmaRifle
 {
 	default
 	{
+		+SPECTRAL
 		//$Category RPWeapons
 		Weapon.SelectionOrder 900;
 		Weapon.SlotNumber 6;
@@ -2939,6 +2961,7 @@ class VacPuff : DDPuff
 {
 	default
 	{
+		Tag "SuperVac Attack";
 		+NOBLOCKMAP
 		+NOGRAVITY
 		+NOEXTREMEDEATH
@@ -2981,34 +3004,35 @@ class VacShot : DDProjectile
 {
 	default
 	{
-	Radius 3;
-	Height 8;
-	Speed 20;
-	Damage 20;
-	Scale 1;
-	PROJECTILE;
-	DamageType "Dust";
-	DontHurtShooter;
-	RENDERSTYLE "Normal";
-	seesound "Weapons/RocketFire";
-	deathsound "croquet/ballhit";
-
-	+BOUNCEONWALLS
-	+BOUNCEONFLOORS
-	+BOUNCEONCEILINGS
-	+BOUNCEONACTORS
-	+NOBOUNCESOUND
-	+EXPLODEONWATER
-	+DONTBOUNCEONSHOOTABLES
-	+SKYEXPLODE
-	+CANBOUNCEWATER
-	BounceType "Hexen";
-	BounceFactor 1.03125;
-	WallBounceFactor 1.03125;
-	BounceCount 5;
-	+RIPPER
-	+FORCERADIUSDMG
-	//+NOEXTREMEDEATH
+		Tag "Dust Devil";
+		Radius 3;
+		Height 8;
+		Speed 20;
+		Damage 20;
+		Scale 1;
+		PROJECTILE;
+		DamageType "Dust";
+		DontHurtShooter;
+		RENDERSTYLE "Normal";
+		seesound "Weapons/RocketFire";
+		deathsound "croquet/ballhit";
+	
+		+BOUNCEONWALLS
+		+BOUNCEONFLOORS
+		+BOUNCEONCEILINGS
+		+BOUNCEONACTORS
+		+NOBOUNCESOUND
+		+EXPLODEONWATER
+		+DONTBOUNCEONSHOOTABLES
+		+SKYEXPLODE
+		+CANBOUNCEWATER
+		BounceType "Hexen";
+		BounceFactor 1.03125;
+		WallBounceFactor 1.03125;
+		BounceCount 5;
+		+RIPPER
+		+FORCERADIUSDMG
+		//+NOEXTREMEDEATH
 	}
 	
 	States
@@ -3026,6 +3050,7 @@ class VacShot2 : DDProjectile
 {
 	default
 	{
+		Tag "Dust Devil";
 		Radius 3;
 		Height 8;
 		Speed 20;
@@ -3203,6 +3228,7 @@ class RecordShot : DDProjectile
 {
 	default
 	{
+		Tag "RazorRecord";
 		Radius 6;
 		Height 6;
 		Speed 30;

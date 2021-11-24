@@ -1055,8 +1055,8 @@ class DemonNew : Demon replaces Demon
 		Painchance "Suck", 135;
 		DamageFactor "CherryBomb", 0.875;
 		Painchance "CherryBomb", 157;
-		DamageFactor "Chop", 0.875;
-		Painchance "Chop", 157;
+		DamageFactor "Chop", 0.625;
+		Painchance "Chop", 113;
 		DamageFactor "Breakfast", 2.5;
 		Painchance "Breakfast", 256;
 		DamageFactor "Bonk", 1.125;

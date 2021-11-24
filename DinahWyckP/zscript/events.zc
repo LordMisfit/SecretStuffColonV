@@ -1,4 +1,4 @@
-class DWP_EventHandler : EventHandler
+class DD_EventHandler : EventHandler
 {
 	/*
 	override void WorldThingSpawned(WorldEvent e)
@@ -308,7 +308,7 @@ class DWP_EventHandler : EventHandler
 	}
 }
 
-class DWP_StaticEventHandler : StaticEventHandler
+class DD_StaticEventHandler : StaticEventHandler
 {
 	override void WorldLoaded(WorldEvent evt) 
 	{

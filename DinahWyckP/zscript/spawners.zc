@@ -1,6 +1,15 @@
 //********
 //* DOOM *
 //********
+class ArmorBonusSpawner : RandomSpawner2 replaces ArmorBonus
+{
+	default
+	{
+		DropItem "ArmorScrap", 256, 19;
+		DropItem "ArmorScrap", 256, 1;
+	}
+}
+
 class GreenArmorSpawner : RandomSpawner2 replaces GreenArmor
 {
 	default
@@ -27,6 +36,24 @@ class HealthBonusSpawner : RandomSpawner2 replaces HealthBonus
 		DropItem "CupOfTea", 256, 45;
 		DropItem "FoodPlateFruit", 256, 5;
 		DropItem "NoItemSpawn", 256, 50;
+	}
+}
+
+class StimpackSpawner : RandomSpawner2 replaces Stimpack
+{
+	default
+	{
+		DropItem "GalaApple", 256, 252;
+		DropItem "GalaApple", 256, 4;
+	}
+}
+
+class MedikitSpawner : RandomSpawner2 replaces Medikit
+{
+	default
+	{
+		DropItem "AppleWine", 256, 252;
+		DropItem "AppleWine", 256, 4;
 	}
 }
 
@@ -112,6 +139,37 @@ class CellPackSpawner : RandomSpawner2 replaces CellPack
 	default
 	{
 		DropItem "MusicAmmo", 256, 256;
+	}
+}
+
+//***********************************
+//* RAVEN GENERAL (HERETIC & HEXEN) *
+//***********************************
+
+class CrystalVialSpawner : RandomSpawner2 replaces CrystalVial
+{
+	default
+	{
+		DropItem "GalaApple", 256, 240;
+		DropItem "AppleWine", 256, 16;
+	}
+}
+
+class ArtiHealthSpawner : RandomSpawner2 replaces ArtiHealth
+{
+	default
+	{
+		DropItem "AppleWine", 256, 240;
+		DropItem "GalaApple", 256, 16;
+	}
+}
+
+class ArtiSuperHealthSpawner : RandomSpawner2 replaces ArtiSuperHealth
+{
+	default
+	{
+		DropItem "PigRoastDish", 256, 56;
+		DropItem "GourmetMeal", 256, 8;
 	}
 }
 
@@ -307,33 +365,6 @@ class ArtiTimeBombSpawner : RandomSpawner2 replaces ArtiTimeBomb
 	}
 }
 
-class CrystalVialSpawner : RandomSpawner2 replaces CrystalVial
-{
-	default
-	{
-		DropItem "GalaApple", 256, 240;
-		DropItem "AppleWine", 256, 16;
-	}
-}
-
-class ArtiHealthSpawner : RandomSpawner2 replaces ArtiHealth
-{
-	default
-	{
-		DropItem "AppleWine", 256, 240;
-		DropItem "GalaApple", 256, 16;
-	}
-}
-
-class ArtiSuperHealthSpawner : RandomSpawner2 replaces ArtiSuperHealth
-{
-	default
-	{
-		DropItem "PigRoastDish", 256, 56;
-		DropItem "GourmetMeal", 256, 8;
-	}
-}
-
 class ArtiTomeOfPowerSpawner : RandomSpawner2 replaces ArtiTomeOfPower
 {
 	default
@@ -427,3 +458,125 @@ class ArtiPoisonBagSpawner : RandomSpawner2 replaces ArtiPoisonBag
 		DropItem "PopperPickup", 256, 2;
 	}
 }
+
+class FWeapFistSpawner : RandomSpawner2 replaces FWeapFist
+{
+	default
+	{
+		DropItem "CricketBat", 256, 17;
+		DropItem "BlunderAxe", 256, 2;
+		DropItem "Scrambler", 256, 1;
+	}
+}
+
+class FWeapAxeSpawner : RandomSpawner2 replaces FWeapAxe
+{
+	default
+	{
+		DropItem "Blunderaxe", 256, 8;
+		DropItem "Scrambler", 256, 1;
+		DropItem "AppleJack", 256, 1;
+	}
+}
+
+class FWeapHammerSpawner : RandomSpawner2 replaces FWeapHammer
+{
+	default
+	{
+		DropItem "AppleJack", 256, 6;
+		DropItem "Scrambler", 256, 2;
+		DropItem "WizardPike", 256, 2;
+	}
+}
+
+class FWeapQuietusSpawner : RandomSpawner2 replaces FWeapQuietus
+{
+	default
+	{
+		DropItem "Grimophone", 256, 18;
+		DropItem "SuperVac", 256, 12;
+	}
+}
+
+class MWeapWandSpawner : RandomSpawner2 replaces MWeapWand
+{
+	default
+	{
+		DropItem "CricketBat", 256, 17;
+		DropItem "BlunderAxe", 256, 2;
+		DropItem "Scrambler", 256, 1;
+	}
+}
+
+class MWeapFrostSpawner : RandomSpawner2 replaces MWeapFrost
+{
+	default
+	{
+		DropItem "Blunderaxe", 256, 8;
+		DropItem "Scrambler", 256, 1;
+		DropItem "AppleJack", 256, 1;
+	}
+}
+
+class MWeapLightningSpawner : RandomSpawner2 replaces MWeapLightning
+{
+	default
+	{
+		DropItem "AppleJack", 256, 6;
+		DropItem "Scrambler", 256, 2;
+		DropItem "WizardPike", 256, 2;
+	}
+}
+
+class MWeapBloodscourgeSpawner : RandomSpawner2 replaces MWeapBloodscourge
+{
+	default
+	{
+		DropItem "Grimophone", 256, 12;
+		DropItem "SuperVac", 256, 18;
+	}
+}
+
+class CWeapMaceSpawner : RandomSpawner2 replaces CWeapMace
+{
+	default
+	{
+		DropItem "CricketBat", 256, 17;
+		DropItem "BlunderAxe", 256, 2;
+		DropItem "Scrambler", 256, 1;
+	}
+}
+
+class CWeapStaffSpawner : RandomSpawner2 replaces CWeapStaff
+{
+	default
+	{
+		DropItem "Blunderaxe", 256, 8;
+		DropItem "Scrambler", 256, 1;
+		DropItem "AppleJack", 256, 1;
+	}
+}
+
+class CWeapFlameSpawner : RandomSpawner2 replaces CWeapFlame
+{
+	default
+	{
+		DropItem "AppleJack", 256, 6;
+		DropItem "Scrambler", 256, 2;
+		DropItem "WizardPike", 256, 2;
+	}
+}
+
+class CWeapWraithvergeSpawner : RandomSpawner2 replaces CWeapWraithverge
+{
+	default
+	{
+		DropItem "Grimophone", 256, 15;
+		DropItem "SuperVac", 256, 15;
+	}
+}
+
+//**********
+//* STRIFE *
+//**********
+//TBC

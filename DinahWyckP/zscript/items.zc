@@ -119,7 +119,7 @@ class AmmoSatchelNew : CustomInventoryExt replaces AmmoSatchel
 }
 
 //Apple
-class GalaApple : CustomInventoryExt replaces Stimpack
+class GalaApple : CustomInventoryExt
 {
 	default
 	{
@@ -473,7 +473,7 @@ class BerserkSphere : BerserkNew
 }
 
 //Goblet
-class AppleWine : CustomInventoryExt replaces Medikit
+class AppleWine : CustomInventoryExt
 {
 	default
 	{

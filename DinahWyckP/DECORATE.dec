@@ -131,6 +131,7 @@ ACTOR BRocketPickup : CustomInventory 12017
 
 ACTOR BRocketShot : DDProjectile
 {
+	Tag "Bottle Rocket"
 	Radius 8
 	Height 8
 	Speed 60
@@ -165,6 +166,7 @@ ACTOR BRocketShot : DDProjectile
 
 ACTOR BigBRocketShot : DDProjectile
 {
+	Tag "Big Bottle Rocket"
 	var int user_explosion;
 	Radius 12
 	Height 12
@@ -215,6 +217,15 @@ ACTOR BigBRocketShot : DDProjectile
 			}
 			Stop
 	}
+}
+
+ACTOR MultiBRocketShot : BigBRocketShot
+{
+	Radius 18
+	Height 18
+	Scale 2.25
+	Damage 400
+	Tag "Multi-Bottle Rocket"
 }
 
 ACTOR BadBrocketShot : BrocketShot
@@ -459,6 +470,7 @@ ACTOR Streamertrail
 
 ACTOR PopperPuff1 : DDPuff
 {
+	Tag "Popper Confetti (2)"
 	+NOBLOCKMAP
 	+NOGRAVITY
 	//+NOEXTREMEDEATH
@@ -478,6 +490,7 @@ ACTOR PopperPuff1 : DDPuff
 
 ACTOR PopperPuff2 : DDPuff
 {
+	Tag "Popper Confetti (2)"
 	+NOBLOCKMAP
 	+NOGRAVITY
 	//+NOEXTREMEDEATH
@@ -524,7 +537,7 @@ ACTOR SnakePickup : CustomInventory 12091
 	} 
 }
 
-ACTOR ArmorScrap : ArmorBonus replaces ArmorBonus
+ACTOR ArmorScrap : ArmorBonus
 {
 	var int user_type;
 	Inventory.Icon "DACLB0"
@@ -1490,114 +1503,88 @@ actor JellyBall
 actor Vitriola 10305
 {
 	//$Category RPMonsters
-    Health 250
-    Radius 20
-    Height 64
-    Speed 10
-    PainChance 256
+	Health 250
+	Radius 20
+	Height 64
+	Speed 10
+	PainChance 256
 	DamageFactor "Fire", 3
 	DamageFactor "Chop", 5
 	DamageFactor "Cricket", 2
 	DamageFactor "Lead", 2
-    DamageFactor "Bap", 0
+	DamageFactor "Bap", 0
 	PainChance "Bap", 200
-    MONSTER 
-    +FLOORCLIP
+	MONSTER 
+	+FLOORCLIP
 	+NOINFIGHTING
 	+NOBLOOD
 	+FLOAT
 	+NOGRAVITY
 	+FLOATBOB
-    SeeSound "virtuoso/active"
-    PainSound "virtuoso/pain"
-    DeathSound "virtuoso/death"
-    ActiveSound "virtuoso/active"
-    Obituary "%o was seranaded by a Vitriola."
+	SeeSound "virtuoso/active"
+	PainSound "virtuoso/pain"
+	DeathSound "virtuoso/death"
+	ActiveSound "virtuoso/active"
+	Obituary "%o was seranaded by a Vitriola."
 	Tag "Vitriola"
 	SpawnID 10305
 	DropItem "MusicAmmo" 96
-    States
-    {
-    Spawn:
-        VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT CC 10 A_Look
-		VIRT D 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT DD 10 A_Look
-		Loop
-    See:
-        VIRT AABB 3 A_Chase
-		VIRT B 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        Loop
-    Missile:
-        VIRT C 0 //ACS_Execute(102,0,0,0,0)
-		VIRT C 2 A_Playsound("virtuoso/virtfire")
-		VIRT D 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT C 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT D 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-		VIRT C 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT D 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT C 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT D 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT C 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT D 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-		VIRT C 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT D 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT C 2 A_FaceTarget
-		VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
-        VIRT D 2 A_FaceTarget
-		VIRT C 4 A_Playsound("virtuoso/musicfire")
-		VIRT D 4 A_CustomMissile("MusicBall",40)
-        Goto See
-    Pain:
-    	VIRT E 3 A_Pain
-		VIRT FE 3 //ACS_Execute(102,0,0,0,0)
-    	Goto See
-    Death.Suck:
-		VIRT E 5 A_PlaySound("VacDed",CHAN_BODY)
-		VIRT E 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,4)
-		Stop
-	Death:
-        VIRT E 6 bright A_Scream
-		VIRT F 6 bright A_ChangeFlag("floatbob",0)
-        VIRT GHI 6 bright
-        VIRT J 6 A_NoBlocking
-        Stop
-    }
-}
-
-//MusicBall
-actor MusicBall : DDProjectile
-{
-	Radius 8
-	Height 6
-	Speed 14
-	Damage 2
-	+SEEKERMISSILE
-	+NOEXTREMEDEATH
-	PROJECTILE
-	Renderstyle ADD
-	PoisonDamage 32
-	DeathSound "virtuoso/musichit"
 	States
 	{
 		Spawn:
-			GBAL A 0 Bright A_SpawnItemEx("notetrail", 0, 0, 0, 0, 0, 0, 180, 128)
-			GBAL A 2 Bright A_SeekerMissile (7,7,SMF_LOOK)
-			GBAL B 2 Bright 
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT CC 10 A_Look
+			VIRT D 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT DD 10 A_Look
 			Loop
-    Death:
-			TNT1 AAAAAA 1 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+		See:
+			VIRT AABB 3 A_Chase
+			VIRT B 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			Loop
+		Missile:
+			VIRT C 0 //ACS_Execute(102,0,0,0,0)
+			VIRT C 2 A_Playsound("virtuoso/virtfire")
+			VIRT D 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT C 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT D 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT C 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT D 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT C 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT D 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT C 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT D 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT C 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT D 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT C 2 A_FaceTarget
+			VIRT C 0 A_SpawnItemEx("Mininote", 0, 0, 25, 0, random(-1, 1), random(-1, 1))
+			VIRT D 2 A_FaceTarget
+			VIRT C 4 A_Playsound("virtuoso/musicfire")
+			VIRT D 4 A_CustomMissile("MusicBall",40)
+			Goto See
+		Pain:
+			VIRT E 3 A_Pain
+			VIRT FE 3 //ACS_Execute(102,0,0,0,0)
+			Goto See
+		Death.Suck:
+			VIRT E 5 A_PlaySound("VacDed",CHAN_BODY)
+			VIRT E 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,4)
+			Stop
+		Death:
+			VIRT E 6 bright A_Scream
+			VIRT F 6 bright A_ChangeFlag("floatbob",0)
+			VIRT GHI 6 bright
+			VIRT J 6 A_NoBlocking
 			Stop
 	}
 }
@@ -2542,22 +2529,22 @@ actor Bellefish 5234
 
  Actor Chase_Water : CustomInventory
 {
-Inventory.MaxAmount 0
-+Inventory.AutoActivate
-States
-{
-Spawn:
-TNT1 A 1
-Fail
-Use:
-TNT1 A 0 A_jumpif(waterlevel < 3, "Waterlimit")
-TNT1 A 0 A_Chase
-Stop
-Waterlimit:
-TNT1 A 0 ThrustThingZ(0, 4, 1, 1)
-TNT1 A 0 A_Chase
-Stop
-}
+	Inventory.MaxAmount 0
+	+Inventory.AutoActivate
+	States
+	{
+		Spawn:
+			TNT1 A 1
+			Fail
+		Use:
+			TNT1 A 0 A_jumpif(waterlevel < 3, "Waterlimit")
+			TNT1 A 0 A_Chase
+			Stop
+		Waterlimit:
+			TNT1 A 0 ThrustThingZ(0, 4, 1, 1)
+			TNT1 A 0 A_Chase
+			Stop
+	}
 }
 
 // BOSSES
@@ -2959,32 +2946,32 @@ actor StarBall
 }
 
 //MeteorBall
-actor MeteorBall replaces DragonFireball
+Actor MeteorBall
 {
-    Radius 8
-    Height 6
-    Speed 14
-    Damage 3
+	Radius 8
+	Height 6
+	Speed 14
+	Damage 3
 	DamageType "Fire"
 	+ROCKETTRAIL
 	+NOEXTREMEDEATH
-    PROJECTILE
+	PROJECTILE
 	DONTHURTSHOOTER
-    Renderstyle NORMAL
-    SeeSound "Weapons/RocketFire"
+	Renderstyle NORMAL
+	SeeSound "Weapons/RocketFire"
 	DeathSound "weapons/cherryboom"
-    States
-    {
-    Spawn:
-        GMMT ABCD 2 Bright 
-		Loop
-    Death:
-		BMX1 A 3 Bright 
-		BMX1 B 3 Bright A_Explode
-		BMX1 C 3 Bright
-		BMX1 DE 3 Bright
-        Stop
-    }
+	States
+	{
+		Spawn:
+			GMMT ABCD 2 Bright 
+			Loop
+		Death:
+			BMX1 A 3 Bright 
+			BMX1 B 3 Bright A_Explode
+			BMX1 C 3 Bright
+			BMX1 DE 3 Bright
+			Stop
+	}
 }
 
 //MOSS MOTHER
@@ -3849,7 +3836,7 @@ ACTOR Geyser : Volcano 6123
 	//$Category RPHazards
 }
 
-ACTOR Geyserball : Volcanoblast replaces volcanoblast
+ACTOR Geyserball : Volcanoblast
 {
 	DamageType "Boiling"
 	+NOEXTREMEDEATH
@@ -3866,7 +3853,7 @@ ACTOR Geyserball : Volcanoblast replaces volcanoblast
 	}
 }
 
-ACTOR Geyserminiball : VolcanoTBlast replaces VolcanoTBlast
+ACTOR Geyserminiball : VolcanoTBlast
 {
   Scale 0.5
   DamageType "Boiling"
@@ -5804,7 +5791,7 @@ ACTOR HoganTarget_BTut 10719
   }
 }
 
-ACTOR RedGlitterMaker : TeleGlitterGenerator1 replaces TeleGlitterGenerator1 74
+ACTOR RedGlitterMaker : TeleGlitterGenerator1
 {
   +NOBLOCKMAP
   +NOGRAVITY
@@ -5819,7 +5806,7 @@ ACTOR RedGlitterMaker : TeleGlitterGenerator1 replaces TeleGlitterGenerator1 74
   }
 }
 
-ACTOR BlueGlitterMaker : TeleGlitterGenerator2 replaces TeleGlitterGenerator2 52
+ACTOR BlueGlitterMaker : TeleGlitterGenerator2
 {
   +NOBLOCKMAP
   +NOGRAVITY
@@ -5833,12 +5820,6 @@ ACTOR BlueGlitterMaker : TeleGlitterGenerator2 replaces TeleGlitterGenerator2 52
     Loop
   }
 }
-
-ACTOR SoundWaterfall1 : SoundWaterfall replaces SoundWaterfall 41
-{}
-
-ACTOR SoundWind1 : SoundWind replaces SoundWind 42
-{}
 
 ACTOR Confetti_B : Feather
 {

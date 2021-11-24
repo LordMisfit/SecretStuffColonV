@@ -244,7 +244,7 @@ class DDStatusBarMain : BaseStatusBar
 
 					parms.amountfont = HUDFont.Create(fnt, fnt.GetCharWidth("0"), true, 1, 1);
 
-					if (dvds_imposeinventorylimits)
+					if (dydu_imposeinventorylimits)
 					{
 						if (textsize == 0) textposextra = (0,0);
 						if (textsize == 1) textposextra = (-1,0);
@@ -566,6 +566,35 @@ class DDStatusBarMain : BaseStatusBar
 						rowc = 0;
 					}
 				}
+			}
+		}
+		
+		// dash
+		int candash = CPlayer.mo.CountInv("DashReady");
+		int dash = CPlayer.mo.CountInv("DashGauge");
+		int dashcharges = CPlayer.mo.CountInv("DashCharges");
+		int dashcharge = CPlayer.mo.CountInv("DashCharge");
+		int dashtics = CPlayer.mo.CountInv("DashTics");
+		if (dydudebug_dashmeter)
+		{
+			digy = -112;
+			digx = 48;
+			if (candash) DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dash, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_LightBlue);
+							else DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dash, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_Brick);
+			digy = -120;
+			digx = 48;
+			if (candash) DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashcharge, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_LightBlue);
+							else DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashcharge, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_Brick);
+			digy = -112;
+			digx = 80;
+			if (candash) DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashcharges, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_LightBlue);
+							else DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashcharges, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_Brick);
+			if (dashtics)
+			{
+				digy = -120;
+				digx = 80;
+				if (candash) DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashtics, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_LightBlue);
+								else DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashtics, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_Brick);
 			}
 		}
 		

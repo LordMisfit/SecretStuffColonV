@@ -327,12 +327,9 @@ class PlayerStatItem : Inventory
 			//******************
 			//* HP Regen/Degen *
 			//******************
-			bool debughpregen = false;
-			bool hpwillregen = true;
-			bool hpwilldegen = true;
 			if (CurrentHealth > 0)
 			{
-				if (debughpregen) Console.Printf("Health: %d / %d", CurrentHealth, MaxHealthTrue);
+				if (dydudebug_hpregen) Console.Printf("Health: %d / %d", CurrentHealth, MaxHealthTrue);
 				
 				//****************************************
 				//*Get Health Ratio & Health Level Checks*
@@ -391,7 +388,7 @@ class PlayerStatItem : Inventory
 
 				if (CurrentHealth < MaxHealthTrue)
 				{
-					if (hpwillregen)
+					if (dydu_hpwillregen)
 					{
 						int inc = 20 + (PlayerLevel * 0.025);
 						
@@ -435,7 +432,7 @@ class PlayerStatItem : Inventory
 								owner.player.health = owner.player.mo.health = CurrentHealth;
 							}
 						}
-						if (debughpregen) Console.Printf("RegenTimer: %d / %d  (inc: %d)", HPRegenTimer, HPRegenTimerMax, inc);
+						if (dydudebug_hpregen) Console.Printf("RegenTimer: %d / %d  (inc: %d)", HPRegenTimer, HPRegenTimerMax, inc);
 					}
 					else
 					{
@@ -445,7 +442,7 @@ class PlayerStatItem : Inventory
 				else
 				if (CurrentHealth > MaxHealthTrue)
 				{
-					if (hpwilldegen)
+					if (dydu_hpwilldegen)
 					{
 						int inc = 20 - (PlayerLevel * 0.0125);
 						
@@ -493,7 +490,7 @@ class PlayerStatItem : Inventory
 								owner.player.health = owner.player.mo.health = CurrentHealth;
 							}
 						}
-						if (debughpregen) Console.Printf("DegenTimer: %d / %d  (inc: %d)", HPDegenTimer, HPDegenTimerMax, inc);
+						if (dydudebug_hpregen) Console.Printf("DegenTimer: %d / %d  (inc: %d)", HPDegenTimer, HPDegenTimerMax, inc);
 					}
 					else
 					{
@@ -504,56 +501,54 @@ class PlayerStatItem : Inventory
 				{
 					HPRegenTimer = 0;
 					HPDegenTimer = 0;
-					if (debughpregen) Console.Printf("Regen/Degen Neutral");
+					if (dydudebug_hpregen) Console.Printf("Regen/Degen Neutral");
 				}
 			}
 			
 			//**************************
 			//* Survival Rate [Buddha] *
 			//**************************
-			bool debugsurvival = false;
-			SurvivalRate = 100 * suvfct; // out of 10000 [1%]
-			if (debugsurvival) Console.Printf("SurvivalRate [Base]: %d", SurvivalRate);
+			SurvivalRate = 100 * suvfct; // out of 10000 [100 = 1%]
+			if (dydudebug_survivalrate) Console.Printf("SurvivalRate [Base]: %d", SurvivalRate);
 			SurvivalRate += (PlayerLevel * 5); // +0.05% per level
-			if (debugsurvival) Console.Printf("SurvivalRate [Level]: %d", SurvivalRate);
-			
+			if (dydudebug_survivalrate) Console.Printf("SurvivalRate [Level]: %d", SurvivalRate);
 			
 			if (owner.CountInv("KnightGownItem")) SurvivalRate += random(312,313);
 			if (owner.CountInv("KnightGownItem2")) SurvivalRate += 625;
 			if (owner.CountInv("KnightGownItem3")) SurvivalRate += 1250;
 			if (owner.CountInv("KnightGownItem4")) SurvivalRate += 2500;
-			if (debugsurvival) Console.Printf("SurvivalRate [Armor]: %d", SurvivalRate);
+			if (dydudebug_survivalrate) Console.Printf("SurvivalRate [Armor]: %d", SurvivalRate);
 
 			if (berserked) SurvivalRate += 500;
 			if (Owner.CountInv("PowerWineBuffWeak")) SurvivalRate += random(312,313);
 			if (Owner.CountInv("PowerWineBuffStrong")) SurvivalRate += 625;
 			if (Owner.CountInv("PowerWineBuffStrongest")) SurvivalRate += random(937,938);
 			if (Owner.CountInv("PowerWineBuffStrongestEven")) SurvivalRate += 1250;
-			if (debugsurvival) Console.Printf("SurvivalRate [Buffs]: %d", SurvivalRate);
+			if (dydudebug_survivalrate) Console.Printf("SurvivalRate [Buffs]: %d", SurvivalRate);
 			
 			if (Owner.CountInv("CricketBatGuard")) 
 			{
 				SurvivalRate += ((10000 - SurvivalRate) * frandompick(0.25,0.375,0.375,0.50,0.50,0.50,0.50,0.625,0.625,0.75));
 				if (SurvivalRate > 9375) SurvivalRate = 9375;
-				if (debugsurvival) Console.Printf("SurvivalRate [Final w/ CricketBat]: %d", SurvivalRate);
+				if (dydudebug_survivalrate) Console.Printf("SurvivalRate [Final w/ CricketBat]: %d", SurvivalRate);
 			}
 			else
 			{
 				if (SurvivalRate > 7500) SurvivalRate = 7500;
-				if (debugsurvival) Console.Printf("SurvivalRate [Final w/o CricketBat]: %d", SurvivalRate);
+				if (dydudebug_survivalrate) Console.Printf("SurvivalRate [Final w/o CricketBat]: %d", SurvivalRate);
 			}
 			int SurviveRNGVal = random[statitem](1,10000); // Based on 0.01% to 100.00%
 			if (SurviveRNGVal <= SurvivalRate) owner.player.cheats |= CF_BUDDHA; else owner.player.cheats &= ~CF_BUDDHA;
 
-			if (debugsurvival)
+			if (dydudebug_survivalrate)
 			{
 				if (SurviveRNGVal <= SurvivalRate) Console.Printf("    \cdSurvival Rate % Roll / Rate: %d / %d, \cx[cheatbits: %d]", SurviveRNGVal, SurvivalRate, owner.player.cheats);
 																			else Console.Printf("    \cgSurvival Rate % Roll / Rate: %d / %d, \cx[cheatbits: %d]", SurviveRNGVal, SurvivalRate, owner.player.cheats);
 			}
 			
-			//
-			// Mass
-			//
+			//********
+			//* Mass *
+			//********
 			bool debugmass = false;
 			TotalMass = 64;
 			if (debugmass) Console.Printf("Mass [Base]: %d", TotalMass);
@@ -585,9 +580,9 @@ class PlayerStatItem : Inventory
 			if (debugmass) Console.Printf("    Calculated Mass: %d [Real Mass: %d]", TotalMass, owner.mass);
 			
 			
-			//
-			// JumpZ
-			//
+			//*********
+			//* JumpZ *
+			//*********
 			bool debugjumpz = false;
 			double CharacterJumpZ = 8.25;
 
@@ -691,16 +686,19 @@ class PlayerStatItem : Inventory
 			int vacammonow = owner.CountInv("VacAmmo");
 			if (vacammoprev < 8 && vacammonow >= 8)
 			{
+				owner.A_StopSound(CHAN_VOICE);
 				owner.A_StartSound("Dinah/Gotcha",CHAN_VOICE,CHANF_DEFAULT);
 				owner.A_Log("The SuperVac's Alt-Fire is Ready!", vacgiveammo);
 			}
 			if (vacammoprev < 16 && vacammonow >= 16)
 			{
+				owner.A_StopSound(CHAN_VOICE);
 				owner.A_StartSound("Dinah/Gotcha",CHAN_VOICE,CHANF_DEFAULT);
 				owner.A_Log("The SuperVac's Alt-Fire Has TWO Charges now!", vacgiveammo);
 			}
 			if (vacammoprev < 24 && vacammonow >= 24)
 			{
+				owner.A_StopSound(CHAN_VOICE);
 				owner.A_StartSound("Dinah/Gotcha",CHAN_VOICE,CHANF_DEFAULT);
 				owner.A_Log("The SuperVac's Alt-Fire Has THREE Charges now!", vacgiveammo);
 			}
@@ -1033,6 +1031,27 @@ class PlayerStatItem : Inventory
 	}
 }
 
+// For a later attempt at dynamic music. :V
+class DynamicMusic : Inventory
+{
+	bool fightmusic;
+	bool bossmusic;
+	
+
+	default 
+	{
+		+Inventory.PERSISTENTPOWER;
+		+Inventory.UNDROPPABLE;
+		+Inventory.UNTOSSABLE;
+	}
+
+	override void Tick()
+	{
+		Super.Tick();
+		//
+	}
+}
+
 /////////////////////////////////////////////////////////////DASH
 // Dash and double jump code by TheCamaleonMaligno ( https://www.youtube.com/watch?v=mTfGxY_Afhs )
 class PlayerDashJump : Inventory
@@ -1047,6 +1066,8 @@ class PlayerDashJump : Inventory
 	Int DashMaxCharge, MaxDashes, MaxDashTics;
 	bool slownthres1, slownthres2, slownthres3;
 	int berserked;
+	
+	int ClassCheck;
 	
 	Default
 	{
@@ -1064,11 +1085,18 @@ class PlayerDashJump : Inventory
 		PlayerInfo PlayDash = Owner.Player;
 		Int BTInput = PlayDash.cmd.buttons;
 		dashgruntchance = randompick(66,66,67);
-		DashMaxCharge = randompick(46,47,47);
+		DashMaxCharge = 70;
 		MaxDashes = 2;
 		MaxDashTics = randompick(6,6,7,7,7);
 		double dashsndvol = 0.67;
 		double dashgruntsndvol = 1.0;
+
+		if (ClassCheck == 0) 
+		{
+			DashMaxCharge = 70;
+			MaxDashes = 2;
+			DashCharge = DashMaxCharge; 
+		}
 		
 		airdashtype = 0;
 		// 0 = No loss of altitude
@@ -1260,27 +1288,7 @@ class PlayerDashJump : Inventory
 		
 		if (DashCharge < DashMaxCharge)
 		{
-			if ((DashTics && (level.time % 14 == 2)))
-			{
-				if (debugdashing) Console.Printf("if ((DashTics && (level.time % 14 == 2)))");
-				if (berserked)
-				{
-					if (level.time % 4) 
-					{
-						DashCharge += 2; 
-						if (DashCharge > DashMaxCharge) DashCharge = DashMaxCharge;
-					}
-					else
-					{
-						DashCharge += 1; 
-					}
-				}
-				else
-				{
-					DashCharge += 1; 
-				}
-			}
-			else if (!DashTics)
+			if (!DashTics)
 			{
 				if (debugdashing) Console.Printf("(!DashTics)");
 				if (berserked)
@@ -1288,7 +1296,6 @@ class PlayerDashJump : Inventory
 					if (level.time % 4) 
 					{
 						DashCharge += 2; 
-						if (DashCharge > DashMaxCharge) DashCharge = DashMaxCharge;
 					}
 					else
 					{
@@ -1299,6 +1306,40 @@ class PlayerDashJump : Inventory
 				{
 					DashCharge += 1; 
 				}
+				if (DashCharge > DashMaxCharge) DashCharge = DashMaxCharge;
+			}
+			else
+			if (level.time % 16)
+			{
+				/*
+				if (debugdashing) Console.Printf("if (level.time % 16)");
+				if (berserked)
+				{
+					if (level.time % 64) 
+					{
+						DashCharge += 2; 
+					}
+					else
+					{
+						DashCharge += 1; 
+					}
+				}
+				else
+				{
+					if (level.time % 64) 
+					{
+						DashCharge += 1; 
+					}
+					else
+					{
+						if (level.time % 256) 
+						{
+							DashCharge += 1; 
+						}
+					}
+				}
+				if (DashCharge > DashMaxCharge) DashCharge = DashMaxCharge;
+				*/
 			}
 			//if (DashCharge == DashMaxCharge && !PlayDash.OnGround) DashCharge = DashMaxCharge - 1; 
 
@@ -1319,6 +1360,19 @@ class PlayerDashJump : Inventory
 			}
 			if (debugdashing) Console.Printf("DashCharge: %d / %d", DashCharge, DashMaxCharge);
 		}
+		
+		int dashcharges = (DashCharge / (DashMaxCharge / MaxDashes));
+		int dashgauge = DashCharge * 100 / DashMaxCharge;
+		if (dashgauge > 100) dashgauge = 100;
+		owner.A_SetInventory("DashGauge",dashgauge);
+		owner.A_SetInventory("DashCharges",dashcharges);
+		owner.A_SetInventory("DashCharge",DashCharge);
+		owner.A_SetInventory("DashTics",DashTics);
+
+		if (Waiting) owner.A_SetInventory("DashReady",0);
+						else owner.A_SetInventory("DashReady",1);
+						
+		ClassCheck++;
 	}
 }
 

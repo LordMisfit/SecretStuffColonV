@@ -23,7 +23,7 @@ DoomEdNums
 Gameinfo
 {
 	PlayerClasses = "DinahPlayer"
-	AddEventHandlers = "DWP_EventHandler", "DWP_StaticEventHandler"
+	AddEventHandlers = "DD_EventHandler", "DD_StaticEventHandler"
 	statusbarclass = "DDStatusBarMain"
 }
 

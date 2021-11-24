@@ -451,9 +451,12 @@ class DDPlayerPawn : PlayerPawn
 		if (dydudebug_playerdamagemobj && armdmg) Console.Printf("Armor Damage: %d", armdmg);
 		if (ret || armdmg)
 		{
-			if (armdmg && !ret) Console.Printf("\c[darkgreen]%d AP\c- of damage taken! [%s]", armdmg, mod);
-			else if (armdmg && ret) Console.Printf("\c[darkred]%d HP\c- & \c[darkgreen]%d AP\c- of damage taken! [%s]", ret, armdmg, mod);
-			else Console.Printf("\c[darkred]%d HP\c- of damage taken! [%s]", ret, mod);
+			if (dydu_playerdmglog)
+			{
+				if (armdmg && !ret) Console.Printf("\c[darkgreen]%d AP\c- of damage taken! [%s]", armdmg, mod);
+				else if (armdmg && ret) Console.Printf("\c[darkred]%d HP\c- & \c[darkgreen]%d AP\c- of damage taken! [%s]", ret, armdmg, mod);
+				else Console.Printf("\c[darkred]%d HP\c- of damage taken! [%s]", ret, mod);
+			}
 		}
 		return ret;
 	}
@@ -498,6 +501,7 @@ class DinahPlayer : DDPlayerPawn // HereticPlayer
 		Player.DisplayName "Dinah Wyck";
 		Player.SoundClass "DinahPlayer";
 		Player.StartItem "PlayerStatItem";
+		//Player.StartItem "DynamicMusic";
 		Player.StartItem "PlayerDashJump";
 		Player.StartItem "CricketBat";
 		Player.StartItem "HandToHand";
