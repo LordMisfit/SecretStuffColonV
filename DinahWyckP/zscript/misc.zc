@@ -1268,6 +1268,7 @@ class PlayerDashJump : Inventory
 					if (level.time % 4) 
 					{
 						DashCharge += 2; 
+						if (DashCharge > DashMaxCharge) DashCharge = DashMaxCharge;
 					}
 					else
 					{
@@ -1287,6 +1288,7 @@ class PlayerDashJump : Inventory
 					if (level.time % 4) 
 					{
 						DashCharge += 2; 
+						if (DashCharge > DashMaxCharge) DashCharge = DashMaxCharge;
 					}
 					else
 					{
@@ -1300,10 +1302,20 @@ class PlayerDashJump : Inventory
 			}
 			//if (DashCharge == DashMaxCharge && !PlayDash.OnGround) DashCharge = DashMaxCharge - 1; 
 
-			if (DashCharge == DashMaxCharge)
+			if (DashCharge >= DashMaxCharge)
 			{
 				Waiting = False;
-				Owner.A_StartSound("Player/DashReady",69,CHANF_OVERLAP);
+				//Owner.A_StartSound("Player/DashReady",69,CHANF_OVERLAP);
+			}
+			if (debugdashing) Console.Printf("DashCharge: %d / %d", DashCharge, DashMaxCharge);
+		}
+		else
+		{
+			if (DashCharge > DashMaxCharge)
+			{
+				DashCharge = DashMaxCharge;
+				Waiting = False;
+				//Owner.A_StartSound("Player/DashReady",69,CHANF_OVERLAP);
 			}
 			if (debugdashing) Console.Printf("DashCharge: %d / %d", DashCharge, DashMaxCharge);
 		}
