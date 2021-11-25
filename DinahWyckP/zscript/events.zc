@@ -243,11 +243,11 @@ class DD_EventHandler : EventHandler
 							for(int i = 0; i < typesdrop; i++)
 							{
 								user_type = random(1,2);
-								Console.Printf("#1: %d", user_type);
+								//Console.Printf("#1: %d", user_type);
 								if (user_type == 1) // Weapons
 								{
 									user_type = random(1,25);
-									Console.Printf("#2a: %d", user_type);
+									//Console.Printf("#2a: %d", user_type);
 									if (user_type >= 1 && user_type <= 4) dropname = "CricketBat";
 									if (user_type >= 5 && user_type <= 8) dropname = "AppleJack";
 									if (user_type >= 9 && user_type <= 12) dropname = "BlunderAxe";
@@ -260,7 +260,7 @@ class DD_EventHandler : EventHandler
 								if (user_type == 2) // Health
 								{
 									user_type = random(1,25);
-									Console.Printf("#2b: %d", user_type);
+									//Console.Printf("#2b: %d", user_type);
 									if (user_type >= 1 && user_type <= 12) dropname = "GalaApple";
 									if (user_type >= 13 && user_type <= 18) dropname = "FoodPlateFruit";
 									if (user_type >= 19 && user_type <= 22) dropname = "AppleWine";
