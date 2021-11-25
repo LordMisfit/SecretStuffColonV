@@ -380,13 +380,13 @@ class ShieldPartBase : DDBaseZSC
 		
 		Super.PostBeginPlay();
 	}
+*/
 	
 	override void Tick()
 	{
-
+		if (dydudebug_showvisibleshieldparts) A_FadeTo(0.25,0.25);
 		Super.Tick();
 	}
-*/
 
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{

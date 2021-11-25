@@ -347,13 +347,13 @@ class MaceHeftySpawner : RandomSpawner2 replaces MaceHefty
 {
 	default
 	{
-		DropItem "MalletAmmo", 256, 1;
-		DropItem "BlunderAmmo", 256, 1;
-		DropItem "EggAmmo", 256, 1;
-		DropItem "JackAmmo", 256, 1;
-		DropItem "PikeAmmo", 256, 1;
-		DropItem "VacAmmo", 256, 1;
-		DropItem "MusicAmmo", 256, 1;
+		DropItem "MalletAmmoBig", 256, 1;
+		DropItem "BlunderAmmoBig", 256, 1;
+		DropItem "EggAmmoBig", 256, 1;
+		DropItem "JackAmmoBig", 256, 1;
+		DropItem "PikeAmmoBig", 256, 1;
+		DropItem "VacAmmoBig", 256, 1;
+		DropItem "MusicAmmoBig", 256, 1;
 	}
 }
 

@@ -575,6 +575,16 @@ class DDStatusBarMain : BaseStatusBar
 		int dashcharges = CPlayer.mo.CountInv("DashCharges");
 		int dashcharge = CPlayer.mo.CountInv("DashCharge");
 		int dashtics = CPlayer.mo.CountInv("DashTics");
+		int dashbarunits = dash * 0.67;
+		digy = -100;
+		digx = 20;
+		string dun = "DASHUNI2";
+		if (candash) dun = "DASHUNIT";
+		for (int i; i < dashbarunits; i++)
+		{
+			DrawImage(dun, (digx+i, digy), 0, HX_SHADOW); // -46, -1
+		}
+		
 		if (dydudebug_dashmeter)
 		{
 			digy = -112;

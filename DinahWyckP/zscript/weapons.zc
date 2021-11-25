@@ -1086,8 +1086,8 @@ class CricketBat : DinahWeapon replaces Pistol
 	
 	action void A_CricketBatGuard()
 	{
-		string vispart = "CricketSwingPartNoReflect";
-		if (random(1,16) <= 5) vispart = "CricketSwingShieldPart";
+		string vispart = "CricketShieldPartNoReflect";
+		if (random(1,16) <= 5) vispart = "CricketShieldPart";
 
 		double yoffset = frandompick(-0.3125,0,0.3125);
 
@@ -1146,10 +1146,10 @@ class CricketBat : DinahWeapon replaces Pistol
 		if (MiscItem) MiscItem.CricketBatBuffTimer = randompick(1,1,1,1,1,1,1,1,1,2);
 	}
 
-	action void A_CricketBatSwing(int type = 0)
+	action void A_CricketBatSwing(int type = 0, double dist = 112.0)
 	{
-		string vispart = "CricketShieldPartNoReflect";
-		if (random(1,16) <= 5) vispart = "CricketShieldPart";
+		string vispart = "CricketSwingPartNoReflect";
+		if (random(1,16) <= 5) vispart = "CricketSwingShieldPart";
 
 		double yoffset = frandompick(-0.1625,0,0.1625);
 
@@ -1160,7 +1160,7 @@ class CricketBat : DinahWeapon replaces Pistol
 		double sp = sin(pitch);
 		double cp = cos(pitch);
 		//Console.Printf("pitch sine: %.3f, pitch cosine: %.3f", sp, cp);
-		int m = frandom(30.0,34.0);
+		int m = dist;
 
 		if (type == 1) m *= 1.2;
 
@@ -1188,9 +1188,39 @@ class CricketBat : DinahWeapon replaces Pistol
 		distz = (height * 0.625) + yoffset;
 		A_SpawnItemEx(vispart, (cos(-pitch) * A_SetShieldPieceDist(distx)), disty, (A_SetShieldPieceDist(distz) + (sin(-pitch) * A_SetShieldPieceDist(distx))), 0, 0, 0, 0, SXF_SETMASTER|SXF_TRANSFERPOINTERS|SXF_TRANSFERPITCH|SXF_NOCHECKPOSITION);
 
-		if ((random (1,16) == 1) || (type == 1 && (random (1,16) <= 13)))
+		if ((random (1,16) <= 14) || (type == 1 && (random (1,32) <= 31)))
 		{
-			m *= 0.8;
+			m *= 0.667;
+
+			distx = (m * frandom(0.95,1.05));
+			disty = 0.0;
+			distz = (height * 0.5) + yoffset;
+			A_SpawnItemEx(vispart, (cos(-pitch) * A_SetShieldPieceDist(distx)), disty, (A_SetShieldPieceDist(distz) + (sin(-pitch) * A_SetShieldPieceDist(distx))), 0, 0, 0, 0, SXF_SETMASTER|SXF_TRANSFERPOINTERS|SXF_TRANSFERPITCH|SXF_NOCHECKPOSITION);
+			distx = (m * frandom(0.90,0.95));
+			disty = -10.4;
+			distz = (height * 0.5) + yoffset;
+			A_SpawnItemEx(vispart, (cos(-pitch) * A_SetShieldPieceDist(distx)), disty, (A_SetShieldPieceDist(distz) + (sin(-pitch) * A_SetShieldPieceDist(distx))), 0, 0, 0, 0, SXF_SETMASTER|SXF_TRANSFERPOINTERS|SXF_TRANSFERPITCH|SXF_NOCHECKPOSITION);
+			disty *= -1;
+			distz = (height * 0.5) + yoffset;
+			A_SpawnItemEx(vispart, (cos(-pitch) * A_SetShieldPieceDist(distx)), disty, (A_SetShieldPieceDist(distz) + (sin(-pitch) * A_SetShieldPieceDist(distx))), 0, 0, 0, 0, SXF_SETMASTER|SXF_TRANSFERPOINTERS|SXF_TRANSFERPITCH|SXF_NOCHECKPOSITION);
+			disty = -5.2;
+			distz = (height * 0.375) + yoffset;
+			A_SpawnItemEx(vispart, (cos(-pitch) * A_SetShieldPieceDist(distx)), disty, (A_SetShieldPieceDist(distz) + (sin(-pitch) * A_SetShieldPieceDist(distx))), 0, 0, 0, 0, SXF_SETMASTER|SXF_TRANSFERPOINTERS|SXF_TRANSFERPITCH|SXF_NOCHECKPOSITION);
+			disty *= -1;
+			distz = (height * 0.375) + yoffset;
+			A_SpawnItemEx(vispart, (cos(-pitch) * A_SetShieldPieceDist(distx)), disty, (A_SetShieldPieceDist(distz) + (sin(-pitch) * A_SetShieldPieceDist(distx))), 0, 0, 0, 0, SXF_SETMASTER|SXF_TRANSFERPOINTERS|SXF_TRANSFERPITCH|SXF_NOCHECKPOSITION);
+			disty = -5.2;
+			distz = (height * 0.625) + yoffset;
+			A_SpawnItemEx(vispart, (cos(-pitch) * A_SetShieldPieceDist(distx)), disty, (A_SetShieldPieceDist(distz) + (sin(-pitch) * A_SetShieldPieceDist(distx))), 0, 0, 0, 0, SXF_SETMASTER|SXF_TRANSFERPOINTERS|SXF_TRANSFERPITCH|SXF_NOCHECKPOSITION);
+			disty *= -1;
+			distz = (height * 0.625) + yoffset;
+			A_SpawnItemEx(vispart, (cos(-pitch) * A_SetShieldPieceDist(distx)), disty, (A_SetShieldPieceDist(distz) + (sin(-pitch) * A_SetShieldPieceDist(distx))), 0, 0, 0, 0, SXF_SETMASTER|SXF_TRANSFERPOINTERS|SXF_TRANSFERPITCH|SXF_NOCHECKPOSITION);
+		}
+
+
+		if ((random (1,16) <= 12) || (type == 1 && (random (1,16) <= 15)))
+		{
+			m *= 0.334;
 
 			distx = (m * frandom(0.95,1.05));
 			disty = 0.0;
@@ -1326,10 +1356,12 @@ class CricketBat : DinahWeapon replaces Pistol
 				if (CountInv("PowerStrength") || CountInv("PowerStrengthDD"))
 				{
 					A_FireProjectile("MalletShotBerserk",0,1,0,0);
+					A_CricketBatSwing(1);
 				}
 				else
 				{
 					A_FireProjectile("MalletShot",0,1,0,0);
+					A_CricketBatSwing(0);
 				}
 			}
 			DBID H 1 

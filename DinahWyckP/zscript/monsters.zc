@@ -199,6 +199,7 @@ class KilletanteLowHealthBuffDEFS4 : PowerProtection
 		Powerup.Duration 2147483646;
 	}
 }
+
 class KilletanteLowHealthBuffDEFS5 : PowerProtection
 {
 	default
@@ -265,7 +266,6 @@ class KilletanteSoloistAImage3 : KilletanteSoloistAImage
 		StencilColor "Blue";
 	}
 }
-
 
 class KilletanteSoloist : Killetante
 {
