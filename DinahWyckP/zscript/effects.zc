@@ -340,7 +340,7 @@ class PlayerLevel : PlaceholderItem
 	{
 		inventory.icon "";
 		Inventory.MaxAmount 0x7FFFFFFD;
-		+INVENTORY.KEEPDEPLETED 
+		+INVENTORY.KEEPDEPLETED
 	}
 }
 
@@ -350,7 +350,7 @@ class PlayerMaxHP : PlaceholderItem
 	{
 		inventory.icon "";
 		Inventory.MaxAmount 0x7FFFFFFD;
-		+INVENTORY.KEEPDEPLETED 
+		+INVENTORY.KEEPDEPLETED
 	}
 }
 
@@ -420,6 +420,9 @@ class TimePotionTimeFreezer : TimeFreezerKeepSound
 	{
 		Inventory.Icon "TIMPI0";
 		Powerup.Color "8f 8f 8f", 0.5;
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 
 	override bool HandlePickup (Inventory item)
@@ -488,6 +491,9 @@ class DashTimeFreezer : TimeFreezerKeepSound
 	{
 		Inventory.Icon "";
 		Powerup.Color "8f 8f 8f", 0.0;
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 
 	override bool HandlePickup (Inventory item)
@@ -570,7 +576,9 @@ class PowerInvulnDD : PowerInvulnerable
 		inventory.icon "PDIVA0";
 		Powerup.Duration -30;
 		Powerup.Color "78447E", 0.334; // "3F00DF", "D0AFD5"
-		+INVENTORY.HUBPOWER
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 }
 
@@ -581,7 +589,9 @@ class PowerStrengthDD : PowerStrength
 		inventory.icon "PDBSA0";
 		Powerup.Duration -150;
 		Powerup.Color "FF0000", 0.5;
-		+INVENTORY.HUBPOWER
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 	double fadeintensity;
 
