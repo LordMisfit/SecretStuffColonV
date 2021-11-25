@@ -440,6 +440,48 @@ class MeshArmorSpawner : RandomSpawner2 replaces MeshArmor
 	}
 }
 
+class Mana1Spawner : RandomSpawner2 replaces Mana1
+{
+	default
+	{
+		DropItem "MalletAmmo", 256, 4;
+		DropItem "BlunderAmmo", 256, 4;
+		DropItem "EggAmmo", 256, 4;
+		DropItem "JackAmmo", 256, 4;
+		DropItem "PikeAmmo", 256, 4;
+		DropItem "MusicAmmo", 256, 4;
+		DropItem "VacAmmo", 256, 1;
+	}
+}
+
+class Mana2Spawner : RandomSpawner2 replaces Mana2
+{
+	default
+	{
+		DropItem "MalletAmmo", 256, 4;
+		DropItem "BlunderAmmo", 256, 4;
+		DropItem "EggAmmo", 256, 4;
+		DropItem "JackAmmo", 256, 4;
+		DropItem "PikeAmmo", 256, 4;
+		DropItem "MusicAmmo", 256, 4;
+		DropItem "VacAmmo", 256, 1;
+	}
+}
+
+class Mana3Spawner : RandomSpawner2 replaces Mana3
+{
+	default
+	{
+		DropItem "MalletAmmoBig", 256, 4;
+		DropItem "BlunderAmmoBig", 256, 4;
+		DropItem "EggAmmoBig", 256, 4;
+		DropItem "JackAmmoBig", 256, 4;
+		DropItem "PikeAmmoBig", 256, 4;
+		DropItem "MusicAmmoBig", 256, 4;
+		DropItem "VacAmmo", 256, 1;
+	}
+}
+
 class ArtiBoostArmorSpawner : RandomSpawner2 replaces ArtiBoostArmor
 {
 	default

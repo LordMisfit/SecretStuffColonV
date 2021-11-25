@@ -1521,6 +1521,28 @@ class MalletAmmo : Ammo
 	}
 }
 
+class MalletAmmoBig : MalletAmmo
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 6; // 3
+		Inventory.MaxAmount 60; // 45
+		Ammo.BackpackAmount 6; // 3
+		Ammo.BackpackMaxAmount 90;
+		Inventory.Icon "CBAMI0";
+		Inventory.PickupMessage "A set of cricket balls";
+		+FLOATBOB
+	}
+	
+	States
+	{
+		Spawn:
+			CBAM B -1;
+			Loop;
+	}
+}
+
 //**************
 //* Blunderaxe *
 //**************
@@ -1789,6 +1811,27 @@ class BlunderAmmo : Ammo
 	{
 		Spawn:
 			BAMO ABCD 5;
+			Loop;
+	}
+}
+
+class BlunderAmmoBig : BlunderAmmo
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 9; // 6
+		Inventory.MaxAmount 48; // 36
+		Ammo.BackpackAmount 9; // 6
+		Ammo.BackpackMaxAmount 72;
+		Inventory.Icon "BAMOI0";
+		Inventory.PickupMessage "A cluster of blundershot";
+		+FLOATBOB
+	}
+	States
+	{
+		Spawn:
+			BAMO EFGH 5;
 			Loop;
 	}
 }
@@ -2248,7 +2291,7 @@ class EggMiniBerserk : EggMini
 	}
 }
 
-class EggAmmo : Ammo replaces ShellBox
+class EggAmmo : Ammo
 {
 	default
 	{
@@ -2266,6 +2309,28 @@ class EggAmmo : Ammo replaces ShellBox
 	{
 		Spawn:
 			EGGC ABCB 6;
+			Loop;
+	}
+}
+
+class EggAmmoBig : EggAmmo
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 6; // 4
+		Inventory.MaxAmount 28; // 20
+		Ammo.BackpackAmount 6; // 4
+		Ammo.BackpackMaxAmount 42;
+		Scale 1;
+		Inventory.Icon "EGAMI0";
+		Inventory.PickupMessage "A set of fractal chicken eggs";
+		+FLOATBOB
+	}
+	States
+	{
+		Spawn:
+			EGGC DEFE 6;
 			Loop;
 	}
 }
@@ -2545,6 +2610,28 @@ class JackAmmo : Ammo
 	{
 		Spawn:
 			AJAM A -1;
+			Loop;
+	}
+}
+
+class JackAmmoBig : JackAmmo
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 9; // 6
+		Inventory.MaxAmount 64; // 48
+		Ammo.BackpackAmount 9; // 6
+		Ammo.BackpackMaxAmount 96;
+		Inventory.Icon "AJAMI0";
+		Inventory.PickupMessage "An set of aggro-apples!";
+		+FLOATBOB
+	}
+	
+	States
+	{
+		Spawn:
+			AJAM B -1;
 			Loop;
 	}
 }
@@ -2841,6 +2928,29 @@ class PikeAmmo : Ammo
 	}
 }
 
+class PikeAmmoBig : PikeAmmo
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 1; // 2
+		Inventory.MaxAmount 12; // 10
+		Ammo.BackpackAmount 1; // 2
+		Ammo.BackpackMaxAmount 18;
+		Scale 1;
+		Inventory.Icon "SCPAI0";
+		Inventory.PickupMessage "Many pints of devil's food";
+		+FLOATBOB
+	}
+	
+	States
+	{
+		Spawn:
+			SCPA DEF 6 Bright;
+			Loop;
+	}
+}
+
 //************
 //* SUPERVAC *
 //************
@@ -3078,7 +3188,7 @@ class VacShot2 : DDProjectile
 	}
 }
 
-class VacAmmo : Ammo replaces Cell
+class VacAmmo : Ammo
 {
 	default
 	{
@@ -3275,7 +3385,7 @@ class RecordShot : DDProjectile
 	}
 }
 
-class MusicAmmo : Ammo replaces CellPack
+class MusicAmmo : Ammo
 {
 	default
 	{
@@ -3293,6 +3403,28 @@ class MusicAmmo : Ammo replaces CellPack
 	{
 		Spawn:
 			RAMO A -1;
+			Loop;
+	}
+}
+
+class MusicAmmoBig : MusicAmmo
+{
+	default
+	{
+		//$Category RPAmmo
+		Inventory.Amount 9; // 6
+		Inventory.MaxAmount 66; // 50
+		Ammo.BackpackAmount 9; // 6
+		Ammo.BackpackMaxAmount 99;
+		Inventory.Icon "RAMOI0";
+		Inventory.PickupMessage "A few musical records";
+		+FLOATBOB
+	}
+	
+	States
+	{
+		Spawn:
+			RAMO B -1;
 			Loop;
 	}
 }
