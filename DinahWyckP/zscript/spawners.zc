@@ -135,7 +135,8 @@ class CellSpawner : RandomSpawner2 replaces Cell
 {
 	default
 	{
-		DropItem "VacAmmo", 256, 256;
+		DropItem "VacAmmo", 256, 252;
+		DropItem "VacAmmoBig", 256, 4;
 	}
 }
 
@@ -202,7 +203,8 @@ class GoldWandAmmoSpawner : RandomSpawner2 replaces GoldWandAmmo
 {
 	default
 	{
-		DropItem "MalletAmmo", 256, 256;
+		DropItem "MalletAmmo", 256, 252;
+		DropItem "MalletAmmoBig", 256, 4;
 	}
 }
 
@@ -210,7 +212,8 @@ class GoldWandHeftySpawner : RandomSpawner2 replaces GoldWandHefty
 {
 	default
 	{
-		DropItem "JackAmmo", 256, 256;
+		DropItem "JackAmmo", 256, 252;
+		DropItem "JackAmmoBig", 256, 4;
 	}
 }
 
@@ -226,7 +229,8 @@ class CrossbowAmmoSpawner : RandomSpawner2 replaces CrossbowAmmo
 {
 	default
 	{
-		DropItem "BlunderAmmo", 256, 256;
+		DropItem "BlunderAmmo", 256, 252;
+		DropItem "BlunderAmmoBig", 256, 4;
 	}
 }
 
@@ -234,7 +238,8 @@ class CrossbowHeftySpawner : RandomSpawner2 replaces CrossbowHefty
 {
 	default
 	{
-		DropItem "EggAmmo", 256, 256;
+		DropItem "EggAmmo", 256, 252;
+		DropItem "EggAmmoBig", 256, 4;
 	}
 }
 
@@ -251,7 +256,8 @@ class BlasterAmmoSpawner : RandomSpawner2 replaces BlasterAmmo
 {
 	default
 	{
-		DropItem "JackAmmo", 256, 256;
+		DropItem "JackAmmo", 256, 252;
+		DropItem "JackAmmoBig", 256, 4;
 	}
 }
 
@@ -259,7 +265,8 @@ class BlasterHeftySpawner : RandomSpawner2 replaces BlasterHefty
 {
 	default
 	{
-		DropItem "MalletAmmo", 256, 256;
+		DropItem "MalletAmmo", 256, 252;
+		DropItem "MalletAmmoBig", 256, 4;
 	}
 }
 
@@ -276,6 +283,7 @@ class SkullRodAmmoSpawner : RandomSpawner2 replaces SkullRodAmmo
 	default
 	{
 		DropItem "VacAmmo", 256, 256;
+		DropItem "VacAmmoBig", 256, 4;
 	}
 }
 
@@ -283,7 +291,8 @@ class SkullRodHeftySpawner : RandomSpawner2 replaces SkullRodHefty
 {
 	default
 	{
-		DropItem "MusicAmmo", 256, 256;
+		DropItem "MusicAmmo", 256, 252;
+		DropItem "MusicAmmoBig", 256, 4;
 	}
 }
 
@@ -299,7 +308,8 @@ class PhoenixRodAmmoSpawner : RandomSpawner2 replaces PhoenixRodAmmo
 {
 	default
 	{
-		DropItem "PikeAmmo", 256, 256;
+		DropItem "PikeAmmo", 256, 252;
+		DropItem "PikeAmmoBig", 256, 4;
 	}
 }
 
