@@ -1347,6 +1347,8 @@ class HereticImpNew : HereticImp replaces HereticImp
 	default
 	{
 		Tag "Gargoyle";
+		DamageFactor "Suck", 1.75;
+		Painchance "Suck", 256;
 	}
 }
 
@@ -1355,6 +1357,8 @@ class HereticImpLeaderNew : HereticImpLeader replaces HereticImpLeader
 	default
 	{
 		Tag "Gargoyle Leader";
+		DamageFactor "Suck", 1.75;
+		Painchance "Suck", 256;
 	}
 }
 
@@ -1371,6 +1375,8 @@ class MummyGhostNew : MummyGhost replaces MummyGhost
 	default
 	{
 		Tag "Golem (Ghost)";
+		DamageFactor "Suck", 4.00;
+		Painchance "Suck", 256;
 	}
 }
 
@@ -1387,6 +1393,8 @@ class MummyLeaderGhostNew : MummyLeaderGhost replaces MummyLeaderGhost
 	default
 	{
 		Tag "Golem Leader (Ghost)";
+		DamageFactor "Suck", 4.00;
+		Painchance "Suck", 256;
 	}
 }
 
@@ -1403,6 +1411,8 @@ class KnightGhostNew : KnightGhost replaces KnightGhost
 	default
 	{
 		Tag "Undead Warrior (Ghost)";
+		DamageFactor "Suck", 4.00;
+		Painchance "Suck", 256;
 	}
 }
 
@@ -1411,6 +1421,8 @@ class WizardNew : Wizard replaces Wizard
 	default
 	{
 		Tag "Disciple of D'Sparil";
+		DamageFactor "Suck", 2.00;
+		Painchance "Suck", 128;
 	}
 }
 
@@ -1419,6 +1431,8 @@ class IronLichNew : IronLich replaces IronLich
 	default
 	{
 		Tag "Iron Lich";
+		DamageFactor "Suck", 0.05;
+		Painchance "Suck", 1;
 	}
 }
 
@@ -1427,6 +1441,8 @@ class BeastNew : Beast replaces Beast
 	default
 	{
 		Tag "Weredragon";
+		DamageFactor "Suck", 0.75;
+		Painchance "Suck", 75;
 	}
 }
 
@@ -1435,6 +1451,8 @@ class ClinkNew : Clink replaces Clink
 	default
 	{
 		Tag "Sabreclaw";
+		DamageFactor "Suck", 0.75;
+		Painchance "Suck", 24;
 	}
 }
 
@@ -1443,6 +1461,8 @@ class MinotaurNew : Minotaur replaces Minotaur
 	default
 	{
 		Tag "Maulotaur";
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 6;
 	}
 }
 
@@ -1451,6 +1471,8 @@ class SnakeNew : Snake replaces Snake
 	default
 	{
 		Tag "Ophidian";
+		DamageFactor "Suck", 1.50;
+		Painchance "Suck", 72;
 	}
 }
 
@@ -1459,6 +1481,8 @@ class Sorcerer1New : Sorcerer1 replaces Sorcerer1
 	default
 	{
 		Tag "\c[gold]D'Sparil (on Serpent)";
+		DamageFactor "Suck", 0.334;
+		Painchance "Suck", 19;
 	}
 }
 
@@ -1467,6 +1491,8 @@ class Sorcerer2New : Sorcerer2 replaces Sorcerer2
 	default
 	{
 		Tag "\c[gold]D'Sparil";
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 8;
 	}
 }
 
@@ -1486,6 +1512,8 @@ class FireDemonNew : FireDemon replaces FireDemon
 	default
 	{
 		Tag "Afrit";
+		DamageFactor "Suck", 2.50;
+		Painchance "Suck", 3;
 	}
 }
 
@@ -1494,6 +1522,8 @@ class EttinNew : Ettin replaces Ettin
 	default
 	{
 		Tag "Ettin";
+		DamageFactor "Suck", 0.667;
+		Painchance "Suck", 40;
 	}
 }
 
@@ -1502,6 +1532,8 @@ class EttinMashNew : EttinMash replaces EttinMash
 	default
 	{
 		Tag "Ettin (Ghost)";
+		DamageFactor "Suck", 2.67;
+		Painchance "Suck", 160;
 	}
 }
 
@@ -1510,6 +1542,8 @@ class CentaurNew : Centaur replaces Centaur
 	default
 	{
 		Tag "Centaur";
+		DamageFactor "Suck", 0.75;
+		Painchance "Suck", 101;
 	}
 }
 
@@ -1518,6 +1552,8 @@ class CentaurMashNew : CentaurMash replaces CentaurMash
 	default
 	{
 		Tag "Centaur (Ghost)";
+		DamageFactor "Suck", 4.00;
+		Painchance "Suck", 256;
 	}
 }
 
@@ -1526,6 +1562,8 @@ class CentaurLeaderNew : CentaurLeader replaces CentaurLeader
 	default
 	{
 		Tag "Slaughtaur";
+		DamageFactor "Suck", 0.75;
+		Painchance "Suck", 101;
 	}
 }
 
@@ -1534,6 +1572,8 @@ class Demon1New : Demon1 replaces Demon1
 	default
 	{
 		Tag "Green Chaos Serpent";
+		DamageFactor "Suck", 0.667;
+		Painchance "Suck", 34;
 	}
 }
 
@@ -1542,6 +1582,8 @@ class Demon1MashNew : Demon1Mash replaces Demon1Mash
 	default
 	{
 		Tag "Green Chaos Serpent (Ghost)";
+		DamageFactor "Suck", 2.67;
+		Painchance "Suck", 134;
 	}
 }
 
@@ -1550,6 +1592,8 @@ class Demon2New : Demon2 replaces Demon2
 	default
 	{
 		Tag "Brown Chaos Serpent";
+		DamageFactor "Suck", 0.667;
+		Painchance "Suck", 34;
 	}
 }
 
@@ -1558,6 +1602,8 @@ class Demon2MashNew : Demon2Mash replaces Demon2Mash
 	default
 	{
 		Tag "Brown Chaos Serpent (Ghost)";
+		DamageFactor "Suck", 2.67;
+		Painchance "Suck", 134;
 	}
 }
 
@@ -1566,14 +1612,8 @@ class IceGuyNew : IceGuy replaces IceGuy
 	default
 	{
 		Tag "Wendigo";
-	}
-}
-
-class SerpentLeaderNew : SerpentLeader replaces SerpentLeader
-{
-	default
-	{
-		Tag "Alpha Stalker";
+		DamageFactor "Suck", 0.01;
+		Painchance "Suck", 0;
 	}
 }
 
@@ -1582,6 +1622,18 @@ class SerpentNew : Serpent replaces Serpent
 	default
 	{
 		Tag "Stalker";
+		DamageFactor "Suck", 1.50;
+		Painchance "Suck", 144;
+	}
+}
+
+class SerpentLeaderNew : SerpentLeader replaces SerpentLeader
+{
+	default
+	{
+		Tag "Alpha Stalker";
+		DamageFactor "Suck", 1.50;
+		Painchance "Suck", 144;
 	}
 }
 
@@ -1590,6 +1642,8 @@ class BishopNew : Bishop replaces Bishop
 	default
 	{
 		Tag "Dark Bishop";
+		DamageFactor "Suck", 2.00;
+		Painchance "Suck", 220;
 	}
 }
 
@@ -1598,6 +1652,8 @@ class WraithNew : Wraith replaces Wraith
 	default
 	{
 		Tag "Reiver";
+		DamageFactor "Suck", 3.00;
+		Painchance "Suck", 75;
 	}
 }
 
@@ -1606,6 +1662,8 @@ class WraithBuriedNew : WraithBuried replaces WraithBuried
 	default
 	{
 		Tag "Reiver";
+		DamageFactor "Suck", 3.00;
+		Painchance "Suck", 75;
 	}
 }
 
@@ -1614,6 +1672,18 @@ class DragonNew : Dragon replaces Dragon
 	default
 	{
 		Tag "Death Wyvern";
+		DamageFactor "Suck", 0.5;
+		Painchance "Suck", 64;
+	}
+}
+
+class HeresiarchNew : Heresiarch replaces Heresiarch
+{
+	default
+	{
+		Tag "Heresiarch";
+		DamageFactor "Suck", 0.5;
+		Painchance "Suck", 5;
 	}
 }
 
@@ -1622,6 +1692,8 @@ class ClericBossNew : ClericBoss replaces ClericBoss
 	default
 	{
 		Tag "\c[gold]Traductus";
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 13;
 	}
 }
 
@@ -1630,6 +1702,8 @@ class FighterBossNew : FighterBoss replaces FighterBoss
 	default
 	{
 		Tag "\c[gold]Zedek";
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 13;
 	}
 }
 
@@ -1638,6 +1712,8 @@ class MageBossNew : MageBoss replaces MageBoss
 	default
 	{
 		Tag "\c[gold]Menelkir";
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 13;
 	}
 }
 
@@ -1646,6 +1722,8 @@ class KoraxNew : Korax replaces Korax
 	default
 	{
 		Tag "\c[gold]Korax";
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 5;
 	}
 }
 
@@ -1653,6 +1731,9 @@ class MinotaurFriendNew : MinotaurFriend replaces MinotaurFriend
 {
 	default
 	{
+		Tag "Maulotaur";
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 6;
 	}
 }
 
@@ -1737,20 +1818,6 @@ class AcolyteToBeNew : AcolyteToBe replaces AcolyteToBe
 	}
 }
 
-class Macil1New : Macil1 replaces Macil1
-{
-	default
-	{
-	}
-}
-
-class Macil2New : Macil2 replaces Macil2
-{
-	default
-	{
-	}
-}
-
 class RebelNew : Rebel replaces Rebel
 {
 	default
@@ -1797,6 +1864,176 @@ class Rebel6New : Rebel6 replaces Rebel6
 {
 	default
 	{
+	}
+}
+
+class CeilingTurretNew : CeilingTurret replaces CeilingTurret
+{
+	default
+	{
+	}
+}
+
+class StalkerNew : Stalker replaces Stalker
+{
+	default
+	{
+	}
+}
+
+class SentinelNew : Sentinel replaces Sentinel
+{
+	default
+	{
+	}
+}
+
+class TemplarNew : Templar replaces Templar
+{
+	default
+	{
+	}
+}
+
+class ReaverNew : Reaver replaces Reaver
+{
+	default
+	{
+	}
+}
+
+class CrusaderNew : Crusader replaces Crusader
+{
+	default
+	{
+	}
+}
+
+class InquisitorNew : Inquisitor replaces Inquisitor
+{
+	default
+	{
+	}
+}
+
+class ProgrammerNew : Programmer replaces Programmer
+{
+	default
+	{
+		DamageFactor "Suck", 0.25;
+		Painchance "Suck", 13;
+	}
+}
+
+class StrifeBishopNew : StrifeBishop replaces StrifeBishop
+{
+	default
+	{
+		DamageFactor "Suck", 2.5;
+		Painchance "Suck", 256;
+	}
+}
+
+class OracleNew : Oracle replaces Oracle
+{
+	default
+	{
+		DamageFactor "Suck", 2.5;
+		Painchance "Suck", 256;
+	}
+}
+
+class Macil1New : Macil1 replaces Macil1
+{
+	default
+	{
+		DamageFactor "Suck", 2.5;
+		Painchance "Suck", 256;
+	}
+}
+
+class Macil2New : Macil2 replaces Macil2
+{
+	default
+	{
+		DamageFactor "Suck", 2.5;
+		Painchance "Suck", 256;
+	}
+}
+
+class LoremasterNew : Loremaster replaces Loremaster
+{
+	default
+	{
+		Painchance 50;
+		DamageFactor "Suck", 2.5;
+		Painchance "Suck", 125;
+	}
+	
+	States
+	{
+		Pain.Suck:
+			PDED A 9;
+			PDED A 9 A_Pain;
+			stop;
+		Pain:
+			PDED A 3;
+			PDED A 3 A_Pain;
+			stop;
+	}
+}
+
+class AlienSpectre1New : AlienSpectre1 replaces AlienSpectre1
+{
+	default
+	{
+		DamageFactor "Suck", 5.0;
+		Painchance "Suck", 256;
+	}
+}
+
+class AlienSpectre2New : AlienSpectre2 replaces AlienSpectre2
+{
+	default
+	{
+		DamageFactor "Suck", 5.0;
+		Painchance "Suck", 250;
+	}
+}
+
+class AlienSpectre3New : AlienSpectre3 replaces AlienSpectre3
+{
+	default
+	{
+		DamageFactor "Suck", 5.0;
+		Painchance "Suck", 250;
+	}
+}
+
+class AlienSpectre4New : AlienSpectre4 replaces AlienSpectre4
+{
+	default
+	{
+		DamageFactor "Suck", 5.0;
+		Painchance "Suck", 250;
+	}
+}
+
+class AlienSpectre5New : AlienSpectre5 replaces AlienSpectre5
+{
+	default
+	{
+		DamageFactor "Suck", 5.0;
+		Painchance "Suck", 250;
+	}
+}
+
+class EntityBossNew : EntityBoss replaces EntityBoss
+{
+	default
+	{
+		DamageFactor "Suck", 2.5;
+		Painchance "Suck", 256;
 	}
 }
 // TBC :V
