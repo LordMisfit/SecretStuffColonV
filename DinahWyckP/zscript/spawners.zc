@@ -118,7 +118,7 @@ class ShellBoxSpawner : RandomSpawner2 replaces ShellBox
 	default
 	{
 		DropItem "EggAmmo", 256, 252;
-		DropItem "EggAmmoBig", 256, 254;
+		DropItem "EggAmmoBig", 256, 4;
 	}
 }
 
