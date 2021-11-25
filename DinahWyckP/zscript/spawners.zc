@@ -43,8 +43,8 @@ class StimpackSpawner : RandomSpawner2 replaces Stimpack
 {
 	default
 	{
-		DropItem "GalaApple", 256, 252;
-		DropItem "GalaApple", 256, 4;
+		DropItem "GalaApple", 256, 127;
+		DropItem "GoldApple", 256, 1;
 	}
 }
 
@@ -52,8 +52,8 @@ class MedikitSpawner : RandomSpawner2 replaces Medikit
 {
 	default
 	{
-		DropItem "AppleWine", 256, 252;
-		DropItem "AppleWine", 256, 4;
+		DropItem "AppleWine", 256, 127;
+		DropItem "PlatinumApple", 256, 1;
 	}
 }
 
@@ -150,8 +150,9 @@ class CrystalVialSpawner : RandomSpawner2 replaces CrystalVial
 {
 	default
 	{
-		DropItem "GalaApple", 256, 240;
-		DropItem "AppleWine", 256, 16;
+		DropItem "GalaApple", 256, 480;
+		DropItem "AppleWine", 256, 28;
+		DropItem "GoldApple", 256, 4;
 	}
 }
 
@@ -159,8 +160,9 @@ class ArtiHealthSpawner : RandomSpawner2 replaces ArtiHealth
 {
 	default
 	{
-		DropItem "AppleWine", 256, 240;
-		DropItem "GalaApple", 256, 16;
+		DropItem "AppleWine", 256, 480;
+		DropItem "GalaApple", 256, 28;
+		DropItem "PlatinumApple", 256, 4;
 	}
 }
 

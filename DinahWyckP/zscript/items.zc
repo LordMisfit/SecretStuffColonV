@@ -185,6 +185,102 @@ Class GalaAppleWeak : GalaApple
 	}
 }
 
+class GoldApple : CustomInventoryExt
+{
+	default
+	{
+		//$Category RPArtifacts
+		Inventory.Icon "GAPLA0";
+		Inventory.PickupMessage "";
+		Inventory.PickupSound "";
+		Tag "Golden Apple: Gives +2 Maximum HP";
+		+COUNTITEM
+		+DONTGIB
+	}
+	States
+	{
+		Spawn:
+			GAPL A -1;
+			Stop;
+		Pickup:
+			TNT1 A 0
+			{
+				int temp1 = player.mo.health;
+				int temp2 = player.mo.CountInv("PlayerMaxHP");
+				int temp3 = temp2 * 3.0;
+				int inc = 2;
+				int inc2 = (inc * frandompick(2,2.5,3));
+				
+				temp2 += inc;
+				temp1 += inc2;
+				temp3 = temp2 * 3.0;
+				if (temp1 > temp3) temp1 = temp3;
+				player.mo.stamina += inc;
+				player.mo.health = player.health = temp1;
+				player.mo.A_SetInventory("PlayerMaxHP",temp2);
+				/*
+				let MiscItem = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+				if (MiscItem) MiscItem.MaxHealthTrue = temp2;
+				*/
+				A_StartSound("Dinah/eatapple",CHAN_VOICE);
+				A_StartSound("Dinah/eatapple",101,CHANF_DEFAULT,1.0,ATTN_NONE,frandom(0.90,1.10));
+				A_SetBlend("f1 ff f1",0.25,10);
+				Console.Printf("\c[red]A Golden gala apple! \c[green]+%d HP! \c[gold]+%d Maximum HP!", inc2, inc);
+				invoker.A_FadeOut(1.0,FTF_REMOVE);
+			}
+			Fail;
+	}
+}
+
+class PlatinumApple : CustomInventoryExt
+{
+	default
+	{
+		//$Category RPArtifacts
+		Inventory.Icon "GAPLA0";
+		Inventory.PickupMessage "";
+		Inventory.PickupSound "";
+		Tag "Golden Apple: Gives +5 Maximum HP";
+		+COUNTITEM
+		+DONTGIB
+	}
+	States
+	{
+		Spawn:
+			PAPL A -1;
+			Stop;
+		Pickup:
+			TNT1 A 0
+			{
+				int temp1 = player.mo.health;
+				int temp2 = player.mo.CountInv("PlayerMaxHP");
+				int temp3 = temp2 * 3.0;
+				int inc = 5;
+				int inc2 = (inc * frandompick(2,2.5,3));
+				
+				temp2 += inc;
+				temp1 += inc2;
+				temp3 = temp2 * 3.0;
+				if (temp1 > temp3) temp1 = temp3;
+				player.mo.stamina += inc;
+				player.mo.health = player.health = temp1;
+				player.mo.A_SetInventory("PlayerMaxHP",temp2);
+				/*
+				let MiscItem = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+				if (MiscItem) MiscItem.MaxHealthTrue = temp2;
+				*/
+				A_StartSound("Dinah/eatapple",CHAN_VOICE);
+				A_StartSound("Dinah/eatapple",101,CHANF_DEFAULT,1.0,ATTN_NONE,frandom(0.90,1.10));
+				A_StartSound("Dinah/eatapple",102,CHANF_DEFAULT,1.0,ATTN_NONE,frandom(0.825,1.175));
+				A_StartSound("Dinah/eatapple",103,CHANF_DEFAULT,1.0,ATTN_NONE,frandom(0.75,1.25));
+				A_SetBlend("f1 ff f1",0.625,25);
+				Console.Printf("\c[red]A Platinum gala apple! \c[green]+%d HP! \c[gold]+%d Maximum HP!", inc2, inc);
+				invoker.A_FadeOut(1.0,FTF_REMOVE);
+			}
+			Fail;
+	}
+}
+
 class CupOfTea : CustomInventoryExt
 {
 	default

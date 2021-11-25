@@ -519,7 +519,7 @@ class DinahPlayer : DDPlayerPawn // HereticPlayer
 		Player.AttackZOffset 8;
 		Player.AirCapacity 1;
 		Player.JumpZ 9;
-		Player.GruntSpeed 12;
+		//Player.GruntSpeed 12;
 		Player.ViewHeight 37;
 		Player.InvulnerabilityMode "Reflective";
 		Species "Players";
