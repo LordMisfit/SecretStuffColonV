@@ -90,7 +90,8 @@ class ClipSpawner : RandomSpawner2 replaces Clip
 {
 	default
 	{
-		DropItem "MalletAmmo", 256, 256;
+		DropItem "MalletAmmo", 256, 252;
+		DropItem "MalletAmmoBig", 256, 4;
 	}
 }
 
@@ -98,7 +99,8 @@ class ClipBoxSpawner : RandomSpawner2 replaces ClipBox
 {
 	default
 	{
-		DropItem "JackAmmo", 256, 256;
+		DropItem "JackAmmo", 256, 252;
+		DropItem "JackAmmoBig", 256, 4;
 	}
 }
 
@@ -106,7 +108,8 @@ class ShellSpawner : RandomSpawner2 replaces Shell
 {
 	default
 	{
-		DropItem "BlunderAmmo", 256, 256;
+		DropItem "BlunderAmmo", 256, 252;
+		DropItem "BlunderAmmoBig", 256, 4;
 	}
 }
 
@@ -114,7 +117,8 @@ class ShellBoxSpawner : RandomSpawner2 replaces ShellBox
 {
 	default
 	{
-		DropItem "EggAmmo", 256, 256;
+		DropItem "EggAmmo", 256, 252;
+		DropItem "EggAmmoBig", 256, 254;
 	}
 }
 
@@ -122,7 +126,8 @@ class RocketBoxSpawner : RandomSpawner2 replaces RocketBox
 {
 	default
 	{
-		DropItem "PikeAmmo", 256, 256;
+		DropItem "PikeAmmo", 256, 252;
+		DropItem "PikeAmmoBig", 256, 4;
 	}
 }
 
@@ -138,7 +143,8 @@ class CellPackSpawner : RandomSpawner2 replaces CellPack
 {
 	default
 	{
-		DropItem "MusicAmmo", 256, 256;
+		DropItem "MusicAmmo", 256, 252;
+		DropItem "MusicAmmoBig", 256, 4;
 	}
 }
 
