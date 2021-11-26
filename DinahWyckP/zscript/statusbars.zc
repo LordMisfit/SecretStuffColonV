@@ -660,33 +660,36 @@ class DDStatusBarMain : BaseStatusBar
 		int dashcharges = CPlayer.mo.CountInv("DashCharges");
 		int dashcharge = CPlayer.mo.CountInv("DashCharge");
 		int dashtics = CPlayer.mo.CountInv("DashTics");
-		int dashbarunits = dash * 0.67;
+		int dashmaxcharge = CPlayer.mo.CountInv("DashMaxCharge");
+		double dashmeterlength = (0.75 + (CPlayer.mo.CountInv("PlayerLevel") * 0.01));
+		if (dashmeterlength > 1.5) dashmeterlength = 1.5;
+		int dashbarunits = dash * dashmeterlength;
 		digy = -100;
-		digx = 20;
+		digx = 18;
 		string dun = "DASHUNI2";
 		if (candash) dun = "DASHUNIT";
-		for (int i; i < dashbarunits; i++)
+		if (DashMaxCharge >= 35)
 		{
-			DrawImage(dun, (digx+i, digy), 0, HX_SHADOW); // -46, -1
+			for (int i; i < dashbarunits; i++) DrawImage(dun, (digx+i, digy), 0, HX_SHADOW); // -46, -1
 		}
 		
 		if (dydudebug_dashmeter)
 		{
-			digy = -112;
+			digy = -116;
 			digx = 48;
 			if (candash) DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dash, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_LightBlue);
 							else DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dash, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_Brick);
-			digy = -120;
+			digy = -124;
 			digx = 48;
 			if (candash) DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashcharge, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_LightBlue);
 							else DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashcharge, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_Brick);
-			digy = -112;
+			digy = -116;
 			digx = 80;
 			if (candash) DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashcharges, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_LightBlue);
 							else DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashcharges, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_Brick);
 			if (dashtics)
 			{
-				digy = -120;
+				digy = -122;
 				digx = 80;
 				if (candash) DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashtics, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_LightBlue);
 								else DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(dashtics, 3), (digx, digy), DI_TEXT_ALIGN_RIGHT, font.cr_Brick);

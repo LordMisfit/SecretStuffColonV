@@ -1107,8 +1107,14 @@ class DynamicMusic : Inventory
 // Dash and double jump code by TheCamaleonMaligno ( https://www.youtube.com/watch?v=mTfGxY_Afhs )
 class PlayerDashJump : Inventory
 {
+	const SKILL_VERY_EASY = 0;
+	const SKILL_EASY = 1;
+	const SKILL_NORMAL = 2;
+	const SKILL_HARD = 3;
+	const SKILL_VERY_HARD = 4;
+
 	Double DashDir, DashSpeed, DashVSpeed;
-	Int DashTics, DashCharge, AirTics;
+	Int DashTics, DashCharge, AirTics, DashCost;
 	Bool DJump, Waiting;
 	string dashgruntsound;
 	int dashgruntchance;
@@ -1116,7 +1122,10 @@ class PlayerDashJump : Inventory
 	int airdashtype;
 	Int DashMaxCharge, MaxDashes, MaxDashTics;
 	bool slownthres1, slownthres2, slownthres3;
-	int berserked;
+	bool berserked;
+	int PlayerLevel;
+	int BaseDashChargeMax;
+	int extradashcharge;
 	
 	int ClassCheck;
 	
@@ -1136,18 +1145,32 @@ class PlayerDashJump : Inventory
 		PlayerInfo PlayDash = Owner.Player;
 		Int BTInput = PlayDash.cmd.buttons;
 		dashgruntchance = randompick(66,66,67);
-		DashMaxCharge = 70;
-		MaxDashes = 2;
+		MaxDashes = 1;
+		DashCost = 35;
 		MaxDashTics = randompick(6,6,7,7,7);
 		double dashsndvol = 0.67;
 		double dashgruntsndvol = 1.0;
-
-		if (ClassCheck == 0) 
+		PlayerLevel = owner.CountInv("PlayerLevel");
+		int AddDashLevel = (PlayerLevel * 1.25);
+		double ADashFactor = 1.5;
+		if (skill <= SKILL_VERY_EASY) AddDashLevel = (PlayerLevel * (1.625 * ADashFactor));
+		if (skill == SKILL_EASY) AddDashLevel = (PlayerLevel * (1.5 * ADashFactor));
+		if (skill == SKILL_NORMAL) AddDashLevel = (PlayerLevel * (1.375 * ADashFactor));
+		if (skill == SKILL_HARD) AddDashLevel = (PlayerLevel * (1.25 * ADashFactor));
+		if (skill >= SKILL_VERY_HARD) AddDashLevel = (PlayerLevel * (1.125 * ADashFactor));
+		
+		if (ClassCheck == 0)
 		{
-			DashMaxCharge = 70;
-			MaxDashes = 2;
-			DashCharge = DashMaxCharge; 
+			if (skill == SKILL_VERY_EASY) BaseDashChargeMax = random(32,35);
+			if (skill == SKILL_EASY) BaseDashChargeMax = random(30,32);
+			if (skill == SKILL_NORMAL) BaseDashChargeMax = random(27,30);
+			if (skill == SKILL_HARD) BaseDashChargeMax = random(25,27);
+			if (skill >= SKILL_VERY_HARD) BaseDashChargeMax = random(22,25);
 		}
+
+		DashMaxCharge = BaseDashChargeMax + AddDashLevel + extradashcharge;
+		if (berserked) DashMaxCharge *= 1.125;
+		if (debugdashing) Console.Printf("DashMaxCharge: %d (%d, %d)", DashMaxCharge, BaseDashChargeMax, AddDashLevel);
 		
 		airdashtype = 0;
 		// 0 = No loss of altitude
@@ -1161,7 +1184,7 @@ class PlayerDashJump : Inventory
 		
 		if (!Waiting && 
 				(BTInput & BT_USER3) && 
-				DashCharge >= (DashMaxCharge / MaxDashes) && 
+				DashCharge >= DashCost && 
 				pushingdirection &&
 				!DashTics)
 		{
@@ -1176,8 +1199,8 @@ class PlayerDashJump : Inventory
 			If ((BTInput & BT_BACK) && (BTInput & BT_MOVELEFT)) DashDir = (180 - 45);
 			If ((BTInput & BT_BACK) && (BTInput & BT_MOVERIGHT)) DashDir = (180 + 45);
 			DashDir += Owner.Angle;
-			//DashCharge = Max(0, (DashCharge - (DashMaxCharge / MaxDashes)));
-			DashCharge -= randompick(ceil(DashMaxCharge / MaxDashes),floor(DashMaxCharge / MaxDashes));
+
+			DashCharge -= DashCost;
 			if (DashCharge <= 0) 
 			{
 				Waiting = True;
@@ -1411,10 +1434,12 @@ class PlayerDashJump : Inventory
 			if (debugdashing) Console.Printf("DashCharge: %d / %d", DashCharge, DashMaxCharge);
 		}
 		
-		int dashcharges = (DashCharge / (DashMaxCharge / MaxDashes));
-		int dashgauge = DashCharge * 100 / DashMaxCharge;
+		int dashcharges = (DashCharge / DashCost);
+		int dashgauge;
+		if (DashMaxCharge) dashgauge = DashCharge * 100 / DashMaxCharge;
 		if (dashgauge > 100) dashgauge = 100;
 		owner.A_SetInventory("DashGauge",dashgauge);
+		owner.A_SetInventory("DashMaxCharge",DashMaxCharge);
 		owner.A_SetInventory("DashCharges",dashcharges);
 		owner.A_SetInventory("DashCharge",DashCharge);
 		owner.A_SetInventory("DashTics",DashTics);

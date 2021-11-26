@@ -751,6 +751,16 @@ class DashCharges : PlaceholderItem
 	}
 }
 
+class DashMaxCharge : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 0x7FFFFFFD;
+		+INVENTORY.KEEPDEPLETED 
+	}
+}
+
 class DashCharge : PlaceholderItem
 {
 	default
