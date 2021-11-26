@@ -1,6 +1,7 @@
 //INVENTORY
 ACTOR CherryBombShot
 {
+	Tag "Cherry Bomb"
 	Radius 3
 	Height 3
 	Speed 40
@@ -56,6 +57,7 @@ ACTOR CherryBombShot
 
 ACTOR CherryBombShotBerserk : CherryBombShot
 {
+	Tag "-Cherry Bomb-"
 	Speed 80
 	Damage 50
 	DamageType "CherryBomb"
@@ -70,6 +72,7 @@ ACTOR CherryBombShotBerserk : CherryBombShot
 
 actor BadCherryBomb : CherryBombShot
 {
+	Tag "Cherry Bomb"
 	Speed 15
 	Gravity 0.05
 	States
@@ -967,218 +970,218 @@ actor Hammerduck 3118
 
 actor CroquetBall
 {
-  Radius 8
-  Height 12
-  Speed 18
-  Damage 3
-  DamageType "Cricket"
-  Projectile
-  +RANDOMIZE
-  //+NOEXTREMEDEATH
-  RenderStyle normal
-  DeathSound "croquet/ballhit"
-  States
-  {
-  Spawn:
-    CBAL AB 3
-    Loop
-  Death:
-    CBAL CDEF 4 Bright
-    Stop
-  Crash:
-    CBAL CDEF 4 Bright
-    Stop
-  XDeath:
-    TNT1 A 1 
-    Stop
-  }
+	Radius 8
+	Height 12
+	Speed 18
+	Damage 3
+	DamageType "Cricket"
+	Projectile
+	+RANDOMIZE
+	//+NOEXTREMEDEATH
+	RenderStyle normal
+	DeathSound "croquet/ballhit"
+	States
+	{
+		Spawn:
+			CBAL AB 3
+			Loop
+		Death:
+			CBAL CDEF 4 Bright
+			Stop
+		Crash:
+			CBAL CDEF 4 Bright
+			Stop
+		XDeath:
+			TNT1 A 1 
+			Stop
+	}
 }
 
 //PLANTER
 actor Planter 3119
 {
 	//$Category RPMonsters
-    Health 80
-    Radius 20
-    Height 56
-    Speed 10
-    PainChance 256
+	Health 80
+	Radius 20
+	Height 56
+	Speed 10
+	PainChance 256
 	DamageFactor "Fire", 5
 	DamageFactor "Chop", 5
 	DamageFactor "Cricket", 2
 	DamageFactor "Lead", 0.5
-    DamageFactor "Bap", 0
+	DamageFactor "Bap", 0
 	PainChance "Bap", 200
-    MONSTER 
-    +FLOORCLIP
+	MONSTER 
+	+FLOORCLIP
 	+NOBLOOD
 	+NOINFIGHTING
-    SeeSound "gard/sight"
-    PainSound "gard/pain"
-    DeathSound "gard/death"
-    ActiveSound "gard/active"
+	SeeSound "gard/sight"
+	PainSound "gard/pain"
+	DeathSound "gard/death"
+	ActiveSound "gard/active"
 	MeleeSound "gard/swing"
-    Obituary "%o was clipped by a planter."
+	Obituary "%o was clipped by a planter."
 	Tag "Planter"
 	SpawnID 3119
-    States
-    {
-    Spawn:
-        GARD P 10 A_Look
-        Loop
-    See:
-        GARD AABBCCDD 3 A_Chase
-        Loop
-	Melee:
-        GARD E 0 A_PlaySound("gard/sight",CHAN_VOICE)
-		GARD E 0 //ACS_Execute(102,0,0,0,0)
-		GARD E 6 A_FaceTarget
-        GARD F 6 A_CustomMeleeAttack (random(15,35), "gard/swing", "gard/swing", "", 1) 
-		GARD G 6 
-		GARD F 6 
-        Goto See
-    Pain:
-    	GARD H 6 A_Pain
-		GARD H 3 //ACS_Execute(102,0,0,0,0)
-    	Goto See
-    Death.Suck:
-		GARD H 5 A_PlaySound("VacDed",CHAN_BODY)
-		GARD H 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,4)
-		Stop
-	Death:
-        GARD I 5 Bright A_Scream
-        GARD JKLMN 4 Bright 
-        GARD O 5 Bright A_NoBlocking
-        Stop
-    }
+	States
+		{
+			Spawn:
+				GARD P 10 A_Look
+				Loop
+			See:
+				GARD AABBCCDD 3 A_Chase
+				Loop
+			Melee:
+				GARD E 0 A_PlaySound("gard/sight",CHAN_VOICE)
+				GARD E 0 //ACS_Execute(102,0,0,0,0)
+				GARD E 6 A_FaceTarget
+				GARD F 6 A_CustomMeleeAttack (random(15,35), "gard/swing", "gard/swing", "", 1) 
+				GARD G 6 
+				GARD F 6 
+				Goto See
+			Pain:
+				GARD H 6 A_Pain
+				GARD H 3 //ACS_Execute(102,0,0,0,0)
+				Goto See
+			Death.Suck:
+				GARD H 5 A_PlaySound("VacDed",CHAN_BODY)
+				GARD H 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,4)
+				Stop
+			Death:
+				GARD I 5 Bright A_Scream
+				GARD JKLMN 4 Bright 
+				GARD O 5 Bright A_NoBlocking
+				Stop
+		}
 }
 
 actor PlanterBird : Planter 3129
 {
-  Tag "Planter (bird)"
-  SpawnID 3129
-  States
-  {
-  Missile:
-        GARD P 0 //ACS_Execute(102,0,0,0,0)
-		GARD PQRS 4 A_FaceTarget
-        GARD Q 6 A_CustomMissile("BirdBall",48,random(-5,5)) 
-		GARD QP 6 A_Feathers
-        Goto See
-  }
+	Tag "Planter (bird)"
+	SpawnID 3129
+	States
+	{
+		Missile:
+			GARD P 0 //ACS_Execute(102,0,0,0,0)
+			GARD PQRS 4 A_FaceTarget
+			GARD Q 6 A_CustomMissile("BirdBall",48,random(-5,5)) 
+			GARD QP 6 A_Feathers
+			Goto See
+	}
 }
 
 actor BirdBall
 {
-    Radius 10
-    Height 12
-    Speed 9
+	Radius 10
+	Height 12
+	Speed 9
 	Health 5
-    Damage 2
-    +SEEKERMISSILE
+	Damage 2
+	+SEEKERMISSILE
 	+SHOOTABLE
 	+NOBLOOD
 	+NOEXTREMEDEATH
-    PROJECTILE
-    Renderstyle Normal
-    SeeSound "birdy/sight"
+	PROJECTILE
+	Renderstyle Normal
+	SeeSound "birdy/sight"
 	DeathSound "birdy/death"
-    States
-    {
-    Spawn:
-    	FFLY AB 2 A_SeekerMissile (10,10)
-        Loop
-    Death:
-        JSPL AAAA 1 A_Feathers
-        Stop
-    }
+	States
+	{
+		Spawn:
+			FFLY AB 2 A_SeekerMissile (10,10)
+			Loop
+		Death:
+			JSPL AAAA 1 A_Feathers
+			Stop
+	}
 }
 
 //MAN-CHINEEL
 actor Manchineel 4119
 {
 	//$Category RPMonsters
-    Health 100
-    Radius 20
-    Height 56
+	Health 100
+	Radius 20
+	Height 56
 	Mass 10000
-    Speed 0
-    PainChance 256
+	Speed 0
+	PainChance 256
 	DamageFactor "Fire", 5
 	DamageFactor "Chop", 5
 	DamageFactor "Cricket", 2
 	DamageFactor "Lead", 0.5
-    DamageFactor "Bap", 0
+	DamageFactor "Bap", 0
 	PainChance "Bap", 0
-    MONSTER 
-    +FLOORCLIP
+	MONSTER 
+	+FLOORCLIP
 	+NOBLOOD
 	+NOINFIGHTING
 	+CANNOTPUSH
 	+MISSILEMORE
-    PainSound "gard/pain"
-    DeathSound "gard/death"
+	PainSound "gard/pain"
+	DeathSound "gard/death"
 	MeleeSound "gard/swing"
-    Obituary "%o was clipped by a man-chineel."
-    MeleeDamage 3
+	Obituary "%o was clipped by a man-chineel."
+	MeleeDamage 3
 	MissileType SeedBall
 	Tag "Man-Chineel"
-    States
-    {
-    Spawn:
-        TRNT A 10 A_Look
-        Loop
-    See:
-        TRNT AA 3 A_Chase
-        Loop
-	Melee:
-	Missile:
-        TRNT BCD 6
-		TRNT E 0 A_PlaySound("gard/sight",CHAN_VOICE)
-		TRNT E 0 //ACS_Execute(102,0,0,0,0)
-		TRNT E 6 A_FaceTarget
-        TRNT F 6 A_ComboAttack 
-		TRNT G 6 
-		TRNT DCB 4 
-        Goto See
-    Pain:
-    	TRNT H 6 A_Pain
-		TRNT DCB 2
-    	Goto See
-    Death.Suck:
-		TRNT H 5 A_PlaySound("VacDed",CHAN_BODY)
-		TRNT H 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,6)
-		Stop
-	Death:
-        TRNT I 5 Bright A_Scream
-		TRNT JK 5 Bright
-        GARD LMN 4 Bright 
-        GARD O 5 Bright A_NoBlocking
-        Stop
-    }
+	States
+	{
+		Spawn:
+			TRNT A 10 A_Look
+			Loop
+		See:
+			TRNT AA 3 A_Chase
+			Loop
+		Melee:
+		Missile:
+			TRNT BCD 6
+			TRNT E 0 A_PlaySound("gard/sight",CHAN_VOICE)
+			TRNT E 0 //ACS_Execute(102,0,0,0,0)
+			TRNT E 6 A_FaceTarget
+			TRNT F 6 A_ComboAttack 
+			TRNT G 6 
+			TRNT DCB 4 
+			Goto See
+		Pain:
+			TRNT H 6 A_Pain
+			TRNT DCB 2
+			Goto See
+		Death.Suck:
+			TRNT H 5 A_PlaySound("VacDed",CHAN_BODY)
+			TRNT H 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,6)
+			Stop
+		Death:
+			TRNT I 5 Bright A_Scream
+			TRNT JK 5 Bright
+			GARD LMN 4 Bright 
+			GARD O 5 Bright A_NoBlocking
+			Stop
+	}
 }
 
 actor SeedBall
 {
-  Radius 8
-  Height 12
-  Speed 18
-  Damage 3
-  Projectile
-  +RANDOMIZE
-  +NOEXTREMEDEATH
-  RenderStyle normal
-  SeeSound "MalletSwing"
-  DeathSound "croquet/ballhit"
-  States
-  {
-  Spawn:
-    ORNJ ABCD 2
-    Loop
-  Death:
-    ORNJ E 12 Bright
-    Stop
-  }
+	Radius 8
+	Height 12
+	Speed 18
+	Damage 3
+	Projectile
+	+RANDOMIZE
+	+NOEXTREMEDEATH
+	RenderStyle normal
+	SeeSound "MalletSwing"
+	DeathSound "croquet/ballhit"
+	States
+	{
+		Spawn:
+			ORNJ ABCD 2
+			Loop
+		Death:
+			ORNJ E 12 Bright
+			Stop
+	}
 }
 
 //CENTAURION
@@ -1283,220 +1286,220 @@ actor CentaurionSgt : Centaurion 4121
 //PUDDING DOG
 ACTOR PuddingDog 20303
 {
-  //$Category RPMonsters
-  Health 250
-  PainChance 256
-  Painchance "Suck", 64
-  DamageFactor "Bap", 0
-  PainChance "Bap", 200
-  Speed 14
-  Radius 20
-  Height 56
-  Mass 150
-  Scale 0.75
-  DamageFactor "chop", 0.5
-  Damagefactor "breakfast", 2
-  DamageFactor "Zap", 2
-  Meleedamage 3
-  Meleerange 56
-  Maxtargetrange 192
-  Meleethreshold 96
-  Monster
-  +FLOORCLIP
-  +NOINFIGHTING
-  +NOBLOOD
-  SeeSound "pdog/active"
-  PainSound "misc/splat"
-  DeathSound "misc/splat"
-  ActiveSound "pdog/active"
-  Obituary "%o was dipped by a pudding dog."
-  Tag "Pudding Dog"
-  SpawnID 20303
-  States
-  {
-  Spawn:
-    CDOG B 10 A_Look
-    Loop
-  See:
-    CDOG AABB 2 A_Chase
-    Loop
-  Missile:
-    CDOG C 4 A_FaceTarget
-	CDOG C 0 A_CheckProximity("MissilePounce",PLAYERPAWN,640,1,CPXF_CHECKSIGHT|CPXF_ANCESTOR)
-    CDOG C 0
-	Goto See
-  MissilePounce:
-	CDOG C 0 //ACS_Execute(102,0,0,0,0)
-	CDOG C 4 A_FaceTarget
-	CDOG C 0 A_PlaySoundEX ("pdog/attack", CHAN_VOICE)
-    CDOG C 0 ThrustThingZ (0, 27, 0, 0)
-    CDOG C 0 ThrustThing (angle*256/360, 24, 0, 0)
-  JumpUp:
-    CDOG D 3 A_CustomMeleeAttack(random[MummyAttack](2,6)*2, "misc/splat", " ")
-	CDOG D 1 A_CustomMeleeAttack(random[MummyAttack](2,6)*2, "misc/splat", " ")
-	CDOG D 1 A_CustomMeleeAttack(random[MummyAttack](2,6)*2, "misc/splat", " ")
-  JumpDown:
-    CDOG D 1 A_CheckFloor ("Land")
-	CDOG D 1
-	CDOG D 1 
-    loop
-  Land:
-    CDOG E 0 A_FaceTarget
-	CDOG E 0 A_CustomMeleeAttack(random[MummyAttack](2,6)*2, "misc/splat", " ")
-	CDOG E 4 A_Stop
-	CDOG F 4
-	CDOG E 4
-    goto See
-  Pain:
-    CDOG F 5 A_Pain
-	CDOG E 0 A_Jump(127,1)
-	CDOG E 0 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
-    CDOG E 3
-	CDOG C 3
-    Goto See
-  Pain.Chop:
-    CDOG F 5 A_Pain
-	CDOG E 0 A_Jump(127,1)
-	CDOG E 0 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
-    CDOG E 3 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
-	CDOG C 3
-    Goto See
-  Death.Suck:
-	CDOG F 5 A_PlaySound("VacDed",CHAN_BODY)
-	CDOG F 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,6)
-	Stop
-  Death:
-    CDOG F 6 A_Scream
-    CDOG G 6 A_NoBlocking
-	CDOG H 1 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
-	CDOG H 1 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
-	CDOG H 1 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
-	CDOG H 1 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
-    Stop
-  }
+	//$Category RPMonsters
+	Health 250
+	PainChance 256
+	Painchance "Suck", 64
+	DamageFactor "Bap", 0
+	PainChance "Bap", 200
+	Speed 14
+	Radius 20
+	Height 56
+	Mass 150
+	Scale 0.75
+	DamageFactor "chop", 0.5
+	Damagefactor "breakfast", 2
+	DamageFactor "Zap", 2
+	Meleedamage 3
+	Meleerange 56
+	Maxtargetrange 192
+	Meleethreshold 96
+	Monster
+	+FLOORCLIP
+	+NOINFIGHTING
+	+NOBLOOD
+	SeeSound "pdog/active"
+	PainSound "misc/splat"
+	DeathSound "misc/splat"
+	ActiveSound "pdog/active"
+	Obituary "%o was dipped by a pudding dog."
+	Tag "Pudding Dog"
+	SpawnID 20303
+	States
+	{
+		Spawn:
+			CDOG B 10 A_Look
+			Loop
+		See:
+			CDOG AABB 2 A_Chase
+			Loop
+		Missile:
+			CDOG C 4 A_FaceTarget
+			CDOG C 0 A_CheckProximity("MissilePounce",PLAYERPAWN,640,1,CPXF_CHECKSIGHT|CPXF_ANCESTOR)
+			CDOG C 0
+			Goto See
+		MissilePounce:
+			CDOG C 0 //ACS_Execute(102,0,0,0,0)
+			CDOG C 4 A_FaceTarget
+			CDOG C 0 A_PlaySoundEX ("pdog/attack", CHAN_VOICE)
+			CDOG C 0 ThrustThingZ (0, 27, 0, 0)
+			CDOG C 0 ThrustThing (angle*256/360, 24, 0, 0)
+		JumpUp:
+			CDOG D 3 A_CustomMeleeAttack(random[MummyAttack](2,6)*2, "misc/splat", " ")
+		CDOG D 1 A_CustomMeleeAttack(random[MummyAttack](2,6)*2, "misc/splat", " ")
+		CDOG D 1 A_CustomMeleeAttack(random[MummyAttack](2,6)*2, "misc/splat", " ")
+		JumpDown:
+			CDOG D 1 A_CheckFloor ("Land")
+		CDOG D 1
+		CDOG D 1 
+			loop
+		Land:
+			CDOG E 0 A_FaceTarget
+			CDOG E 0 A_CustomMeleeAttack(random[MummyAttack](2,6)*2, "misc/splat", " ")
+			CDOG E 4 A_Stop
+			CDOG F 4
+			CDOG E 4
+			goto See
+		Pain:
+			CDOG F 5 A_Pain
+			CDOG E 0 A_Jump(127,1)
+			CDOG E 0 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
+			CDOG E 3
+			CDOG C 3
+			Goto See
+		Pain.Chop:
+			CDOG F 5 A_Pain
+			CDOG E 0 A_Jump(127,1)
+			CDOG E 0 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
+			CDOG E 3 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
+			CDOG C 3
+			Goto See
+		Death.Suck:
+			CDOG F 5 A_PlaySound("VacDed",CHAN_BODY)
+			CDOG F 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,6)
+			Stop
+		Death:
+			CDOG F 6 A_Scream
+			CDOG G 6 A_NoBlocking
+			CDOG H 1 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
+			CDOG H 1 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
+			CDOG H 1 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
+			CDOG H 1 A_ThrowGrenade("PupGrenade",2,random(2,6),random(6,10),0)
+			Stop
+	}
 }
 
 ACTOR PupGrenade
 {
-  Radius 3
-   Height 3
-   Speed 10
-   Damage 1
-   Scale 0.25
-   PROJECTILE
-   -NOGRAVITY
-   RENDERSTYLE Normal
-   SeeSound "pdog/sight"
-   States
-   {
-   Spawn:
-	  CDOG D 3
-      loop
-   Death:
-    CDOG EFE 2
-	CDOG E 0 A_SpawnItemEX ("puddingpup",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
-	Stop
-   }
+	Radius 3
+	Height 3
+	Speed 10
+	Damage 1
+	Scale 0.25
+	PROJECTILE
+	-NOGRAVITY
+	RENDERSTYLE Normal
+	SeeSound "pdog/sight"
+	States
+	{
+		Spawn:
+			CDOG D 3
+			loop
+		Death:
+			CDOG EFE 2
+			CDOG E 0 A_SpawnItemEX ("puddingpup",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+			Stop
+	}
 }
 
 ACTOR PuddingPup 20304
 {
-  //$Category RPMonsters
-  Health 5
-  PainChance 256
-  Speed 18
-  Radius 20
-  Height 32
-  Mass 150
-  Scale 0.25
-  Meleedamage 1
-  Meleerange 40
-  Maxtargetrange 192
-  Meleethreshold 96
-  Monster
-  +FLOORCLIP
-  +NOINFIGHTING
-  +MISSILEMORE
-  +NOBLOOD
-  SeeSound "pdog/sight"
-  PainSound "misc/splat"
-  DeathSound "misc/splat"
-  ActiveSound "pdog/sight"
-  Obituary "%o was swarmed by a pudding pup."
-  Tag "Pudding Pup"
-  States
-  {
-  Spawn:
-    CDOG B 10 A_Look
-    Loop
-  See:
-    CDOG AABB 2 A_Chase
-    Loop
-  Missile:
-    CDOG C 3 A_FaceTarget
-	CDOG C 0 A_CheckProximity("MissilePounce",PLAYERPAWN,480,1,CPXF_CHECKSIGHT|CPXF_ANCESTOR)
-    CDOG C 0 
-	Goto See
-  MissilePounce:
-	CDOG C 0 //ACS_Execute(102,0,0,0,0)
-	CDOG C 3 A_FaceTarget
-	CDOG C 0 A_PlaySoundEX ("pdog/attack", CHAN_VOICE)
-    CDOG C 0 ThrustThingZ (0, 20, 0, 0)
-    CDOG C 0 ThrustThing (angle*256/360, 24, 0, 0)
-  JumpUp:
-    CDOG D 3 A_CustomMeleeAttack(random[MummyAttack](1,2)*2, "misc/splat", " ")
-	CDOG D 1 A_CustomMeleeAttack(random[MummyAttack](1,2)*2, "misc/splat", " ")
-	CDOG D 1 A_CustomMeleeAttack(random[MummyAttack](1,2)*2, "misc/splat", " ")
-  JumpDown:
-    CDOG D 1 A_CheckFloor ("Land")
-	CDOG D 1
-	CDOG D 1 
-    loop
-  Land:
-    CDOG F 0 A_FaceTarget
-	CDOG F 0 A_CustomMeleeAttack(random[MummyAttack](1,2)*2, "misc/splat", " ")
-	CDOG E 4 A_Stop
-	CDOG F 4
-	CDOG E 4
-    goto See
-  Pain:
-    CDOG F 4 A_Pain
-    CDOG E 2 //ACS_Execute(102,0,0,0,0)
-	CDOG C 2
-    Goto See
-  Death.Suck:
-	CDOG F 5 A_PlaySound("VacDed",CHAN_BODY)
-	CDOG F 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,1)
-	Stop
-  Death:
-    CDOG F 5 A_Scream
-    CDOG G 5 A_NoBlocking
-    CDOG H 5
-    Stop
-  }
+	//$Category RPMonsters
+	Health 5
+	PainChance 256
+	Speed 18
+	Radius 20
+	Height 32
+	Mass 150
+	Scale 0.25
+	Meleedamage 1
+	Meleerange 40
+	Maxtargetrange 192
+	Meleethreshold 96
+	Monster
+	+FLOORCLIP
+	+NOINFIGHTING
+	+MISSILEMORE
+	+NOBLOOD
+	SeeSound "pdog/sight"
+	PainSound "misc/splat"
+	DeathSound "misc/splat"
+	ActiveSound "pdog/sight"
+	Obituary "%o was swarmed by a pudding pup."
+	Tag "Pudding Pup"
+	States
+	{
+		Spawn:
+			CDOG B 10 A_Look
+			Loop
+		See:
+			CDOG AABB 2 A_Chase
+			Loop
+		Missile:
+			CDOG C 3 A_FaceTarget
+			CDOG C 0 A_CheckProximity("MissilePounce",PLAYERPAWN,480,1,CPXF_CHECKSIGHT|CPXF_ANCESTOR)
+			CDOG C 0 
+		Goto See
+		MissilePounce:
+			CDOG C 0 //ACS_Execute(102,0,0,0,0)
+			CDOG C 3 A_FaceTarget
+			CDOG C 0 A_PlaySoundEX ("pdog/attack", CHAN_VOICE)
+			CDOG C 0 ThrustThingZ (0, 20, 0, 0)
+			CDOG C 0 ThrustThing (angle*256/360, 24, 0, 0)
+		JumpUp:
+			CDOG D 3 A_CustomMeleeAttack(random[MummyAttack](1,2)*2, "misc/splat", " ")
+			CDOG D 1 A_CustomMeleeAttack(random[MummyAttack](1,2)*2, "misc/splat", " ")
+			CDOG D 1 A_CustomMeleeAttack(random[MummyAttack](1,2)*2, "misc/splat", " ")
+		JumpDown:
+			CDOG D 1 A_CheckFloor ("Land")
+			CDOG D 1
+			CDOG D 1 
+			loop
+		Land:
+			CDOG F 0 A_FaceTarget
+			CDOG F 0 A_CustomMeleeAttack(random[MummyAttack](1,2)*2, "misc/splat", " ")
+			CDOG E 4 A_Stop
+			CDOG F 4
+			CDOG E 4
+			goto See
+		Pain:
+			CDOG F 4 A_Pain
+			CDOG E 2 //ACS_Execute(102,0,0,0,0)
+			CDOG C 2
+			Goto See
+		Death.Suck:
+			CDOG F 5 A_PlaySound("VacDed",CHAN_BODY)
+			CDOG F 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,1)
+			Stop
+		Death:
+			CDOG F 5 A_Scream
+			CDOG G 5 A_NoBlocking
+			CDOG H 5
+			Stop
+	}
 }
 
 actor JellyBall
 {
-    Radius 8
-    Height 6
-    Speed 15
+	Radius 8
+	Height 6
+	Speed 15
 	Health 5
-    Damage 2
-    PROJECTILE
-    Renderstyle ADD
+	Damage 2
+	PROJECTILE
+	Renderstyle ADD
 	Alpha 0.9
 	DeathSound "misc/splat"
 	+NOEXTREMEDEATH
-    States
-    {
-    Spawn:
-    	JBAL ABC 2 A_SeekerMissile (10,10)
-        Loop
-    Death:
-        JSPL ABC 4 
-        Stop
-    }
+	States
+	{
+		Spawn:
+			JBAL ABC 2 A_SeekerMissile (10,10)
+			Loop
+		Death:
+			JSPL ABC 4 
+			Stop
+	}
 }
 
 //VITRIOLA
@@ -1588,7 +1591,6 @@ actor Vitriola 10305
 			Stop
 	}
 }
-
 
 ACTOR notetrail
 {
@@ -1700,11 +1702,11 @@ actor MicroNote2 : NoteCloud2
 actor Muddernaut 21305
 {
 	//$Category RPMonsters
-    Health 300
-    Radius 32
-    Height 80
-    Speed 18
-    PainChance 256
+	Health 300
+	Radius 32
+	Height 80
+	Speed 18
+	PainChance 256
 	DamageFactor "Fire", 0.5
 	DamageFactor "Cricket", 2
 	DamageFactor "Lead", 0.5
@@ -1714,54 +1716,54 @@ actor Muddernaut 21305
 	MaxTargetRange 512
 	Mass 5000
 	Scale 1.5
-    MONSTER 
-    +FLOORCLIP
+	MONSTER 
+	+FLOORCLIP
 	+NOBLOOD
 	+NOINFIGHTING
 	+DONTHARMCLASS
-    SeeSound "muddy/sight"
-    PainSound "muddy/pain"
-    DeathSound "muddy/death"
-    ActiveSound "muddy/active"
+	SeeSound "muddy/sight"
+	PainSound "muddy/pain"
+	DeathSound "muddy/death"
+	ActiveSound "muddy/active"
 	MeleeSound "mallethit"
-    Obituary "%o was flattened by a muddernaut."
+	Obituary "%o was flattened by a muddernaut."
 	Tag "Muddernaut"
-    States
-    {
-    Spawn:
-        CLOP Z 10 A_Look
-        Loop
-    See:
-        CLOP AABBCCDD 3 A_Chase
-        Loop
-	Melee:
-		CLOP E 0 //ACS_Execute(102,0,0,0,0)
-		CLOP EF 3 A_FaceTarget
-        CLOP G 6 A_CustomMeleeAttack (random(25,35), "mallethit", "malletswing", "", 1) 
-		CLOP H 6 
-		Goto See
-    Missile:
-        CLOP E 0 A_PlaySound("muddy/sight",CHAN_BODY)
-		CLOP S 0 //ACS_Execute(102,0,0,0,0)
-		CLOP STU 3 A_FaceTarget
-		CLOP H 6 A_CustomMissile("BadCherrybomb",48,0,random(-3,3),0,90)
-		CLOP H 6
-        Goto See
-	Pain:
-    	CLOP I 6 A_Pain
-		CLOP I 3 //ACS_Execute(102,0,0,0,0)
-    	Goto See
-    Death.Suck:
-		CLOP I 5 A_PlaySound("VacDed",CHAN_BODY)
-		CLOP I 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,12)
-		Stop
-	Death:
-        CLOP I 5 A_Scream
-        CLOP JKLMNOPQ 4
-        CLOP R 5 A_NoBlocking
-		CLOP R -1
-        Stop
-    }
+	States
+	{
+		Spawn:
+			CLOP Z 10 A_Look
+			Loop
+		See:
+			CLOP AABBCCDD 3 A_Chase
+			Loop
+		Melee:
+			CLOP E 0 //ACS_Execute(102,0,0,0,0)
+			CLOP EF 3 A_FaceTarget
+			CLOP G 6 A_CustomMeleeAttack (random(25,35), "mallethit", "malletswing", "", 1) 
+			CLOP H 6 
+			Goto See
+		Missile:
+			CLOP E 0 A_PlaySound("muddy/sight",CHAN_BODY)
+			CLOP S 0 //ACS_Execute(102,0,0,0,0)
+			CLOP STU 3 A_FaceTarget
+			CLOP H 6 A_CustomMissile("BadCherrybomb",48,0,random(-3,3),0,90)
+			CLOP H 6
+			Goto See
+		Pain:
+			CLOP I 6 A_Pain
+			CLOP I 3 //ACS_Execute(102,0,0,0,0)
+			Goto See
+		Death.Suck:
+			CLOP I 5 A_PlaySound("VacDed",CHAN_BODY)
+			CLOP I 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,12)
+			Stop
+		Death:
+			CLOP I 5 A_Scream
+			CLOP JKLMNOPQ 4
+			CLOP R 5 A_NoBlocking
+			CLOP R -1
+			Stop
+	}
 }
 
 //JUGGER
@@ -1935,346 +1937,346 @@ actor Juggette 12305
 actor ReelHeel 11306
 {
 	//$Category RPMonsters
-    Health 150
-    Radius 20
-    Height 56
+	Health 150
+	Radius 20
+	Height 56
 	Mass 1000
-    Speed 20
-    PainChance 256
+	Speed 20
+	PainChance 256
 	DamageFactor "Lead", 2
 	DamageFactor "Bap", 0
 	PainChance "Bap", 200
-    MONSTER 
-    +FLOORCLIP
+	MONSTER 
+	+FLOORCLIP
 	+NOINFIGHTING
 	+NOBLOOD
 	+DONTHARMCLASS
-    SeeSound "slots/sight"
-    PainSound "slots/pain"
-    DeathSound "slots/death"
-    ActiveSound "slots/sight"
-    Obituary "%o was busted by a reel heel."
+	SeeSound "slots/sight"
+	PainSound "slots/pain"
+	DeathSound "slots/death"
+	ActiveSound "slots/sight"
+	Obituary "%o was busted by a reel heel."
 	Explosiondamage 96
 	SpawnID 11306
 	Dropitem "ArcadeChip", 64
-    Dropitem "ArcadeChip", 16
-    States
-    {
-    Spawn:
-        SLOT AB 3 A_Look
-        Loop
-    See:
-        SLOT C 5
-		SLOT C 0 A_PlaySound("slots/boing",CHAN_BODY)
-        SLOT DDDD 2 A_Chase
-        SLOT C 5
-		SLOT R 5 
-		SLOT R 0 A_PlaySound("slots/boing",CHAN_BODY)
-        SLOT SSSS 2 A_Chase
-        SLOT R 5 
-        Loop
-    Missile:
-        SLOT A 0 //ACS_Execute(102,0,0,0,0)
-		SLOT A 0 A_Playsound("slots/jackpot")
-		SLOT EGIEGIEGI 2 Bright
-		SLOT A 0 A_Jump(112,"slotapple")
-		SLOT A 0 A_Jump(96,"slotbomb")
-		SLOT A 0 A_Jump(256,"slotcherry")
-        Goto See
-	SlotApple:
-		SLOT GHGHGHGH 2 Bright A_FaceTarget
-        SLOT K 6
-		SLOT L 0 A_Playsound("slots/burp")
-		SLOT L 0 A_CustomMissile("SeedBall",40,0,random(-9,9))
-		SLOT L 0 A_CustomMissile("SeedBall",40,0,random(-9,9))
-		SLOT L 12 A_CustomMissile("SeedBall",40,0,random(-6,6))
-		SLOT A 3
-        Goto See
-	SlotBomb:
-		SLOT IJIJIJIJ 2 Bright A_FaceTarget
-        SLOT K 6
-		SLOT L 0 A_Playsound("slots/burp")
-		SLOT L 12 A_CustomMissile("BadCherryBomb",40,0,random(-6,6))
-		SLOT A 3
-        Goto See
-	SlotCherry:
-        SLOT EFEFEFEF 2 Bright A_FaceTarget
-        SLOT K 6
-		SLOT L 0 A_Playsound("slots/burp")
-		SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
-		SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
-		SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
-		SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
-		SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
-		SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
-		SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
-		SLOT A 3
-        Goto See
-	Pain:
-    	SLOT M 3 A_Pain
-		SLOT M 3 //ACS_Execute(102,0,0,0,0)
-    	Goto See
-    Death.Suck:
-		SLOT M 5 A_PlaySound("VacDed",CHAN_BODY)
-		SLOT M 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,4)
-		Stop
-	Death:
-        SLOT M 4 A_Scream
-		SLOT CM 6 
-        SLOT N 0 A_PlaySound("weapons/cherryboom",CHAN_BODY)
-		SLOT N 8 A_Explode
-        SLOT O 8 A_NoBlocking
-        SLOT PQ 8
-        Stop
-    }
+	Dropitem "ArcadeChip", 16
+	States
+	{
+		Spawn:
+			SLOT AB 3 A_Look
+			Loop
+		See:
+			SLOT C 5
+			SLOT C 0 A_PlaySound("slots/boing",CHAN_BODY)
+			SLOT DDDD 2 A_Chase
+			SLOT C 5
+			SLOT R 5 
+			SLOT R 0 A_PlaySound("slots/boing",CHAN_BODY)
+			SLOT SSSS 2 A_Chase
+			SLOT R 5 
+			Loop
+		Missile:
+			SLOT A 0 //ACS_Execute(102,0,0,0,0)
+			SLOT A 0 A_Playsound("slots/jackpot")
+			SLOT EGIEGIEGI 2 Bright
+			SLOT A 0 A_Jump(112,"slotapple")
+			SLOT A 0 A_Jump(96,"slotbomb")
+			SLOT A 0 A_Jump(256,"slotcherry")
+			Goto See
+		SlotApple:
+			SLOT GHGHGHGH 2 Bright A_FaceTarget
+			SLOT K 6
+			SLOT L 0 A_Playsound("slots/burp")
+			SLOT L 0 A_CustomMissile("SeedBall",40,0,random(-9,9))
+			SLOT L 0 A_CustomMissile("SeedBall",40,0,random(-9,9))
+			SLOT L 12 A_CustomMissile("SeedBall",40,0,random(-6,6))
+			SLOT A 3
+			Goto See
+		SlotBomb:
+			SLOT IJIJIJIJ 2 Bright A_FaceTarget
+			SLOT K 6
+			SLOT L 0 A_Playsound("slots/burp")
+			SLOT L 12 A_CustomMissile("BadCherryBomb",40,0,random(-6,6))
+			SLOT A 3
+			Goto See
+		SlotCherry:
+			SLOT EFEFEFEF 2 Bright A_FaceTarget
+			SLOT K 6
+			SLOT L 0 A_Playsound("slots/burp")
+			SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
+			SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
+			SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
+			SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
+			SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
+			SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
+			SLOT L 4 A_CustomMissile("CoinShot",40,0,random(-6,6))
+			SLOT A 3
+			Goto See
+		Pain:
+			SLOT M 3 A_Pain
+			SLOT M 3 //ACS_Execute(102,0,0,0,0)
+			Goto See
+		Death.Suck:
+			SLOT M 5 A_PlaySound("VacDed",CHAN_BODY)
+			SLOT M 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,4)
+			Stop
+		Death:
+			SLOT M 4 A_Scream
+			SLOT CM 6 
+			SLOT N 0 A_PlaySound("weapons/cherryboom",CHAN_BODY)
+			SLOT N 8 A_Explode
+			SLOT O 8 A_NoBlocking
+			SLOT PQ 8
+			Stop
+	}
 }
 
 actor CoinShot
 {
-    Radius 8
-    Height 6
-    Speed 20
+	Radius 8
+	Height 6
+	Speed 20
 	Health 5
-    Damage 2
-    PROJECTILE
-    Renderstyle NORMAL
+	Damage 2
+	PROJECTILE
+	Renderstyle NORMAL
 	DeathSound "mallethit"
 	+NOEXTREMEDEATH
-    States
-    {
-    Spawn:
-    	CBUL ABCB 2 bright
-        Loop
-    Death:
-        BASH ABCDE 4 
-        Stop
-    }
+	States
+	{
+		Spawn:
+			CBUL ABCB 2 bright
+			Loop
+		Death:
+			BASH ABCDE 4 
+			Stop
+	}
 }
 
 //SPIDER-CENSER
 actor Spidercenser 5229
 {
 	//$Category RPMonsters
-    Health 150
-    Radius 20
-    Height 56
-    Speed 10
-    PainChance 256
+	Health 150
+	Radius 20
+	Height 56
+	Speed 10
+	PainChance 256
 	DamageFactor "Bonk", 4
 	DamageFactor "Chop", 0.5
 	DamageFactor "Zap", 4
 	DamageFactor "Bap", 0
 	PainChance "Bap", 32
-    MONSTER 
-    +FLOORCLIP
+	MONSTER 
+	+FLOORCLIP
 	+NOINFIGHTING
 	+NOBLOOD
 	MissileType CroquetBall
-    SeeSound "spidercen/sight"
-    PainSound "birdy/sight"
-    DeathSound "spidercen/death"
-    ActiveSound "spidercen/sight"
-    Obituary "%o was smothered by a spider-censer."
+	SeeSound "spidercen/sight"
+	PainSound "birdy/sight"
+	DeathSound "spidercen/death"
+	ActiveSound "spidercen/sight"
+	Obituary "%o was smothered by a spider-censer."
 	Tag "Spider-Censer"
 	SpawnID 5229
-    States
-    {
-    Spawn:
-        SPHR A 10 A_Look
-        Loop
-    See:
-        SPRS AABB 3
-        Goto Idle
-    Idle:
-	    SPCN AABBCCDD 1 A_Chase
-        Loop
-	Melee:
-		SPCN E 3 //ACS_Execute(102,0,0,0,0)
-		SPCN FG 3 bright A_FaceTarget
-		SPCN H 0 A_Playsound("Weapons/SpinnerFire",CHAN_BODY)
-        SPCN H 5 bright A_CustomMissile("IncenseBall",40,0)
-		SPCN K 5 bright 
-		SPCN M 5 bright
-		SPCN G 3 bright
-		SPCN FE 3
-        Goto Idle
-	Missile:
-        SPCN E 3 //ACS_Execute(102,0,0,0,0)
-		SPCN FG 3 bright A_FaceTarget
-		SPCN H 0 A_Playsound("Weapons/SpinnerFire",CHAN_BODY)
-		SPCN H 0 bright A_CustomMissile("IncenseBall",48,24)
-		SPCN H 5 bright A_CustomMissile("IncenseBall",48,-24)
-		SPCN I 5 bright 
-		SPCN J 5 bright A_CustomMissile("IncenseBall",48,0)
-		SPCN K 5 bright 
-		SPCN L 5 bright 
-		SPCN M 5 bright 
-		SPCN G 3 bright
-		SPCN FE 3
-        Goto Idle
-    Pain:
-    	SPCN N 6 A_Pain
-		SPCN N 3 //ACS_Execute(102,0,0,0,0)
-    	Goto Idle
-    Death.Suck:
-		SPCN N 5 A_PlaySound("VacDed",CHAN_BODY)
-		SPCN N 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,4)
-		Stop
-	Death:
-        SPCN N 7 bright A_Scream
-        SPCN OPQR 3 bright
-        SPCN S 3 bright A_NoBlocking
-        Stop
-    }
+	States
+	{
+		Spawn:
+			SPHR A 10 A_Look
+			Loop
+		See:
+			SPRS AABB 3
+			Goto Idle
+		Idle:
+			SPCN AABBCCDD 1 A_Chase
+			Loop
+		Melee:
+			SPCN E 3 //ACS_Execute(102,0,0,0,0)
+			SPCN FG 3 bright A_FaceTarget
+			SPCN H 0 A_Playsound("Weapons/SpinnerFire",CHAN_BODY)
+			SPCN H 5 bright A_CustomMissile("IncenseBall",40,0)
+			SPCN K 5 bright 
+			SPCN M 5 bright
+			SPCN G 3 bright
+			SPCN FE 3
+			Goto Idle
+		Missile:
+			SPCN E 3 //ACS_Execute(102,0,0,0,0)
+			SPCN FG 3 bright A_FaceTarget
+			SPCN H 0 A_Playsound("Weapons/SpinnerFire",CHAN_BODY)
+			SPCN H 0 bright A_CustomMissile("IncenseBall",48,24)
+			SPCN H 5 bright A_CustomMissile("IncenseBall",48,-24)
+			SPCN I 5 bright 
+			SPCN J 5 bright A_CustomMissile("IncenseBall",48,0)
+			SPCN K 5 bright 
+			SPCN L 5 bright 
+			SPCN M 5 bright 
+			SPCN G 3 bright
+			SPCN FE 3
+			Goto Idle
+		Pain:
+			SPCN N 6 A_Pain
+			SPCN N 3 //ACS_Execute(102,0,0,0,0)
+			Goto Idle
+		Death.Suck:
+			SPCN N 5 A_PlaySound("VacDed",CHAN_BODY)
+			SPCN N 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,4)
+			Stop
+		Death:
+			SPCN N 7 bright A_Scream
+			SPCN OPQR 3 bright
+			SPCN S 3 bright A_NoBlocking
+			Stop
+	}
 }
 
 actor IncenseBall
 {
-  Radius 8
-  Height 12
-  Speed 18
-  Damage 3
-  Scale 0.35
-  Projectile
-  +RANDOMIZE
-  +NOEXTREMEDEATH
-  PoisonDamage 15
-  RenderStyle ADD
-  Alpha 0.7
-  DeathSound "croquet/ballhit"
-  States
-  {
-  Spawn:
-    SPBL ABCDE 3 bright
-    Loop
-  Death:
-    SPBX ABCDE 4 Bright
-    Stop
-  }
+	Radius 8
+	Height 12
+	Speed 18
+	Damage 3
+	Scale 0.35
+	Projectile
+	+RANDOMIZE
+	+NOEXTREMEDEATH
+	PoisonDamage 15
+	RenderStyle ADD
+	Alpha 0.7
+	DeathSound "croquet/ballhit"
+	States
+	{
+		Spawn:
+			SPBL ABCDE 3 bright
+			Loop
+		Death:
+			SPBX ABCDE 4 Bright
+			Stop
+	}
 }
 
 //GALGOYLE
 actor Galgoyle 5230
 {
 	//$Category RPMonsters
-    Health 150
-    Radius 20
-    Height 56
-    Speed 10
+	Health 150
+	Radius 20
+	Height 56
+	Speed 10
 	Mass 500
 	Damage 3
-    PainChance 256
+	PainChance 256
 	DamageFactor "Lead", 2
 	DamageFactor "Zap", 2
 	DamageFactor "Dust", 0
-    DamageFactor "Bap", 1
+	DamageFactor "Bap", 1
 	PainChance "Bap", 200
-    MONSTER 
-    +FLOORCLIP
+	MONSTER 
+	+FLOORCLIP
 	+NOINFIGHTING
 	+NOBLOOD
-    SeeSound "galgoyle/swoop"
-    PainSound "hduck/pain"
-    DeathSound "virtuoso/death"
-    ActiveSound "galgoyle/swoop"
-    Obituary "%o was prey for a galgoyle."
+	SeeSound "galgoyle/swoop"
+	PainSound "hduck/pain"
+	DeathSound "virtuoso/death"
+	ActiveSound "galgoyle/swoop"
+	Obituary "%o was prey for a galgoyle."
 	DropItem "jackammo", 96
 	Tag "Galgoyle"
 	SpawnID 5230
-    States
-    {
-    Spawn:
-        GGRL A 10 A_Look
-        Loop
-    See:
-        TNT1 A 0 A_ChangeFlag("FLOAT",0)
-        TNT1 A 0 A_ChangeFlag("NOGRAVITY",0)
-        TNT1 A 0 A_ChangeFlag("DROPOFF",0)
-		GGRL AABBCCDD 3 A_Chase
-		GGRL A 0 A_Jump(208,1)
-		GGRL A 0 A_CheckSight("Takeoff")
-        Loop
-    Missile:
-        GGRF A 0 A_Jump(96,"Takeoff")
-		GGRF A 4 //ACS_Execute(102,0,0,0,0)
-		GGRF BC 5 A_FaceTarget
-        GGRF D 0 A_Playsound("galgoyle/fire",CHAN_BODY)
-		GGRF D 4 A_CustomMissile("Jellyball",48,0)
-		GGRF E 3
-        Goto See
-    Takeoff: 
-	    TNT1 A 0 A_JumpIf( Z + height + 64 >= CeilingZ, "See")
-		TNT1 A 0 A_ChangeFlag("FLOAT",1)
-        TNT1 A 0 A_ChangeFlag("NOGRAVITY",1)
-        TNT1 A 0 A_ChangeFlag("DROPOFF",1)
-		Goto Fly
-	Fly:
-	    GGRL E 0 ThrustThingZ(0,15,0,0)
-		GGRL EEFFGGHH 2 A_Chase(0,"MissileF")
-		Goto Hover
-	MissileF:
-	    GGRL E 0 A_Jump(64,"Land")
-		GGRL E 0 //ACS_Execute(102,0,0,0,0)
-		GGRL E 0 A_FaceTarget
-		GGRL E 0 A_PlaySound("galgoyle/swoop",CHAN_VOICE)
-	    GGRL E 0 A_SkullAttack
-	    GGRL EFGH 4 
-	    goto MissileF+5
-	Land:
-       GGRL EE 4 ThrustThingZ(0,-20,0,0)
-       GGRL E 1 A_CheckFloor("See")
-       GGRL EEFFGGHH 2 
-       GGRL E 1 A_CheckFloor("See")
-       Goto Hover
-    Hover:
-       GGRL EEFFGGHH 2 A_Chase(0,"MissileF")
-       GGRL E 0 A_Jump(64,"Fly")
-       GGRL E 0 A_Jump(32,"Land")
-       Loop
-	Pain:
-    	GGRX B 6 A_Pain
-		GGRX A 3 //ACS_Execute(102,0,0,0,0)
-    	Goto See
-    Death.Suck:
-		GGRX B 5 A_PlaySound("VacDed",CHAN_BODY)
-		GGRX B 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,4)
-		Stop
-	Death:
-        GGRX A 5 bright A_Scream
-        GGRX BCDEF 3 bright
-        GGRX G 3 bright A_NoBlocking
-        GGRX HIJKLMNOP 2 bright
-        Stop
-    }
+	States
+	{
+		Spawn:
+			GGRL A 10 A_Look
+			Loop
+		See:
+			TNT1 A 0 A_ChangeFlag("FLOAT",0)
+			TNT1 A 0 A_ChangeFlag("NOGRAVITY",0)
+			TNT1 A 0 A_ChangeFlag("DROPOFF",0)
+			GGRL AABBCCDD 3 A_Chase
+			GGRL A 0 A_Jump(208,1)
+			GGRL A 0 A_CheckSight("Takeoff")
+			Loop
+		Missile:
+			GGRF A 0 A_Jump(96,"Takeoff")
+			GGRF A 4 //ACS_Execute(102,0,0,0,0)
+			GGRF BC 5 A_FaceTarget
+			GGRF D 0 A_Playsound("galgoyle/fire",CHAN_BODY)
+			GGRF D 4 A_CustomMissile("Jellyball",48,0)
+			GGRF E 3
+			Goto See
+		Takeoff: 
+			TNT1 A 0 A_JumpIf( Z + height + 64 >= CeilingZ, "See")
+			TNT1 A 0 A_ChangeFlag("FLOAT",1)
+			TNT1 A 0 A_ChangeFlag("NOGRAVITY",1)
+			TNT1 A 0 A_ChangeFlag("DROPOFF",1)
+			Goto Fly
+		Fly:
+			GGRL E 0 ThrustThingZ(0,15,0,0)
+			GGRL EEFFGGHH 2 A_Chase(0,"MissileF")
+			Goto Hover
+		MissileF:
+			GGRL E 0 A_Jump(64,"Land")
+			GGRL E 0 //ACS_Execute(102,0,0,0,0)
+			GGRL E 0 A_FaceTarget
+			GGRL E 0 A_PlaySound("galgoyle/swoop",CHAN_VOICE)
+			GGRL E 0 A_SkullAttack
+			GGRL EFGH 4 
+			goto MissileF+5
+		Land:
+			GGRL EE 4 ThrustThingZ(0,-20,0,0)
+			GGRL E 1 A_CheckFloor("See")
+			GGRL EEFFGGHH 2 
+			GGRL E 1 A_CheckFloor("See")
+			Goto Hover
+		Hover:
+			GGRL EEFFGGHH 2 A_Chase(0,"MissileF")
+			GGRL E 0 A_Jump(64,"Fly")
+			GGRL E 0 A_Jump(32,"Land")
+			Loop
+		Pain:
+			GGRX B 6 A_Pain
+			GGRX A 3 //ACS_Execute(102,0,0,0,0)
+			Goto See
+		Death.Suck:
+			GGRX B 5 A_PlaySound("VacDed",CHAN_BODY)
+			GGRX B 2 A_RadiusGive("VacAmmo",128,RGF_PLAYERS,4)
+			Stop
+		Death:
+			GGRX A 5 bright A_Scream
+			GGRX BCDEF 3 bright
+			GGRX G 3 bright A_NoBlocking
+			GGRX HIJKLMNOP 2 bright
+			Stop
+	}
 }
 
 ACTOR Galgoyle_Hide 6230
 {
-  //$Category RPMonsters
-  Height 56
-  Radius 24
-  Mass 500
-  Health 200
-  PainChance 256
-  MONSTER
-  +NOBLOOD
-  Tag "Galgoyle (Hiding)"
-  States
-  {
-  Spawn:
-    STGR A 10 A_Look
-	Loop
-  See:
-    STGR A 1 A_Die
-	Goto Death
-  Pain:
-    STGR A 1 A_Die
-	Goto Death
-  Death:
-    TNT1 A 1 A_SpawnItemEX("Galgoyle",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
-	TNT1 A 0 A_NoBlocking
-	Stop
-  }
+	//$Category RPMonsters
+	Height 56
+	Radius 24
+	Mass 500
+	Health 200
+	PainChance 256
+	MONSTER
+	+NOBLOOD
+	Tag "Galgoyle (Hiding)"
+	States
+	{
+		Spawn:
+			STGR A 10 A_Look
+			Loop
+		See:
+			STGR A 1 A_Die
+			Goto Death
+		Pain:
+			STGR A 1 A_Die
+			Goto Death
+		Death:
+			TNT1 A 1 A_SpawnItemEX("Galgoyle",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+			TNT1 A 0 A_NoBlocking
+			Stop
+	}
 }
 
 //KNUCKLEHEAD
