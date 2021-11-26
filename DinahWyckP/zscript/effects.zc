@@ -91,6 +91,8 @@ class CustomInventoryExt : CustomInventory
 						if (currenthealth > (maxhealth*3)) currenthealth = (maxhealth*3);
 						player.health = player.mo.health = currenthealth;
 					}
+					let MiscItem = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+					if (MiscItem) MiscItem.HPRegenBoostTimer += randompick(50,55,60,65);
 				}
 				
 				player.mo.A_StartSound("Dinah/drink",CHAN_BODY);
@@ -270,7 +272,7 @@ class PowerRoastBuff : PowerDamage
 	default
 	{
 		DamageFactor "Normal", 2;
-		Inventory.Icon "FOODA0";
+		Inventory.Icon "FOODAA";
 		Powerup.Duration -12;
 		+INVENTORY.PERSISTENTPOWER;
 		+INVENTORY.HUBPOWER;
@@ -283,7 +285,7 @@ class PowerMealBuff : PowerDamage
 	default
 	{
 		DamageFactor "Normal", 2.5;
-		Inventory.Icon "FOODY0";
+		Inventory.Icon "FOODYA";
 		Powerup.Duration -30;
 		+INVENTORY.PERSISTENTPOWER;
 		+INVENTORY.HUBPOWER;
@@ -296,7 +298,7 @@ class PowerMealBuff2 : PowerProtection
 	default
 	{
 		DamageFactor "Normal", 0.4;
-		Inventory.Icon "FOODY0";
+		Inventory.Icon "FOODYD";
 		Powerup.Duration -30;
 		+INVENTORY.PERSISTENTPOWER;
 		+INVENTORY.HUBPOWER;
@@ -773,6 +775,16 @@ class DashCharge : PlaceholderItem
 
 
 class DashTics : PlaceholderItem
+{
+	default
+	{
+		inventory.icon "";
+		Inventory.MaxAmount 0x7FFFFFFD;
+		+INVENTORY.KEEPDEPLETED 
+	}
+}
+
+class DashCost : PlaceholderItem
 {
 	default
 	{

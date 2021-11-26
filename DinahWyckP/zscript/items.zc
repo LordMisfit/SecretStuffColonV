@@ -148,6 +148,9 @@ class GalaApple : CustomInventoryExt
 					temp1 += temp3;
 					if (temp1 > temp2) temp1 = temp2;
 					player.mo.health = player.health = temp1;
+					let MiscItem = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+					if (MiscItem) MiscItem.HPRegenBoostTimer += randompick(9,10,10,11,11,12,13);
+
 					A_StartSound("Dinah/eatapple",CHAN_VOICE);
 					A_SetBlend("f1 ff f1",0.1,4);
 					Console.Printf("\c[red]A tasty gala apple! \c[green]+%d HP", temp3);
@@ -175,6 +178,9 @@ Class GalaAppleWeak : GalaApple
 					temp1 += temp3;
 					if (temp1 > temp2) temp1 = temp2;
 					player.mo.health = player.health = temp1;
+					let MiscItem = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+					if (MiscItem) MiscItem.HPRegenBoostTimer += randompick(4,4,5,5,5,6,6,7);
+					
 					A_StartSound("Dinah/eatapple",CHAN_VOICE);
 					A_SetBlend("f1 ff f1",0.1,random(4,6));
 					Console.Printf("\c[red]A tasty gala apple! \c[green]+%d HP", temp3);
@@ -219,7 +225,9 @@ class GoldApple : CustomInventoryExt
 				player.mo.health = player.health = temp1;
 				player.mo.A_SetInventory("PlayerMaxHP",temp2);
 				let MiscItem = PlayerDashJump(player.mo.FindInventory("PlayerDashJump"));
-				if (MiscItem) MiscItem.extradashcharge += randompick(0,1,1);
+				if (MiscItem) MiscItem.ExtraDashCharge += randompick(0,1,1);
+				let MiscItem2 = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+				if (MiscItem2) MiscItem2.HPRegenBoostTimer += randompick(9,10,10,11,11,12,13);
 
 				A_StartSound("Dinah/eatapple",CHAN_VOICE);
 				A_StartSound("Dinah/eatapple",101,CHANF_DEFAULT,1.0,ATTN_NONE,frandom(0.90,1.10));
@@ -265,7 +273,9 @@ class PlatinumApple : CustomInventoryExt
 				player.mo.health = player.health = temp1;
 				player.mo.A_SetInventory("PlayerMaxHP",temp2);
 				let MiscItem = PlayerDashJump(player.mo.FindInventory("PlayerDashJump"));
-				if (MiscItem) MiscItem.extradashcharge += randompick(2,2,2,3,3);
+				if (MiscItem) MiscItem.ExtraDashCharge += randompick(2,2,2,3,3);
+				let MiscItem2 = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+				if (MiscItem2) MiscItem2.HPRegenBoostTimer += (randompick(9,10,10,11,11,12,13) * 2.5);
 
 				A_StartSound("Dinah/eatapple",CHAN_VOICE);
 				A_StartSound("Dinah/eatapple",101,CHANF_DEFAULT,1.0,ATTN_NONE,frandom(0.90,1.10));
@@ -319,6 +329,9 @@ class CupOfTea : CustomInventoryExt
 				temp1 += temp3;
 				if (temp1 > temp2) temp1 = temp2;
 				player.mo.health = player.health = temp1;
+				let MiscItem = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+				if (MiscItem) MiscItem.HPRegenBoostTimer += randompick(1,1,1,2);
+
 				A_StartSound("Tea/Sipping",CHAN_VOICE);
 				A_SetBlend("f1 ff f1",0.1,random(3,4));
 				Console.Printf("\c[red]A Cup of Tea! \c[green]+%d (Over)HP", temp3);
@@ -359,6 +372,9 @@ class FoodPlateFruit : CustomInventoryExt
 				temp1 += temp3;
 				if (temp1 > temp2) temp1 = temp2;
 				player.mo.health = player.health = temp1;
+				let MiscItem = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+				if (MiscItem) MiscItem.HPRegenBoostTimer += randompick(9,10,10,11,11,12,13);
+
 				A_StartSound("Dinah/eat",CHAN_VOICE);
 				A_SetBlend("f1 ff f1",0.1,random(4,6));
 				Console.Printf("\c[red]Food Plate (Fruit)! \c[green]+%d (Over)HP", temp3);
@@ -406,6 +422,9 @@ class PigRoastDish : CustomInventoryExt
 				temp1 += temp3;
 				if (temp1 > temp2) temp1 = temp2;
 				player.mo.health = player.health = temp1;
+				let MiscItem = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+				if (MiscItem) MiscItem.HPRegenBoostTimer += random(45,65);
+
 				A_StartSound("Dinah/eat",CHAN_VOICE);
 				A_SetBlend("f1 ff f1",0.1,random(4,6));
 				player.mo.A_GiveInventory("PowerRoastBuff");
@@ -452,6 +471,9 @@ class GourmetMeal : CustomInventoryExt
 				temp1 += temp3;
 				if (temp1 > temp2) temp1 = temp2;
 				player.mo.health = player.health = temp1;
+				let MiscItem = PlayerStatItem(player.mo.FindInventory("PlayerStatItem"));
+				if (MiscItem) MiscItem.HPRegenBoostTimer += random(225,325);
+
 				A_StartSound("Dinah/eat",CHAN_VOICE);
 				A_SetBlend("f1 ff f1",0.1,random(10,15));
 				player.mo.A_GiveInventory("PowerMealBuff");

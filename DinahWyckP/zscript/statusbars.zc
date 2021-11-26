@@ -668,7 +668,8 @@ class DDStatusBarMain : BaseStatusBar
 		digx = 18;
 		string dun = "DASHUNI2";
 		if (candash) dun = "DASHUNIT";
-		if (DashMaxCharge >= 35)
+		int dashcost = CPlayer.mo.CountInv("DashCost");
+		if (DashMaxCharge >= dashcost)
 		{
 			for (int i; i < dashbarunits; i++) DrawImage(dun, (digx+i, digy), 0, HX_SHADOW); // -46, -1
 		}
