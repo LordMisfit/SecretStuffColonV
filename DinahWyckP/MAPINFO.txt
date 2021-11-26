@@ -8,6 +8,7 @@ DoomEdNums
 	12457 = BlunderAmmo
 	12467 = MalletAmmo
 	12478 = MusicAmmo
+	13162 = TimePotion
 	15016 = AppleWine
 	15017 = KnightGown
 	31947 = WizardPike

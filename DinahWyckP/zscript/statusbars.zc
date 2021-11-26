@@ -470,12 +470,97 @@ class DDStatusBarMain : BaseStatusBar
 		if (valueamt > PlayerMaxHP) healthdigits = valueamtS.Length();
 
 		int slashunit = (-6 * (healthdigits-2));
-		int healthcolor = font.CR_brick; 
+		int healthcolor = font.CR_brick;
+		bool isinvuln = false;
+		if (CPlayer.mo.bINVULNERABLE || 
+				 CPlayer.mo.CountInv("PowerInvulnerable") || CPlayer.mo.CountInv("PowerInvulnDD") || 
+				 CPlayer.cheats & CF_GODMODE2 || CPlayer.cheats & CF_GODMODE) isinvuln = true;
+		if (isinvuln) healthcolor = font.CR_Gold;
 		//health
 		DrawImage("ARTIWINE", (64, -4)); // 51, -3
 		DrawString(HUDFont.Create("SMALLFONT"), FormatNumber(PlayerMaxHP, 4), (48, -13), DI_TEXT_ALIGN_RIGHT, healthcolor, 0.90); // 41, -43
 		DrawString(HUDFont.Create("SMALLFONT"), "/", ((24+slashunit), -17), DI_TEXT_ALIGN_RIGHT, healthcolor, 0.90); // 41, -43
-		DrawString(HUDFont.Create("BIGFONT"), FormatNumber(mHealthInterpolator.GetValue()), (48, -26), DI_TEXT_ALIGN_RIGHT, healthcolor, 0.90);
+		double healthalpha = 0.90;
+		double xscal = 1.00;
+		double yscal = 1.00;
+		int direction = 1;
+		int scalerbase, scaler, scaler2, scalerdiv;
+		double scaleincamt;
+		double scaleamtbase = 1.334;
+		if (CPlayer.mo.CountInv("PlayerIsDead") || valueamt <= 0)
+		{
+			healthalpha *= 0.1;
+			healthcolor = font.CR_black;
+		}
+		else
+		{
+			if (CPlayer.mo.CountInv("CriticalHealth") && level.time % 8 >= 4) 
+			{
+				healthalpha = 0.125;
+			}
+			else if (CPlayer.mo.CountInv("LowHealth") && level.time % 24 >= 12) 
+			{
+				healthalpha *= 0.25;
+			}
+			else if (CPlayer.mo.CountInv("DecentHealth") && level.time % 48 >= 24) 
+			{
+				healthalpha *= 0.5;
+			}
+			else 
+			{
+				if (valueamt > PlayerMaxHP)
+				{
+					scalerbase = 192;
+					scaleincamt = 0.00166667;
+					scaleamtbase = 1.0;
+					healthcolor = font.CR_Teal;
+					if (valueamt >= (PlayerMaxHP * 1.334))
+					{
+						scalerbase = 128;
+						scaleincamt = 0.0025;
+						scaleamtbase = 1.0625;
+						healthcolor = font.CR_Cyan;
+						if (valueamt >= (PlayerMaxHP * 1.667))
+						{
+							scalerbase = 96;
+							scaleincamt = 0.0033334;
+							scaleamtbase = 1.125;
+							healthcolor = font.CR_Sapphire;
+							if (valueamt >= (PlayerMaxHP * 2))
+							{
+								scalerbase = 64;
+								scaleincamt = 0.005;
+								scaleamtbase = 1.1875;
+								healthcolor = font.CR_LightBlue;
+								if (valueamt >= (PlayerMaxHP * 2.5))
+								{
+									scalerbase = 32;
+									scaleincamt = 0.01;
+									scaleamtbase = 1.25;
+									healthcolor = font.CR_Purple;
+									if (valueamt >= (PlayerMaxHP * 3.0))
+									{
+										scalerbase = 16;
+										scaleincamt = 0.02;
+										scaleamtbase = 1.3125;
+										healthcolor = font.CR_Gold;
+									}
+								}
+							}
+						}
+					}
+					scaler = (level.time % scalerbase);
+					if (scaler >= (scalerbase*0.5) && scaler <= (scalerbase-1)) scaler2 = (scalerbase - scaler);
+																																else scaler2 = scaler;
+					xscal = yscal = 1.0 + (scaler2 * (scaleincamt * scaleamtbase)); // 4
+					//Console.Printf("Scaler2: %d (%d), scaleincamt: %.8f (%d)", scaler2, scaler, scaleincamt, scalerbase);
+				}
+			}
+		}
+		//Console.Printf("scal: %.8f / %.8f", xscal, yscal);
+		if (isinvuln) healthcolor = font.CR_Gold;
+		DrawString(HUDFont.Create("BIGFONT"), FormatNumber(mHealthInterpolator.GetValue()), (48, -26), DI_TEXT_ALIGN_RIGHT, healthcolor, healthalpha, -1, 4, (xscal, yscal));
+		xscal = yscal = 1.00;
 
 		//armor
 

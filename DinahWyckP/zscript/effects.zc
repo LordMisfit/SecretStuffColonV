@@ -217,6 +217,9 @@ class PowerWineBuffWeak : PowerProtection
 		Inventory.Icon "GBL1A0";
 		Powerup.Duration -5;
 		Powerup.Color "70 2c 52", 0.250;
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 }
 
@@ -228,6 +231,9 @@ class PowerWineBuffStrong : PowerProtection
 		Inventory.Icon "GBL2A0";
 		Powerup.Duration -7;
 		Powerup.Color "70 2c 52", 0.325;
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 }
 
@@ -239,6 +245,9 @@ class PowerWineBuffStrongest : PowerProtection
 		Inventory.Icon "GBL3A0";
 		Powerup.Duration -9;
 		Powerup.Color "70 2c 52", 0.400;
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 }
 
@@ -250,6 +259,9 @@ class PowerWineBuffStrongestEven : PowerProtection
 		Inventory.Icon "GBL4A0";
 		Powerup.Duration -12;
 		Powerup.Color "70 2c 52", 0.450;
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 }
 
@@ -260,6 +272,9 @@ class PowerRoastBuff : PowerDamage
 		DamageFactor "Normal", 2;
 		Inventory.Icon "FOODA0";
 		Powerup.Duration -12;
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 }
 
@@ -268,8 +283,11 @@ class PowerMealBuff : PowerDamage
 	default
 	{
 		DamageFactor "Normal", 2.5;
-		Inventory.Icon "FOODZ0";
+		Inventory.Icon "FOODY0";
 		Powerup.Duration -30;
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 }
 
@@ -278,8 +296,11 @@ class PowerMealBuff2 : PowerProtection
 	default
 	{
 		DamageFactor "Normal", 0.4;
-		Inventory.Icon "FOODZ0";
+		Inventory.Icon "FOODY0";
 		Powerup.Duration -30;
+		+INVENTORY.PERSISTENTPOWER;
+		+INVENTORY.HUBPOWER;
+		+INVENTORY.ADDITIVETIME;
 	}
 }
 
@@ -411,7 +432,6 @@ class DDMiscTimeFreezer : TimeFreezerKeepSound
 		Super.DoEffect();
 	}
 	*/
-	
 }
 
 class TimePotionTimeFreezer : TimeFreezerKeepSound

@@ -613,3 +613,38 @@ class DinahPlayer : DDPlayerPawn // HereticPlayer
 			Stop;
   }
 }
+
+class RavenPlayer : DDPlayerPawn
+{
+	default
+	{
+		Health 30;
+		ReactionTime 0;
+		PainChance 255;
+		Radius 16;
+		Height 32;
+		Speed 0.5;
+		+NoSkin
+		-PickUp
+		+NoTarget
+		Player.Viewheight 32;
+		Player.DisplayName "Raven";
+		Player.MorphWeapon "RavenWeapon";
+	}
+	States
+	{
+		Spawn:
+			RVPL A 0;
+			RVPL ABCD 5 A_GiveInventory("RavenPowerups", 1);
+			Loop;
+		See:
+			RVPL ABCD 5 A_GiveInventory("RavenPowerups", 1);
+			Loop;
+		Pain:
+			RVPL C 4 A_Pain;
+			Goto Spawn;
+		Death:
+			TNT1 A -1;
+			Stop;
+	}
+}

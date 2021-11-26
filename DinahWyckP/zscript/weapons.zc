@@ -2965,9 +2965,9 @@ class PikeAmmoBig : PikeAmmo
 	default
 	{
 		//$Category RPAmmo
-		Inventory.Amount 1; // 2
+		Inventory.Amount 3; // 2
 		Inventory.MaxAmount 12; // 10
-		Ammo.BackpackAmount 1; // 2
+		Ammo.BackpackAmount 3; // 2
 		Ammo.BackpackMaxAmount 18;
 		Scale 1;
 		Inventory.Icon "SCPAI0";
